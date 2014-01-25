@@ -1,0 +1,28 @@
+<html>
+	<head>
+		<link href="css/restAPI.css" type="text/css" rel="stylesheet">
+		<script type="text/javascript" src="libs/jquery.js"></script>
+		<script type="text/javascript" src="js/api/restAPI.js"></script>
+	</head>
+	
+	<body>
+		<h2>Player Impersonation</h2>
+		<form>
+			<select id="game-select">
+				<option selected="" value="0">Select Game...</option>
+			</select><br />
+			<select id="player-select"></select><br />
+			<input type="text" id="player-password"><br />
+			<input value="Join Game" id="join-game" class="btn btn-primary pull-left" type="button">
+		</form>
+		<div id="proxy-status"></div>
+
+		<h2>REST API Tester</h2>
+		<form>
+			<select id="cmd-select"></select><br />
+		</form>
+		<div id="cmd-desc"></div>
+		<div>Response Body:</div>
+		<textarea id="cmd-response"></textarea>
+	</body>	
+</html>
