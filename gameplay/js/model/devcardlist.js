@@ -61,7 +61,7 @@ catan.models.devCardList = (function devCardListNameSpace(){
 		}
 		
 		/**
-		* Check to see if the stack is empty
+		* Preform whatever operation is associated with the card
 		* <pre>
 		* Pre-condition: Check the current Player's DevCardList for the selected card
 		* Post-condition: Identify the dev card played and perform the function of the selected card

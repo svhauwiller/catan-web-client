@@ -1,13 +1,13 @@
 var catan = catan || {};
-catan.model = catan.model || {};
+catan.models = catan.models || {};
 
 /**
 * hexLocation Module
 *
-* @module catan.model.hexLocation
+* @module catan.models.hexLocation
 */
 
-catan.model.hexLocation = (function hexLocationNameSpace(){
+catan.models.hexLocation = (function hexLocationNameSpace(){
 	
 	var hexLocation = (function hexLocationClass(){
 		

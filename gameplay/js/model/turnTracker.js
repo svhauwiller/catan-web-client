@@ -1,13 +1,13 @@
 var catan = catan || {};
-catan.model = catan.model || {};
+catan.models = catan.models || {};
 
 /**
 * turnTracker Module
 *
-* @module catan.model.turnTracker
+* @module catan.models.turnTracker
 */
 
-catan.model.turnTracker = (function turnTrackerNameSpace(){
+catan.models.turnTracker = (function turnTrackerNameSpace(){
 	
 	var resourceList = (function turnTrackerClass(){
 		

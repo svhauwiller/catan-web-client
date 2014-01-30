@@ -1,13 +1,13 @@
 var catan = catan || {};
-catan.model = catan.model || {};
+catan.models = catan.models || {};
 
 /**
 * vertex Module
 *
-* @module catan.model.vertex
+* @module catan.models.vertex
 */
 
-catan.model.vertex = (function vertexNameSpace(){
+catan.models.vertex = (function vertexNameSpace(){
 	
 	var vertex = (function vertexClass(){
 		

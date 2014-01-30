@@ -1,13 +1,13 @@
 var catan = catan || {};
-catan.model = catan.model || {};
+catan.models = catan.models || {};
 
 /**
 * resourceList Module
 *
-* @module catan.model.resourceList
+* @module catan.models.resourceList
 */
 
-catan.model.resourceList = (function resourceListNameSpace(){
+catan.models.resourceList = (function resourceListNameSpace(){
 	
 	var resourceList = (function resourceListClass(){
 		

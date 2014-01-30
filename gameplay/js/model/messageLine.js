@@ -1,13 +1,13 @@
 var catan = catan || {};
-catan.model = catan.model || {};
+catan.models = catan.models || {};
 
 /**
 * Stack Module
 *
-* @module catan.model.messageLine
+* @module catan.models.messageLine
 */
 
-catan.model.messageLine = (function messageLineNameSpace(){
+catan.models.messageLine = (function messageLineNameSpace(){
 	
 	var messageLine = (function messageLineClass(){
 		

@@ -1,13 +1,13 @@
 var catan = catan || {};
-catan.model = catan.model || {};
+catan.models = catan.models || {};
 
 /**
 * tradeOffer Module
 *
-* @module catan.model.tradeOffer
+* @module catan.models.tradeOffer
 */
 
-catan.model.tradeOffer = (function tradeOfferNameSpace(){
+catan.models.tradeOffer = (function tradeOfferNameSpace(){
 	
 	var resourceList = (function tradeOfferClass(){
 		

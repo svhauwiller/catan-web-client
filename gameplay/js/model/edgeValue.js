@@ -1,13 +1,13 @@
 var catan = catan || {};
-catan.model = catan.model || {};
+catan.models = catan.models || {};
 
 /**
 * edgeValue Module
 *
-* @module catan.model.edgeValue
+* @module catan.models.edgeValue
 */
 
-catan.model.edgeValueList = (function edgeValueNameSpace(){
+catan.models.edgeValueList = (function edgeValueNameSpace(){
 	
 	var resourceList = (function edgeValueClass(){
 		
