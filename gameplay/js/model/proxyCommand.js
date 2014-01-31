@@ -8,6 +8,50 @@ catan.models = catan.models || {};
 */
 
 catan.models.proxyCommands = (function proxyCommandNameSpace(){
+
+	var commandTemplate = (function commandClass(){
+		
+		/**
+		* generic command class
+		* <pre>
+		* </pre>
+		*
+		* @class commandClass
+		* @param {string} newType the type of the command
+		* @param {int} newIndex the index of the player who issued the command
+		* @constructor
+		*/
+
+		/**
+		* The type of command
+		* @property type
+		* @type {string}
+		*/
+
+		/**
+		* The player index of the player issuing the command
+		* @property playerIndex
+		* @type {int}
+		*/
+
+		function commandTemplate(newType, newIndex){
+			this.type = newType;
+			this.playerIndex = newIndex;
+		}
+
+		commandTemplate.prototype.createArgs = function(args){
+			// TODO: Do something
+		};
+
+		commandTemplate.prototype.sendToServer = function(){
+			// TODO: Do something
+		};
+
+		return commandTemplate;
+	}());
+
+	sendChatCommand.prototype = new commandTemplate(this.type, newIndex);
+	sendChatCommand.prototype.constructor = sendChatCommand;
 	
 	var sendChatCommand = (function sendChatCommandClass(){
 		
@@ -38,12 +82,22 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 		* @type {string}
 		*/
 		
-		function sendChatCommandClass()
-		{
+		code.forceClassInherit(sendChatCommandClass, commandTemplate);
+		function sendChatCommandClass(newIndex){
 			this.type = "sendChat";
-			this.playerIndex = -1;
+			this.playerIndex = newIndex;
 			this.content = "";
 		}
+
+		sendChatCommand.prototype.createArgs = function(args){
+			commandTemplate.prototype.createArgs();
+			// TODO: Do something
+		};
+
+		sendChatCommand.prototype.sendToServer = function(){
+			commandTemplate.prototype.sendToServer();
+			// TODO: Do something
+		};
 		
 		return sendChatCommand;
 	}());
@@ -276,10 +330,488 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 		{
 			this.type = "Road_Building";
 			this.playerIndex = -1;
-			this.number = -1;
+			this.number = new HexLocation();
 		}
 		
 		return roadBuildingCommand;
+	}());
+
+	var roadBuildingCommand = (function roadBuildingCommandClass(){
+		
+		/**
+		* road building command class
+		* <pre>
+		* </pre>
+		*
+		* @class roadBuildingCommandClass
+		* @constructor
+		*/
+		
+		/**
+		* The type of command
+		* @property type
+		* @type {string}
+		*/
+
+		/**
+		* The player index of the player issuing the command
+		* @property playerIndex
+		* @type {int}
+		*/
+
+		/**
+		* The first edge selected
+		* @property spot1
+		* @type {EdgeLocation}
+		*/
+		
+		/**
+		* The second edge selected
+		* @property spot2
+		* @type {EdgeLocation}
+		*/
+
+		function roadBuildingCommandClass()
+		{
+			this.type = "Road_Building";
+			this.playerIndex = -1;
+			this.spot1 = new EdgeLocation();
+			this.spot2 = new EdgeLocation();
+		}
+		
+		return roadBuildingCommand;
+	}());
+
+	var soldierCommand = (function soldierCommandClass(){
+		
+		/**
+		* soldier command class
+		* <pre>
+		* </pre>
+		*
+		* @class soldierCommandClass
+		* @constructor
+		*/
+		
+		/**
+		* The type of command
+		* @property type
+		* @type {string}
+		*/
+
+		/**
+		* The player index of the player issuing the command
+		* @property playerIndex
+		* @type {int}
+		*/
+
+		/**
+		* The player index of the robbing victim
+		* @property victimIndex
+		* @type {int}
+		*/
+
+		/**
+		* The current hex location of the robber
+		* @property robberSpot
+		* @type {HexLocation}
+		*/
+		
+		function soldierCommandClass()
+		{
+			this.type = "Soldier";
+			this.playerIndex = -1;
+			this.victimIndex = -1;
+			this.robberSpot = new HexLocation();
+		}
+		
+		return soldierCommand;
+	}());
+
+	var monopolyCommand = (function monopolyCommandClass(){
+		
+		/**
+		* monopoly command class
+		* <pre>
+		* </pre>
+		*
+		* @class monopolyCommandClass
+		* @constructor
+		*/
+		
+		/**
+		* The type of command
+		* @property type
+		* @type {string}
+		*/
+
+		/**
+		* The player index of the player issuing the command
+		* @property playerIndex
+		* @type {int}
+		*/
+
+		/**
+		* The resource selected
+		* @property resource
+		* @type {string}
+		*/
+		
+		function monopolyCommandClass()
+		{
+			this.type = "Monopoly";
+			this.playerIndex = -1;
+			this.resource = "";
+		}
+		
+		return monopolyCommand;
+	}());
+
+	var monumentCommand = (function monumentCommandClass(){
+		
+		/**
+		* monument command class
+		* <pre>
+		* </pre>
+		*
+		* @class monumentCommandClass
+		* @constructor
+		*/
+		
+		/**
+		* The type of command
+		* @property type
+		* @type {string}
+		*/
+
+		/**
+		* The player index of the player issuing the command
+		* @property playerIndex
+		* @type {int}
+		*/
+		
+		function monumentCommandClass()
+		{
+			this.type = "Monument";
+			this.playerIndex = -1;
+		}
+		
+		return monumentCommand;
+	}());
+
+	var buildRoadCommand = (function buildRoadCommandClass(){
+		
+		/**
+		* build road command class
+		* <pre>
+		* </pre>
+		*
+		* @class buildRoadCommandClass
+		* @constructor
+		*/
+		
+		/**
+		* The type of command
+		* @property type
+		* @type {string}
+		*/
+
+		/**
+		* The player index of the player issuing the command
+		* @property playerIndex
+		* @type {int}
+		*/
+		
+		/**
+		* The edge selected
+		* @property roadLocation
+		* @type {EdgeLocation}
+		*/
+		
+		/**
+		* Whether or not the current Player gets this piece for free (i.e. setup or progress card)
+		* @property free
+		* @type {boolean}
+		*/
+
+		function buildRoadCommandClass()
+		{
+			this.type = "buildRoad";
+			this.playerIndex = -1;
+			this.roadLocation = new EdgeLocation();
+			this.free = false;
+		}
+		
+		return buildRoadCommand;
+	}());
+
+	var buildSettlementCommand = (function buildSettlementCommandClass(){
+		
+		/**
+		* build settlement command class
+		* <pre>
+		* </pre>
+		*
+		* @class buildSettlementCommandClass
+		* @constructor
+		*/
+		
+		/**
+		* The type of command
+		* @property type
+		* @type {string}
+		*/
+
+		/**
+		* The player index of the player issuing the command
+		* @property playerIndex
+		* @type {int}
+		*/
+		
+		/**
+		* The vertex selected
+		* @property vertexLocation
+		* @type {VertexLocation}
+		*/
+		
+		/**
+		* Whether or not the current Player gets this piece for free (i.e. setup or progress card)
+		* @property free
+		* @type {boolean}
+		*/
+
+		function buildSettlementCommandClass()
+		{
+			this.type = "buildSettlement";
+			this.playerIndex = -1;
+			this.vertexLocation = new VertexLocation();
+			this.free = false;
+		}
+		
+		return buildSettlementCommand;
+	}());
+
+	var buildCityCommand = (function buildCityCommandClass(){
+		
+		/**
+		* build city command class
+		* <pre>
+		* </pre>
+		*
+		* @class buildCityCommandClass
+		* @constructor
+		*/
+		
+		/**
+		* The type of command
+		* @property type
+		* @type {string}
+		*/
+
+		/**
+		* The player index of the player issuing the command
+		* @property playerIndex
+		* @type {int}
+		*/
+		
+		/**
+		* The vertex selected
+		* @property vertexLocation
+		* @type {VertexLocation}
+		*/
+		
+		/**
+		* Whether or not the current Player gets this piece for free (i.e. setup or progress card)
+		* @property free
+		* @type {boolean}
+		*/
+
+		function buildCityCommandClass()
+		{
+			this.type = "buildCity";
+			this.playerIndex = -1;
+			this.vertexLocation = new VertexLocation();
+			this.free = false;
+		}
+		
+		return buildCityCommand;
+	}());
+
+	var offerTradeCommand = (function offerTradeCommandClass(){
+		
+		/**
+		* offer trade command class
+		* <pre>
+		* </pre>
+		*
+		* @class offerTradeCommandClass
+		* @constructor
+		*/
+		
+		/**
+		* The type of command
+		* @property type
+		* @type {string}
+		*/
+
+		/**
+		* The player index of the player issuing the command
+		* @property playerIndex
+		* @type {int}
+		*/
+		
+		/**
+		* The list of resources offered
+		* @property offer
+		* @type {ResourceList}
+		*/
+		
+		/**
+		* The player index of the player to whom the offer is made to
+		* @property receiver
+		* @type {int}
+		*/
+
+		function offerTradeCommandClass()
+		{
+			this.type = "offerTrade";
+			this.playerIndex = -1;
+			this.offer = new ResourceList(); // THIS MIGHT NOT BE THE RIGHT OBJECT!!!
+			this.receiver = -1;
+		}
+		
+		return offerTradeCommand;
+	}());
+
+	var acceptTradeCommand = (function acceptTradeCommandClass(){
+		
+		/**
+		* accept trade command class
+		* <pre>
+		* </pre>
+		*
+		* @class acceptTradeCommandClass
+		* @constructor
+		*/
+		
+		/**
+		* The type of command
+		* @property type
+		* @type {string}
+		*/
+
+		/**
+		* The player index of the player issuing the command
+		* @property playerIndex
+		* @type {int}
+		*/
+		
+		/**
+		* Whether or not the currentPlayer accepts the offered trade
+		* @property willAccept
+		* @type {boolean}
+		*/
+
+		function acceptTradeCommandClass()
+		{
+			this.type = "offerTrade";
+			this.playerIndex = -1;
+			this.willAccept = false;
+		}
+		
+		return acceptTradeCommand;
+	}());
+
+	var maritimeTradeCommand = (function maritimeTradeCommandClass(){
+		
+		/**
+		* maritime trade command class
+		* <pre>
+		* </pre>
+		*
+		* @class maritimeTradeCommandClass
+		* @constructor
+		*/
+		
+		/**
+		* The type of command
+		* @property type
+		* @type {string}
+		*/
+
+		/**
+		* The player index of the player issuing the command
+		* @property playerIndex
+		* @type {int}
+		*/
+		
+		/**
+		* I DON'T KNOW WHAT THIS VARIABLE DOES!!!!
+		* @property ratio
+		* @type {int}
+		*/
+
+		/**
+		* The input resource for this trade port
+		* @property inputResource
+		* @type {string}
+		*/
+
+		/**
+		* The output resource for this trade port
+		* @property outputResource
+		* @type {string}
+		*/
+
+		function maritimeTradeCommandClass()
+		{
+			this.type = "offerTrade";
+			this.playerIndex = -1;
+			this.ratio = -1;
+			this.inputResource = "";
+			this.outputResource = "";
+		}
+		
+		return maritimeTradeCommand;
+	}());
+
+	var discardCardsCommand = (function discardCardsCommandClass(){
+		
+		/**
+		* maritime trade command class
+		* <pre>
+		* </pre>
+		*
+		* @class discardCardsCommandClass
+		* @constructor
+		*/
+		
+		/**
+		* The type of command
+		* @property type
+		* @type {string}
+		*/
+
+		/**
+		* The player index of the player issuing the command
+		* @property playerIndex
+		* @type {int}
+		*/
+		
+		/**
+		* The list of resources to be discarded
+		* @property discardedCards
+		* @type {ResourceList}
+		*/
+
+		function discardCardsCommandClass()
+		{
+			this.type = "offerTrade";
+			this.playerIndex = -1;
+			this.discardedCards = new ResourceList();
+		}
+		
+		return discardCardsCommand;
 	}());
 
 	//return sendChatCommand;
