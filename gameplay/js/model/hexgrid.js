@@ -14,7 +14,7 @@ catan.models = catan.models || {};
 		@namespace hexgrid
 	*/
 
-catan.models.hexgrid = (function HexGrid_Namespace(){
+catan.models.hexgrid = (function HexGrid_Namespace(){ //namspace dec
 	
 	
     /**
@@ -28,7 +28,7 @@ catan.models.hexgrid = (function HexGrid_Namespace(){
      @param {hexgrid.BaseContainer} EdgeClass - the class (NOT AN INSTANCE) you use for an edge - must have an empty constructor
      @param {hexgrid.BaseContainer} VertexClass - the class (NOT AN INSTANCE) you use for an vertex - must have an empty constructor
      */
-    var BasicHex = (function BasicHexClass(){
+    var BasicHex = (function BasicHexClass(){ //typical class declaration
         
         core.defineProperty(BasicHex.prototype, "location");
         core.defineProperty(BasicHex.prototype, "vertexes");
@@ -81,8 +81,8 @@ catan.models.hexgrid = (function HexGrid_Namespace(){
         BasicHex.prototype.getVertex = function getVertex(vertexDirection){
             return this.getVertexes()[vertexDirection];
         }
-        return BasicHex;
-    }());
+        return BasicHex;//last half of dec
+    }());//cont from ^
 	
 	function positiveModulo(lhs,rhs){
 		// The inner paren makes the range -rhs to rhs
@@ -692,7 +692,7 @@ catan.models.hexgrid = (function HexGrid_Namespace(){
      */
     BaseContainer.prototype.isOccupied = core.abstractMethod;
 
-	return {
+	return {//to finish a namespace return all of the class objects created in the namespace
 		HexGrid:HexGrid,
 		BasicHex:BasicHex,
 		HexLocation:HexLocation,
