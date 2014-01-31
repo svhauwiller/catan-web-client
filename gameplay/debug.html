@@ -1,0 +1,22 @@
+<html>
+	<head>
+		<script type="text/javascript" src="/libs/jquery.js"></script>
+		<script type="text/javascript" src="/js/Core.js"></script>
+		<script type="text/javascript" src="/js/examples/inheritance.js"></script>
+		<script>
+			$(document).ready(function(){
+				var parentImpl = new catan.examples.inheritEx.ExampleParent(2, 3); //Object of Parent Class
+				var childImpl = new catan.examples.inheritEx.ExampleChild(2, 3, 4); //Object of Child Class
+				$("#results").append("<p> Parent Class (2, 3) </p>" +
+									"<p> Add: " + parentImpl.add() + "</p>" + //Calling parent method
+									"<p> Multiply: " + parentImpl.multiply() + "</p>" +
+									"<p> Child Class (2, 3, 4) </p>" +
+									"<p> Add: " + childImpl.add() + "</p>" + //Calling child method
+									"<p> Multiply: " + childImpl.multiply() + "</p>");
+			});
+		</script>
+	</head>
+	<body>
+		<div id="results"></div>
+	</body>
+</html>
