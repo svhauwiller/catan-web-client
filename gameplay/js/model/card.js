@@ -1,7 +1,7 @@
 var catan = catan || {};
 catan.models = catan.models || {};
 
-catan.models.card = (function cardNameSpace(){
+catan.models.bank = (function bankNameSpace(){
 	
 	var ResourceList = (function resourceListClass(){
 		
@@ -96,37 +96,132 @@ catan.models.card = (function cardNameSpace(){
 		* @type {int}
 		*/
 		
-		function DevCardClass()
+		function DevCardListClass(type)
 		{
+			switch(type)
+			{
+				case "bank":
+					this.monopolyCard = 2;// 2
+					this.monumentCard = 5;// 5 
+					this.roadBuildingCard = 2;//2
+					this.soldierCard = 14;//14
+					this.yearOfPlentyCard = 2;//2
+					break;
+				
+				case "player":
+					this.monopolyCard = 0;// 2
+					this.monumentCard = 0;// 5 
+					this.roadBuildingCard = 0;//2
+					this.soldierCard = 0;//14
+					this.yearOfPlentyCard = 0;//2
+					break;
+			}
 			//this.devCard.monopolyCard = 2;
-			this.monopolyCard = 0;// 2
-			this.monumentCard = 0;// 5 
-			this.roadBuildingCard = 0;//2
-			this.soldierCard = 0;//14
-			this.yearOfPlentyCard = 0;//2
-		}
-		
-		/**
-		* Preform whatever operation is associated with the card
-		* <pre>
-		* Pre-condition: Check the current Player's DevCardList for the selected card
-		* Post-condition: Identify the dev card played and perform the function of the selected card
-		* </pre>
-		*
-		* @method useCard
-		* @return {null}
-		*/
-		DevCardListClass.prototype.useCard = function()
-		{
+
 		}
 		
 		return DevCardList;
+	}());
+
+	var DevCard = ( function DevCardClass () 
+	{
+		function DevCard(){
+			var monopoly= new Monopoly();
+			var monument = new Monument();
+			var road = new RoadBuilding();
+			var soldier = new Soldier();
+			var year = new Year();
+		};
+		// calls use card of instance variables of mon 
+		DevCard.prototype.useCard = function(type, parameter){
+			switch(type){
+				case "monopoly":
+					monopoly.useCard(parameter);
+					break;
+				case "monument":
+					monument.useCard(parameter);
+					break;
+				case "roadBuilding":
+					roadBuilder.useCard(parameter);
+					break;
+				case "soldier":
+					soldier.useCard(parameter);
+					break;
+				case "yearOfPlenty":
+					yearOfPlenty.useCard(parameter);
+					break;
+			}
+			
+		}	
+		return DevCard;
+	}());
+
+	var Monopoly = (function MonopolyClass(){
+		function Monopoly(){};
+
+		Monopoly.prototype.useCard = function(parameter){
+			var playerIndex = parameter.playerIndex;
+			var resToTake = parameter.resource;
+
+			//go through and check for all players with that resources
+		}
+		return Monopoly;
+	}());
+
+	var Monument = (function MonumentClass(){
+		function Monument(){};
+
+		Monument.prototype.useCard = function(parameter){
+			var playerIndex = parameter.playerIndex;
+			//go through, find player and increment their victory points
+		}
+		return Monument;
+	}());
+
+	var YearOfPlenty = (function YearOfPlentyClass(){
+		function YearOfPlenty(){};
+
+		YearOfPlenty.prototype.useCard = function(parameter){
+			var playerIndex = parameter.playerIndex;
+			var resource1 = parameter.resource1;
+			var resource2 = parameter.resource2;
+			
+			//go through players, find player, check if resource is stocked and if yes give both to player
+		}
+		return YearOfPlenty;
+	}());
+
+	var RoadBuilding = (function RoadBuildingClass(){
+		function RoadBuilding(){};
+
+		RoadBuilding.prototype.useCard = function(parameter){
+			var playerIndex = parameter.playerIndex;
+			//call road builder twice with this player
+		}
+		return RoadBuilding;
+	}());
+
+	var Soldier = (function SoldierClass(){
+		function Soldier(){};
+
+		Soldier.prototype.useCard = function(parameter){
+			var playerIndex = parameter.playerIndex;
+			//go through players 
+			//run soldier command for this player
+		}
+		return Soldier;
 	}());
 	//Write playerDevCardList class
 	//Write a devUtility class
 	return {
 		ResourceList:ResourceList,
 		DevCardList:DevCardList,
-		PlayerDevCardList:PlayerDevCardList
+		PlayerDevCardList:PlayerDevCardList,
+		DevCard:DevCard,
+		Monopoly:Monopoly,
+		Soldier:Soldier,
+		YearOfPlenty:YearOfPlenty,
+		Monument:Monument,
+		RoadBuilding:RoadBuilding
 	}
 }());
