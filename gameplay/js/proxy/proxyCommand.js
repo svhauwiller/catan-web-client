@@ -49,9 +49,47 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 
 		return commandTemplate;
 	}());
+	
+	var getModelCommand = (function getModelCommandClass(){
+		
+		/**
+		* generic command class
+		* <pre>
+		* </pre>
+		*
+		* @class getModelCommandClass
+		* @param {string} newType the type of the command
+		* @param {int} newIndex the index of the player who issued the command
+		* @constructor
+		*/
 
-	sendChatCommand.prototype = new commandTemplate(this.type, newIndex);
-	sendChatCommand.prototype.constructor = sendChatCommand;
+		/**
+		* The type of command
+		* @property type
+		* @type {string}
+		*/
+
+		/**
+		* The player index of the player issuing the command
+		* @property playerIndex
+		* @type {int}
+		*/
+
+		function getModelCommand(newType, newIndex){
+			this.type = newType;
+			this.playerIndex = newIndex;
+		}
+
+		getModelCommand.prototype.createArgs = function(args){
+			// TODO: Do something
+		};
+
+		getModelCommand.prototype.sendToServer = function(){
+			// TODO: Do something
+		};
+
+		return getModelCommand;
+	}());
 	
 	var sendChatCommand = (function sendChatCommandClass(){
 		
@@ -84,8 +122,7 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 		
 		code.forceClassInherit(sendChatCommandClass, commandTemplate);
 		function sendChatCommandClass(newIndex){
-			this.type = "sendChat";
-			this.playerIndex = newIndex;
+			commandTemplate.call(this, "sendChat", newIndex);
 			this.content = "";
 		}
 
