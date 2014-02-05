@@ -41,13 +41,25 @@ catan.models.bank = (function bankNameSpace(){
 		* @type {ElemType int}
 		*/
 
-		function resourceList()
+		function resourceList(type)
 		{
-			this.brick=0;//19
-			this.ore=0;//19
-			this.sheep=0;//19
-			this.wheat=0;//19
-			this.wood=0;//19
+			switch (type)
+			{
+					case("bank"):
+						this.brick=19;
+						this.ore=19;
+						this.sheep=19;
+						this.wheat=19;
+						this.wood=19;
+						break;
+					case("player"):
+						this.brick=0;
+						this.ore=0;
+						this.sheep=0;
+						this.wheat=0;
+						this.wood=0;
+						break;
+			}
 		}
 		
 		
@@ -162,18 +174,29 @@ catan.models.bank = (function bankNameSpace(){
 		Monopoly.prototype.useCard = function(parameter){
 			var playerIndex = parameter.playerIndex;
 			var resToTake = parameter.resource;
-
-			//go through and check for all players with that resources
+			for(var i=0; i<catan.players.length; i++){
+				if(i!==playerIndex){
+					//may need to do a check to get what resToTake is;
+					var count = catan.players[i].resources.resToTake
+					catan.players[i].resources.resToTake -= count;
+					catan.players[playerIndex].resources.resToTake += count;
+				}
+			}
 		}
 		return Monopoly;
 	}());
 
+	//check to make sure every variable is labeled correctly
 	var Monument = (function MonumentClass(){
 		function Monument(){};
 
 		Monument.prototype.useCard = function(parameter){
 			var playerIndex = parameter.playerIndex;
-			//go through, find player and increment their victory points
+			for(var i=0; i < catan.players.length; i++){
+				if(i===playerIndex){
+					catan.players[i].victoryPts++;
+				}
+			}
 		}
 		return Monument;
 	}());
@@ -185,8 +208,39 @@ catan.models.bank = (function bankNameSpace(){
 			var playerIndex = parameter.playerIndex;
 			var resource1 = parameter.resource1;
 			var resource2 = parameter.resource2;
+
+			if(resource1==="brick"){
+				catan.players[playerIndex].resources.brick++;
+			}
+			else if(resource1==="wheat"){
+				catan.players[playerIndex].resources.wheat++;
+			}
+			else if(resource1==="sheep"){
+				catan.players[playerIndex].resources.sheep++;
+			}
+			else if(resource1==="ore"){
+				catan.players[playerIndex].resources.ore++;
+			}
+			else if(resource1==="wood"){
+				catan.players[playerIndex].resources.wood++;
+			}
+
+			if(resource2==="brick"){
+				catan.players[playerIndex].resources.brick++;
+			}
+			else if(resource2==="wheat"){
+				catan.players[playerIndex].resources.wheat++;
+			}
+			else if(resource2==="sheep"){
+				catan.players[playerIndex].resources.sheep++;
+			}
+			else if(resource2==="ore"){
+				catan.players[playerIndex].resources.ore++;
+			}
+			else if(resource2==="wood"){
+				catan.players[playerIndex].resources.wood++;
+			}
 			
-			//go through players, find player, check if resource is stocked and if yes give both to player
 		}
 		return YearOfPlenty;
 	}());
@@ -196,7 +250,9 @@ catan.models.bank = (function bankNameSpace(){
 
 		RoadBuilding.prototype.useCard = function(parameter){
 			var playerIndex = parameter.playerIndex;
-			//call road builder twice with this player
+			//for loop may be necessary to do so with the correct player. I'm not sure how steal will be used.
+			catan.buildRoad();
+			catan.buildRoad();
 		}
 		return RoadBuilding;
 	}());
@@ -206,13 +262,11 @@ catan.models.bank = (function bankNameSpace(){
 
 		Soldier.prototype.useCard = function(parameter){
 			var playerIndex = parameter.playerIndex;
-			//go through players 
-			//run soldier command for this player
+			//for loop may be necessary to do so with the correct player. I'm not sure how steal will be used.
+			catan.steal();
 		}
 		return Soldier;
 	}());
-	//Write playerDevCardList class
-	//Write a devUtility class
 	return {
 		ResourceList:ResourceList,
 		DevCardList:DevCardList,
