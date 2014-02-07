@@ -1,14 +1,13 @@
 var catan = catan || {};
-catan.models = catan.models || {};
+catan.proxy = catan.proxy || {};
 
 /**
-* Development Card List Module
+* Proxy Command Module
 *
-* @module catan.models.proxyCommands
+* @module catan.proxy.proxyCommands
 */
 
-catan.models.proxyCommands = (function proxyCommandNameSpace(){
-
+catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 	var commandTemplate = (function commandClass(){
 		
 		/**
@@ -34,17 +33,41 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 		* @type {int}
 		*/
 
+		/**
+		* The JSON Object that will store the details of the command
+		* @property JSONObject
+		* @type {Object}
+		*/
+
+		/**
+		* This method will create the JSON Object that will be send to the proxy
+		* @method createArgs
+		* @param {string []} // IS THIS RIGHT?
+		* @return {Object}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method sendToServer
+		* @param {string []}
+		* @return {null}
+		*/
+
 		function commandTemplate(newType, newIndex){
 			this.type = newType;
 			this.playerIndex = newIndex;
+			this.JSONObject = new Object();
+			this.proxyInstance = new catan.proxy.proxy;
 		}
 
-		commandTemplate.prototype.createArgs = function(args){
-			// TODO: Do something
+		commandTemplate.prototype.createArgs = function(){
+			this.JSONObject.type = newType;
+			this.JSONObject.playerIndex = newIndex;
+			return this.JSONObject;
 		};
 
-		commandTemplate.prototype.sendToServer = function(){
-			// TODO: Do something
+		commandTemplate.prototype.sendToServer = function(type, name, JSONObj){
+			this.proxyInstance.sendToServer(type, name, JSONObj);
 		};
 
 		return commandTemplate;
@@ -74,18 +97,45 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 		* @property playerIndex
 		* @type {int}
 		*/
+		
+		/**
+		* This method will call createArgs, then sendToServer
+		* @method sendToProxy
+		* @param {string []}
+		* @return {null}
+		*/
+		
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method createArgs
+		* @param {string []}
+		* @return {Object}
+		*/
 
-		function getModelCommand(newType, newIndex){
-			this.type = newType;
-			this.playerIndex = newIndex;
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method sendToServer
+		* @param {Object}
+		* @return {null}
+		*/
+
+		code.forceClassInherit(getModelCommand, commandTemplate);
+		function getModelCommand(newIndex){
+			commandTemplate.call(this, "/game/model", newIndex);
 		}
+		
+		getModelCommand.prototype.sendToProxy = function(args){
+			var JSONObj = this.createArgs(args);
+			this.sendToServer(JSONObj);
+		};
 
 		getModelCommand.prototype.createArgs = function(args){
-			// TODO: Do something
+			// TODO: create object
+			//var JSONObj = commandTemplate.prototype.createArgs();
 		};
 
 		getModelCommand.prototype.sendToServer = function(){
-			// TODO: Do something
+			commandTemplate.prototype.sendToServer("GET", this.type, JSONObj);
 		};
 
 		return getModelCommand;
@@ -119,21 +169,47 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 		* @property content
 		* @type {string}
 		*/
+
+		/**
+		* This method will call createArgs, then sendToServer
+		* @method sendToProxy
+		* @param {string []}
+		* @return {null}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method createArgs
+		* @param {string []}
+		* @return {Object}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method sendToServer
+		* @param {Object}
+		* @return {null}
+		*/
 		
-		code.forceClassInherit(sendChatCommandClass, commandTemplate);
+		code.forceClassInherit(sendChatCommand, commandTemplate);
 		function sendChatCommandClass(newIndex){
-			commandTemplate.call(this, "sendChat", newIndex);
+			commandTemplate.call(this, "/moves/sendChat", newIndex);
 			this.content = "";
 		}
 
-		sendChatCommand.prototype.createArgs = function(args){
-			commandTemplate.prototype.createArgs();
-			// TODO: Do something
+		sendChatCommand.prototype.sendToProxy = function(args){
+			var JSONObj = this.createArgs(args);
+			this.sendToServer(JSONObj);
 		};
 
-		sendChatCommand.prototype.sendToServer = function(){
-			commandTemplate.prototype.sendToServer();
-			// TODO: Do something
+		sendChatCommand.prototype.createArgs = function(args){
+			var JSONObj = commandTemplate.prototype.createArgs();
+			JSONObj.content = args[0];
+			return JSONObj;
+		};
+
+		sendChatCommand.prototype.sendToServer = function(JSONObj){
+			commandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
 		};
 		
 		return sendChatCommand;
@@ -167,13 +243,48 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 		* @property number
 		* @type {int}
 		*/
-		
-		function rollNumberCommandClass()
-		{
-			this.type = "rollNumber";
-			this.playerIndex = -1;
+
+		/**
+		* This method will call createArgs, then sendToServer
+		* @method sendToProxy
+		* @param {string []}
+		* @return {null}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method createArgs
+		* @param {string []}
+		* @return {Object}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method sendToServer
+		* @param {Object}
+		* @return {null}
+		*/
+
+		code.forceClassInherit(rollNumberCommand, commandTemplate);
+		function rollNumberCommandClass(newIndex){
+			commandTemplate.call(this, "/moves/rollNumber", newIndex);
 			this.number = -1;
 		}
+
+		rollNumberCommand.prototype.sendToProxy = function(args){
+			var JSONObj = this.createArgs(args);
+			this.sendToServer(JSONObj);
+		};
+
+		rollNumberCommand.prototype.createArgs = function(args){
+			var JSONObj = commandTemplate.prototype.createArgs();
+			JSONObj.number = args[0];
+			return JSONObj;
+		};
+
+		rollNumberCommand.prototype.sendToServer = function(JSONObj){
+			commandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+		};
 		
 		return rollNumberCommand;
 	}());
@@ -213,13 +324,49 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 		* @type {HexLocation}
 		*/
 		
-		function robPlayerCommandClass()
-		{
-			this.type = "robPlayer";
-			this.playerIndex = -1;
+		/**
+		* This method will call createArgs, then sendToServer
+		* @method sendToProxy
+		* @param {string []}
+		* @return {null}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method createArgs
+		* @param {string []}
+		* @return {Object}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method sendToServer
+		* @param {Object}
+		* @return {null}
+		*/
+
+		code.forceClassInherit(robPlayerCommand, commandTemplate);
+		function robPlayerCommandClass(){
+			commandTemplate.call(this, "/moves/robPlayer", newIndex);
 			this.victimIndex = -1;
 			this.robberSpot = new HexLocation();
 		}
+		
+		robPlayerCommand.prototype.sendToProxy = function(args){
+			var JSONObj = this.createArgs(args);
+			this.sendToServer(JSONObj);
+		};
+
+		robPlayerCommand.prototype.createArgs = function(args){
+			var JSONObj = commandTemplate.prototype.createArgs();
+			JSONObj.victimIndex = args[0];
+			JSONObj.robberSpot = args[1];
+			return JSONObj;
+		};
+
+		robPlayerCommand.prototype.sendToServer = function(JSONObj){
+			commandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+		};
 		
 		return robPlayerCommand;
 	}());
@@ -247,11 +394,45 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 		* @type {int}
 		*/
 		
-		function finishTurnCommandClass()
-		{
-			this.type = "finishTurn";
-			this.playerIndex = -1;
+		/**
+		* This method will call createArgs, then sendToServer
+		* @method sendToProxy
+		* @param {string []}
+		* @return {null}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method createArgs
+		* @param {string []}
+		* @return {Object}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method sendToServer
+		* @param {Object}
+		* @return {null}
+		*/
+
+		code.forceClassInherit(finishTurnCommand, commandTemplate);
+		function finishTurnCommandClass(){
+			commandTemplate.call(this, "/moves/finishTurn", newIndex);
 		}
+		
+		finishTurnCommand.prototype.sendToProxy = function(args){
+			var JSONObj = this.createArgs(args);
+			this.sendToServer(JSONObj);
+		};
+
+		finishTurnCommand.prototype.createArgs = function(args){
+			var JSONObj = commandTemplate.prototype.createArgs();
+			return JSONObj;
+		};
+
+		finishTurnCommand.prototype.sendToServer = function(JSONObj){
+			commandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+		};
 		
 		return finishTurnCommand;
 	}());
@@ -279,11 +460,45 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 		* @type {int}
 		*/
 		
-		function buyDevCardCommandClass()
-		{
-			this.type = "buyDevCard";
-			this.playerIndex = -1;
+		/**
+		* This method will call createArgs, then sendToServer
+		* @method sendToProxy
+		* @param {string []}
+		* @return {null}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method createArgs
+		* @param {string []}
+		* @return {Object}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method sendToServer
+		* @param {Object}
+		* @return {null}
+		*/
+
+		code.forceClassInherit(buyDevCardCommand, commandTemplate);
+		function buyDevCardCommandClass(){
+			commandTemplate.call(this, "/moves/buyDevCard", newIndex);
 		}
+		
+		buyDevCardCommand.prototype.sendToProxy = function(args){
+			var JSONObj = this.createArgs(args);
+			this.sendToServer(JSONObj);
+		};
+
+		buyDevCardCommand.prototype.createArgs = function(args){
+			var JSONObj = commandTemplate.prototype.createArgs();
+			return JSONObj;
+		};
+
+		buyDevCardCommand.prototype.sendToServer = function(JSONObj){
+			commandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+		};
 		
 		return buyDevCardCommand;
 	}());
@@ -322,55 +537,52 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 		* @property resource2
 		* @type {string}
 		*/
+		
+		/**
+		* This method will call createArgs, then sendToServer
+		* @method sendToProxy
+		* @param {string []}
+		* @return {null}
+		*/
 
-		function yearOfPlentyCommandClass()
-		{
-			this.type = "Year_of_Plenty";
-			this.playerIndex = -1;
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method createArgs
+		* @param {string []}
+		* @return {Object}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method sendToServer
+		* @param {Object}
+		* @return {null}
+		*/
+
+		code.forceClassInherit(yearOfPlentyCommand, commandTemplate);
+		function yearOfPlentyCommandClass(){
+			commandTemplate.call(this, "/moves/Year_of_Plenty", newIndex);
 			this.resource1 = "";
 			this.resource2 = "";
 		}
 		
+		yearOfPlentyCommand.prototype.sendToProxy = function(args){
+			var JSONObj = this.createArgs(args);
+			this.sendToServer(JSONObj);
+		};
+
+		yearOfPlentyCommand.prototype.createArgs = function(args){
+			var JSONObj = commandTemplate.prototype.createArgs();
+			JSONObj.resource1 = args[0];
+			JSONObj.resource2 = args[1];
+			return JSONObj;
+		};
+
+		yearOfPlentyCommand.prototype.sendToServer = function(JSONObj){
+			commandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+		};
+		
 		return yearOfPlentyCommand;
-	}());
-
-	var roadBuildingCommand = (function roadBuildingCommandClass(){
-		
-		/**
-		* road building command class
-		* <pre>
-		* </pre>
-		*
-		* @class roadBuildingCommandClass
-		* @constructor
-		*/
-		
-		/**
-		* The type of command
-		* @property type
-		* @type {string}
-		*/
-
-		/**
-		* The player index of the player issuing the command
-		* @property playerIndex
-		* @type {int}
-		*/
-
-		/**
-		* The number rolled
-		* @property number
-		* @type {int}
-		*/
-		
-		function roadBuildingCommandClass()
-		{
-			this.type = "Road_Building";
-			this.playerIndex = -1;
-			this.number = new HexLocation();
-		}
-		
-		return roadBuildingCommand;
 	}());
 
 	var roadBuildingCommand = (function roadBuildingCommandClass(){
@@ -407,14 +619,50 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 		* @property spot2
 		* @type {EdgeLocation}
 		*/
+		
+		/**
+		* This method will call createArgs, then sendToServer
+		* @method sendToProxy
+		* @param {string []}
+		* @return {null}
+		*/
 
-		function roadBuildingCommandClass()
-		{
-			this.type = "Road_Building";
-			this.playerIndex = -1;
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method createArgs
+		* @param {string []}
+		* @return {Object}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method sendToServer
+		* @param {Object}
+		* @return {null}
+		*/
+
+		code.forceClassInherit(roadBuildingCommand, commandTemplate);
+		function roadBuildingCommandClass(){
+			commandTemplate.call(this, "/moves/Road_Building", newIndex);
 			this.spot1 = new EdgeLocation();
 			this.spot2 = new EdgeLocation();
 		}
+		
+		roadBuildingCommand.prototype.sendToProxy = function(args){
+			var JSONObj = this.createArgs(args);
+			this.sendToServer(JSONObj);
+		};
+
+		roadBuildingCommand.prototype.createArgs = function(args){
+			var JSONObj = commandTemplate.prototype.createArgs();
+			JSONObj.spot1 = args[0];
+			JSONObj.spot2 = args[1];
+			return JSONObj;
+		};
+
+		roadBuildingCommand.prototype.sendToServer = function(JSONObj){
+			commandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+		};
 		
 		return roadBuildingCommand;
 	}());
@@ -454,13 +702,49 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 		* @type {HexLocation}
 		*/
 		
-		function soldierCommandClass()
-		{
-			this.type = "Soldier";
-			this.playerIndex = -1;
+		/**
+		* This method will call createArgs, then sendToServer
+		* @method sendToProxy
+		* @param {string []}
+		* @return {null}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method createArgs
+		* @param {string []}
+		* @return {Object}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method sendToServer
+		* @param {Object}
+		* @return {null}
+		*/
+
+		code.forceClassInherit(soldierCommand, commandTemplate);
+		function soldierCommandClass(){
+			commandTemplate.call(this, "/moves/Soldier", newIndex);
 			this.victimIndex = -1;
 			this.robberSpot = new HexLocation();
 		}
+		
+		soldierCommand.prototype.sendToProxy = function(args){
+			var JSONObj = this.createArgs(args);
+			this.sendToServer(JSONObj);
+		};
+
+		soldierCommand.prototype.createArgs = function(args){
+			var JSONObj = commandTemplate.prototype.createArgs();
+			JSONObj.victimIndex = args[0];
+			JSONObj.robberSpot = args[1];
+			return JSONObj;
+		};
+
+		soldierCommand.prototype.sendToServer = function(JSONObj){
+			commandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+		};
 		
 		return soldierCommand;
 	}());
@@ -494,12 +778,47 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 		* @type {string}
 		*/
 		
-		function monopolyCommandClass()
-		{
-			this.type = "Monopoly";
-			this.playerIndex = -1;
+		/**
+		* This method will call createArgs, then sendToServer
+		* @method sendToProxy
+		* @param {string []}
+		* @return {null}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method createArgs
+		* @param {string []}
+		* @return {Object}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method sendToServer
+		* @param {Object}
+		* @return {null}
+		*/
+
+		code.forceClassInherit(monopolyCommand, commandTemplate);		
+		function monopolyCommandClass(){
+			commandTemplate.call(this, "/moves/Monopoly", newIndex);
 			this.resource = "";
 		}
+		
+		monopolyCommand.prototype.sendToProxy = function(args){
+			var JSONObj = this.createArgs(args);
+			this.sendToServer(JSONObj);
+		};
+
+		monopolyCommand.prototype.createArgs = function(args){
+			var JSONObj = commandTemplate.prototype.createArgs();
+			JSONObj.resource = args[0];
+			return JSONObj;
+		};
+
+		monopolyCommand.prototype.sendToServer = function(JSONObj){
+			commandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+		};
 		
 		return monopolyCommand;
 	}());
@@ -527,11 +846,45 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 		* @type {int}
 		*/
 		
-		function monumentCommandClass()
-		{
-			this.type = "Monument";
-			this.playerIndex = -1;
+		/**
+		* This method will call createArgs, then sendToServer
+		* @method sendToProxy
+		* @param {string []}
+		* @return {null}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method createArgs
+		* @param {string []}
+		* @return {Object}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method sendToServer
+		* @param {Object}
+		* @return {null}
+		*/
+
+		code.forceClassInherit(monumentCommand, commandTemplate);	
+		function monumentCommandClass(){
+			commandTemplate.call(this, "/moves/Monument", newIndex);
 		}
+		
+		monumentCommand.prototype.sendToProxy = function(args){
+			var JSONObj = this.createArgs(args);
+			this.sendToServer(JSONObj);
+		};
+
+		monumentCommand.prototype.createArgs = function(args){
+			var JSONObj = commandTemplate.prototype.createArgs();
+			return JSONObj;
+		};
+
+		monumentCommand.prototype.sendToServer = function(JSONObj){
+			commandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+		};
 		
 		return monumentCommand;
 	}());
@@ -570,14 +923,50 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 		* @property free
 		* @type {boolean}
 		*/
+		
+		/**
+		* This method will call createArgs, then sendToServer
+		* @method sendToProxy
+		* @param {string []}
+		* @return {null}
+		*/
 
-		function buildRoadCommandClass()
-		{
-			this.type = "buildRoad";
-			this.playerIndex = -1;
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method createArgs
+		* @param {string []}
+		* @return {Object}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method sendToServer
+		* @param {Object}
+		* @return {null}
+		*/
+
+		code.forceClassInherit(buildRoadCommand, commandTemplate);
+		function buildRoadCommandClass(){
+			commandTemplate.call(this, "/moves/buildRoad", newIndex);
 			this.roadLocation = new EdgeLocation();
 			this.free = false;
 		}
+		
+		buildRoadCommand.prototype.sendToProxy = function(args){
+			var JSONObj = this.createArgs(args);
+			this.sendToServer(JSONObj);
+		};
+
+		buildRoadCommand.prototype.createArgs = function(args){
+			var JSONObj = commandTemplate.prototype.createArgs();
+			this.roadLocation = args[0];
+			this.free = args[1];
+			return JSONObj;
+		};
+
+		buildRoadCommand.prototype.sendToServer = function(JSONObj){
+			commandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+		};
 		
 		return buildRoadCommand;
 	}());
@@ -616,14 +1005,50 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 		* @property free
 		* @type {boolean}
 		*/
+		
+		/**
+		* This method will call createArgs, then sendToServer
+		* @method sendToProxy
+		* @param {string []}
+		* @return {null}
+		*/
 
-		function buildSettlementCommandClass()
-		{
-			this.type = "buildSettlement";
-			this.playerIndex = -1;
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method createArgs
+		* @param {string []}
+		* @return {Object}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method sendToServer
+		* @param {Object}
+		* @return {null}
+		*/
+
+		code.forceClassInherit(buildSettlementCommand, commandTemplate);
+		function buildSettlementCommandClass(){
+			commandTemplate.call(this, "/moves/buildSettlement", newIndex);
 			this.vertexLocation = new VertexLocation();
 			this.free = false;
 		}
+		
+		buildSettlementCommand.prototype.sendToProxy = function(args){
+			var JSONObj = this.createArgs(args);
+			this.sendToServer(JSONObj);
+		};
+
+		buildSettlementCommand.prototype.createArgs = function(args){
+			var JSONObj = commandTemplate.prototype.createArgs();
+			this.vertexLocation = args[0];
+			this.free = args[1];
+			return JSONObj;
+		};
+
+		buildSettlementCommand.prototype.sendToServer = function(JSONObj){
+			commandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+		};
 		
 		return buildSettlementCommand;
 	}());
@@ -662,14 +1087,50 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 		* @property free
 		* @type {boolean}
 		*/
+		
+		/**
+		* This method will call createArgs, then sendToServer
+		* @method sendToProxy
+		* @param {string []}
+		* @return {null}
+		*/
 
-		function buildCityCommandClass()
-		{
-			this.type = "buildCity";
-			this.playerIndex = -1;
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method createArgs
+		* @param {string []}
+		* @return {Object}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method sendToServer
+		* @param {Object}
+		* @return {null}
+		*/
+
+		code.forceClassInherit(buildCityCommand, commandTemplate);
+		function buildCityCommandClass(){
+			commandTemplate.call(this, "/moves/buildCity", newIndex);
 			this.vertexLocation = new VertexLocation();
 			this.free = false;
 		}
+		
+		buildCityCommand.prototype.sendToProxy = function(args){
+			var JSONObj = this.createArgs(args);
+			this.sendToServer(JSONObj);
+		};
+
+		buildCityCommand.prototype.createArgs = function(args){
+			var JSONObj = commandTemplate.prototype.createArgs();
+			this.vertexLocation = args[0];
+			this.free = args[1];
+			return JSONObj;
+		};
+
+		buildCityCommand.prototype.sendToServer = function(JSONObj){
+			commandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+		};
 		
 		return buildCityCommand;
 	}());
@@ -708,14 +1169,50 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 		* @property receiver
 		* @type {int}
 		*/
+		
+		/**
+		* This method will call createArgs, then sendToServer
+		* @method sendToProxy
+		* @param {string []}
+		* @return {null}
+		*/
 
-		function offerTradeCommandClass()
-		{
-			this.type = "offerTrade";
-			this.playerIndex = -1;
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method createArgs
+		* @param {string []}
+		* @return {Object}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method sendToServer
+		* @param {Object}
+		* @return {null}
+		*/
+
+		code.forceClassInherit(offerTradeCommand, commandTemplate);
+		function offerTradeCommandClass(){
+			commandTemplate.call(this, "/moves/offerTrade", newIndex);
 			this.offer = new ResourceList(); // THIS MIGHT NOT BE THE RIGHT OBJECT!!!
 			this.receiver = -1;
 		}
+		
+		offerTradeCommand.prototype.sendToProxy = function(args){
+			var JSONObj = this.createArgs(args);
+			this.sendToServer(JSONObj);
+		};
+
+		offerTradeCommand.prototype.createArgs = function(args){
+			var JSONObj = commandTemplate.prototype.createArgs();
+			this.offer = args[0];
+			this.receiver = args[1];
+			return JSONObj;
+		};
+
+		offerTradeCommand.prototype.sendToServer = function(JSONObj){
+			commandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+		};
 		
 		return offerTradeCommand;
 	}());
@@ -748,13 +1245,48 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 		* @property willAccept
 		* @type {boolean}
 		*/
+		
+		/**
+		* This method will call createArgs, then sendToServer
+		* @method sendToProxy
+		* @param {string []}
+		* @return {null}
+		*/
 
-		function acceptTradeCommandClass()
-		{
-			this.type = "offerTrade";
-			this.playerIndex = -1;
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method createArgs
+		* @param {string []}
+		* @return {Object}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method sendToServer
+		* @param {Object}
+		* @return {null}
+		*/
+
+		code.forceClassInherit(acceptTradeCommand, commandTemplate);
+		function acceptTradeCommandClass(){
+			commandTemplate.call(this, "/moves/acceptTrade", newIndex);
 			this.willAccept = false;
 		}
+		
+		acceptTradeCommand.prototype.sendToProxy = function(args){
+			var JSONObj = this.createArgs(args);
+			this.sendToServer(JSONObj);
+		};
+
+		acceptTradeCommand.prototype.createArgs = function(args){
+			var JSONObj = commandTemplate.prototype.createArgs();
+			this.willAccept = args[0];
+			return JSONObj;
+		};
+
+		acceptTradeCommand.prototype.sendToServer = function(JSONObj){
+			commandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+		};
 		
 		return acceptTradeCommand;
 	}());
@@ -799,15 +1331,52 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 		* @property outputResource
 		* @type {string}
 		*/
+		
+		/**
+		* This method will call createArgs, then sendToServer
+		* @method sendToProxy
+		* @param {string []}
+		* @return {null}
+		*/
 
-		function maritimeTradeCommandClass()
-		{
-			this.type = "offerTrade";
-			this.playerIndex = -1;
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method createArgs
+		* @param {string []}
+		* @return {Object}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method sendToServer
+		* @param {Object}
+		* @return {null}
+		*/
+
+		code.forceClassInherit(maritimeTradeCommand, commandTemplate);
+		function maritimeTradeCommandClass(){
+			commandTemplate.call(this, "/moves/offerTrade", newIndex);
 			this.ratio = -1;
 			this.inputResource = "";
 			this.outputResource = "";
 		}
+		
+		maritimeTradeCommand.prototype.sendToProxy = function(args){
+			var JSONObj = this.createArgs(args);
+			this.sendToServer(JSONObj);
+		};
+
+		maritimeTradeCommand.prototype.createArgs = function(args){
+			var JSONObj = commandTemplate.prototype.createArgs();
+			this.ratio = args[0];
+			this.inputResource = args[1];
+			this.outputResource = args[2];
+			return JSONObj;
+		};
+
+		maritimeTradeCommand.prototype.sendToServer = function(JSONObj){
+			commandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+		};
 		
 		return maritimeTradeCommand;
 	}());
@@ -840,16 +1409,71 @@ catan.models.proxyCommands = (function proxyCommandNameSpace(){
 		* @property discardedCards
 		* @type {ResourceList}
 		*/
+		
+		/**
+		* This method will call createArgs, then sendToServer
+		* @method sendToProxy
+		* @param {string []}
+		* @return {null}
+		*/
 
-		function discardCardsCommandClass()
-		{
-			this.type = "offerTrade";
-			this.playerIndex = -1;
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method createArgs
+		* @param {string []}
+		* @return {Object}
+		*/
+
+		/**
+		* This method will send the created JSON Object to the proxy
+		* @method sendToServer
+		* @param {Object}
+		* @return {null}
+		*/
+
+		code.forceClassInherit(discardCardsCommand, commandTemplate);
+		function discardCardsCommandClass(){
+			commandTemplate.call(this, "/moves/discardCards", newIndex);
 			this.discardedCards = new ResourceList();
 		}
+		
+		discardCardsCommand.prototype.sendToProxy = function(args){
+			var JSONObj = this.createArgs(args);
+			this.sendToServer(JSONObj);
+		};
+
+		discardCardsCommand.prototype.createArgs = function(args){
+			var JSONObj = commandTemplate.prototype.createArgs();
+			this.discardedCards = args[0];
+			return JSONObj;
+		};
+
+		discardCardsCommand.prototype.sendToServer = function(JSONObj){
+			commandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+		};
 		
 		return discardCardsCommand;
 	}());
 
-	//return sendChatCommand;
+	return{
+		commandTemplate: commandTemplate,
+		getModelCommand: getModelCommand,
+		sendChatCommand: sendChatCommand,
+		rollNumberCommand: rollNumberCommand,
+		robPlayerCommand: robPlayerCommand,
+		finishTurnCommand: finishTurnCommand,
+		buyDevCardCommand: buyDevCardCommand,
+		yearOfPlentyCommand: yearOfPlentyCommand,
+		roadBuildingCommand: roadBuildingCommand,
+		soldierCommand: soldierCommand,
+		monopolyCommand: monopolyCommand,
+		monumentCommand: monumentCommand,
+		buildRoadCommand: buildRoadCommand,
+		buildSettlementCommand: buildSettlementCommand,
+		buildCityCommand: buildCityCommand,
+		offerTradeCommand: offerTradeCommand,
+		acceptTradeCommand: acceptTradeCommand,
+		maritimeTradeCommand: maritimeTradeCommand,
+		discardCardsCommand: discardCardsCommand
+	}
 }());
