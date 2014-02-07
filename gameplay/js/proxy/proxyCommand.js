@@ -40,16 +40,16 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		*/
 
 		/**
-		* This method will create the JSON Object that will be send to the proxy
+		* This method will send the created JSON Object to the proxy
 		* @method createArgs
-		* @param {string []} // IS THIS RIGHT?
+		* @param {string []} args An array of arguments to populate the command
 		* @return {Object}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method sendToServer
-		* @param {string []}
+		* @param {Object} JSONObj The JSON object to send to the server
 		* @return {null}
 		*/
 
@@ -101,21 +101,21 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		/**
 		* This method will call createArgs, then sendToServer
 		* @method sendToProxy
-		* @param {string []}
+		* @param {string []} args An array of arguments to pass to createArgs()
 		* @return {null}
 		*/
-		
+
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method createArgs
-		* @param {string []}
+		* @param {string []} args An array of arguments to populate the command
 		* @return {Object}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method sendToServer
-		* @param {Object}
+		* @param {Object} JSONObj The JSON object to send to the server
 		* @return {null}
 		*/
 
@@ -173,21 +173,21 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		/**
 		* This method will call createArgs, then sendToServer
 		* @method sendToProxy
-		* @param {string []}
+		* @param {string []} args An array of arguments to pass to createArgs()
 		* @return {null}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method createArgs
-		* @param {string []}
+		* @param {string []} args An array of arguments to populate the command
 		* @return {Object}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method sendToServer
-		* @param {Object}
+		* @param {Object} JSONObj The JSON object to send to the server
 		* @return {null}
 		*/
 		
@@ -247,21 +247,21 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		/**
 		* This method will call createArgs, then sendToServer
 		* @method sendToProxy
-		* @param {string []}
+		* @param {string []} args An array of arguments to pass to createArgs()
 		* @return {null}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method createArgs
-		* @param {string []}
+		* @param {string []} args An array of arguments to populate the command
 		* @return {Object}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method sendToServer
-		* @param {Object}
+		* @param {Object} JSONObj The JSON object to send to the server
 		* @return {null}
 		*/
 
@@ -327,21 +327,21 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		/**
 		* This method will call createArgs, then sendToServer
 		* @method sendToProxy
-		* @param {string []}
+		* @param {string []} args An array of arguments to pass to createArgs()
 		* @return {null}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method createArgs
-		* @param {string []}
+		* @param {string []} args An array of arguments to populate the command
 		* @return {Object}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method sendToServer
-		* @param {Object}
+		* @param {Object} JSONObj The JSON object to send to the server
 		* @return {null}
 		*/
 
@@ -397,21 +397,21 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		/**
 		* This method will call createArgs, then sendToServer
 		* @method sendToProxy
-		* @param {string []}
+		* @param {string []} args An array of arguments to pass to createArgs()
 		* @return {null}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method createArgs
-		* @param {string []}
+		* @param {string []} args An array of arguments to populate the command
 		* @return {Object}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method sendToServer
-		* @param {Object}
+		* @param {Object} JSONObj The JSON object to send to the server
 		* @return {null}
 		*/
 
@@ -463,21 +463,21 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		/**
 		* This method will call createArgs, then sendToServer
 		* @method sendToProxy
-		* @param {string []}
+		* @param {string []} args An array of arguments to pass to createArgs()
 		* @return {null}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method createArgs
-		* @param {string []}
+		* @param {string []} args An array of arguments to populate the command
 		* @return {Object}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method sendToServer
-		* @param {Object}
+		* @param {Object} JSONObj The JSON object to send to the server
 		* @return {null}
 		*/
 
@@ -541,21 +541,21 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		/**
 		* This method will call createArgs, then sendToServer
 		* @method sendToProxy
-		* @param {string []}
+		* @param {string []} args An array of arguments to pass to createArgs()
 		* @return {null}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method createArgs
-		* @param {string []}
+		* @param {string []} args An array of arguments to populate the command
 		* @return {Object}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method sendToServer
-		* @param {Object}
+		* @param {Object} JSONObj The JSON object to send to the server
 		* @return {null}
 		*/
 
@@ -623,21 +623,21 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		/**
 		* This method will call createArgs, then sendToServer
 		* @method sendToProxy
-		* @param {string []}
+		* @param {string []} args An array of arguments to pass to createArgs()
 		* @return {null}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method createArgs
-		* @param {string []}
+		* @param {string []} args An array of arguments to populate the command
 		* @return {Object}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method sendToServer
-		* @param {Object}
+		* @param {Object} JSONObj The JSON object to send to the server
 		* @return {null}
 		*/
 
@@ -705,21 +705,21 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		/**
 		* This method will call createArgs, then sendToServer
 		* @method sendToProxy
-		* @param {string []}
+		* @param {string []} args An array of arguments to pass to createArgs()
 		* @return {null}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method createArgs
-		* @param {string []}
+		* @param {string []} args An array of arguments to populate the command
 		* @return {Object}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method sendToServer
-		* @param {Object}
+		* @param {Object} JSONObj The JSON object to send to the server
 		* @return {null}
 		*/
 
@@ -781,21 +781,21 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		/**
 		* This method will call createArgs, then sendToServer
 		* @method sendToProxy
-		* @param {string []}
+		* @param {string []} args An array of arguments to pass to createArgs()
 		* @return {null}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method createArgs
-		* @param {string []}
+		* @param {string []} args An array of arguments to populate the command
 		* @return {Object}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method sendToServer
-		* @param {Object}
+		* @param {Object} JSONObj The JSON object to send to the server
 		* @return {null}
 		*/
 
@@ -849,21 +849,21 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		/**
 		* This method will call createArgs, then sendToServer
 		* @method sendToProxy
-		* @param {string []}
+		* @param {string []} args An array of arguments to pass to createArgs()
 		* @return {null}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method createArgs
-		* @param {string []}
+		* @param {string []} args An array of arguments to populate the command
 		* @return {Object}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method sendToServer
-		* @param {Object}
+		* @param {Object} JSONObj The JSON object to send to the server
 		* @return {null}
 		*/
 
@@ -927,21 +927,21 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		/**
 		* This method will call createArgs, then sendToServer
 		* @method sendToProxy
-		* @param {string []}
+		* @param {string []} args An array of arguments to pass to createArgs()
 		* @return {null}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method createArgs
-		* @param {string []}
+		* @param {string []} args An array of arguments to populate the command
 		* @return {Object}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method sendToServer
-		* @param {Object}
+		* @param {Object} JSONObj The JSON object to send to the server
 		* @return {null}
 		*/
 
@@ -1009,21 +1009,21 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		/**
 		* This method will call createArgs, then sendToServer
 		* @method sendToProxy
-		* @param {string []}
+		* @param {string []} args An array of arguments to pass to createArgs()
 		* @return {null}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method createArgs
-		* @param {string []}
+		* @param {string []} args An array of arguments to populate the command
 		* @return {Object}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method sendToServer
-		* @param {Object}
+		* @param {Object} JSONObj The JSON object to send to the server
 		* @return {null}
 		*/
 
@@ -1091,21 +1091,21 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		/**
 		* This method will call createArgs, then sendToServer
 		* @method sendToProxy
-		* @param {string []}
+		* @param {string []} args An array of arguments to pass to createArgs()
 		* @return {null}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method createArgs
-		* @param {string []}
+		* @param {string []} args An array of arguments to populate the command
 		* @return {Object}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method sendToServer
-		* @param {Object}
+		* @param {Object} JSONObj The JSON object to send to the server
 		* @return {null}
 		*/
 
@@ -1173,21 +1173,21 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		/**
 		* This method will call createArgs, then sendToServer
 		* @method sendToProxy
-		* @param {string []}
+		* @param {string []} args An array of arguments to pass to createArgs()
 		* @return {null}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method createArgs
-		* @param {string []}
+		* @param {string []} args An array of arguments to populate the command
 		* @return {Object}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method sendToServer
-		* @param {Object}
+		* @param {Object} JSONObj The JSON object to send to the server
 		* @return {null}
 		*/
 
@@ -1249,21 +1249,21 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		/**
 		* This method will call createArgs, then sendToServer
 		* @method sendToProxy
-		* @param {string []}
+		* @param {string []} args An array of arguments to pass to createArgs()
 		* @return {null}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method createArgs
-		* @param {string []}
+		* @param {string []} args An array of arguments to populate the command
 		* @return {Object}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method sendToServer
-		* @param {Object}
+		* @param {Object} JSONObj The JSON object to send to the server
 		* @return {null}
 		*/
 
@@ -1335,21 +1335,21 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		/**
 		* This method will call createArgs, then sendToServer
 		* @method sendToProxy
-		* @param {string []}
+		* @param {string []} args An array of arguments to pass to createArgs()
 		* @return {null}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method createArgs
-		* @param {string []}
+		* @param {string []} args An array of arguments to populate the command
 		* @return {Object}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method sendToServer
-		* @param {Object}
+		* @param {Object} JSONObj The JSON object to send to the server
 		* @return {null}
 		*/
 
@@ -1413,21 +1413,21 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		/**
 		* This method will call createArgs, then sendToServer
 		* @method sendToProxy
-		* @param {string []}
+		* @param {string []} args An array of arguments to pass to createArgs()
 		* @return {null}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method createArgs
-		* @param {string []}
+		* @param {string []} args An array of arguments to populate the command
 		* @return {Object}
 		*/
 
 		/**
 		* This method will send the created JSON Object to the proxy
 		* @method sendToServer
-		* @param {Object}
+		* @param {Object} JSONObj The JSON object to send to the server
 		* @return {null}
 		*/
 
