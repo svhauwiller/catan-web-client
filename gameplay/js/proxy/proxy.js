@@ -8,7 +8,7 @@ catan.proxy = catan.proxy || {};
 */
 
 catan.proxy.proxy = (function proxyNameSpace(){
-	var theProxy = (function theProxyClass(){
+	var Proxy = (function theProxyClass(){
 		
 		/**
 		* generic command class
@@ -28,13 +28,19 @@ catan.proxy.proxy = (function proxyNameSpace(){
 		* @return {null}
 		*/
 
-		function theProxy(newType, newIndex){
+		function Proxy(newType, newIndex){
 			this.type = newType;
 			this.playerIndex = newIndex;
 			this.JSONObject = new Object();
 		}
+		
+		Proxy.prototype.getModelFromServer = function (returnData) {
+			jQuery.get("/game/model", null, function(returnData){
+					return returnData;
+				}, "json").fail(failHandler);
+		}
 
-		theProxy.prototype.sendToServer = function(type, cmdURL, JSONObj){
+		Proxy.prototype.sendToServer = function(type, cmdURL, JSONObj){
 			if(type == "POST"){
 				jQuery.post(cmdURL, jQuery(JSONObj).prop("value"), runCommand, "JSON").fail(failHandler);
 			}
@@ -43,15 +49,15 @@ catan.proxy.proxy = (function proxyNameSpace(){
 			}
 		};
 		
-		theProxy.prototype.runCommand = function (returnData) {
+		Proxy.prototype.runCommand = function (returnData) {
 			console.log("Run Command Run!!!");
 		}
 		
-		theProxy.prototype.updateGameModel = function (returnData) {
+		Proxy.prototype.updateGameModel = function (returnData) {
 			console.log("Update Model!!! Taaadaaaa!!!");
 		}
 		
-		theProxy.prototype.failHandler = function (jqXHR, textStatus, errorThrown) {
+		Proxy.prototype.failHandler = function (jqXHR, textStatus, errorThrown) {
 			console.log("AJAX request failed: " + errorThrown);
 		}
 
