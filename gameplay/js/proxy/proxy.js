@@ -34,7 +34,7 @@ catan.proxy.proxy = (function proxyNameSpace(){
 			this.JSONObject = new Object();
 		}
 		
-		Proxy.prototype.getModelFromServer = function (returnData) {
+		Proxy.prototype.getModelFromServer = function () {
 			jQuery.get("/game/model", null, function(returnData){
 					return returnData;
 				}, "json").fail(failHandler);
