@@ -9,7 +9,7 @@ catan.models = catan.models || {};
 
 catan.models.tradeOffer = (function tradeOfferNameSpace(){
 	
-	var resourceList = (function tradeOfferClass(){
+	var TradeOffer = (function tradeOfferClass(){
 		
 		/**
 		* tradeOffer class
@@ -38,7 +38,7 @@ catan.models.tradeOffer = (function tradeOfferNameSpace(){
 		*/
 
 
-		function tradeOffer()
+		function TradeOffer()
 		{
 			this.sender=null;
 			this.receiver=null;

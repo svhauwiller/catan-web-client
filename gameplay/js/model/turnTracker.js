@@ -9,7 +9,7 @@ catan.models = catan.models || {};
 
 catan.models.turnTracker = (function turnTrackerNameSpace(){
 	
-	var resourceList = (function turnTrackerClass(){
+	var TurnTracker = (function turnTrackerClass(){
 		
 		/**
 		* turnTracker class
@@ -33,7 +33,7 @@ catan.models.turnTracker = (function turnTrackerNameSpace(){
 		*/
 
 
-		function turnTracker()
+		function TurnTracker()
 		{
 			this.currentTurn=null;
 			this.status=null;

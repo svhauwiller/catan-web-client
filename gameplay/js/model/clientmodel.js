@@ -95,10 +95,11 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 			this.log = new Array();
 			this.longestRoad = null;
 			this.longestRoadSize = 0;
-			this.map = new Map();
+			this.map = new catan.models.Map.Map();
 			this.players = new Array();
-			this.tradeOffer = new TradeOffer();
-			this.turnTracker = new TurnTracker();
+			this.proxy = new catan.proxy.proxy.Proxy();
+			this.tradeOffer = new catan.models.tradeOffer.TradeOffer();
+			this.turnTracker = new catan.models.turnTracker.TurnTracker();
 			this.winner = null;
 		}      
         
@@ -114,7 +115,13 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		ClientModel.prototype.initFromServer = function(success){
             
             // TODO: 1) fetch the game state from the server, 2) update the client model, 3) call the "success" function.
+
             success();
+		}
+
+
+		ClientModel.prototype.updateModel = function(){
+
 		}
 
 		/**
