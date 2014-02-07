@@ -87,11 +87,11 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @type {ElemType int}
 		*/
 		function ClientModel(playerID){
-			this.bank = new Bank();
+			this.bank = new catan.models.bank.Bank();
 			this.biggestArmy=null;
 			this.biggestArmySize=0;
 			this.chat = new Array();
-			this.devCard = new DevCard();
+			this.devCard = new catan.models.bank.DevCard(this);
 			this.log = new Array();
 			this.longestRoad = null;
 			this.longestRoadSize = 0;

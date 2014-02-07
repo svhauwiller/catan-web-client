@@ -2,6 +2,31 @@ var catan = catan || {};
 catan.models = catan.models || {};
 
 catan.models.bank = (function bankNameSpace(){
+
+	var Bank = (function bankClass(){
+		/**
+		* Bank class
+		*
+		* @class Bank
+		* @constructor
+		*/
+		
+		/**
+		* List of Resource Cards owned by the bank
+		* @property resourceList
+		* @type {ResourceList}
+		*/
+		/**
+		* List of Development Cards owned by the bank
+		* @property devCardList
+		* @type {DevCardList}
+		*/
+		function Bank(){
+			this.resourceList = new catan.models.bank.ResourceList("bank");
+			this.devCardList = new catan.models.bank.DevCardList("bank");
+		}
+		
+	}());
 	
 	var ResourceList = (function resourceListClass(){
 		
@@ -41,7 +66,7 @@ catan.models.bank = (function bankNameSpace(){
 		* @type {ElemType int}
 		*/
 
-		function resourceList(type)
+		function ResourceList(type)
 		{
 			switch (type)
 			{
@@ -108,7 +133,7 @@ catan.models.bank = (function bankNameSpace(){
 		* @type {int}
 		*/
 		
-		function DevCardListClass(type)
+		function DevCardList(type)
 		{
 			switch(type)
 			{
