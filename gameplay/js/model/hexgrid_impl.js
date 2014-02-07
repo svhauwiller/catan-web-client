@@ -42,9 +42,10 @@ catan.models.Map = (function mapNameSpace(){
         function CatanEdge(){}
         
         // once you override this, put in some documentation
-        function isOccupied(){
-            return false; // default implementation, change this!
-        }
+			CatanEdge.prototype.isOccupied = function()
+			{
+			return false; //default implementation. Change this!
+			}
 
         return CatanEdge;
     }());
@@ -62,18 +63,20 @@ catan.models.Map = (function mapNameSpace(){
 	
 	@class CatanVertex
 	*/
-    var CatanVertex = (function CatanVertex_Class(){
+	var CatanVertex = (function CatanVertex_Class(){
     
-        core.forceClassInherit(CatanVertex, hexgrid.BaseContainer);
+			core.forceClassInherit(CatanVertex, hexgrid.BaseContainer);
         
-        function CatanVertex(){}
+        	function CatanVertex(){}
         
-        // once you override this, put in some documentation
-        function isOccupied(){ 
-            return false; // default implementation, change this!
-        }
+       	// once you override this, put in some documentation
+        
+        	CatanVertex.prototype.isOccupied = function()
+			{
+				return false; //default implementation. Change this!
+			}
 
-        return CatanVertex;
+         return CatanVertex;
     }()); 
     
     
