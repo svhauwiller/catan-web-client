@@ -104,7 +104,7 @@ catan.models.Player = (function playerNameSpace(){
 			this.orderNumber = 0;
 			this.playedDevCard = false;
 			this.playerID = 0;
-			this.resources = new ResourceList();
+			this.resources = new catan.models.bank.ResourceList("player");
 			this.victoryPts = 0;
 		}
 
@@ -131,18 +131,84 @@ catan.models.Player = (function playerNameSpace(){
 		}
 		
 		Player.prototype.canBuyRoad = function(){
+			
+			var hasBrick = false;
+			var hasWood = false;
+			
+			if (this.resources.brick > 0){
+				hasBrick = true;
+				}
+			if (this.resources.wood > 0){
+				hasWood = true;
+				}			
+			
+			return (hasWood && hasBrick);
+
 		}
 		
 		Player.prototype.canBuySettlement = function(){
+			
+			var hasBrick = false;
+			var hasWood = false;
+			var hasWheat = false;
+			var hasSheep = false;
+			
+			if (this.resources.brick > 0){
+				hasBrick = true;
+				}
+			if (this.resources.wood > 0){
+				hasWood = true;
+				}
+			if (this.resources.wheat > 0){
+				hasBrick = true;
+				}
+			if (this.resources.sheep > 0){
+				hasWood = true;
+				}			
+			
+			return (hasWood && hasBrick && hasWheat && hasSheep);
 		}
 		
 		Player.prototype.canBuyCity = function(){
+			
+
+			var hasWheat = false;
+			var hasOre = false;
+			
+
+			if (this.resources.wheat >= 2){
+				hasBrick = true;
+				}
+			if (this.resources.ore >= 3){
+				hasWood = true;
+				}			
+			
+			return (hasWheat && hasOre);
 		}
 		
 		Player.prototype.canBuyDevCard = function(){
+			
+			var hasWheat = false;
+			var hasOre = false;
+			var hasSheep = false;
+			
+
+			if (this.resources.wheat > 0){
+				hasBrick = true;
+				}
+			if (this.resources.ore > 0){
+				hasWood = true;
+				}	
+			if (this.resources.sheep > 0){
+				hasWood = true;
+				}			
+			
+			return (hasWheat && hasOre && hasSheep);
 		}
 		
 		Player.prototype.currentPlayerResources = function(){
+			
+			return this.resources;
 		}
 		
 		Player.prototype.canOfferTrade = function(){
