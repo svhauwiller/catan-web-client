@@ -14,10 +14,57 @@ catan.models.Map = (function mapNameSpace(){
     
     var Map = (function Map_Class(){
        
+       
+       		/**
+		* Map class
+		* <pre>
+		* </pre>
+		*
+		* @class Map
+		* @constructor
+		*/
+		
+		/**
+		* The grid of Hexes
+		* @property hexGrid
+		* @type {HexGrid}
+		*/
+		/**
+		* The location of the hex
+		* @property numbers
+		* @type {Array of HexLocations}
+		*/
+		/**
+		* The list of ports on the map
+		* @property ports
+		* @type {Array of Ports}
+		/**
+		* The radius of the map
+		* @property radius
+		* @type {integer}
+		*/
+		/**
+		* The location of the Robber token
+		* @property robber
+		* @type {HexLocation}
+		*/
 		function Map(radius)
 		{
+
+			this.numbers = new Array();
+			this.ports = new Array();
+			this.radius = 0;
+			this.robber = new HexLocation();
+			
 			this.hexGrid = hexgrid.HexGrid.getRegular(radius, CatanHex);
 		}
+	
+		Map.prototype.canBuildRoad = function(hex, postion){
+		
+		return 
+		};
+	
+		
 		return Map;
 		
     }());
@@ -67,8 +114,12 @@ catan.models.Map = (function mapNameSpace(){
     
 			core.forceClassInherit(CatanVertex, hexgrid.BaseContainer);
         
-        	function CatanVertex(){}
+        	function CatanVertex(){       	
+        	}
         
+         CatanVertex.prototype.setLocation = function (location, index) {
+         	
+         }       
        	// once you override this, put in some documentation
         
         	CatanVertex.prototype.isOccupied = function()
