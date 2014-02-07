@@ -39,3 +39,7 @@ test("messageList addLine", function(){
 	
 
 });
+
+test("Test Proving Bill Wrong", function(){
+	ok(1 == "1", "Basic Failure");
+});
