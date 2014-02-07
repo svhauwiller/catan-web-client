@@ -32,7 +32,7 @@ catan.models.Player = (function playerNameSpace(){
 		*/
 		/**
 		* Flag to determine if the player would have to discard cards when a 7 is rolled
-		* @property dicarded
+		* @property discarded
 		* @type {boolean}
 		*/
 		/**
@@ -85,6 +85,11 @@ catan.models.Player = (function playerNameSpace(){
 		* @property resources
 		* @type {ResourceList}
 		*/
+		/**
+		* The number of the victory points of the player
+		* @property victoryPts
+		* @type {integer}
+		*/
 		function Player()
 		{
 			this.cities = new Array();
@@ -123,6 +128,30 @@ catan.models.Player = (function playerNameSpace(){
 			else if(type === "wood"){
 				this.resource.wood += amount;
 			}
+		}
+		
+		Player.prototype.canBuyRoad = function(){
+		}
+		
+		Player.prototype.canBuySettlement = function(){
+		}
+		
+		Player.prototype.canBuyCity = function(){
+		}
+		
+		Player.prototype.canBuyDevCard = function(){
+		}
+		
+		Player.prototype.currentPlayerResources = function(){
+		}
+		
+		Player.prototype.canOfferTrade = function(){
+		}
+		
+		Player.prototype.needToDiscardCheck = function(){
+		}
+		
+		Player.prototype.canAcceptTrade = function(){
 		}
 		
 		return Player;
