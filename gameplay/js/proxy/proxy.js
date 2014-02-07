@@ -61,6 +61,7 @@ catan.proxy.proxy = (function proxyNameSpace(){
 			console.log("AJAX request failed: " + errorThrown);
 		}
 
-		return theProxy;
+		return Proxy;
 	}());
-}
+	return Proxy;
+}());
