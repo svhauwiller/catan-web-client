@@ -87,6 +87,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @type {ElemType int}
 		*/
 		function ClientModel(playerID){
+			console.log(playerID);
+			var models = catan.models;
 			// this.bank = new catan.models.bank.Bank();
 			// this.biggestArmy=null;
 			// this.biggestArmySize=0;
@@ -96,8 +98,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 			// this.longestRoad = null;
 			// this.longestRoadSize = 0;
 			// this.map = new catan.models.Map.Map();
-			// this.players = new Array();
-			this.proxy = new catan.proxy.proxy.Proxy();
+			//this.players = [new models.Player(), new models.Player(), new models.Player(), new models.Player()];
+			this.proxy = new catan.proxy.Proxy("", playerID);
 			// this.tradeOffer = new catan.models.tradeOffer.TradeOffer();
 			// this.turnTracker = new catan.models.turnTracker.TurnTracker();
 			// this.winner = null;
@@ -113,11 +115,12 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
          * @param {function} success - A callback function that is called after the game state has been fetched from the server and the client model updated. This function is passed a single parameter which is the game state object received from the server.
          * */
 		ClientModel.prototype.initFromServer = function(success){
-            
-            // TODO: 1) fetch the game state from the server, 2) update the client model, 3) call the "success" function.
-			var initialGameModel = this.proxy.getModelFromServer();
-			updateModel(initialGameModel);
-            success();
+
+			var response = this.proxy.getModelFromServer();
+			this.updateModel(JSON.parse(response.responseText));
+			success();
+
+			return true;
 		}
 
 		ClientModel.prototype.updateModel = function(updatedModel){

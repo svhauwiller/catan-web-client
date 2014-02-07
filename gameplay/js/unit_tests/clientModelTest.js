@@ -1,4 +1,5 @@
 test("Model Initialization", function(){
-	var model = catan.models.ClientModel.ClientModel();
-	ok(10 === 10, "Unable to create empty messageLine");
+	var model = new catan.models.ClientModel(0);
+	console.log(model);
+	ok(model.initFromServer(function(){ console.log("Initialization Complete"); }) === true, "Unable to Initialize Model");
 });
