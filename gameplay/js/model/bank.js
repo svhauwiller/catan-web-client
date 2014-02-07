@@ -176,13 +176,13 @@ catan.models.bank = (function bankNameSpace(){
 					this.monument.useCard(parameter);
 					break;
 				case "roadBuilding":
-					this.roadBuilder.useCard(parameter);
+					this.road.useCard(parameter);
 					break;
 				case "soldier":
 					this.soldier.useCard(parameter);
 					break;
 				case "yearOfPlenty":
-					this.yearOfPlenty.useCard(parameter);
+					this.year.useCard(parameter);
 					break;
 			}
 			
@@ -201,7 +201,8 @@ catan.models.bank = (function bankNameSpace(){
 			for(var i=0; i<catan.players.length; i++){
 				if(i!==playerIndex){
 					var count = this.model.players[i].resources[resToTake]
-					this.model.players[i].updateResource(resToTake,count);
+					var neg = count * -1;
+					this.model.players[i].updateResource(resToTake, neg);
 					this.model.players[playerIndex].updateResource(resToTake, count);
 				}
 			}
@@ -236,11 +237,11 @@ catan.models.bank = (function bankNameSpace(){
 			
 			resources1 = parameter.resource1;
 			resources2 = parameter.resource2;
-			this.model.players[playerIndex].updateResource([resource1],1);
-			this.model.bank.ResourceList[resource1]--;
+			this.model.players[playerIndex].updateResource([resources1],1);
+			this.model.bank.resourceList[resource1]--;
 
-			this.model.players[playerIndex].updateResource([resource2],1);
-			this.model.bank.ResourceList[resource2]--;
+			this.model.players[playerIndex].updateResource([resources2],1);
+			this.model.bank.resourceList[resource2]--;
 
 			/*
 			for(var i=0; i<resources.length; i++){
