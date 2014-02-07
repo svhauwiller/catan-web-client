@@ -2,7 +2,7 @@ var catan = catan || {};
 catan.models = catan.models || {};
 
 catan.models.bank = (function bankNameSpace(){
-
+	
 	var Bank = (function bankClass(){
 		/**
 		* Bank class
@@ -27,7 +27,6 @@ catan.models.bank = (function bankNameSpace(){
 		}
 		
 	}());
-	
 	var ResourceList = (function resourceListClass(){
 		
 		/**
@@ -66,7 +65,7 @@ catan.models.bank = (function bankNameSpace(){
 		* @type {ElemType int}
 		*/
 
-		function ResourceList(type)
+		function resourceList(type)
 		{
 			switch (type)
 			{
@@ -133,7 +132,7 @@ catan.models.bank = (function bankNameSpace(){
 		* @type {int}
 		*/
 		
-		function DevCardList(type)
+		function DevCardListClass(type)
 		{
 			switch(type)
 			{
@@ -162,30 +161,30 @@ catan.models.bank = (function bankNameSpace(){
 
 	var DevCard = ( function DevCardClass () 
 	{
-		function DevCard(){
-			var monopoly= new Monopoly();
-			var monument = new Monument();
-			var road = new RoadBuilding();
-			var soldier = new Soldier();
-			var year = new Year();
+		function DevCard(model){
+			this.monopoly= new Monopoly(model);
+			this.monument = new Monument(model);
+			this.road = new RoadBuilding(model);
+			this.soldier = new Soldier(model);
+			this.year = new Year(model);
 		};
 		// calls use card of instance variables of mon 
 		DevCard.prototype.useCard = function(type, parameter){
 			switch(type){
 				case "monopoly":
-					monopoly.useCard(parameter);
+					this.monopoly.useCard(parameter);
 					break;
 				case "monument":
-					monument.useCard(parameter);
+					this.monument.useCard(parameter);
 					break;
 				case "roadBuilding":
-					roadBuilder.useCard(parameter);
+					this.roadBuilder.useCard(parameter);
 					break;
 				case "soldier":
-					soldier.useCard(parameter);
+					this.soldier.useCard(parameter);
 					break;
 				case "yearOfPlenty":
-					yearOfPlenty.useCard(parameter);
+					this.yearOfPlenty.useCard(parameter);
 					break;
 			}
 			
@@ -194,7 +193,9 @@ catan.models.bank = (function bankNameSpace(){
 	}());
 
 	var Monopoly = (function MonopolyClass(){
-		function Monopoly(){};
+		function Monopoly(model){
+			this.model = model;
+		};
 
 		Monopoly.prototype.useCard = function(parameter){
 			var playerIndex = parameter.playerIndex;
@@ -202,9 +203,9 @@ catan.models.bank = (function bankNameSpace(){
 			for(var i=0; i<catan.players.length; i++){
 				if(i!==playerIndex){
 					//may need to do a check to get what resToTake is;
-					var count = catan.players[i].resources.resToTake
-					catan.players[i].resources.resToTake -= count;
-					catan.players[playerIndex].resources.resToTake += count;
+					var count = this.model.players[i].resources.resToTake
+					this.model.players[i].resources.resToTake -= count;
+					this.model.players[playerIndex].resources.resToTake += count;
 				}
 			}
 		}
@@ -213,13 +214,15 @@ catan.models.bank = (function bankNameSpace(){
 
 	//check to make sure every variable is labeled correctly
 	var Monument = (function MonumentClass(){
-		function Monument(){};
+		function Monument(model){
+			this.model = model;
+		};
 
 		Monument.prototype.useCard = function(parameter){
 			var playerIndex = parameter.playerIndex;
 			for(var i=0; i < catan.players.length; i++){
 				if(i===playerIndex){
-					catan.players[i].victoryPts++;
+					this.model.models.players[i].victoryPts++;
 				}
 			}
 		}
@@ -227,7 +230,9 @@ catan.models.bank = (function bankNameSpace(){
 	}());
 
 	var YearOfPlenty = (function YearOfPlentyClass(){
-		function YearOfPlenty(){};
+		function YearOfPlenty(model){
+			this.model = model;
+		};
 
 		YearOfPlenty.prototype.useCard = function(parameter){
 			var playerIndex = parameter.playerIndex;
@@ -235,35 +240,36 @@ catan.models.bank = (function bankNameSpace(){
 			var resource2 = parameter.resource2;
 
 			if(resource1==="brick"){
-				catan.players[playerIndex].resources.brick++;
+				this.model.players[playerIndex].resources.brick++;
+				this.model.bank.ResourceList.brick--;
 			}
 			else if(resource1==="wheat"){
-				catan.players[playerIndex].resources.wheat++;
+				model.players[playerIndex].resources.wheat++;
 			}
 			else if(resource1==="sheep"){
-				catan.players[playerIndex].resources.sheep++;
+				model.players[playerIndex].resources.sheep++;
 			}
 			else if(resource1==="ore"){
-				catan.players[playerIndex].resources.ore++;
+				model.players[playerIndex].resources.ore++;
 			}
 			else if(resource1==="wood"){
-				catan.players[playerIndex].resources.wood++;
+				model.players[playerIndex].resources.wood++;
 			}
 
 			if(resource2==="brick"){
-				catan.players[playerIndex].resources.brick++;
+				model.players[playerIndex].resources.brick++;
 			}
 			else if(resource2==="wheat"){
-				catan.players[playerIndex].resources.wheat++;
+				model.players[playerIndex].resources.wheat++;
 			}
 			else if(resource2==="sheep"){
-				catan.players[playerIndex].resources.sheep++;
+				model.players[playerIndex].resources.sheep++;
 			}
 			else if(resource2==="ore"){
-				catan.players[playerIndex].resources.ore++;
+				model.players[playerIndex].resources.ore++;
 			}
 			else if(resource2==="wood"){
-				catan.players[playerIndex].resources.wood++;
+				model.players[playerIndex].resources.wood++;
 			}
 			
 		}
@@ -271,24 +277,28 @@ catan.models.bank = (function bankNameSpace(){
 	}());
 
 	var RoadBuilding = (function RoadBuildingClass(){
-		function RoadBuilding(){};
+		function RoadBuilding(model){
+			this.model = model;
+		};
 
 		RoadBuilding.prototype.useCard = function(parameter){
 			var playerIndex = parameter.playerIndex;
 			//for loop may be necessary to do so with the correct player. I'm not sure how steal will be used.
-			catan.buildRoad();
-			catan.buildRoad();
+			model.buildRoad();
+			model.buildRoad();
 		}
 		return RoadBuilding;
 	}());
 
 	var Soldier = (function SoldierClass(){
-		function Soldier(){};
+		function Soldier(model){
+			this.model = model;
+		};
 
 		Soldier.prototype.useCard = function(parameter){
 			var playerIndex = parameter.playerIndex;
 			//for loop may be necessary to do so with the correct player. I'm not sure how steal will be used.
-			catan.steal();
+			model.steal();
 		}
 		return Soldier;
 	}());
