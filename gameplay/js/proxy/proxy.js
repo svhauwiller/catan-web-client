@@ -7,7 +7,7 @@ catan.proxy = catan.proxy || {};
 * @module catan.proxy.proxy
 */
 
-catan.proxy.proxy = (function proxyNameSpace(){
+catan.proxy.Proxy = (function proxyNameSpace(){
 	var Proxy = (function theProxyClass(){
 		
 		/**
@@ -35,17 +35,21 @@ catan.proxy.proxy = (function proxyNameSpace(){
 		}
 		
 		Proxy.prototype.getModelFromServer = function () {
-			jQuery.get("/game/model", null, function(returnData){
-					return returnData;
-				}, "json").fail(failHandler);
+			return jQuery.ajax({
+				async: false,
+				type: "GET",
+				url: "/game/model"
+			}).done(function(returnData){
+				console.log(returnData);
+			}).fail(this.failHandler);
 		}
 
 		Proxy.prototype.sendToServer = function(type, cmdURL, JSONObj){
 			if(type == "POST"){
-				jQuery.post(cmdURL, jQuery(JSONObj).prop("value"), runCommand, "JSON").fail(failHandler);
+				jQuery.post(cmdURL, jQuery(JSONObj).prop("value"), runCommand, "JSON").fail(this.failHandler);
 			}
 			else{ // assume its a get model
-				jQuery.get("/game/model", null, updateGameModel, "json").fail(failHandler);
+				jQuery.get("/game/model", null, updateGameModel, "json").fail(this.failHandler);
 			}
 		};
 		
