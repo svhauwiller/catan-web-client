@@ -87,20 +87,20 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @type {ElemType int}
 		*/
 		function ClientModel(playerID){
-			this.bank = new catan.models.bank.Bank();
-			this.biggestArmy=null;
-			this.biggestArmySize=0;
-			this.chat = new Array();
-			this.devCard = new catan.models.bank.DevCard(this);
-			this.log = new Array();
-			this.longestRoad = null;
-			this.longestRoadSize = 0;
-			this.map = new catan.models.Map.Map();
-			this.players = new Array();
+			// this.bank = new catan.models.bank.Bank();
+			// this.biggestArmy=null;
+			// this.biggestArmySize=0;
+			// this.chat = new Array();
+			// this.devCard = new catan.models.bank.DevCard(this);
+			// this.log = new Array();
+			// this.longestRoad = null;
+			// this.longestRoadSize = 0;
+			// this.map = new catan.models.Map.Map();
+			// this.players = new Array();
 			this.proxy = new catan.proxy.proxy.Proxy();
-			this.tradeOffer = new catan.models.tradeOffer.TradeOffer();
-			this.turnTracker = new catan.models.turnTracker.TurnTracker();
-			this.winner = null;
+			// this.tradeOffer = new catan.models.tradeOffer.TradeOffer();
+			// this.turnTracker = new catan.models.turnTracker.TurnTracker();
+			// this.winner = null;
 		}      
         
         /**
