@@ -72,7 +72,7 @@ catan.models.utilities = function utilitiesNamespace(){ //namespace dec
 
 		function messageList()
 		{
-				lines = new Array();
+				this.lines = new Array();
 		}
 		
 		messageList.prototype.setLines = function(theLines){
@@ -92,9 +92,9 @@ catan.models.utilities = function utilitiesNamespace(){ //namespace dec
 		}
 		
 		return messageList;
-	}();
+	}());
 	
-	var resourceList = (function tradeOfferClass(){
+	var tradeOffer = (function tradeOfferClass(){
 		
 		/**
 		* tradeOffer class
@@ -156,7 +156,7 @@ catan.models.utilities = function utilitiesNamespace(){ //namespace dec
 		return tradeOffer;
 	}());
 	
-		var resourceList = (function turnTrackerClass(){
+		var turnTracker = (function turnTrackerClass(){
 		
 		/**
 		* turnTracker class
@@ -186,19 +186,19 @@ catan.models.utilities = function utilitiesNamespace(){ //namespace dec
 			this.theStatus=null;
 		}
 		
-		resourceList.prototype.setCurrentTurn = function(theCurrentTurn){
+		turnTracker.prototype.setCurrentTurn = function(theCurrentTurn){
 			this.currentTurn = theCurrentTurn;		
 		}
 	
-		resourceList.prototype.getCurrentTurn = function(){
+		turnTracker.prototype.getCurrentTurn = function(){
 			return this.currentTurn;		
 		}
 	
-		resourceList.prototype.setStatus = function(statusUpdate){
+		turnTracker.prototype.setStatus = function(statusUpdate){
 			this.theStatus = statusUpdate;
 		}
 	
-		resourceList.prototype.getStatus = function(){
+		turnTracker.prototype.getStatus = function(){
 			return this.theStatus;		
 		}
 		
