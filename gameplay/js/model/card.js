@@ -159,8 +159,7 @@ catan.models.bank = (function bankNameSpace(){
 		return DevCardList;
 	}());
 
-	var DevCard = ( function DevCardClass () 
-	{
+	var DevCard = ( function DevCardClass () {
 		function DevCard(model){
 			this.monopoly= new Monopoly(model);
 			this.monument = new Monument(model);
@@ -168,7 +167,6 @@ catan.models.bank = (function bankNameSpace(){
 			this.soldier = new Soldier(model);
 			this.year = new Year(model);
 		};
-		// calls use card of instance variables of mon 
 		DevCard.prototype.useCard = function(type, parameter){
 			switch(type){
 				case "monopoly":
@@ -202,17 +200,15 @@ catan.models.bank = (function bankNameSpace(){
 			var resToTake = parameter.resource;
 			for(var i=0; i<catan.players.length; i++){
 				if(i!==playerIndex){
-					//may need to do a check to get what resToTake is;
-					var count = this.model.players[i].resources.resToTake
-					this.model.players[i].resources.resToTake -= count;
-					this.model.players[playerIndex].resources.resToTake += count;
+					var count = this.model.players[i].resources[resToTake]
+					this.model.players[i].updateResource(resToTake,count);
+					this.model.players[playerIndex].updateResource(resToTake, count);
 				}
 			}
 		}
 		return Monopoly;
 	}());
 
-	//check to make sure every variable is labeled correctly
 	var Monument = (function MonumentClass(){
 		function Monument(model){
 			this.model = model;
@@ -222,7 +218,7 @@ catan.models.bank = (function bankNameSpace(){
 			var playerIndex = parameter.playerIndex;
 			for(var i=0; i < catan.players.length; i++){
 				if(i===playerIndex){
-					this.model.models.players[i].victoryPts++;
+					this.model.models.players[i].updateVic(1);
 				}
 			}
 		}
@@ -236,42 +232,41 @@ catan.models.bank = (function bankNameSpace(){
 
 		YearOfPlenty.prototype.useCard = function(parameter){
 			var playerIndex = parameter.playerIndex;
-			var resource1 = parameter.resource1;
-			var resource2 = parameter.resource2;
-
-			if(resource1==="brick"){
-				this.model.players[playerIndex].resources.brick++;
-				this.model.bank.ResourceList.brick--;
-			}
-			else if(resource1==="wheat"){
-				model.players[playerIndex].resources.wheat++;
-			}
-			else if(resource1==="sheep"){
-				model.players[playerIndex].resources.sheep++;
-			}
-			else if(resource1==="ore"){
-				model.players[playerIndex].resources.ore++;
-			}
-			else if(resource1==="wood"){
-				model.players[playerIndex].resources.wood++;
-			}
-
-			if(resource2==="brick"){
-				model.players[playerIndex].resources.brick++;
-			}
-			else if(resource2==="wheat"){
-				model.players[playerIndex].resources.wheat++;
-			}
-			else if(resource2==="sheep"){
-				model.players[playerIndex].resources.sheep++;
-			}
-			else if(resource2==="ore"){
-				model.players[playerIndex].resources.ore++;
-			}
-			else if(resource2==="wood"){
-				model.players[playerIndex].resources.wood++;
-			}
+			var resources = new Array();
 			
+			resources1 = parameter.resource1;
+			resources2 = parameter.resource2;
+			this.model.players[playerIndex].updateResource([resource1],1);
+			this.model.bank.ResourceList[resource1]--;
+
+			this.model.players[playerIndex].updateResource([resource2],1);
+			this.model.bank.ResourceList[resource2]--;
+
+			/*
+			for(var i=0; i<resources.length; i++){
+				if(resource[i]==="brick"){
+					//may need to change adding to player to a function "updateResource";
+					this.model.players[playerIndex].resources.updateResource("brick", 1);
+					this.model.bank.ResourceList.brick--;
+				}
+				else if(resource[i]==="wheat"){
+					this.model.players[playerIndex].resources.updateResource("wheat",1);
+					this.model.bank.ResourceList.wheat--;
+				}
+				else if(resource[i]==="sheep"){
+					this.model.players[playerIndex].resources.updateResource("sheep",1);
+					this.model.bank.ResourceList.sheep--;
+				}
+				else if(resource[i]==="ore"){
+					this.model.players[playerIndex].resources.updateResource("ore",1);
+					this.model.bank.ResourceList.ore--;
+				}
+				else if(resource[i]==="wood"){
+					this.model.players[playerIndex].resources.updateResource("wood",1);
+					this.model.bank.ResourceList.wood--;
+				}
+			}
+			*/
 		}
 		return YearOfPlenty;
 	}());
@@ -282,10 +277,9 @@ catan.models.bank = (function bankNameSpace(){
 		};
 
 		RoadBuilding.prototype.useCard = function(parameter){
-			var playerIndex = parameter.playerIndex;
 			//for loop may be necessary to do so with the correct player. I'm not sure how steal will be used.
-			model.buildRoad();
-			model.buildRoad();
+			this.model.buildRoad();
+			this.model.buildRoad();
 		}
 		return RoadBuilding;
 	}());
@@ -296,9 +290,7 @@ catan.models.bank = (function bankNameSpace(){
 		};
 
 		Soldier.prototype.useCard = function(parameter){
-			var playerIndex = parameter.playerIndex;
-			//for loop may be necessary to do so with the correct player. I'm not sure how steal will be used.
-			model.steal();
+			this.model.steal();
 		}
 		return Soldier;
 	}());

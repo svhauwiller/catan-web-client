@@ -100,6 +100,29 @@ catan.models.Player = (function playerNameSpace(){
 			this.playedDevCard = false;
 			this.playerID = 0;
 			this.resources = new ResourceList();
+			this.victoryPts = 0;
+		}
+
+		Player.prototype.updateVic = function (points){
+			this.victoryPts += points;
+		}
+
+		Player.prototype.updateResource = function(type, amount){
+			if(type === "brick"){
+				this.resources.brick += amount;
+			}
+			else if(type === "wheat"){
+				this.resource.wheat += amount;
+			}
+			else if(type === "sheep"){
+				this.resource.sheep += amount;
+			}
+			else if(type === "ore"){
+				this.resource.ore += amount;
+			}
+			else if(type === "wood"){
+				this.resource.wood += amount;
+			}
 		}
 		
 		return Player;
