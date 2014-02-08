@@ -226,15 +226,13 @@ catan.models.bank = (function bankNameSpace(){
 
 		Monument.prototype.useCard = function(parameter){
 			var playerIndex = parameter.playerIndex;
-			for(var i=0; i < catan.players.length; i++){
-				if(i===playerIndex){
-					this.model.models.players[i].updateVic(1);
-				}
-			}
+			this.model.players[playerIndex].updateVic(1);
+
 		}
 		return Monument;
 	}());
 
+	//tested good
 	var YearOfPlenty = (function YearOfPlentyClass(){
 		function YearOfPlenty(model){
 			this.model = model;
@@ -253,32 +251,6 @@ catan.models.bank = (function bankNameSpace(){
 
 			this.model.players[playerIndex].updateResource(resource2,1);
 			this.model.bank.resourceList[resource2]--;
-
-			/*
-			for(var i=0; i<resources.length; i++){
-				if(resource[i]==="brick"){
-					//may need to change adding to player to a function "updateResource";
-					this.model.players[playerIndex].resources.updateResource("brick", 1);
-					this.model.bank.ResourceList.brick--;
-				}
-				else if(resource[i]==="wheat"){
-					this.model.players[playerIndex].resources.updateResource("wheat",1);
-					this.model.bank.ResourceList.wheat--;
-				}
-				else if(resource[i]==="sheep"){
-					this.model.players[playerIndex].resources.updateResource("sheep",1);
-					this.model.bank.ResourceList.sheep--;
-				}
-				else if(resource[i]==="ore"){
-					this.model.players[playerIndex].resources.updateResource("ore",1);
-					this.model.bank.ResourceList.ore--;
-				}
-				else if(resource[i]==="wood"){
-					this.model.players[playerIndex].resources.updateResource("wood",1);
-					this.model.bank.ResourceList.wood--;
-				}
-			}
-			*/
 		}
 		return YearOfPlenty;
 	}());
