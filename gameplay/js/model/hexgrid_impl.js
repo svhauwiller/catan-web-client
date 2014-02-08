@@ -48,23 +48,60 @@ catan.models.Map = (function mapNameSpace(){
 		* @property robber
 		* @type {HexLocation}
 		*/
-		function Map(radius)
-		{
+		function Map(){
 
 			this.numbers = new Array();
 			this.ports = new Array();
-			this.radius = 0;
+			this.radius = 4; // should default be zero???
 			this.robber = new HexLocation();
 			
 			this.hexGrid = hexgrid.HexGrid.getRegular(radius, CatanHex);
 		}
-	
-		Map.prototype.canBuildRoad = function(hex, postion){
 		
-		return 
+		Map.prototype.update = function(newMap){
+			
+		};
+		
+		Map.prototype.getResourcesFromRoll(diceNum){
+			// find hexes that don't have robber
+			// find buildings
+			// identify players
+			// identify associated resources (1 for settlement, 2 for city)
+			// create a map data structure with player ids as keys and resourcelists of rewards as values
+			var rewards = {0: new catan.models.bank.ResourceList()};
 		};
 	
+		Map.prototype.canPlaceRoad = function(hex, position){
+			
+		};
 		
+		Map.prototype.canPlaceSettlement = function(hex, position){
+			
+		};
+		
+		Map.prototype.canPlaceCity = function(hex, position){
+			
+		};
+		
+		Map.prototype.buildRoad = function(hex, position){
+			
+		};
+		
+		Map.prototype.buildSettlement = function(hex, position){
+			
+		};
+		
+		Map.prototype.buildCity = function(hex, position){
+			
+		};
+		
+		Map.prototype.robberMove = function(hextoMoveTo){
+			
+		};
+		
+		Map.prototype.getRobberVictims = function(){
+			
+		};
 		return Map;
 		
     }());
