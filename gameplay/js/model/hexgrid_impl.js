@@ -54,7 +54,8 @@ catan.models.Map = (function mapNameSpace(){
 			this.ports = new Array();
 			this.radius = 4; // should default be zero???
 			this.robber = new hexgrid.HexLocation();
-			this.hexGrid = hexgrid.HexGrid.getRegular(this.radius, catan.models.Map.CatanHex);
+			console.log(CatanHex);
+			this.hexGrid = hexgrid.HexGrid.getRegular(this.radius, CatanHex);
 		}
 		
 		Map.prototype.update = function(newMap){
@@ -445,13 +446,9 @@ catan.models.Map = (function mapNameSpace(){
         	function CatanVertex(){
         		this.ownerID = -1;
         	   this.worth = 0;  
+        	   console.log(this);
         	}
         
-         CatanVertex.prototype.setLocation = function (theLocation, index) {
-         	this.theLocation.ownerID=index;
-         	this.worth = this.worth+1;
-         	
-         }       
        	// once you override this, put in some documentation
         
         	CatanVertex.prototype.isOccupied = function(){
