@@ -54,12 +54,15 @@ catan.models.Map = (function mapNameSpace(){
 			this.ports = new Array();
 			this.radius = 4; // should default be zero???
 			this.robber = new HexLocation();
-			
 			this.hexGrid = hexgrid.HexGrid.getRegular(radius, CatanHex);
 		}
 		
 		Map.prototype.update = function(newMap){
-			
+			this.numbers = newMap.numbers;
+			this.ports = newMap.ports;
+			this.radius = newMap.radius;
+			this.robber = newMap.robber;
+			this.hexGrid = newMap.hexGrid;
 		};
 		
 		Map.prototype.getResourcesFromRoll(diceNum){
@@ -265,19 +268,19 @@ catan.models.Map = (function mapNameSpace(){
 		};
 		
 		Map.prototype.buildRoad = function(playerID, hex, theDirection){
-			
+			this.hexGrid.getHex(hex).getEdge(theDirection).setOwner(playerID);
 		};
 		
 		Map.prototype.buildSettlement = function(playerID, hex, theDirection){
-			
+			this.hexGrid.getHex(hex).getVertex(theDirection).setOwner(playerID);
 		};
 		
 		Map.prototype.buildCity = function(playerID, hex, theDirection){
-			
+			this.hexGrid.getHex(hex).getVertex(theDirection).setOwner(playerID);
 		};
 		
 		Map.prototype.robberMove = function(hextoMoveTo){
-			
+			this.robber = hexToMoveTo;
 		};
 		
 		Map.prototype.getRobberVictims = function(){
