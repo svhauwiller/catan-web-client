@@ -165,7 +165,7 @@ catan.models.bank = (function bankNameSpace(){
 			this.monument = new Monument(model);
 			this.road = new RoadBuilding(model);
 			this.soldier = new Soldier(model);
-			this.year = new Year(model);
+			this.year = new YearOfPlenty(model);
 		};
 		DevCard.prototype.useCard = function(type, parameter){
 			switch(type){
@@ -295,9 +295,9 @@ catan.models.bank = (function bankNameSpace(){
 		return Soldier;
 	}());
 	return {
+		Bank:Bank,
 		ResourceList:ResourceList,
 		DevCardList:DevCardList,
-		PlayerDevCardList:PlayerDevCardList,
 		DevCard:DevCard,
 		Monopoly:Monopoly,
 		Soldier:Soldier,

@@ -48,23 +48,60 @@ catan.models.Map = (function mapNameSpace(){
 		* @property robber
 		* @type {HexLocation}
 		*/
-		function Map(radius)
-		{
+		function Map(){
 
 			this.numbers = new Array();
 			this.ports = new Array();
-			this.radius = 0;
+			this.radius = 4; // should default be zero???
 			this.robber = new HexLocation();
 			
 			this.hexGrid = hexgrid.HexGrid.getRegular(radius, CatanHex);
 		}
-	
-		Map.prototype.canBuildRoad = function(hex, postion){
 		
-		return 
+		Map.prototype.update = function(newMap){
+			
+		};
+		
+		Map.prototype.getResourcesFromRoll(diceNum){
+			// find hexes that don't have robber
+			// find buildings
+			// identify players
+			// identify associated resources (1 for settlement, 2 for city)
+			// create a map data structure with player ids as keys and resourcelists of rewards as values
+			var rewards = {0: new catan.models.bank.ResourceList()};
 		};
 	
+		Map.prototype.canPlaceRoad = function(playerID, hex, position){
+			
+		};
 		
+		Map.prototype.canPlaceSettlement = function(playerID, hex, position){
+			
+		};
+		
+		Map.prototype.canPlaceCity = function(playerID, hex, position){
+			
+		};
+		
+		Map.prototype.buildRoad = function(playerID, hex, position){
+			
+		};
+		
+		Map.prototype.buildSettlement = function(playerID, hex, position){
+			
+		};
+		
+		Map.prototype.buildCity = function(playerID, hex, position){
+			
+		};
+		
+		Map.prototype.robberMove = function(hextoMoveTo){
+			
+		};
+		
+		Map.prototype.getRobberVictims = function(){
+			
+		};
 		return Map;
 		
     }());
@@ -86,12 +123,20 @@ catan.models.Map = (function mapNameSpace(){
     
         core.forceClassInherit(CatanEdge, hexgrid.BaseContainer);
     
-        function CatanEdge(){}
+        function CatanEdge(){
+        		this.ownerID = -1;
+        }
         
-        // once you override this, put in some documentation
-			CatanEdge.prototype.isOccupied = function()
-			{
-			return false; //default implementation. Change this!
+       /*
+       Returns true if there is an ownerID associated, or false if the ownerID is -1
+       */
+			CatanEdge.prototype.isOccupied = function(){
+				if(ownerID==-1){
+					return false;					
+				}
+				else{	
+					return true;
+				}
 			}
 
         return CatanEdge;
@@ -114,17 +159,25 @@ catan.models.Map = (function mapNameSpace(){
     
 			core.forceClassInherit(CatanVertex, hexgrid.BaseContainer);
         
-        	function CatanVertex(){       	
+        	function CatanVertex(){
+        		this.ownerID = -1;
+        	   this.worth = 0;  
         	}
         
          CatanVertex.prototype.setLocation = function (location, index) {
+         	this.location.ownerID=index;
+         	this.worth = this.worth+1;
          	
          }       
        	// once you override this, put in some documentation
         
-        	CatanVertex.prototype.isOccupied = function()
-			{
-				return false; //default implementation. Change this!
+        	CatanVertex.prototype.isOccupied = function(){
+				if(ownerID==-1){
+					return false;					
+				}
+				else{	
+					return true;
+				}
 			}
 
          return CatanVertex;

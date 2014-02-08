@@ -24,7 +24,7 @@ catan.models.bank = (function bankNameSpace(){
 		function Bank(){
 			this.resourceList = new catan.models.bank.ResourceList("bank");
 			this.devCardList = new catan.models.bank.DevCardList("bank");
-		}
+		};
 		
 	}());
 	var ResourceList = (function resourceListClass(){
@@ -84,10 +84,7 @@ catan.models.bank = (function bankNameSpace(){
 						this.wood=0;
 						break;
 			}
-		}
-		
-		
-		
+		};
 		return ResourceList;
 	}());
 	var DevCardList = (function DevCardListClass(){
@@ -132,7 +129,7 @@ catan.models.bank = (function bankNameSpace(){
 		* @type {int}
 		*/
 		
-		function DevCardListClass(type)
+		function DevCardList(type)
 		{
 			switch(type)
 			{
@@ -152,8 +149,6 @@ catan.models.bank = (function bankNameSpace(){
 					this.yearOfPlentyCard = 0;//2
 					break;
 			}
-			//this.devCard.monopolyCard = 2;
-
 		}
 		
 		return DevCardList;
@@ -165,7 +160,7 @@ catan.models.bank = (function bankNameSpace(){
 			this.monument = new Monument(model);
 			this.road = new RoadBuilding(model);
 			this.soldier = new Soldier(model);
-			this.year = new Year(model);
+			this.year = new YearOfPlenty(model);
 		};
 		DevCard.prototype.useCard = function(type, parameter){
 			switch(type){
@@ -296,9 +291,9 @@ catan.models.bank = (function bankNameSpace(){
 		return Soldier;
 	}());
 	return {
+		Bank:Bank,
 		ResourceList:ResourceList,
 		DevCardList:DevCardList,
-		PlayerDevCardList:PlayerDevCardList,
 		DevCard:DevCard,
 		Monopoly:Monopoly,
 		Soldier:Soldier,
