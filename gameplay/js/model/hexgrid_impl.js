@@ -376,8 +376,25 @@ catan.models.Map = (function mapNameSpace(){
 		};
 		
 		Map.prototype.getRobberVictims = function(){
-			
+			var robberAdjacent = this.hexGrid.getHex(this.robber).getVertexes();
+			var victimList = new Array();
+			for(var i = 0; i < robberAdjacent.length; i++){
+				if(robberAdjacent[i] != -1 && !checkIfAlreadyVictim(victimList, i)){
+					victimList.push(i);
+				}
+			}
+			return victimList;
 		};
+		
+		Map.prototype.checkIfAlreadyVictim = function(victimList, playerIndex){
+			for(var n = 0; n < victimList.length; n++){
+				if(victimList[n] == playerIndex){
+					return true;
+				}
+			}
+			return false;
+		};
+		
 		return Map;
 		
     }());
