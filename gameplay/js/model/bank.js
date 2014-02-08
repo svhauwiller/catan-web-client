@@ -248,6 +248,7 @@ catan.models.bank = (function bankNameSpace(){
 			
 			resources1 = parameter.resource1;
 			resources2 = parameter.resource2;
+			console.log(this.model);
 			this.model.players[playerIndex].updateResource("brick",1);
 			this.model.bank.resourceList[resource1]--;
 
