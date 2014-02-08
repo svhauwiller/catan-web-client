@@ -21,8 +21,28 @@ catan.models.Player = (function playerNameSpace(){
 		*/
 		
 		/**
-		* The number of cities and settlements owned by the player
+		* The number of victory points needed to win
+		* @property MAX_GAME_POINTS
+		* @type {integer}
+		*/
+		/**
+		* The number of cities not built by the player
 		* @property cities
+		* @type {integer}
+		*/
+		/**
+		* The number of settlements not built by the player
+		* @property settlements
+		* @type {integer}
+		*/
+		/**
+		* The number of roads not built by the player
+		* @property roads
+		* @type {integer}
+		*/
+		/**
+		* The number of soldier/knight cards played by the player
+		* @property soldiers
 		* @type {integer}
 		*/
 		/**
@@ -92,21 +112,48 @@ catan.models.Player = (function playerNameSpace(){
 		*/
 		function Player()
 		{
-			this.cities = new Array();
+			this.MAX_GAME_POINTS = 10;
+			this.cities = 4;
+			this.settlements = 3;// after initial placement
+			this.roads = 13;// after initial placement
+			this.soldiers = 0;
 			this.color = "";
 			this.discarded = false;
 			this.largestArmy = false;
 			this.longestRoad = false;
 			this.monuments = 0;
 			this.name = "";
-			this.newDevCards = new Array();
-			this.oldDevCards = new Array();
+			this.newDevCards = new catan.models.bank.DevCardList("player");
+			this.oldDevCards = new catan.models.bank.DevCardList("player");
 			this.orderNumber = 0;
 			this.playedDevCard = false;
 			this.playerID = 0;
 			this.resources = new catan.models.bank.ResourceList("player");
 			this.victoryPts = 0;
 		}
+	
+		Player.prototype.updateAll = function(playerModel){
+			this.MAX_GAME_POINTS = playerModel.MAX_GAME_POINTS;
+			this.cities = playerModel.cities;
+			this.settlements = playerModel.settlements;
+			this.roads = playerModel.roads;
+			this.soldiers = playerModel.soldier;
+			this.color = playerModel.color;
+			this.discarded = playerModel.discarded;
+			this.largestArmy = playerModel.largestArmy;
+			this.longestRoad = playerModel.longestRoad;
+			this.monuments = playerModel.monuments;
+			this.name = playerModel.name;
+			this.newDevCards = replaceDevCards(playerModel.newDevCards);
+			this.oldDevCards = replaceDevCards(playerModel.oldDevCards);
+			this.orderNumber = playerModel.orderNumber;
+			this.playedDevCard = playerModel.playedDevCard;
+			this.playerID = playerModel.playerID;
+			this.replaceAllResources(playerModel.resources);
+			this.victoryPts = playerModel.victoryPts;		
+		}
+
+		Player.setResourceCards
 
 		Player.prototype.updateVic = function (points){
 			this.victoryPts += points;
@@ -129,17 +176,45 @@ catan.models.Player = (function playerNameSpace(){
 				this.resource.wood += amount;
 			}
 		}
+	
+		Player.prototype.updateAllResources = function(resourceList) {
+			for (var key in resourceList) {
+				this.resources[key] += resourceList[key];
+			}
+		}
+	
+		Player.prototype.replaceAllResources = function(modelResourceList) {
+			for (var key in modelResourceList) {
+				this.resources[key] = modelResourceList[key];
+			}
+		}
+	
+		Player.prototype.replaceDevCards = function( modelDevCardList){
+	
+			var tempDevCards = new catan.models.bank.DevCardList("player");
+					
+			for (var key in modelDevCardList) {
+				tempDevCards.resources[key] = modelDevCardList[key];
+			}
+
+			return tempDevCards;
+				
+		}
 		
 		Player.prototype.canBuyRoad = function(){
 			
 			var hasBrick = false;
 			var hasWood = false;
+			var hasRoad = false;
 			
 			if (this.resources.brick > 0){
 				hasBrick = true;
 				}
 			if (this.resources.wood > 0){
 				hasWood = true;
+				}
+			if (this.roads > 0){
+				hasRoad = true;
 				}			
 			
 			return (hasWood && hasBrick);
@@ -152,6 +227,7 @@ catan.models.Player = (function playerNameSpace(){
 			var hasWood = false;
 			var hasWheat = false;
 			var hasSheep = false;
+			var hasSettlement = false;
 			
 			if (this.resources.brick > 0){
 				hasBrick = true;
@@ -164,7 +240,10 @@ catan.models.Player = (function playerNameSpace(){
 				}
 			if (this.resources.sheep > 0){
 				hasWood = true;
-				}			
+				}
+			if (this.settlements > 0){
+				hasSettlement = true;
+				}		
 			
 			return (hasWood && hasBrick && hasWheat && hasSheep);
 		}
@@ -174,14 +253,17 @@ catan.models.Player = (function playerNameSpace(){
 
 			var hasWheat = false;
 			var hasOre = false;
-			
+			var hasCity = false;
 
 			if (this.resources.wheat >= 2){
 				hasBrick = true;
 				}
 			if (this.resources.ore >= 3){
-				hasWood = true;
-				}			
+				hasOre = true;
+				}
+			if (this.cities > 0){
+				hasCity = true;
+				}
 			
 			return (hasWheat && hasOre);
 		}
@@ -201,7 +283,7 @@ catan.models.Player = (function playerNameSpace(){
 				}	
 			if (this.resources.sheep > 0){
 				hasWood = true;
-				}			
+				}		
 			
 			return (hasWheat && hasOre && hasSheep);
 		}
@@ -211,13 +293,64 @@ catan.models.Player = (function playerNameSpace(){
 			return this.resources;
 		}
 		
-		Player.prototype.canOfferTrade = function(){
-		}
-		
 		Player.prototype.needToDiscardCheck = function(){
+			
+			return (this.resources.wood + this.resources.wheat + this.resources.sheep + this.resources.brick + this.resources.ore) > 7;
 		}
 		
-		Player.prototype.canAcceptTrade = function(){
+		Player.prototype.hasResources = function(tradelist){
+			var hasBrick = false;
+			var hasWood = false;
+			var hasWheat = false;
+			var hasSheep = false;
+			var hasOre = false;
+			
+			if (this.resources.brick >= tradelist.resources.brick){
+				hasBrick = true;
+				}
+			if (this.resources.wood >= tradelist.resources.wood){
+				hasWood = true;
+				}
+			if (this.resources.wheat >= tradelist.resources.wheat){
+				hasBrick = true;
+				}
+			if (this.resources.sheep >= tradelist.resources.sheep){
+				hasWood = true;
+				}	
+			if (this.resources.Ore >= tradelist.resources.ore){
+				hasOre = true;
+				}		
+			
+			return (hasWood && hasBrick && hasWheat && hasSheep && hasOre); 				
+		}
+	
+		Player.prototype.buy = function(type)
+		{
+			switch(type)
+			{
+				case "settlement":
+					this.resources.wheat -= 1;
+					this.resources.wood -= 1;
+					this.resources.brick -= 1;
+					this.resources.sheep -= 1;
+					break;
+				
+				case "city":
+					this.resources.wheat -= 2;
+					this.resources.ore -= 3;
+					break;
+					
+				case "road":
+					this.resources.wood -= 1;
+					this.resources.brick -= 1;
+					break;
+					
+				case "devCard":
+					this.resources.sheep -= 1;
+					this.resources.ore -= 1;
+					this.resources.wheat -= 1;
+					break;						
+			}
 		}
 		
 		return Player;
