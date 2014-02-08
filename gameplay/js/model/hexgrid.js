@@ -34,9 +34,9 @@ catan.models.hexgrid = (function HexGrid_Namespace(){ //namspace dec
         core.defineProperty(BasicHex.prototype, "vertexes");
         core.defineProperty(BasicHex.prototype, "edges");
         
-        function BasicHex(baseLocation,EdgeClass, VertexClass){
-            function makeEdge(){return EdgeClass ? new EdgeClass() : undefined}
-            function makeVertex(){return VertexClass ? new VertexClass() : undefined}
+        function BasicHex(baseLocation,EdgeClass, VertexClass){ //EdgeClass and VertexClass are like bools?
+            function makeEdge(){return EdgeClass ? new EdgeClass() : undefined} // if EdgeClass==true, make a new EdgeClass object, else return undefined
+            function makeVertex(){return VertexClass ? new VertexClass() : undefined} // if VertexClass==true, make a new VertexClass object, else return undefined
             this.setEdges([makeEdge(),makeEdge(),makeEdge(),makeEdge(),makeEdge(),makeEdge()]);
             this.setVertexes([makeVertex(),makeVertex(),makeVertex(),makeVertex(),makeVertex(),makeVertex()]);
             this.setLocation(baseLocation);			 
