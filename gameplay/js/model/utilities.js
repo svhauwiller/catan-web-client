@@ -3,7 +3,7 @@ catan.models = catan.models || {};
 
 catan.models.utilities = function utilitiesNamespace(){ //namespace dec
 
-	var messageLine = (function messageLineClass(){
+	var MessageLine = (function MessageLineClass(){
 		
 		/**
 		* resourceList class
@@ -27,31 +27,36 @@ catan.models.utilities = function utilitiesNamespace(){ //namespace dec
 		*/
 
 
-		function messageLine(){
+		function MessageLine(){
 			this.message = "";
 			this.source = "";
 		}
+	
+		function loadedMessageLine(theMessage,theSource){
+			this.source = theSource;
+			this.message = theMessage;
+		}
 		
-		messageLine.prototype.setMessage = function(theMessage){
+		MessageLine.prototype.setMessage = function(theMessage){
 			this.message = theMessage;		
 		}
 	
-		messageLine.prototype.getMessage = function(){
+		MessageLine.prototype.getMessage = function(){
 			return this.message;		
 		}
 			
-		messageLine.prototype.setSource = function(theSource){
+		MessageLine.prototype.setSource = function(theSource){
 			this.source = theSource;		
 		}
 	
-		messageLine.prototype.getSource = function(){
+		MessageLine.prototype.getSource = function(){
 			return this.source;		
 		}
 		
-		return messageLine;
+		return MessageLine;
 	}());
 	
-	var messageList = (function messageListClass(){
+	var MessageList = (function messageListClass(){
 		
 		/**
 		* messageList class
@@ -70,31 +75,45 @@ catan.models.utilities = function utilitiesNamespace(){ //namespace dec
 		*/
 
 
-		function messageList()
+		function MessageList()
 		{
-				this.lines = new Array();
+			this.lines = new Array();
 		}
 		
-		messageList.prototype.setLines = function(theLines){
+		MessageList.prototype.setLines = function(theLines){
 			this.lines = theLines;
 		}
 		
-		messageList.prototype.getLines = function(){
+		MessageList.prototype.getLines = function(){
 			return this.lines;		
 		}
 	
-		messageList.prototype.addLine = function(chatLine){
+		MessageList.prototype.addLine = function(chatLine){
 			this.lines.push(chatLine);		
 		}
 	
-		messageList.prototype.getLastLine = function(){
+		MessageList.prototype.removeLastLine = function(){
 			this.lines.pop();		
 		}
-		
-		return messageList;
+	
+		MessageList.prototype.clear = function(){
+			this.lines = new Array();		
+		}
+	
+		MessageList.prototype.update = function(arrayOfUpdates){
+			this.clear();
+			for(var i = 0; i < arrayOfUpdates.length; ++i){
+				var tempMessage = new MessageLine();
+				tempMessage.setSource(arrayOfUpdates[i].message);
+				tempMessage.setMessage(arrayOfUpdates[i].source);
+				this.addLine(tempMessage);
+			}
+		}
+	
+		return MessageList;
 	}());
 	
-	var tradeOffer = (function tradeOfferClass(){
+	var TradeOffer = (function tradeOfferClass(){
 		
 		/**
 		* tradeOffer class
@@ -123,40 +142,41 @@ catan.models.utilities = function utilitiesNamespace(){ //namespace dec
 		*/
 
 
-		function tradeOffer(){
+		function TradeOffer(){
 			this.sender=null;
 			this.receiver=null;
-			this.offer = new ResourceList();
+			var temp = catan.models.bank();
+			this.offer = new temp.ResourceList();
 		}
 	
 	
-		tradeOffer.prototype.setSender = function(theSender){
+		TradeOffer.prototype.setSender = function(theSender){
 			this.sender = theSender;
 		}
 		
-		tradeOffer.prototype.getSender = function(){
+		TradeOffer.prototype.getSender = function(){
 			return this.sender;		
 		}
-		tradeOffer.prototype.setReceiver = function(theReceiver){
+		TradeOffer.prototype.setReceiver = function(theReceiver){
 			this.receiver = theReceiver;
 		}
 		
-		tradeOffer.prototype.getReceiver = function(){
+		TradeOffer.prototype.getReceiver = function(){
 			return this.receiver;		
 		}
-		tradeOffer.prototype.setOffer = function(theOffer){
+		TradeOffer.prototype.setOffer = function(theOffer){
 			this.offer = newOffer;
 		}
 		
-		tradeOffer.prototype.getOffer = function(){
+		TradeOffer.prototype.getOffer = function(){
 			return this.offer;		
 		}
 		
 		
-		return tradeOffer;
+		return TradeOffer;
 	}());
 	
-		var turnTracker = (function turnTrackerClass(){
+		var TurnTracker = (function TurnTrackerClass(){
 		
 		/**
 		* turnTracker class
@@ -180,35 +200,39 @@ catan.models.utilities = function utilitiesNamespace(){ //namespace dec
 		*/
 
 
-		function turnTracker()
+		function TurnTracker()
 		{
 			this.currentTurn=null;
 			this.theStatus=null;
 		}
 		
-		turnTracker.prototype.setCurrentTurn = function(theCurrentTurn){
+		TurnTracker.prototype.setCurrentTurn = function(theCurrentTurn){
 			this.currentTurn = theCurrentTurn;		
 		}
 	
-		turnTracker.prototype.getCurrentTurn = function(){
+		TurnTracker.prototype.getCurrentTurn = function(){
 			return this.currentTurn;		
 		}
 	
-		turnTracker.prototype.setStatus = function(statusUpdate){
+		TurnTracker.prototype.setStatus = function(statusUpdate){
 			this.theStatus = statusUpdate;
 		}
 	
-		turnTracker.prototype.getStatus = function(){
+		TurnTracker.prototype.getStatus = function(){
 			return this.theStatus;		
 		}
+		TurnTracker.prototype.update = function(turnTrackerUpdate){
+			//currentTurn and status
+			this.currentTurn = turnTrackerUpdate.currentTurn;
+			this.theStatus = turnTrackerUpdate.theStatus;		
+		}
 		
-		
-		return turnTracker;
+		return TurnTracker;
 	}());
 
 	return {//to finish a namespace return all of the class objects created in the namespace
-		messageLine:messageLine,
-		messageList:messageList,
-		tradeOffer:tradeOffer,
-		turnTracker:turnTracker}
+		MessageLine:MessageLine,
+		MessageList:MessageList,
+		TradeOffer:TradeOffer,
+		TurnTracker:TurnTracker}
 };
