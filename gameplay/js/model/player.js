@@ -161,19 +161,22 @@ catan.models.Player = (function playerNameSpace(){
 
 		Player.prototype.updateResource = function(type, amount){
 			if(type === "brick"){
+				console.log("brick should work");
 				this.resources.brick += amount;
+				console.log("count " + this.resources.brick);
 			}
 			else if(type === "wheat"){
-				this.resource.wheat += amount;
+				this.resources.wheat += amount;
 			}
 			else if(type === "sheep"){
-				this.resource.sheep += amount;
+				this.resources.sheep += amount;
 			}
 			else if(type === "ore"){
-				this.resource.ore += amount;
+				console.log("type is " + type);
+				this.resources.ore += amount;
 			}
 			else if(type === "wood"){
-				this.resource.wood += amount;
+				this.resources.wood += amount;
 			}
 		}
 	

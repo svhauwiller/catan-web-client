@@ -244,13 +244,14 @@ catan.models.bank = (function bankNameSpace(){
 			var playerIndex = parameter.playerIndex;
 			var resources = new Array();
 			
-			resources1 = parameter.resource1;
-			resources2 = parameter.resource2;
-			console.log(this.model);
-			this.model.players[playerIndex].updateResource("brick",1);
+			var resource1 = parameter.resource1;
+			var resource2 = parameter.resource2;
+			this.model.players[playerIndex].updateResource(resource1,1);
+			console.log(this.model.bank.resourceList[resource1]);
 			this.model.bank.resourceList[resource1]--;
+			console.log(this.model.bank.resourceList[resource1]);
 
-			this.model.players[playerIndex].updateResource([resources2],1);
+			this.model.players[playerIndex].updateResource(resource2,1);
 			this.model.bank.resourceList[resource2]--;
 
 			/*
