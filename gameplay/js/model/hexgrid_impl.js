@@ -71,27 +71,208 @@ catan.models.Map = (function mapNameSpace(){
 			var rewards = {0: new catan.models.bank.ResourceList()};
 		};
 	
-		Map.prototype.canPlaceRoad = function(playerID, hex, position){
+		Map.prototype.canPlaceRoad = function(playerID, hex, theDirection){
+			var tempHex = new Object();
+			var plusOne = this.hexGrid.getHex(hex).getEdge(theDirection) + 1;
+			var minusOne = this.hexGrid.getHex(hex).getEdge(theDirection) - 1;
+			if(plusOne == 6){
+				plusOne = 0;			
+			}
+			if(minusOne == -1){
+				minusOne = 5;		
+			}
+
+			if(this.hexGrid.getHex(hex).getEdge(plusOne).getOwner()==playerID||
+				this.hexGrid.getHex(hex).getEdge(minusOne).getOwner()==playerID)
+				{return true;}
+
+			else if(thePosition==0)
+			{
+				tempHex = hex.getNeighborLocation(HexDirection.NW);
+				if(!hex.equals(tempHex) && tempHex != null)
+				{
+					if(tempHex.getEdge(EdgeDirection.S).getOwner()==playerID||
+						tempHex.getEdge(EdgeDirection.NE).getOwner()==playerID)
+						{
+							return true;						
+						}					
+				}	
+			}
+			else if(thePosition==1)
+			{
+				tempHex = hex.getNeighborLocation(HexDirection.N);
+				if(!hex.equals(tempHex) && tempHex != null)
+				{
+						if(tempHex.getEdge(EdgeDirection.SE).getOwner()==playerID||
+						tempHex.getEdge(EdgeDirection.SW).getOwner()==playerID)
+						{
+							return true;						
+						}	
+				}					
+			}
+			else if(thePosition==2)
+			{
+				tempHex = hex.getNeighborLocation(HexDirection.NE);
+				if(!hex.equals(tempHex) && tempHex != null)
+				{
+					if(tempHex.getEdge(EdgeDirection.NW).getOwner()==playerID||
+						tempHex.getEdge(EdgeDirection.S).getOwner()==playerID)
+						{
+							return true;						
+						}						
+				}	
+			}
+			else if(thePosition==3)
+			{
+				tempHex = hex.getNeighborLocation(HexDirection.SE);
+				if(!hex.equals(tempHex) && tempHex != null)
+				{
+					if(tempHex.getEdge(EdgeDirection.N).getOwner()==playerID||
+						tempHex.getEdge(EdgeDirection.SW).getOwner()==playerID)
+						{
+							return true;						
+						}						
+				}	
+			}
+			else if(thePosition==4)
+			{
+				tempHex = hex.getNeighborLocation(HexDirection.S);
+				if(!hex.equals(tempHex) && tempHex != null)
+				{
+					if(tempHex.getEdge(EdgeDirection.NW).getOwner()==playerID||
+						tempHex.getEdge(EdgeDirection.NE).getOwner()==playerID)
+						{
+							return true;						
+						}						
+				}	
+			}		
+			else if(thePosition==5)
+			{
+				tempHex = hex.getNeighborLocation(HexDirection.SW);
+				if(!hex.equals(tempHex) && tempHex != null)
+				{
+					if(tempHex.getEdge(EdgeDirection.N).getOwner()==playerID||
+						tempHex.getEdge(EdgeDirection.SE).getOwner()==playerID)
+						{
+							return true;						
+						}						
+				}	
+			}	
+			return false;						
+		};
+		
+		Map.prototype.canPlaceSettlement = function(playerID, hex, theDirection){
+			var tempHex = new Object();
+			toReturnEdge = false;
+			toReturnVert = false;
+			var vertPlusOne = this.hexGrid.(hex).getVertex(theDirection) + 1;
+			var vertMinusOne = this.hexGrid.getHex(hex).getVertex(theDirection) - 1;
+			var edgePlusOne = this.hexGrid.getHex(hex).getEdge(theDirection) + 1;
+			var edgeMinusOne = this.hexGrid.getHex(hex).getEdge(theDirection) - 1;
+			
+			if(vertPlusOne == 6){
+				vertPlusOne = 0;			
+			}
+			if(vertMinusOne == -1){
+				vertMinusOne = 5;		
+			}
+			if(edgePlusOne == 6){
+				edgePlusOne = 0;			
+			}
+			if(edgeMinusOne == -1){
+				edgeMinusOne = 5;		
+			}
+
+			if(this.hexGrid.getHex(hex).getEdge(edgePlusOne).getOwner()==playerID||
+				this.hexGrid.getHex(hex).getEdge(edgeMinusOne).getOwner()==playerID)
+				{toReturnEdge = true;}
+
+			if(this.hexGrid.getHex(hex).getVertex(vertPlusOne).getOwner()==playerID||
+				this.hexGrid.getHex(hex).getVertex(vertMinusOne).getOwner()==playerID)
+				{toReturnVert = true;}
+
+			else if(thePosition==0)
+			{
+				tempHex = hex.getNeighborLocation(HexDirection.NW);
+				if(!hex.equals(tempHex) && tempHex != null)
+				{
+					if(tempHex.getVertex(VertexDirection.S).getOwner()==playerID)
+						{
+							return true;						
+						}					
+				}	
+			}
+			else if(thePosition==1)
+			{
+				tempHex = hex.getNeighborLocation(HexDirection.NW);
+				if(!hex.equals(tempHex) && tempHex != null)
+				{
+						if(tempHex.getEdge(EdgeDirection.SE).getOwner()==playerID)
+						{
+							return true;						
+						}	
+				}					
+			}
+			else if(thePosition==2)
+			{
+				tempHex = hex.getNeighborLocation(HexDirection.NE);
+				if(!hex.equals(tempHex) && tempHex != null)
+				{
+					if(tempHex.getEdge(EdgeDirection.NW).getOwner()==playerID)
+						{
+							return true;						
+						}						
+				}	
+			}
+			else if(thePosition==3)
+			{
+				tempHex = hex.getNeighborLocation(HexDirection.E);
+				if(!hex.equals(tempHex) && tempHex != null)
+				{
+					if(tempHex.getEdge(EdgeDirection.N).getOwner()==playerID)
+						{
+							return true;						
+						}						
+				}	
+			}
+			else if(thePosition==4)
+			{
+				tempHex = hex.getNeighborLocation(HexDirection.SE);
+				if(!hex.equals(tempHex) && tempHex != null)
+				{
+					if(tempHex.getEdge(EdgeDirection.NW).getOwner()==playerID)
+						{
+							return true;						
+						}						
+				}	
+			}		
+			else if(thePosition==5)
+			{
+				tempHex = hex.getNeighborLocation(HexDirection.SW);
+				if(!hex.equals(tempHex) && tempHex != null)
+				{
+					if(tempHex.getEdge(EdgeDirection.N).getOwner()==playerID)
+						{
+							return true;						
+						}						
+				}	
+			}	
+			return false;	
+		};
+		
+		Map.prototype.canPlaceCity = function(playerID, hex, theDirection){
 			
 		};
 		
-		Map.prototype.canPlaceSettlement = function(playerID, hex, position){
+		Map.prototype.buildRoad = function(playerID, hex, theDirection){
 			
 		};
 		
-		Map.prototype.canPlaceCity = function(playerID, hex, position){
+		Map.prototype.buildSettlement = function(playerID, hex, theDirection){
 			
 		};
 		
-		Map.prototype.buildRoad = function(playerID, hex, position){
-			
-		};
-		
-		Map.prototype.buildSettlement = function(playerID, hex, position){
-			
-		};
-		
-		Map.prototype.buildCity = function(playerID, hex, position){
+		Map.prototype.buildCity = function(playerID, hex, theDirection){
 			
 		};
 		
@@ -139,6 +320,13 @@ catan.models.Map = (function mapNameSpace(){
 				}
 			}
 
+			CatanEdge.prototype.getOwner = function(){
+				return this.ownerID;			
+			}
+		
+			CatanEdge.prototype.setOwner = function(newOwner){
+				this.owner = newOwner;			
+			}
         return CatanEdge;
     }());
     
@@ -164,8 +352,8 @@ catan.models.Map = (function mapNameSpace(){
         	   this.worth = 0;  
         	}
         
-         CatanVertex.prototype.setLocation = function (location, index) {
-         	this.location.ownerID=index;
+         CatanVertex.prototype.setLocation = function (theLocation, index) {
+         	this.theLocation.ownerID=index;
          	this.worth = this.worth+1;
          	
          }       
@@ -178,6 +366,14 @@ catan.models.Map = (function mapNameSpace(){
 				else{	
 					return true;
 				}
+			}
+		
+			CatanVertex.prototype.getOwner = function(){
+				return this.ownerID;			
+			}
+		
+			CatanVertex.prototype.setOwner = function(newOwner){
+				this.owner = newOwner;			
 			}
 
          return CatanVertex;
@@ -203,8 +399,8 @@ catan.models.Map = (function mapNameSpace(){
     
         core.forceClassInherit(CatanHex, hexgrid.BasicHex);
         
-        function CatanHex(location){          
-            hexgrid.BasicHex.call(this,location,CatanEdge,CatanVertex);
+        function CatanHex(theLocation){          
+            hexgrid.BasicHex.call(this,theLocation,CatanEdge,CatanVertex);
         } 
         
         return CatanHex;
