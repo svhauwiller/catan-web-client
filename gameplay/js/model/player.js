@@ -160,7 +160,7 @@ catan.models.Player = (function playerNameSpace(){
 		}
 
 		Player.prototype.updateResource = function(type, amount){
-			if(type === "brick"){=
+			if(type === "brick"){
 				this.resources.brick += amount;
 			}
 			else if(type === "wheat"){
