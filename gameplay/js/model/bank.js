@@ -25,8 +25,6 @@ catan.models.bank = (function bankNameSpace(){
 			this.resourceList = new catan.models.bank.ResourceList("bank");
 			this.devCardList = new catan.models.bank.DevCardList("bank");
 		};
-
-		return Bank;
 		
 		Bank.prototype.updateCopy= function(list, list2){
 			this.resourceList = list;
