@@ -1,7 +1,7 @@
 var catan = catan || {};
 catan.models = catan.models || {};
 
-catan.models.utilities = function utilitiesNamespace(){ //namespace dec
+catan.models.utilities = (function utilitiesNamespace(){ //namespace dec
 
 	var MessageLine = (function MessageLineClass(){
 		
@@ -235,4 +235,4 @@ catan.models.utilities = function utilitiesNamespace(){ //namespace dec
 		MessageList:MessageList,
 		TradeOffer:TradeOffer,
 		TurnTracker:TurnTracker}
-};
+}());

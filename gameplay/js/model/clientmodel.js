@@ -88,21 +88,21 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		*/
 		function ClientModel(playerID){
 			console.log(playerID);
-			var models = catan.models;
-			this.bank = new models.bank.Bank();
+			console.log(catan.models);
+			this.bank = new catan.models.bank.Bank();
 			this.biggestArmy=null;
 			this.biggestArmySize=0;
-			this.chat = new models.utilities.MessageList();
-			this.devCard = new models.bank.DevCard(this);
-			this.log = new models.utilities.MessageList();
+			this.chat = new catan.models.utilities.MessageList();
+			this.devCard = new catan.models.bank.DevCard(this);
+			this.log = new catan.models.utilities.MessageList();
 			this.longestRoad = null;
 			this.longestRoadSize = 0;
-			this.map = new models.Map.Map();
+			//this.map = new catan.models.Map();
 			this.playerID = playerID;
-			this.players = {playerID: new models.Player()};
+			this.players = {playerID: new catan.models.Player()};
 			this.proxy = new catan.proxy.Proxy("", playerID);
-			this.tradeOffer = new models.utilities.TradeOffer();
-			this.turnTracker = new models.utilities.TurnTracker();
+			this.tradeOffer = new catan.models.utilities.TradeOffer();
+			this.turnTracker = new catan.models.utilities.TurnTracker();
 			this.winner = null;
 		}      
         
@@ -119,7 +119,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 
 			var response = this.proxy.getModelFromServer(),
 				initModel = JSON.parse(response.responseText);
-			// this.initOtherPlayers(initModel.players);
+			this.initOtherPlayers(initModel.players);
 			this.updateModel(initModel);
 			success();
 
@@ -141,11 +141,13 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 
 			console.log(updatedModel);
 
-			// updatedModel.players.forEach(function(player){
-			// 	_this.players[player.id].update()
-			// });
+			updatedModel.players.forEach(function(player){
+				_this.players[player.id].update()
+			});
 
-			// this.bank.update(updatedModel.bank, updatedModel.deck);
+			console.log(_this);
+
+			// this.bank.updateCopy(updatedModel.bank, updatedModel.deck);
 
 			// this.map.update(updatedModel.map);
 
@@ -157,6 +159,12 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 			// this.biggestArmy = updatedModel.biggestArmy;
 			// this.longestRoad = updatedModel.longestRoad;
 			// this.winner = updatedModel.winner;
+		}
+
+		ClientModel.prototype.runCommand = function(cmd, args){
+			var cmdObj = new cmd(this.playerID);
+			var response = cmdObj.sendToProxy(args);
+			console.log("response", response);
 		}
 
 		/**
@@ -173,11 +181,9 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		ClientModel.prototype.acceptTrade = function(offerList, requestList) {
 			var changedResources = offerList;
 
-			changedResources.brick -= requestList.brick;
-			changedResources.ore -= requestList.ore;
-			changedResources.sheep -= requestList.sheep;
-			changedResources.wheat -= requestList.wheat;
-			changedResources.wood -= requestList.wood;
+			for(var type in requestList){
+				changedResources[type] -= requestList[type];
+			}
 			
 			this.players[playerID].updateAllResouces(changedResources);
 
@@ -196,6 +202,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @params {ResourceList} listToDiscard list of resource cards that are to be discarded
 		*/	
 		ClientModel.prototype.discardCards = function(listToDiscard) {
+
 			//1 Decrement the selected cards from player's hand
 			//2 Add selected cards to bank
 		}
@@ -212,7 +219,12 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {String} chatLine line of chat to send
 		*/
 		ClientModel.prototype.chat = function(chatLine) {
-			//1 Send line of chat to the server
+			//SEND CHAT
+			var args = new Array();
+			args.push(chatLine);
+			this.runCommand(catan.proxy.proxyCommands.sendChat, args);
+
+			this.chat.addLine(chatLine);
 		}
 		
 		/**
@@ -228,22 +240,26 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		ClientModel.prototype.rollDice = function() {
 			var dieResult1 = Math.floor(Math.random() * (6 - 1 + 1) + 1),
 				dieResult2 = Math.floor(Math.random() * (6 - 1 + 1) + 1),
-				dieResult = dieResult1 + dieResult2;
+				dieResult = dieResult1 + dieResult2,
+				args;
+
+			//ROLL DICE
+			args = new Array();
+			args.push(dieResult);
+			this.runCommand(catan.proxy.proxyCommands.RollNumberCommand, args);
 
 			if(dieResult === 7){
+				//DISCARD
 
+
+				//ROB
 			} else {
-				var award = this.map.getResourcesFromRoll(diceNum);
-				this.
+				var awards = this.map.getResourcesFromRoll(diceNum);
+				for(var playerID in awards){
+					this.players[playerID].updateAllResouces(awards[playerID]);
+				}
 			}
-			//1 Randomly select roll 2 dice
-			//2 Is Seven
-				//2a Force Discard
-				//2b Move robber
-				//2c Steal Resources
-			//3 Is not Seven
-				//var award = this.map.getResourcesFromRoll(diceNum);
-				//3c Award resources to players
+
 		}
 
 		/**
@@ -259,11 +275,10 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {string} edgeDirection the direction the edge is at from the hex
 		*/
 		ClientModel.prototype.buildRoad = function(playerID, hex, edgeDirection) {
-			//if(this.canBuyRoad() && this.canBuildRoad(hex, edgeDirection)){
-
-				//this.players[this.playerID].buy("road");
-				//4 Update the map to have the road on the edge
-			//}
+			if(this.canBuyRoad() && this.canBuildRoad(playerID, hex, edgeDirection)){
+				this.players[this.playerID].buy("road");
+				this.map.buildRoad(playerID, hex, edgeDirection);
+			}
 		}
 
 		/**
@@ -279,10 +294,10 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {string} vertDirection the direction the vertex is at from the hex
 		*/
 		ClientModel.prototype.buildSettlement = function(playerID, hex, vertDirection) {
-			//1 Confirm the that player has the right resources
-			//2 Confirm that the vertex is a valid building location
-			//3 Reduce the player's resources
-			//4 Update the map to have the road on the vertex
+			if(this.canBuySettlement() && this.canBuildSettlement(playerID, hex, edgeDirection)){
+				this.players[this.playerID].buy("settlement");
+				this.map.buildSettlement(playerID, hex, edgeDirection);
+			}
 		}
 
 		/**
@@ -298,10 +313,10 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {string} vertDirection the direction the vertex is at from the hex
 		*/
 		ClientModel.prototype.buildCity = function(playerID, hex, vertDirection) {
-			//1 Confirm the that player has the right resources
-			//2 Confirm that the vertex is a valid building location
-			//3 Reduce the player's resources
-			//4 Update the map to have the road on the vertex
+			if(this.canBuyCity() && this.canBuildCity(playerID, hex, edgeDirection)){
+				this.players[this.playerID].buy("city");
+				this.map.buildCity(playerID, hex, edgeDirection);
+			}
 		}
 
 		/**
@@ -314,9 +329,10 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @method buyDevCard
 		*/
 		ClientModel.prototype.buyDevCard = function() {
-			//1 Confirm the that player has the right resources
-			//2 Reduce the player's resources
-			//3 Update the player's hand with the new dev card
+			if(this.canBuyDevCard()){
+				this.players[this.playerID].buy("settlement");
+				this.map.buildSettlement(playerID, hex, edgeDirection);
+			}
 		}
 
 
@@ -339,11 +355,9 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 
 			var changedResources = requestList;
 
-			changedResources.brick -= offerList.brick;
-			changedResources.ore -= offerList.ore;
-			changedResources.sheep -= offerList.sheep;
-			changedResources.wheat -= offerList.wheat;
-			changedResources.wood -= offerList.wood;
+			for(var type in offerList){
+				changedResources[type] -= offerList[type];
+			}
 			
 			this.players[playerID].updateAllResouces(changedResources);
 
@@ -367,11 +381,9 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 
 			var changedResources = requestList;
 
-			changedResources.brick -= offerList.brick;
-			changedResources.ore -= offerList.ore;
-			changedResources.sheep -= offerList.sheep;
-			changedResources.wheat -= offerList.wheat;
-			changedResources.wood -= offerList.wood;
+			for(var type in offerList){
+				changedResources[type] -= offerList[type];
+			}
 			
 			this.players[playerID].updateAllResouces(changedResources);
 
@@ -408,54 +420,6 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		}
 
 		/**
-		* Steal resources with the robber
-		* <pre>
-		* pre-condition: The current Player has selected another Player to rob from. 
-		* pre-condition: The Player being robbed has a city or settlement adjacent to the Robber. 
-		* pre-condition: The Player being robbed at least one resource card in their hand.
-		* post-condition: Take the selected card from the selected Player’s hand and give it to the current Player’s hand.
-		* </pre>
-		* 
-		* @method steal
-		*/
-		ClientModel.prototype.steal = function() {
-			//this.map.getRobberVictims();
-			//1 Allow the player to select another player
-			//2 Allow the player to select resource to steal
-			//3 Reduce the resources in the stolen players's hand
-			//4 Increase the resources in the current player's hand
-		}
-
-		/**
-		* Listens for who has the largest army
-		* <pre>
-		* Pre-conditions: The Player has played the greatest number of knight/soldier developement cards so far (min 3)
-		* Post-conditions: The Player's Victory Points are increased by 2. The victory points of the last player with this award are reduced by 2.
-		* </pre>
-		*
-		* @method largestArmy
-		*/
-		ClientModel.prototype.largestArmy = function() {
-
-			//1 Reduce the victory points of the last owner
-			//2 Increase the victory points of the current player
-		}
-
-		/**
-		* Listens for who has the longest road
-		* <pre>
-		* pre-conditions: The Player has played the greatest number of roads so far in a row (min 5)
-		* post-conditions: The Player's Victory Points are increased by 2. The victory points of the last player with this award are reduced by 2.
-		* </pre>
-		*
-		* @method longestRoad
-		*/
-		ClientModel.prototype.longestRoad = function() {
-			//1 Reduce the victory points of the last owner
-			//2 Increase the victory points of the current player
-		}
-
-		/**
 		* Declare a winner and end the game
 		* <pre>
 		* pre-conditions: One of Players has reached 10 victory points
@@ -479,8 +443,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @method finishTurn
 		*/
 		ClientModel.prototype.finishTurn = function() {
-			 var serverCmd = new catan.proxy.proxyCommands.FinishTurnCommand(this.playerID);
-			 serverCmd.sendToProxy();
+			 this.runCommand(catan.proxy.proxyCommands.FinishTurnCommand, null);
 		}
 
 
@@ -493,7 +456,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.canBuildRoad = function() {
-			//return this.player[this.playerID].canBuildRoad();
+			return this.player[this.playerID].canBuildRoad();
 		}
 
 		/**
@@ -504,7 +467,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.canBuildSettlement = function() {
-			//return this.player[this.playerID].canBuildSettlement();
+			return this.player[this.playerID].canBuildSettlement();
 		}
 
 		/**
@@ -515,7 +478,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.canBuildCity = function() {
-			///return this.player[this.playerID].canBuildCity();
+			return this.player[this.playerID].canBuildCity();
 		}
 
 		/**
@@ -526,7 +489,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.canBuyDevCard = function() {
-			//return this.player[this.playerID].canBuyDevCard();
+			return this.player[this.playerID].canBuyDevCard();
 		}
 
 		/**
@@ -537,7 +500,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.currentPlayerResources = function() {
-			//return this.player[this.playerID].currentPlayerResources();
+			return this.player[this.playerID].currentPlayerResources();
 		}
 
 		/**
@@ -548,7 +511,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.canOfferTrade = function() {
-			//return this.player[this.playerID].canOfferTrade();
+			return this.player[this.playerID].canOfferTrade();
 		}
 
 		/**
@@ -559,7 +522,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.needToDiscardCheck = function() {
-			//return this.player[this.playerID].needToDiscardCheck();
+			return this.player[this.playerID].needToDiscardCheck();
 		}
 
 		/**
@@ -570,7 +533,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.canAcceptTrade = function() {
-			///return this.player[this.playerID].canAcceptTrade();
+			return this.player[this.playerID].canAcceptTrade();
 		}
 
 		/**
@@ -584,10 +547,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {string} edgeDirection the direction the edge is at from the hex
 		*/
 		ClientModel.prototype.canPlaceRoad = function(playerID, hex, edgeDirection) {
-			this.map.canPlaceRoad(playerID, hex, edgeDirection);
-			//1 Check if there is a road on the edge
-			//2 Check if there is a city or settlement owned by player on the two vertexes
-			//3 Check if there is a road on the four edges that connect
+			return this.map.canPlaceRoad(playerID, hex, edgeDirection);
 		}
 
 		/**
@@ -601,10 +561,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {string} vertDirection the direction the vertex is at from the hex
 		*/
 		ClientModel.prototype.canPlaceSettlement = function(playerID, hex, vertDirection) {
-			this.map.canPlaceSettlement(playerID, hex, vertDirection);
-			//1 Check if there is a settlement or city on the vertex
-			//2 Check if there is a road on the edges that connect
-			//3 Check if there is a settlement or city on the vertexes that are connected to the connected edges
+			return this.map.canPlaceSettlement(playerID, hex, vertDirection);
 		}
 
 		/**
@@ -618,8 +575,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {string} vertDirection the direction the vertex is at from the hex
 		*/
 		ClientModel.prototype.canPlaceCity = function(playerID, hex, vertDirection) {
-			this.map.canPlaceSettlement(playerID, hex, vertDirection);
-			//1 Check if there is a settlement on the vertex owned by the player
+			return this.map.canPlaceSettlement(playerID, hex, vertDirection);
 		}
         
 		return ClientModel;

@@ -25,6 +25,8 @@ catan.models.bank = (function bankNameSpace(){
 			this.resourceList = new catan.models.bank.ResourceList("bank");
 			this.devCardList = new catan.models.bank.DevCardList("bank");
 		};
+
+		return Bank;
 		
 	}());
 	var ResourceList = (function resourceListClass(){
@@ -65,7 +67,7 @@ catan.models.bank = (function bankNameSpace(){
 		* @type {ElemType int}
 		*/
 
-		function resourceList(type)
+		function ResourceList(type)
 		{
 			switch (type)
 			{
