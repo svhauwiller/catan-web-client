@@ -65,19 +65,22 @@ catan.models.Map = (function mapNameSpace(){
 			this.hexGrid = newMap.hexGrid;
 		};
 		
-		Map.prototype.getResourcesFromRoll(diceNum){
+		Map.prototype.getResourcesFromRoll = function(diceNum){
 			// find hexes that don't have robber
 			// find buildings
 			// identify players
 			// identify associated resources (1 for settlement, 2 for city)
 			// create a map data structure with player ids as keys and resourcelists of rewards as values
-			var rewards = {0: new catan.models.bank.ResourceList()};
+			// var rewards = {0: new catan.models.bank.ResourceList()};
+			var rewards = new catan.models.bank.ResourceList("player");
+			return rewards;
 		};
 	
 		Map.prototype.canPlaceRoad = function(playerID, hex, theDirection){
 			var tempHex = new Object();
 			var plusOne = this.hexGrid.getHex(hex).getEdge(theDirection) + 1;
 			var minusOne = this.hexGrid.getHex(hex).getEdge(theDirection) - 1;
+			
 			if(plusOne == 6){
 				plusOne = 0;			
 			}
@@ -208,7 +211,7 @@ catan.models.Map = (function mapNameSpace(){
 				tempHex = hex.getNeighborLocation(HexDirection.SW);
 				else if(!hex.equals(tempHex) && tempHex != null){
 					if(tempHex.getVertex(VertexDirection.NW).isOccupied()){
-							toReturnVert = false;						
+						toReturnVert = false;						
 					}	
 					if(hex.getEdge(EdgeDirection.N).getOwner()==playerID){
 						toReturnEdge = true;						
