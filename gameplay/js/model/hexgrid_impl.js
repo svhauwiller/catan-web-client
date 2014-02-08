@@ -54,7 +54,7 @@ catan.models.Map = (function mapNameSpace(){
 			this.ports = new Array();
 			this.radius = 4; // should default be zero???
 			this.robber = new hexgrid.HexLocation();
-			this.hexGrid = hexgrid.HexGrid.getRegular(radius, CatanHex);
+			this.hexGrid = hexgrid.HexGrid.getRegular(this.radius, catan.models.Map.CatanHex);
 		}
 		
 		Map.prototype.update = function(newMap){
@@ -347,6 +347,8 @@ catan.models.Map = (function mapNameSpace(){
 		};
 		
 		Map.prototype.canPlaceCity = function(playerID, hex, theDirection){
+			//if(this.hexGrid.getHex(hex).getVer
+			
 			if(this.hexGrid.getHex(hex).getEdge(edgePlusOne).getOwner()==playerID||
 				this.hexGrid.getHex(hex).getEdge(edgeMinusOne).getOwner()==playerID)
 				{toReturnEdge = true;}
