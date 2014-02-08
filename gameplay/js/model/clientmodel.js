@@ -141,17 +141,22 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 
 			console.log(updatedModel);
 
-			// this.biggestArmy = updatedModel.biggestArmy;
-			// this.longestRoad = updatedModel.longestRoad;
-			// this.winner = updatedModel.winner;
-
 			// updatedModel.players.forEach(function(player){
 			// 	_this.players[player.id].update()
 			// });
 
+			// this.bank.update(updatedModel.bank, updatedModel.deck);
+
 			// this.map.update(updatedModel.map);
 
+			// this.chat.update(updatedModel.chat.lines);
+			// this.log.update(updatedModel.log.lines);
 
+			// this.turnTracker.update(updateModel.turnTracker);
+
+			// this.biggestArmy = updatedModel.biggestArmy;
+			// this.longestRoad = updatedModel.longestRoad;
+			// this.winner = updatedModel.winner;
 		}
 
 		/**
@@ -166,8 +171,16 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {ResourceList} requestList list of resources being requested
 		*/
 		ClientModel.prototype.acceptTrade = function(offerList, requestList) {
-			//1. Remove the resources requested
-			//2. Add the resources offered
+			var changedResources = offerList;
+
+			changedResources.brick -= requestList.brick;
+			changedResources.ore -= requestList.ore;
+			changedResources.sheep -= requestList.sheep;
+			changedResources.wheat -= requestList.wheat;
+			changedResources.wood -= requestList.wood;
+			
+			this.players[playerID].updateAllResouces(changedResources);
+
 			//3. Ping the other player as accepted
 		}
 
@@ -213,6 +226,16 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @method rollDice
 		*/
 		ClientModel.prototype.rollDice = function() {
+			var dieResult1 = Math.floor(Math.random() * (6 - 1 + 1) + 1),
+				dieResult2 = Math.floor(Math.random() * (6 - 1 + 1) + 1),
+				dieResult = dieResult1 + dieResult2;
+
+			if(dieResult === 7){
+
+			} else {
+				var award = this.map.getResourcesFromRoll(diceNum);
+				this.
+			}
 			//1 Randomly select roll 2 dice
 			//2 Is Seven
 				//2a Force Discard
@@ -235,7 +258,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {Hex} hex Hex where the edgeis based from
 		* @param {string} edgeDirection the direction the edge is at from the hex
 		*/
-		ClientModel.prototype.buildRoad = function(hex, vertDirection) {
+		ClientModel.prototype.buildRoad = function(playerID, hex, edgeDirection) {
 			//if(this.canBuyRoad() && this.canBuildRoad(hex, edgeDirection)){
 
 				//this.players[this.playerID].buy("road");
@@ -255,7 +278,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {Hex} hex Hex where the vertex is based from
 		* @param {string} vertDirection the direction the vertex is at from the hex
 		*/
-		ClientModel.prototype.buildSettlement = function(hex, vertDirection) {
+		ClientModel.prototype.buildSettlement = function(playerID, hex, vertDirection) {
 			//1 Confirm the that player has the right resources
 			//2 Confirm that the vertex is a valid building location
 			//3 Reduce the player's resources
@@ -274,7 +297,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {Hex} hex Hex where the vertex is based from
 		* @param {string} vertDirection the direction the vertex is at from the hex
 		*/
-		ClientModel.prototype.buildCity = function(hex, vertDirection) {
+		ClientModel.prototype.buildCity = function(playerID, hex, vertDirection) {
 			//1 Confirm the that player has the right resources
 			//2 Confirm that the vertex is a valid building location
 			//3 Reduce the player's resources
@@ -313,6 +336,17 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 			//1 Confirm the that the player has the appropriate resources
 			//2 Query the other player with the trade offer
 			//3 Wait for response
+
+			var changedResources = requestList;
+
+			changedResources.brick -= offerList.brick;
+			changedResources.ore -= offerList.ore;
+			changedResources.sheep -= offerList.sheep;
+			changedResources.wheat -= offerList.wheat;
+			changedResources.wood -= offerList.wood;
+			
+			this.players[playerID].updateAllResouces(changedResources);
+
 			//4 Reduce the player's resources by the offer list 
 			//5 Increase the player's resources by the request list
 		}
@@ -330,6 +364,17 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		*/
 		ClientModel.prototype.tradeWithBank = function(offerList, requestList) {
 			//1 Confirm the that the player has the appropriate resources
+
+			var changedResources = requestList;
+
+			changedResources.brick -= offerList.brick;
+			changedResources.ore -= offerList.ore;
+			changedResources.sheep -= offerList.sheep;
+			changedResources.wheat -= offerList.wheat;
+			changedResources.wood -= offerList.wood;
+			
+			this.players[playerID].updateAllResouces(changedResources);
+
 			//2 Reduce the player's resources by the offer list 
 			//3 Increase the player's resources by the request list
 		}
@@ -345,8 +390,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {string} cardToPlay card that will be played from the player's hand
 		*/
 		ClientModel.prototype.useDevCard = function(cardToPlay) {
-			//1 Use the dev card specifed
-			//this.devCard.useCard(cardToPlay);
+			this.devCard.useCard(cardToPlay);
 		}
 
 		/**
@@ -360,8 +404,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {Hex} locationToMove location to move the robber to
 		*/
 		ClientModel.prototype.robberMove = function(locationToMove) {
-			//1 Remove the robber from the previous location
-			//2 move it to the new location
+			this.map.moveRobber(locationToMove);
 		}
 
 		/**
@@ -393,6 +436,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @method largestArmy
 		*/
 		ClientModel.prototype.largestArmy = function() {
+
 			//1 Reduce the victory points of the last owner
 			//2 Increase the victory points of the current player
 		}
@@ -435,7 +479,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @method finishTurn
 		*/
 		ClientModel.prototype.finishTurn = function() {
-			//1 Increment turn tracker
+			 var serverCmd = new catan.proxy.proxyCommands.FinishTurnCommand(this.playerID);
+			 serverCmd.sendToProxy();
 		}
 
 
@@ -538,8 +583,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {Hex} hex Hex where the edge is based from
 		* @param {string} edgeDirection the direction the edge is at from the hex
 		*/
-		ClientModel.prototype.canPlaceRoad = function(hex, edgeDirection) {
-			//this.map.canPlaceRoad(hex, edgeDirection);
+		ClientModel.prototype.canPlaceRoad = function(playerID, hex, edgeDirection) {
+			this.map.canPlaceRoad(playerID, hex, edgeDirection);
 			//1 Check if there is a road on the edge
 			//2 Check if there is a city or settlement owned by player on the two vertexes
 			//3 Check if there is a road on the four edges that connect
@@ -555,8 +600,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {Hex} hex Hex where the vertex is based from
 		* @param {string} vertDirection the direction the vertex is at from the hex
 		*/
-		ClientModel.prototype.canPlaceSettlement = function(hex, vertDirection) {
-			//this.map.canPlaceSettlement(hex, vertDirection);
+		ClientModel.prototype.canPlaceSettlement = function(playerID, hex, vertDirection) {
+			this.map.canPlaceSettlement(playerID, hex, vertDirection);
 			//1 Check if there is a settlement or city on the vertex
 			//2 Check if there is a road on the edges that connect
 			//3 Check if there is a settlement or city on the vertexes that are connected to the connected edges
@@ -572,8 +617,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {Hex} hex Hex where the vertex is based from
 		* @param {string} vertDirection the direction the vertex is at from the hex
 		*/
-		ClientModel.prototype.canPlaceCity = function(hex, vertDirection) {
-			//this.map.canPlaceSettlement(hex, vertDirection);
+		ClientModel.prototype.canPlaceCity = function(playerID, hex, vertDirection) {
+			this.map.canPlaceSettlement(playerID, hex, vertDirection);
 			//1 Check if there is a settlement on the vertex owned by the player
 		}
         
