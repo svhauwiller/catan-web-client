@@ -234,27 +234,28 @@ catan.models.Player = (function playerNameSpace(){
 				hasWood = true;
 				}
 			if (this.resources.wheat > 0){
-				hasBrick = true;
+				hasWheat = true;
 				}
 			if (this.resources.sheep > 0){
-				hasWood = true;
+				hasSheep = true;
 				}
 			if (this.settlements > 0){
 				hasSettlement = true;
 				}		
 			
-			return (hasWood && hasBrick && hasWheat && hasSheep);
+			return (hasWood && hasBrick && hasWheat && hasSheep && hasSettlement);
 		}
 		
 		Player.prototype.canBuyCity = function(){
 			
+			console.log("Hello Monkey");
 
 			var hasWheat = false;
 			var hasOre = false;
 			var hasCity = false;
 
 			if (this.resources.wheat >= 2){
-				hasBrick = true;
+				hasWheat = true;
 				}
 			if (this.resources.ore >= 3){
 				hasOre = true;
@@ -263,7 +264,7 @@ catan.models.Player = (function playerNameSpace(){
 				hasCity = true;
 				}
 			
-			return (hasWheat && hasOre);
+			return (hasWheat && hasOre && hasCity);
 		}
 		
 		Player.prototype.canBuyDevCard = function(){
@@ -274,13 +275,13 @@ catan.models.Player = (function playerNameSpace(){
 			
 
 			if (this.resources.wheat > 0){
-				hasBrick = true;
+				hasWheat = true;
 				}
 			if (this.resources.ore > 0){
-				hasWood = true;
+				hasOre= true;
 				}	
 			if (this.resources.sheep > 0){
-				hasWood = true;
+				hasSheep = true;
 				}		
 			
 			return (hasWheat && hasOre && hasSheep);
