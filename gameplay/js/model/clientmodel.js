@@ -180,15 +180,18 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {ResourceList} requestList list of resources being requested
 		*/
 		ClientModel.prototype.acceptTrade = function(offerList, requestList) {
+
 			var changedResources = offerList;
 
 			for(var type in requestList){
 				changedResources[type] -= requestList[type];
 			}
 			
-			this.players[playerID].updateAllResouces(changedResources);
+			this.players[this.playerID].updateAllResources(changedResources);
 
-			//3. Ping the other player as accepted
+			var args = new Array();
+			args.push(true);
+			this.runCommand(catan.proxy.proxyCommands.AcceptTradeCommand, args);
 		}
 
 		/**
@@ -219,11 +222,11 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @method chat
 		* @param {String} chatLine line of chat to send
 		*/
-		ClientModel.prototype.chat = function(chatLine) {
+		ClientModel.prototype.sendChat = function(chatLine) {
 			//SEND CHAT
 			var args = new Array();
 			args.push(chatLine);
-			this.runCommand(catan.proxy.proxyCommands.sendChat, args);
+			this.runCommand(catan.proxy.proxyCommands.SendChatCommand, args);
 
 			this.chat.addLine(chatLine);
 		}
@@ -360,7 +363,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 				changedResources[type] -= offerList[type];
 			}
 			
-			this.players[playerID].updateAllResouces(changedResources);
+			this.players[this.playerID].updateAllResources(changedResources);
 
 			//4 Reduce the player's resources by the offer list 
 			//5 Increase the player's resources by the request list
@@ -386,7 +389,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 				changedResources[type] -= offerList[type];
 			}
 			
-			this.players[playerID].updateAllResouces(changedResources);
+			this.players[this.playerID].updateAllResources(changedResources);
 
 			//2 Reduce the player's resources by the offer list 
 			//3 Increase the player's resources by the request list

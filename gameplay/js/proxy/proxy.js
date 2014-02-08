@@ -45,11 +45,12 @@ catan.proxy.Proxy = (function proxyNameSpace(){
 		}
 
 		Proxy.prototype.sendToServer = function(type, cmdURL, JSONObj){
+			console.log(JSONObj);
 			if(type == "POST"){
-				jQuery.post(cmdURL, jQuery(JSONObj).prop("value"), runCommand, "JSON").fail(this.failHandler);
+				jQuery.post(cmdURL, JSON.stringify(JSONObj), this.runCommand, "JSON").fail(this.failHandler);
 			}
 			else{ // assume its a get model
-				jQuery.get("/game/model", null, updateGameModel, "json").fail(this.failHandler);
+				jQuery.get("/game/model", null, this.updateGameModel, "json").fail(this.failHandler);
 			}
 		};
 		

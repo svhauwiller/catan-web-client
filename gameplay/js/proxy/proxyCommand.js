@@ -56,18 +56,19 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		function CommandTemplate(newType, newIndex){
 			this.type = newType;
 			this.playerIndex = newIndex;
-			this.JSONObject = new Object();
-			this.proxyInstance = new catan.proxy.proxy.Proxy;
+			this.proxyInstance = new catan.proxy.Proxy("", newIndex);
 		}
 
-		CommandTemplate.prototype.createArgs = function(){
-			this.JSONObject.type = newType;
-			this.JSONObject.playerIndex = newIndex;
-			return this.JSONObject;
+		CommandTemplate.prototype.createArgs = function(type, playerIndex){
+			var JSONObject = new Object();
+			JSONObject.type = type;
+			JSONObject.playerIndex = playerIndex;
+			return JSONObject;
 		};
 
-		CommandTemplate.prototype.sendToServer = function(method, JSONObj){
-			this.proxyInstance.sendToServer(method, this.type, JSONObj);
+		CommandTemplate.prototype.sendToServer = function(method, type, JSONObj){
+			var proxyInstance = new catan.proxy.Proxy("", -1);
+			proxyInstance.sendToServer(method, type, JSONObj);
 		};
 
 		return CommandTemplate;
@@ -128,7 +129,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		};
 
 		GetModelCommand.prototype.createArgs = function(){
-			var JSONObj = CommandTemplate.prototype.createArgs();
+			var JSONObj = CommandTemplate.prototype.createArgs(this.type, this.playerIndex);
 			return JSONObj;
 		};
 
@@ -191,7 +192,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		
 		core.forceClassInherit(SendChatCommand, CommandTemplate);
 		function SendChatCommand(newIndex){
-			CommandTemplate.call(this, "/moves/sendChat", newIndex);
+			CommandTemplate.call(this, "sendChat", newIndex);
 			this.content = "";
 		}
 
@@ -201,13 +202,13 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		};
 
 		SendChatCommand.prototype.createArgs = function(args){
-			var JSONObj = CommandTemplate.prototype.createArgs();
+			var JSONObj = CommandTemplate.prototype.createArgs(this.type, this.playerIndex);
 			JSONObj.content = args[0];
 			return JSONObj;
 		};
 
 		SendChatCommand.prototype.sendToServer = function(JSONObj){
-			CommandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+			CommandTemplate.prototype.sendToServer("POST", "/moves/sendChat", JSONObj);
 		};
 		
 		return SendChatCommand;
@@ -265,7 +266,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 
 		core.forceClassInherit(RollNumberCommand, CommandTemplate);
 		function RollNumberCommand(newIndex){
-			CommandTemplate.call(this, "/moves/rollNumber", newIndex);
+			CommandTemplate.call(this, "rollNumber", newIndex);
 			this.number = -1;
 		}
 
@@ -275,13 +276,13 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		};
 
 		RollNumberCommand.prototype.createArgs = function(args){
-			var JSONObj = CommandTemplate.prototype.createArgs();
+			var JSONObj = CommandTemplate.prototype.createArgs(this.type, this.playerIndex);
 			JSONObj.number = args[0];
 			return JSONObj;
 		};
 
 		RollNumberCommand.prototype.sendToServer = function(JSONObj){
-			CommandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+			CommandTemplate.prototype.sendToServer("POST", "/moves/rollNumber", JSONObj);
 		};
 		
 		return RollNumberCommand;
@@ -345,7 +346,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 
 		core.forceClassInherit(RobPlayerCommand, CommandTemplate);
 		function RobPlayerCommand(newIndex){
-			CommandTemplate.call(this, "/moves/robPlayer", newIndex);
+			CommandTemplate.call(this, "robPlayer", newIndex);
 			this.victimIndex = -1;
 			this.robberSpot = new catan.models.hexgrid.HexLocation();
 		}
@@ -356,14 +357,14 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		};
 
 		RobPlayerCommand.prototype.createArgs = function(args){
-			var JSONObj = CommandTemplate.prototype.createArgs();
+			var JSONObj = CommandTemplate.prototype.createArgs(this.type, this.playerIndex);
 			JSONObj.victimIndex = args[0];
 			JSONObj.robberSpot = args[1];
 			return JSONObj;
 		};
 
 		RobPlayerCommand.prototype.sendToServer = function(JSONObj){
-			CommandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+			CommandTemplate.prototype.sendToServer("POST", "/moves/robPlayer", JSONObj);
 		};
 		
 		return RobPlayerCommand;
@@ -414,7 +415,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 
 		core.forceClassInherit(FinishTurnCommand, CommandTemplate);
 		function FinishTurnCommand(newIndex){
-			CommandTemplate.call(this, "/moves/finishTurn", newIndex);
+			CommandTemplate.call(this, "finishTurn", newIndex);
 		}
 		
 		FinishTurnCommand.prototype.sendToProxy = function(){
@@ -423,12 +424,12 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		};
 
 		FinishTurnCommand.prototype.createArgs = function(){
-			var JSONObj = CommandTemplate.prototype.createArgs();
+			var JSONObj = CommandTemplate.prototype.createArgs(this.type, this.playerIndex);
 			return JSONObj;
 		};
 
 		FinishTurnCommand.prototype.sendToServer = function(JSONObj){
-			CommandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+			CommandTemplate.prototype.sendToServer("POST", "/moves/finishTurn", JSONObj);
 		};
 		
 		return FinishTurnCommand;
@@ -479,7 +480,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 
 		core.forceClassInherit(BuyDevCardCommand, CommandTemplate);
 		function BuyDevCardCommand(newIndex){
-			CommandTemplate.call(this, "/moves/buyDevCard", newIndex);
+			CommandTemplate.call(this, "buyDevCard", newIndex);
 		}
 		
 		BuyDevCardCommand.prototype.sendToProxy = function(){
@@ -488,12 +489,12 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		};
 
 		BuyDevCardCommand.prototype.createArgs = function(){
-			var JSONObj = CommandTemplate.prototype.createArgs();
+			var JSONObj = CommandTemplate.prototype.createArgs(this.type, this.playerIndex);
 			return JSONObj;
 		};
 
 		BuyDevCardCommand.prototype.sendToServer = function(JSONObj){
-			CommandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+			CommandTemplate.prototype.sendToServer("POST", "/moves/buyDevCard", JSONObj);
 		};
 		
 		return BuyDevCardCommand;
@@ -557,7 +558,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 
 		core.forceClassInherit(YearOfPlentyCommand, CommandTemplate);
 		function YearOfPlentyCommand(newIndex){
-			CommandTemplate.call(this, "/moves/Year_of_Plenty", newIndex);
+			CommandTemplate.call(this, "Year_of_Plenty", newIndex);
 			this.resource1 = "";
 			this.resource2 = "";
 		}
@@ -568,14 +569,14 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		};
 
 		YearOfPlentyCommand.prototype.createArgs = function(args){
-			var JSONObj = CommandTemplate.prototype.createArgs();
+			var JSONObj = CommandTemplate.prototype.createArgs(this.type, this.playerIndex);
 			JSONObj.resource1 = args[0];
 			JSONObj.resource2 = args[1];
 			return JSONObj;
 		};
 
 		YearOfPlentyCommand.prototype.sendToServer = function(JSONObj){
-			CommandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+			CommandTemplate.prototype.sendToServer("POST", "/moves/Year_of_Plenty", JSONObj);
 		};
 		
 		return YearOfPlentyCommand;
@@ -639,7 +640,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 
 		core.forceClassInherit(RoadBuildingCommand, CommandTemplate);
 		function RoadBuildingCommand(newIndex){
-			CommandTemplate.call(this, "/moves/Road_Building", newIndex);
+			CommandTemplate.call(this, "Road_Building", newIndex);
 			this.spot1 = new EdgeLocation();
 			this.spot2 = new EdgeLocation();
 		}
@@ -650,14 +651,14 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		};
 
 		RoadBuildingCommand.prototype.createArgs = function(args){
-			var JSONObj = CommandTemplate.prototype.createArgs();
+			var JSONObj = CommandTemplate.prototype.createArgs(this.type, this.playerIndex);
 			JSONObj.spot1 = args[0];
 			JSONObj.spot2 = args[1];
 			return JSONObj;
 		};
 
 		RoadBuildingCommand.prototype.sendToServer = function(JSONObj){
-			CommandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+			CommandTemplate.prototype.sendToServer("POST", "/moves/Road_Building", JSONObj);
 		};
 		
 		return RoadBuildingCommand;
@@ -721,7 +722,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 
 		core.forceClassInherit(SoldierCommand, CommandTemplate);
 		function SoldierCommand(newIndex){
-			CommandTemplate.call(this, "/moves/Soldier", newIndex);
+			CommandTemplate.call(this, "Soldier", newIndex);
 			this.victimIndex = -1;
 			this.robberSpot = new catan.models.hexgrid.HexLocation();
 		}
@@ -732,14 +733,14 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		};
 
 		SoldierCommand.prototype.createArgs = function(args){
-			var JSONObj = CommandTemplate.prototype.createArgs();
+			var JSONObj = CommandTemplate.prototype.createArgs(this.type, this.playerIndex);
 			JSONObj.victimIndex = args[0];
 			JSONObj.robberSpot = args[1];
 			return JSONObj;
 		};
 
 		SoldierCommand.prototype.sendToServer = function(JSONObj){
-			CommandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+			CommandTemplate.prototype.sendToServer("POST", "/moves/Soldier", JSONObj);
 		};
 		
 		return SoldierCommand;
@@ -797,7 +798,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 
 		core.forceClassInherit(MonopolyCommand, CommandTemplate);		
 		function MonopolyCommand(newIndex){
-			CommandTemplate.call(this, "/moves/Monopoly", newIndex);
+			CommandTemplate.call(this, "Monopoly", newIndex);
 			this.resource = "";
 		}
 		
@@ -807,13 +808,13 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		};
 
 		MonopolyCommand.prototype.createArgs = function(args){
-			var JSONObj = CommandTemplate.prototype.createArgs();
+			var JSONObj = CommandTemplate.prototype.createArgs(this.type, this.playerIndex);
 			JSONObj.resource = args[0];
 			return JSONObj;
 		};
 
 		MonopolyCommand.prototype.sendToServer = function(JSONObj){
-			CommandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+			CommandTemplate.prototype.sendToServer("POST", "/moves/Monopoly", JSONObj);
 		};
 		
 		return MonopolyCommand;
@@ -864,7 +865,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 
 		core.forceClassInherit(MonumentCommand, CommandTemplate);	
 		function MonumentCommand(newIndex){
-			CommandTemplate.call(this, "/moves/Monument", newIndex);
+			CommandTemplate.call(this, "Monument", newIndex);
 		}
 		
 		MonumentCommand.prototype.sendToProxy = function(){
@@ -873,12 +874,12 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		};
 
 		MonumentCommand.prototype.createArgs = function(){
-			var JSONObj = CommandTemplate.prototype.createArgs();
+			var JSONObj = CommandTemplate.prototype.createArgs(this.type, this.playerIndex);
 			return JSONObj;
 		};
 
 		MonumentCommand.prototype.sendToServer = function(JSONObj){
-			CommandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+			CommandTemplate.prototype.sendToServer("POST", "/moves/Monument", JSONObj);
 		};
 		
 		return MonumentCommand;
@@ -942,7 +943,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 
 		core.forceClassInherit(BuildRoadCommand, CommandTemplate);
 		function BuildRoadCommand(newIndex){
-			CommandTemplate.call(this, "/moves/buildRoad", newIndex);
+			CommandTemplate.call(this, "buildRoad", newIndex);
 			this.roadLocation = new EdgeLocation();
 			this.free = false;
 		}
@@ -953,14 +954,14 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		};
 
 		BuildRoadCommand.prototype.createArgs = function(args){
-			var JSONObj = CommandTemplate.prototype.createArgs();
-			this.roadLocation = args[0];
-			this.free = args[1];
+			var JSONObj = CommandTemplate.prototype.createArgs(this.type, this.playerIndex);
+			JSONObj.roadLocation = args[0];
+			JSONObj.free = args[1];
 			return JSONObj;
 		};
 
 		BuildRoadCommand.prototype.sendToServer = function(JSONObj){
-			CommandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+			CommandTemplate.prototype.sendToServer("POST", "/moves/buildRoad", JSONObj);
 		};
 		
 		return BuildRoadCommand;
@@ -1023,7 +1024,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 
 		core.forceClassInherit(BuildSettlementCommand, CommandTemplate);
 		function BuildSettlementCommand(newIndex){
-			CommandTemplate.call(this, "/moves/buildSettlement", newIndex);
+			CommandTemplate.call(this, "buildSettlement", newIndex);
 			this.vertexLocation = new catan.model.hexgrid.VertexLocation();
 			this.free = false;
 		}
@@ -1034,14 +1035,14 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		};
 
 		BuildSettlementCommand.prototype.createArgs = function(args){
-			var JSONObj = CommandTemplate.prototype.createArgs();
-			this.vertexLocation = args[0];
-			this.free = args[1];
+			var JSONObj = CommandTemplate.prototype.createArgs(this.type, this.playerIndex);
+			JSONObj.vertexLocation = args[0];
+			JSONObj.free = args[1];
 			return JSONObj;
 		};
 
 		BuildSettlementCommand.prototype.sendToServer = function(JSONObj){
-			CommandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+			CommandTemplate.prototype.sendToServer("POST", "/moves/buildSettlement", JSONObj);
 		};
 		
 		return BuildSettlementCommand;
@@ -1104,7 +1105,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 
 		core.forceClassInherit(BuildCityCommand, CommandTemplate);
 		function BuildCityCommand(newIndex){
-			CommandTemplate.call(this, "/moves/buildCity", newIndex);
+			CommandTemplate.call(this, "buildCity", newIndex);
 			this.vertexLocation = new VertexLocation();
 			this.free = false;
 		}
@@ -1115,14 +1116,14 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		};
 
 		BuildCityCommand.prototype.createArgs = function(args){
-			var JSONObj = CommandTemplate.prototype.createArgs();
-			this.vertexLocation = args[0];
-			this.free = args[1];
+			var JSONObj = CommandTemplate.prototype.createArgs(this.type, this.playerIndex);
+			JSONObj.vertexLocation = args[0];
+			JSONObj.free = args[1];
 			return JSONObj;
 		};
 
 		BuildCityCommand.prototype.sendToServer = function(JSONObj){
-			CommandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+			CommandTemplate.prototype.sendToServer("POST", "/moves/buildCity", JSONObj);
 		};
 		
 		return BuildCityCommand;
@@ -1186,7 +1187,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 
 		core.forceClassInherit(OfferTradeCommand, CommandTemplate);
 		function OfferTradeCommand(newIndex){
-			CommandTemplate.call(this, "/moves/offerTrade", newIndex);
+			CommandTemplate.call(this, "offerTrade", newIndex);
 			this.offer = new catan.models.bank.ResourceList();
 			this.receiver = -1;
 		}
@@ -1197,14 +1198,14 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		};
 
 		OfferTradeCommand.prototype.createArgs = function(args){
-			var JSONObj = CommandTemplate.prototype.createArgs();
-			this.offer = args[0];
-			this.receiver = args[1];
+			var JSONObj = CommandTemplate.prototype.createArgs(this.type, this.playerIndex);
+			JSONObj.offer = args[0];
+			JSONObj.receiver = args[1];
 			return JSONObj;
 		};
 
 		OfferTradeCommand.prototype.sendToServer = function(JSONObj){
-			CommandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+			CommandTemplate.prototype.sendToServer("POST", "/moves/offerTrade", JSONObj);
 		};
 		
 		return OfferTradeCommand;
@@ -1262,7 +1263,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 
 		core.forceClassInherit(AcceptTradeCommand, CommandTemplate);
 		function AcceptTradeCommand(newIndex){
-			CommandTemplate.call(this, "/moves/acceptTrade", newIndex);
+			CommandTemplate.call(this, "acceptTrade", newIndex);
 			this.willAccept = false;
 		}
 		
@@ -1272,13 +1273,13 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		};
 
 		AcceptTradeCommand.prototype.createArgs = function(args){
-			var JSONObj = CommandTemplate.prototype.createArgs();
-			this.willAccept = args[0];
+			var JSONObj = CommandTemplate.prototype.createArgs(this.type, this.playerIndex);
+			JSONObj.willAccept = args[0];
 			return JSONObj;
 		};
 
 		AcceptTradeCommand.prototype.sendToServer = function(JSONObj){
-			CommandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+			CommandTemplate.prototype.sendToServer("POST", "/moves/acceptTrade", JSONObj);
 		};
 		
 		return AcceptTradeCommand;
@@ -1348,7 +1349,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 
 		core.forceClassInherit(MaritimeTradeCommand, CommandTemplate);
 		function MaritimeTradeCommand(newIndex){
-			CommandTemplate.call(this, "/moves/offerTrade", newIndex);
+			CommandTemplate.call(this, "offerTrade", newIndex);
 			this.ratio = -1;
 			this.inputResource = "";
 			this.outputResource = "";
@@ -1360,15 +1361,15 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		};
 
 		MaritimeTradeCommand.prototype.createArgs = function(args){
-			var JSONObj = CommandTemplate.prototype.createArgs();
-			this.ratio = args[0];
-			this.inputResource = args[1];
-			this.outputResource = args[2];
+			var JSONObj = CommandTemplate.prototype.createArgs(this.type, this.playerIndex);
+			JSONObj.ratio = args[0];
+			JSONObj.inputResource = args[1];
+			JSONObj.outputResource = args[2];
 			return JSONObj;
 		};
 
 		MaritimeTradeCommand.prototype.sendToServer = function(JSONObj){
-			CommandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+			CommandTemplate.prototype.sendToServer("POST", "/moves/offerTrade", JSONObj);
 		};
 		
 		return MaritimeTradeCommand;
@@ -1426,7 +1427,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 
 		core.forceClassInherit(DiscardCardsCommand, CommandTemplate);
 		function DiscardCardsCommand(newIndex){
-			CommandTemplate.call(this, "/moves/discardCards", newIndex);
+			CommandTemplate.call(this, "discardCards", newIndex);
 			this.discardedCards = new ResourceList();
 		}
 		
@@ -1436,13 +1437,13 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		};
 
 		DiscardCardsCommand.prototype.createArgs = function(args){
-			var JSONObj = CommandTemplate.prototype.createArgs();
-			this.discardedCards = args[0];
+			var JSONObj = CommandTemplate.prototype.createArgs(this.type, this.playerIndex);
+			JSONObj.discardedCards = args[0];
 			return JSONObj;
 		};
 
 		DiscardCardsCommand.prototype.sendToServer = function(JSONObj){
-			CommandTemplate.prototype.sendToServer("POST", this.type, JSONObj);
+			CommandTemplate.prototype.sendToServer("POST", "/moves/discardCards", JSONObj);
 		};
 		
 		return DiscardCardsCommand;
