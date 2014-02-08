@@ -331,16 +331,20 @@ catan.models.Player = (function playerNameSpace(){
 					this.resources.wood -= 1;
 					this.resources.brick -= 1;
 					this.resources.sheep -= 1;
+					this.settlements--;
 					break;
 				
 				case "city":
 					this.resources.wheat -= 2;
 					this.resources.ore -= 3;
+					this.settlements++;
+					this.cities--;
 					break;
 					
 				case "road":
 					this.resources.wood -= 1;
 					this.resources.brick -= 1;
+					this.roads--;
 					break;
 					
 				case "devCard":
