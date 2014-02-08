@@ -171,7 +171,7 @@ catan.models.Map = (function mapNameSpace(){
 			var tempHex = new Object();
 			toReturnEdge = false;
 			toReturnVert = true;
-			var vertPlusOne = this.hexGrid.(hex).getVertex(theDirection) + 1;
+			var vertPlusOne = this.hexGrid.getHex(hex).getVertex(theDirection) + 1;
 			var vertMinusOne = this.hexGrid.getHex(hex).getVertex(theDirection) - 1;
 			//var edgePlusOne = this.hexGrid.getHex(hex).getEdge(theDirection) + 1;
 			var edgePlusOne = this.hexGrid.getHex(hex).getEdge(theDirection); // assumes theDirection enumeration is the same for edges and vertices
@@ -214,7 +214,7 @@ catan.models.Map = (function mapNameSpace(){
 					if(!hex.equals(tempHex) && tempHex != null){
 						if(tempHex.getVertex(VertexDirection.NW).isOccupied()){
 							toReturnVert = false;						
-						}	
+						}
 						if(hex.getEdge(EdgeDirection.N).getOwner()==playerID){
 							toReturnEdge = true;						
 						}
@@ -237,7 +237,7 @@ catan.models.Map = (function mapNameSpace(){
 					if(!hex.equals(tempHex) && tempHex != null){
 						if(tempHex.getVertex(VertexDirection.NE).isOccupied()){
 							toReturnVert = false;						
-						}	
+						}
 						if(hex.getEdge(EdgeDirection.NE).getOwner()==playerID){
 							toReturnEdge = true;						
 						}
@@ -252,7 +252,7 @@ catan.models.Map = (function mapNameSpace(){
 						toReturnVert = false;						
 					}
 					if(hex.getEdge(EdgeDirection.SW).getOwner()==playerID){
-						toReturnEdge = true;						
+						toReturnEdge = true;
 					}
 				}
 				else{
@@ -260,7 +260,7 @@ catan.models.Map = (function mapNameSpace(){
 					if(!hex.equals(tempHex) && tempHex != null){
 						if(tempHex.getVertex(VertexDirection.NE).isOccupied()){
 							toReturnVert = false;						
-						}	
+						}
 						if(hex.getEdge(EdgeDirection.NE).getOwner()==playerID){
 							toReturnEdge = true;						
 						}
