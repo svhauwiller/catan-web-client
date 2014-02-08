@@ -148,7 +148,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 
 			this.bank.updateCopy(updatedModel.bank, updatedModel.deck);
 
-			// this.map.update(updatedModel.map);
+			this.map.update(updatedModel.map);
 
 			this.chat.update(updatedModel.chat.lines);
 			this.log.update(updatedModel.log.lines);

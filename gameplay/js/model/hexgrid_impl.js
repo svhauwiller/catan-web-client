@@ -54,7 +54,6 @@ catan.models.Map = (function mapNameSpace(){
 			this.ports = new Array();
 			this.radius = 4; // should default be zero???
 			this.robber = new hexgrid.HexLocation();
-			console.log(CatanHex);
 			this.hexGrid = hexgrid.HexGrid.getRegular(this.radius, CatanHex);
 		}
 		
@@ -446,7 +445,6 @@ catan.models.Map = (function mapNameSpace(){
         	function CatanVertex(){
         		this.ownerID = -1;
         	   this.worth = 0;  
-        	   console.log(this);
         	}
         
        	// once you override this, put in some documentation
