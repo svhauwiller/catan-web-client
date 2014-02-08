@@ -99,7 +99,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 			this.longestRoadSize = 0;
 			//this.map = new catan.models.Map();
 			this.playerID = playerID;
-			this.players = {playerID: new catan.models.Player()};
+			this.players = new Object();
+			this.players[playerID] = new catan.models.Player();
 			this.proxy = new catan.proxy.Proxy("", playerID);
 			this.tradeOffer = new catan.models.utilities.TradeOffer();
 			this.turnTracker = new catan.models.utilities.TurnTracker();
@@ -145,20 +146,20 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 				_this.players[player.id].updateAll(player);
 			});
 
-			console.log(_this);
-
-			// this.bank.updateCopy(updatedModel.bank, updatedModel.deck);
+			this.bank.updateCopy(updatedModel.bank, updatedModel.deck);
 
 			// this.map.update(updatedModel.map);
 
-			// this.chat.update(updatedModel.chat.lines);
-			// this.log.update(updatedModel.log.lines);
+			this.chat.update(updatedModel.chat.lines);
+			this.log.update(updatedModel.log.lines);
 
-			// this.turnTracker.update(updateModel.turnTracker);
+			this.turnTracker.update(updatedModel.turnTracker);
 
-			// this.biggestArmy = updatedModel.biggestArmy;
-			// this.longestRoad = updatedModel.longestRoad;
-			// this.winner = updatedModel.winner;
+			this.biggestArmy = updatedModel.biggestArmy;
+			this.longestRoad = updatedModel.longestRoad;
+			this.winner = updatedModel.winner;
+
+			console.log(_this);
 		}
 
 		ClientModel.prototype.runCommand = function(cmd, args){
