@@ -142,7 +142,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 			console.log(updatedModel);
 
 			updatedModel.players.forEach(function(player){
-				_this.players[player.id].update()
+				_this.players[player.id].updateAll(player);
 			});
 
 			console.log(_this);

@@ -144,8 +144,8 @@ catan.models.Player = (function playerNameSpace(){
 			this.longestRoad = playerModel.longestRoad;
 			this.monuments = playerModel.monuments;
 			this.name = playerModel.name;
-			this.newDevCards = replaceDevCards(playerModel.newDevCards);
-			this.oldDevCards = replaceDevCards(playerModel.oldDevCards);
+			this.newDevCards = this.replaceDevCards(playerModel.newDevCards);
+			this.oldDevCards = this.replaceDevCards(playerModel.oldDevCards);
 			this.orderNumber = playerModel.orderNumber;
 			this.playedDevCard = playerModel.playedDevCard;
 			this.playerID = playerModel.playerID;
@@ -192,9 +192,9 @@ catan.models.Player = (function playerNameSpace(){
 		Player.prototype.replaceDevCards = function( modelDevCardList){
 	
 			var tempDevCards = new catan.models.bank.DevCardList("player");
-					
+
 			for (var key in modelDevCardList) {
-				tempDevCards.resources[key] = modelDevCardList[key];
+				tempDevCards[key] = modelDevCardList[key];
 			}
 
 			return tempDevCards;
