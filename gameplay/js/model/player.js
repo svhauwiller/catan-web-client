@@ -123,12 +123,12 @@ catan.models.Player = (function playerNameSpace(){
 			this.longestRoad = false;
 			this.monuments = 0;
 			this.name = "";
-			this.newDevCards = catan.models.bank.DevCardList("player");
-			this.oldDevCards = catan.models.bank.DevCardList("player");
+			this.newDevCards = new catan.models.bank.DevCardList("player");
+			this.oldDevCards = new catan.models.bank.DevCardList("player");
 			this.orderNumber = 0;
 			this.playedDevCard = false;
 			this.playerID = 0;
-			this.resources = catan.models.bank.ResourceList("player");
+			this.resources = new catan.models.bank.ResourceList("player");
 			this.victoryPts = 0;
 		}
 	
@@ -164,16 +164,16 @@ catan.models.Player = (function playerNameSpace(){
 				this.resources.brick += amount;
 			}
 			else if(type === "wheat"){
-				this.resource.wheat += amount;
+				this.resources.wheat += amount;
 			}
 			else if(type === "sheep"){
-				this.resource.sheep += amount;
+				this.resources.sheep += amount;
 			}
 			else if(type === "ore"){
-				this.resource.ore += amount;
+				this.resources.ore += amount;
 			}
 			else if(type === "wood"){
-				this.resource.wood += amount;
+				this.resources.wood += amount;
 			}
 		}
 	
@@ -217,7 +217,7 @@ catan.models.Player = (function playerNameSpace(){
 				hasRoad = true;
 				}			
 			
-			return (hasWood && hasBrick);
+			return (hasWood && hasBrick && hasRoad);
 
 		}
 		
