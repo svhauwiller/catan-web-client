@@ -26,6 +26,18 @@ catan.models.bank = (function bankNameSpace(){
 			this.devCardList = new catan.models.bank.DevCardList("bank");
 		};
 		
+		Bank.prototype.updateCopy= function(list, list2){
+			this.resourceList = list;
+			this.devCardList = list2;
+		};
+		
+		Bank.prototype.updateResource = function(list){
+			for(var key in list){
+				this.resourceList[key] += list[key];
+			}
+		};
+		
+		return Bank;
 	}());
 	var ResourceList = (function resourceListClass(){
 		
@@ -65,7 +77,7 @@ catan.models.bank = (function bankNameSpace(){
 		* @type {ElemType int}
 		*/
 
-		function resourceList(type)
+		function ResourceList(type)
 		{
 			switch (type)
 			{
@@ -134,19 +146,19 @@ catan.models.bank = (function bankNameSpace(){
 			switch(type)
 			{
 				case "bank":
-					this.monopolyCard = 2;// 2
-					this.monumentCard = 5;// 5 
-					this.roadBuildingCard = 2;//2
-					this.soldierCard = 14;//14
-					this.yearOfPlentyCard = 2;//2
+					this.monopoly = 2;// 2
+					this.monument = 5;// 5 
+					this.roadBuilding = 2;//2
+					this.soldier = 14;//14
+					this.yearOfPlenty = 2;//2
 					break;
 				
 				case "player":
-					this.monopolyCard = 0;// 2
-					this.monumentCard = 0;// 5 
-					this.roadBuildingCard = 0;//2
-					this.soldierCard = 0;//14
-					this.yearOfPlentyCard = 0;//2
+					this.monopoly = 0;// 2
+					this.monument = 0;// 5 
+					this.roadBuilding = 0;//2
+					this.soldier = 0;//14
+					this.yearOfPlenty = 0;//2
 					break;
 			}
 		}
@@ -154,7 +166,8 @@ catan.models.bank = (function bankNameSpace(){
 		return DevCardList;
 	}());
 
-	var DevCard = ( function DevCardClass () {
+	var DevCard = (function DevCardClass () {
+
 		function DevCard(model){
 			this.monopoly= new Monopoly(model);
 			this.monument = new Monument(model);
@@ -162,6 +175,7 @@ catan.models.bank = (function bankNameSpace(){
 			this.soldier = new Soldier(model);
 			this.year = new YearOfPlenty(model);
 		};
+
 		DevCard.prototype.useCard = function(type, parameter){
 			switch(type){
 				case "monopoly":
@@ -232,7 +246,7 @@ catan.models.bank = (function bankNameSpace(){
 			
 			resources1 = parameter.resource1;
 			resources2 = parameter.resource2;
-			this.model.players[playerIndex].updateResource([resources1],1);
+			this.model.players[playerIndex].updateResource("brick",1);
 			this.model.bank.resourceList[resource1]--;
 
 			this.model.players[playerIndex].updateResource([resources2],1);
