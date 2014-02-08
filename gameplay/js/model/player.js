@@ -123,12 +123,12 @@ catan.models.Player = (function playerNameSpace(){
 			this.longestRoad = false;
 			this.monuments = 0;
 			this.name = "";
-			this.newDevCards = new catan.models.bank.DevCardList("player");
-			this.oldDevCards = new catan.models.bank.DevCardList("player");
+			this.newDevCards = catan.models.bank.DevCardList("player");
+			this.oldDevCards = catan.models.bank.DevCardList("player");
 			this.orderNumber = 0;
 			this.playedDevCard = false;
 			this.playerID = 0;
-			this.resources = new catan.models.bank.ResourceList("player");
+			this.resources = catan.models.bank.ResourceList("player");
 			this.victoryPts = 0;
 		}
 	
@@ -144,8 +144,8 @@ catan.models.Player = (function playerNameSpace(){
 			this.longestRoad = playerModel.longestRoad;
 			this.monuments = playerModel.monuments;
 			this.name = playerModel.name;
-			this.newDevCards = this.replaceDevCards(playerModel.newDevCards);
-			this.oldDevCards = this.replaceDevCards(playerModel.oldDevCards);
+			this.newDevCards = replaceDevCards(playerModel.newDevCards);
+			this.oldDevCards = replaceDevCards(playerModel.oldDevCards);
 			this.orderNumber = playerModel.orderNumber;
 			this.playedDevCard = playerModel.playedDevCard;
 			this.playerID = playerModel.playerID;
@@ -164,16 +164,16 @@ catan.models.Player = (function playerNameSpace(){
 				this.resources.brick += amount;
 			}
 			else if(type === "wheat"){
-				this.resources.wheat += amount;
+				this.resource.wheat += amount;
 			}
 			else if(type === "sheep"){
-				this.resources.sheep += amount;
+				this.resource.sheep += amount;
 			}
 			else if(type === "ore"){
-				this.resources.ore += amount;
+				this.resource.ore += amount;
 			}
 			else if(type === "wood"){
-				this.resources.wood += amount;
+				this.resource.wood += amount;
 			}
 		}
 	
@@ -192,9 +192,9 @@ catan.models.Player = (function playerNameSpace(){
 		Player.prototype.replaceDevCards = function( modelDevCardList){
 	
 			var tempDevCards = new catan.models.bank.DevCardList("player");
-
+					
 			for (var key in modelDevCardList) {
-				tempDevCards[key] = modelDevCardList[key];
+				tempDevCards.resources[key] = modelDevCardList[key];
 			}
 
 			return tempDevCards;
