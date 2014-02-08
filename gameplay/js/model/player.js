@@ -160,10 +160,8 @@ catan.models.Player = (function playerNameSpace(){
 		}
 
 		Player.prototype.updateResource = function(type, amount){
-			if(type === "brick"){
-				console.log("brick should work");
+			if(type === "brick"){=
 				this.resources.brick += amount;
-				console.log("count " + this.resources.brick);
 			}
 			else if(type === "wheat"){
 				this.resources.wheat += amount;
@@ -172,7 +170,6 @@ catan.models.Player = (function playerNameSpace(){
 				this.resources.sheep += amount;
 			}
 			else if(type === "ore"){
-				console.log("type is " + type);
 				this.resources.ore += amount;
 			}
 			else if(type === "wood"){
