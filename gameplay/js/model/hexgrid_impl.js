@@ -71,27 +71,27 @@ catan.models.Map = (function mapNameSpace(){
 			var rewards = {0: new catan.models.bank.ResourceList()};
 		};
 	
-		Map.prototype.canPlaceRoad = function(hex, position){
+		Map.prototype.canPlaceRoad = function(playerID, hex, position){
 			
 		};
 		
-		Map.prototype.canPlaceSettlement = function(hex, position){
+		Map.prototype.canPlaceSettlement = function(playerID, hex, position){
 			
 		};
 		
-		Map.prototype.canPlaceCity = function(hex, position){
+		Map.prototype.canPlaceCity = function(playerID, hex, position){
 			
 		};
 		
-		Map.prototype.buildRoad = function(hex, position){
+		Map.prototype.buildRoad = function(playerID, hex, position){
 			
 		};
 		
-		Map.prototype.buildSettlement = function(hex, position){
+		Map.prototype.buildSettlement = function(playerID, hex, position){
 			
 		};
 		
-		Map.prototype.buildCity = function(hex, position){
+		Map.prototype.buildCity = function(playerID, hex, position){
 			
 		};
 		
@@ -123,12 +123,20 @@ catan.models.Map = (function mapNameSpace(){
     
         core.forceClassInherit(CatanEdge, hexgrid.BaseContainer);
     
-        function CatanEdge(){}
+        function CatanEdge(){
+        		this.ownerID = -1;
+        }
         
-        // once you override this, put in some documentation
-			CatanEdge.prototype.isOccupied = function()
-			{
-			return false; //default implementation. Change this!
+       /*
+       Returns true if there is an ownerID associated, or false if the ownerID is -1
+       */
+			CatanEdge.prototype.isOccupied = function(){
+				if(ownerID==-1){
+					return false;					
+				}
+				else{	
+					return true;
+				}
 			}
 
         return CatanEdge;
@@ -151,17 +159,25 @@ catan.models.Map = (function mapNameSpace(){
     
 			core.forceClassInherit(CatanVertex, hexgrid.BaseContainer);
         
-        	function CatanVertex(){       	
+        	function CatanVertex(){
+        		this.ownerID = -1;
+        	   this.worth = 0;  
         	}
         
          CatanVertex.prototype.setLocation = function (location, index) {
+         	this.location.ownerID=index;
+         	this.worth = this.worth+1;
          	
          }       
        	// once you override this, put in some documentation
         
-        	CatanVertex.prototype.isOccupied = function()
-			{
-				return false; //default implementation. Change this!
+        	CatanVertex.prototype.isOccupied = function(){
+				if(ownerID==-1){
+					return false;					
+				}
+				else{	
+					return true;
+				}
 			}
 
          return CatanVertex;
