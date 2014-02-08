@@ -173,20 +173,21 @@ catan.models.Map = (function mapNameSpace(){
 			toReturnVert = true;
 			var vertPlusOne = this.hexGrid.(hex).getVertex(theDirection) + 1;
 			var vertMinusOne = this.hexGrid.getHex(hex).getVertex(theDirection) - 1;
-			var edgePlusOne = this.hexGrid.getHex(hex).getEdge(theDirection) + 1;
+			//var edgePlusOne = this.hexGrid.getHex(hex).getEdge(theDirection) + 1;
+			var edgePlusOne = this.hexGrid.getHex(hex).getEdge(theDirection); // assumes theDirection enumeration is the same for edges and vertices
 			var edgeMinusOne = this.hexGrid.getHex(hex).getEdge(theDirection) - 1;
 			
 			if(vertPlusOne == 6){
-				vertPlusOne = 0;			
+				vertPlusOne = 0;
 			}
 			if(vertMinusOne == -1){
-				vertMinusOne = 5;		
+				vertMinusOne = 5;
 			}
 			if(edgePlusOne == 6){
-				edgePlusOne = 0;			
+				edgePlusOne = 0;
 			}
 			if(edgeMinusOne == -1){
-				edgeMinusOne = 5;		
+				edgeMinusOne = 5;
 			}
 
 			if(this.hexGrid.getHex(hex).getEdge(edgePlusOne).getOwner()==playerID||
@@ -206,39 +207,65 @@ catan.models.Map = (function mapNameSpace(){
 					}
 					if(hex.getEdge(EdgeDirection.S).getOwner()==playerID){
 						toReturnEdge = true;						
-					}					
+					}
 				}
-				tempHex = hex.getNeighborLocation(HexDirection.SW);
-				else if(!hex.equals(tempHex) && tempHex != null){
-					if(tempHex.getVertex(VertexDirection.NW).isOccupied()){
-						toReturnVert = false;						
-					}	
-					if(hex.getEdge(EdgeDirection.N).getOwner()==playerID){
-						toReturnEdge = true;						
-					}															
+				else{
+					tempHex = hex.getNeighborLocation(HexDirection.SW);
+					if(!hex.equals(tempHex) && tempHex != null){
+						if(tempHex.getVertex(VertexDirection.NW).isOccupied()){
+							toReturnVert = false;						
+						}	
+						if(hex.getEdge(EdgeDirection.N).getOwner()==playerID){
+							toReturnEdge = true;						
+						}
+					}
 				}
 			}
 			else if(thePosition==1)
 			{
-				tempHex = hex.getNeighborLocation(HexDirection.NW);
-				if(!hex.equals(tempHex) && tempHex != null)
-				{
-						if(tempHex.getEdge(EdgeDirection.SE).getOwner()==playerID)
-						{
-							return true;						
+				tempHex = hex.getNeighborLocation(HexDirection.N);
+				if(!hex.equals(tempHex) && tempHex != null){
+					if(tempHex.getVertex(VertexDirection.W).isOccupied()){
+						toReturnVert = false;						
+					}
+					if(hex.getEdge(EdgeDirection.SW).getOwner()==playerID){
+						toReturnEdge = true;						
+					}
+				}
+				else{
+					tempHex = hex.getNeighborLocation(HexDirection.NW);
+					if(!hex.equals(tempHex) && tempHex != null){
+						if(tempHex.getVertex(VertexDirection.NE).isOccupied()){
+							toReturnVert = false;						
 						}	
-				}					
+						if(hex.getEdge(EdgeDirection.NE).getOwner()==playerID){
+							toReturnEdge = true;						
+						}
+					}
+				}
 			}
 			else if(thePosition==2)
 			{
-				tempHex = hex.getNeighborLocation(HexDirection.NE);
-				if(!hex.equals(tempHex) && tempHex != null)
-				{
-					if(tempHex.getEdge(EdgeDirection.NW).getOwner()==playerID)
-						{
-							return true;						
-						}						
-				}	
+				tempHex = hex.getNeighborLocation(HexDirection.N);
+				if(!hex.equals(tempHex) && tempHex != null){
+					if(tempHex.getVertex(VertexDirection.W).isOccupied()){
+						toReturnVert = false;						
+					}
+					if(hex.getEdge(EdgeDirection.SW).getOwner()==playerID){
+						toReturnEdge = true;						
+					}
+				}
+				else{
+					tempHex = hex.getNeighborLocation(HexDirection.NW);
+					if(!hex.equals(tempHex) && tempHex != null){
+						if(tempHex.getVertex(VertexDirection.NE).isOccupied()){
+							toReturnVert = false;						
+						}	
+						if(hex.getEdge(EdgeDirection.NE).getOwner()==playerID){
+							toReturnEdge = true;						
+						}
+					}															
+				}
 			}
 			else if(thePosition==3)
 			{
