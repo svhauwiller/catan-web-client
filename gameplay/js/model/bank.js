@@ -207,7 +207,7 @@ catan.models.bank = (function bankNameSpace(){
 		Monopoly.prototype.useCard = function(parameter){
 			var playerIndex = parameter.playerIndex;
 			var resToTake = parameter.resource;
-			for(var i=0; i<catan.players.length; i++){
+			for(var i=0; i<this.model.players.length; i++){
 				if(i!==playerIndex){
 					var count = this.model.players[i].resources[resToTake]
 					var neg = count * -1;
@@ -261,9 +261,9 @@ catan.models.bank = (function bankNameSpace(){
 		};
 
 		RoadBuilding.prototype.useCard = function(parameter){
-			//for loop may be necessary to do so with the correct player. I'm not sure how steal will be used.
-			this.model.buildRoad();
-			this.model.buildRoad();
+			//the parameters need to be worked on to finish this function
+			this.model.buildRoad(parameter.playerIndex,parameter.hex,parameter.direction);
+			this.model.buildRoad(parameter.playerIndex,parameter.hex,"SW");
 		}
 		return RoadBuilding;
 	}());
@@ -274,7 +274,8 @@ catan.models.bank = (function bankNameSpace(){
 		};
 
 		Soldier.prototype.useCard = function(parameter){
-			this.model.steal();
+			//a steal function does not exist yet;
+			//this.model.steal();
 		}
 		return Soldier;
 	}());
