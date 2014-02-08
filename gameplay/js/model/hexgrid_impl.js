@@ -167,7 +167,7 @@ catan.models.Map = (function mapNameSpace(){
 		Map.prototype.canPlaceSettlement = function(playerID, hex, theDirection){
 			var tempHex = new Object();
 			toReturnEdge = false;
-			toReturnVert = false;
+			toReturnVert = true;
 			var vertPlusOne = this.hexGrid.(hex).getVertex(theDirection) + 1;
 			var vertMinusOne = this.hexGrid.getHex(hex).getVertex(theDirection) - 1;
 			var edgePlusOne = this.hexGrid.getHex(hex).getEdge(theDirection) + 1;
@@ -190,20 +190,30 @@ catan.models.Map = (function mapNameSpace(){
 				this.hexGrid.getHex(hex).getEdge(edgeMinusOne).getOwner()==playerID)
 				{toReturnEdge = true;}
 
-			if(this.hexGrid.getHex(hex).getVertex(vertPlusOne).getOwner()==playerID||
-				this.hexGrid.getHex(hex).getVertex(vertMinusOne).getOwner()==playerID)
-				{toReturnVert = true;}
+			if(this.hexGrid.getHex(hex).getVertex(vertPlusOne).isOccupied()||
+				this.hexGrid.getHex(hex).getVertex(vertMinusOne).isOccupied())
+				{toReturnVert = false;}
 
 			else if(thePosition==0)
 			{
 				tempHex = hex.getNeighborLocation(HexDirection.NW);
-				if(!hex.equals(tempHex) && tempHex != null)
-				{
-					if(tempHex.getVertex(VertexDirection.S).getOwner()==playerID)
-						{
-							return true;						
-						}					
-				}	
+				if(!hex.equals(tempHex) && tempHex != null){
+					if(tempHex.getVertex(VertexDirection.SW).isOccupied()){
+						toReturnVert = false;						
+					}
+					if(hex.getEdge(EdgeDirection.S).getOwner()==playerID){
+						toReturnEdge = true;						
+					}					
+				}
+				tempHex = hex.getNeighborLocation(HexDirection.SW);
+				else if(!hex.equals(tempHex) && tempHex != null){
+					if(tempHex.getVertex(VertexDirection.NW).isOccupied()){
+							toReturnVert = false;						
+					}	
+					if(hex.getEdge(EdgeDirection.N).getOwner()==playerID){
+						toReturnEdge = true;						
+					}															
+				}
 			}
 			else if(thePosition==1)
 			{
