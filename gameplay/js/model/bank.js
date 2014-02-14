@@ -25,6 +25,36 @@ catan.models.bank = (function bankNameSpace(){
 			this.resourceList = new catan.models.bank.ResourceList("bank");
 			this.devCardList = new catan.models.bank.DevCardList("bank");
 		};
+
+		Bank.prototype.takeDev = function(){
+			var cardChosen = false;
+			while(!cardChosen){
+				var temp_index = Math.floor((Math.random()*this.devCardList.length)+1);
+				var devCardString;
+				if(temp_index === 1){
+					devCardString = "sheep";
+				}
+				else if(temp_index === 2){
+					devCardString = "brick";
+				}
+				else if(temp_index === 3){
+					devCardString = "wheat";
+				}
+				else if(temp_index === 4){
+					devCardString = "wood";
+				}
+				else if(temp_index === 5){
+					devCardString = "ore";
+				}
+					
+				if(this.devCardList[devCardString] !== 0)
+				{
+					cardChosen = true;//for safety sake
+					this.devCardList[temp_index]--;
+					return devCardString;
+				}
+			}
+		}
 		
 		Bank.prototype.updateCopy= function(list, list2){
 			this.resourceList = list;

@@ -15,7 +15,7 @@ catan.models.Map = (function mapNameSpace(){
     var Map = (function Map_Class(){
        
        
-       		/**
+		/**
 		* Map class
 		* <pre>
 		* </pre>
@@ -49,13 +49,13 @@ catan.models.Map = (function mapNameSpace(){
 		* @type {HexLocation}
 		*/
 		function Map(){
-
 			this.numbers = new Array();
 			this.ports = new Array();
 			this.radius = 4; // should default be zero???
 			this.robber = new hexgrid.HexLocation();
 			this.hexGrid = hexgrid.HexGrid.getRegular(this.radius, CatanHex);
-		}
+			console.log(this);
+		};
 		
 		Map.prototype.update = function(newMap){
 			this.numbers = newMap.numbers;
@@ -64,6 +64,7 @@ catan.models.Map = (function mapNameSpace(){
 			this.robber = newMap.robber;
 			this.hexGrid = newMap.hexGrid;
 		};
+	
 		
 		Map.prototype.getResourcesFromRoll = function(diceNum){
 			// find hexes that don't have robber
@@ -376,15 +377,17 @@ catan.models.Map = (function mapNameSpace(){
 		};
 		
 		Map.prototype.getRobberVictims = function(){
-			var robberAdjacent = this.hexGrid.getHex(this.robber).getVertexes();
+			/*var robberAdjacent = this.hexGrid.getHex(this.robber).getVertexes();
 			var victimList = new Array();
 			for(var i = 0; i < robberAdjacent.length; i++){
 				if(robberAdjacent[i] != -1 && !checkIfAlreadyVictim(victimList, i)){
 					victimList.push(i);
 				}
 			}
-			return victimList;
+			return victimList;*/
+			return "hello person";
 		};
+		
 		
 		Map.prototype.checkIfAlreadyVictim = function(victimList, playerIndex){
 			for(var n = 0; n < victimList.length; n++){
@@ -513,7 +516,12 @@ catan.models.Map = (function mapNameSpace(){
         return CatanHex;
     }());
     
-	return Map;
+	return {
+		Map:Map,
+		CatanEdge:CatanEdge,
+		CatanVertex:CatanVertex,
+		CatanHex:CatanHex
+		}
 
 }());
 
