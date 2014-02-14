@@ -311,10 +311,10 @@ catan.models.Player = (function playerNameSpace(){
 				hasWood = true;
 				}
 			if (this.resources.wheat >= tradelist.resources.wheat){
-				hasBrick = true;
+				hasWheat = true;
 				}
 			if (this.resources.sheep >= tradelist.resources.sheep){
-				hasWood = true;
+				hasSheep = true;
 				}	
 			if (this.resources.Ore >= tradelist.resources.ore){
 				hasOre = true;
@@ -332,20 +332,20 @@ catan.models.Player = (function playerNameSpace(){
 					this.resources.wood -= 1;
 					this.resources.brick -= 1;
 					this.resources.sheep -= 1;
-					this.settlements--;
+					this.settlements -= 1;
 					break;
 				
 				case "city":
 					this.resources.wheat -= 2;
 					this.resources.ore -= 3;
-					this.settlements++;
-					this.cities--;
+					this.settlements += 1;
+					this.cities -= 1;
 					break;
 					
 				case "road":
 					this.resources.wood -= 1;
 					this.resources.brick -= 1;
-					this.roads--;
+					this.roads -= 1;
 					break;
 					
 				case "devCard":
