@@ -144,7 +144,7 @@ catan.models.utilities = (function utilitiesNamespace(){ //namespace dec
 		function TradeOffer(){
 			this.sender=null;
 			this.receiver=null;
-			var temp = catan.models.bank();
+			var temp = catan.models.bank;
 			this.offer = new temp.ResourceList();
 		}
 	
