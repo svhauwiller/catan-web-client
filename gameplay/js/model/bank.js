@@ -29,22 +29,21 @@ catan.models.bank = (function bankNameSpace(){
 		Bank.prototype.takeDev = function(){
 			var cardChosen = false;
 			while(!cardChosen){
-				var temp_index = Math.floor((Math.random()*this.devCardList.length)+1
-				var temp_devCard = this.devCardList[temp_index];
+				var temp_index = Math.floor((Math.random()*this.devCardList.length)+1);
 				var devCardString;
-				if(temp_devCard === 1){
+				if(temp_index === 1){
 					devCardString = "sheep";
 				}
-				else if(temp_devCard === 2){
+				else if(temp_index === 2){
 					devCardString = "brick";
 				}
-				else if(temp_devCard === 3){
+				else if(temp_index === 3){
 					devCardString = "wheat";
 				}
-				else if(temp_devCard === 4){
+				else if(temp_index === 4){
 					devCardString = "wood";
 				}
-				else if(temp_devCard === 5){
+				else if(temp_index === 5){
 					devCardString = "ore";
 				}
 					
