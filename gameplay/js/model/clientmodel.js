@@ -97,7 +97,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 			this.log = new catan.models.utilities.MessageList();
 			this.longestRoad = null;
 			this.longestRoadSize = 0;
-			this.map = new catan.models.Map();
+			this.map = new catan.models.Map.Map();
 			this.playerID = playerID;
 			this.players = new Object();
 			this.players[playerID] = new catan.models.Player();
@@ -117,9 +117,9 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
          * @param {function} success - A callback function that is called after the game state has been fetched from the server and the client model updated. This function is passed a single parameter which is the game state object received from the server.
          * */
 		ClientModel.prototype.initFromServer = function(success){
-
-			var response = this.proxy.getModelFromServer(),
-				initModel = JSON.parse(response.responseText);
+			
+			var response = this.proxy.getModelFromServer();
+			var initModel = JSON.parse(response.responseText);
 			this.initOtherPlayers(initModel.players);
 			this.updateModel(initModel);
 			success();
@@ -147,7 +147,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 			});
 
 			this.bank.updateCopy(updatedModel.bank, updatedModel.deck);
-
+			
 			this.map.update(updatedModel.map);
 
 			this.chat.update(updatedModel.chat.lines);
