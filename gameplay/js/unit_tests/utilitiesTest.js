@@ -4,7 +4,7 @@ test("Test Running", function(){
 });
 /*------------------------------MessageLine------------------------------*/
 test("MessageLine Creation", function(){
-	var namespace = catan.models.utilities();
+	var namespace = catan.models.utilities;
 	var myMessage = new namespace.MessageLine();
 	var mess = "";
 	ok(myMessage.getMessage()==mess, "Empty Message Failed");
@@ -12,7 +12,7 @@ test("MessageLine Creation", function(){
 });
 
 test("MessageLine Set and Get", function(){
-	var namespace = catan.models.utilities();
+	var namespace = catan.models.utilities;
 	var myMessage = new namespace.MessageLine();
 	myMessage.setSource(2);
 	myMessage.setMessage('I am a message')
@@ -22,7 +22,7 @@ test("MessageLine Set and Get", function(){
 });
 /*------------------------------MessageList------------------------------*/
 test("MessageList Creation", function(){
-	var namespace = catan.models.utilities();
+	var namespace = catan.models.utilities;
 	var myMessList = new namespace.MessageList();
 
 	ok(myMessList.length==null, "Constructed Empty Array Failed");
@@ -30,7 +30,7 @@ test("MessageList Creation", function(){
 });
 
 test("MessageList addLine", function(){
-	var namespace = catan.models.utilities();
+	var namespace = catan.models.utilities;
 	var myMessageList = new namespace.MessageList();
 	myMessageList.addLine("1");
 	myMessageList.addLine("2");
@@ -40,7 +40,7 @@ test("MessageList addLine", function(){
 });
 
 test("MessageList removeLastLine", function(){
-	var namespace = catan.models.utilities();
+	var namespace = catan.models.utilities;
 	var myMessageList = new namespace.MessageList();
 	myMessageList.addLine("1");
 	myMessageList.addLine("2");
@@ -52,7 +52,7 @@ test("MessageList removeLastLine", function(){
 });
 
 test("MessageList clear", function(){
-	var namespace = catan.models.utilities();
+	var namespace = catan.models.utilities;
 	var myMessageList = new namespace.MessageList();
 	myMessageList.addLine("1");
 	myMessageList.addLine("2");
@@ -63,7 +63,7 @@ test("MessageList clear", function(){
 });
 
 test("MessageList update",function(){
-	var namespace = catan.models.utilities();
+	var namespace = catan.models.utilities;
 	var myMessageList = new namespace.MessageList();
 	var firstLine = new namespace.MessageLine()
 		firstLine.setSource(2);
@@ -90,14 +90,14 @@ test("tradeOffer Creation", function(){
 	*/
 /*------------------------------TurnTracker------------------------------*/	
 test("TurnTracker creation", function(){
-	var namespace = catan.models.utilities();
+	var namespace = catan.models.utilities;
 	var myTurnTracker = new namespace.TurnTracker();
 	ok(myTurnTracker.getStatus()==null, "Empty TurnTracker failed");
 	ok(myTurnTracker.getCurrentTurn()==null, "Empty TurnTracker failed");	
 });
 
 test("TurnTracker update", function(){
-	var namespace = catan.models.utilities();
+	var namespace = catan.models.utilities;
 	var myTurnTracker = new namespace.TurnTracker();
 	var myObject = new Object();
 	myObject.theStatus = "Buying ore";

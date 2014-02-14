@@ -31,11 +31,6 @@ catan.models.utilities = (function utilitiesNamespace(){ //namespace dec
 			this.message = "";
 			this.source = "";
 		}
-	
-		function loadedMessageLine(theMessage,theSource){
-			this.source = theSource;
-			this.message = theMessage;
-		}
 		
 		MessageLine.prototype.setMessage = function(theMessage){
 			this.message = theMessage;		
@@ -96,6 +91,10 @@ catan.models.utilities = (function utilitiesNamespace(){ //namespace dec
 			this.lines.pop();		
 		}
 	
+		MessageList.prototype.update = function(arrayOfUpdates){
+			//message and source arrayOfUpdates[0].message
+		}
+	
 		MessageList.prototype.clear = function(){
 			this.lines = new Array();		
 		}
@@ -109,7 +108,7 @@ catan.models.utilities = (function utilitiesNamespace(){ //namespace dec
 				this.addLine(tempMessage);
 			}
 		}
-	
+		
 		return MessageList;
 	}());
 	
