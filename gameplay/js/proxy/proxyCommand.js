@@ -1428,7 +1428,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		core.forceClassInherit(DiscardCardsCommand, CommandTemplate);
 		function DiscardCardsCommand(newIndex){
 			CommandTemplate.call(this, "discardCards", newIndex);
-			this.discardedCards = new ResourceList();
+			this.discardedCards = new catan.models.bank.ResourceList("player");
 		}
 		
 		DiscardCardsCommand.prototype.sendToProxy = function(args){

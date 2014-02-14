@@ -165,7 +165,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		ClientModel.prototype.runCommand = function(cmd, args){
 			var cmdObj = new cmd(this.playerID);
 			var response = cmdObj.sendToProxy(args);
-			console.log("response", response);
+			console.log("Response: ", response);
 		}
 
 		/**
@@ -206,9 +206,9 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @params {ResourceList} listToDiscard list of resource cards that are to be discarded
 		*/	
 		ClientModel.prototype.discardCards = function(listToDiscard) {
-
-			//1 Decrement the selected cards from player's hand
-			//2 Add selected cards to bank
+			var args = new Array();
+			args.push(listToDiscard);
+			this.runCommand(catan.proxy.proxyCommands.DiscardCardsCommand, args);
 		}
 		
 		/**
@@ -247,18 +247,23 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 				dieResult = dieResult1 + dieResult2,
 				args;
 
+			console.log("Dice Result: " + dieResult);
+
 			//ROLL DICE
 			args = new Array();
 			args.push(dieResult);
 			this.runCommand(catan.proxy.proxyCommands.RollNumberCommand, args);
 
+			//TODO: ROB
 			if(dieResult === 7){
 				//DISCARD
-
+				console.log("Rolled 7");
 
 				//ROB
 			} else {
-				var awards = this.map.getResourcesFromRoll(diceNum);
+				//TODO: Get proper resource map
+				var awards = this.map.getResourcesFromRoll(dieResult);
+				console.log("Resource Awards: ", awards);
 				for(var playerID in awards){
 					this.players[playerID].updateAllResouces(awards[playerID]);
 				}
@@ -334,8 +339,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		*/
 		ClientModel.prototype.buyDevCard = function() {
 			if(this.canBuyDevCard()){
-				this.players[this.playerID].buy("settlement");
-				this.map.buildSettlement(playerID, hex, edgeDirection);
+				this.players[this.playerID].buy("devCard");
+				//BUY ME MORE DEV CARDS!
 			}
 		}
 

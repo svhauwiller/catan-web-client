@@ -55,7 +55,8 @@ catan.proxy.Proxy = (function proxyNameSpace(){
 		};
 		
 		Proxy.prototype.runCommand = function (returnData) {
-			console.log("Run Command Run!!!");
+			console.log("Successfully POSTed!");
+			console.log(returnData);
 		}
 		
 		Proxy.prototype.updateGameModel = function (returnData) {

@@ -38,7 +38,12 @@ catan.map.Controller = (function catan_controller_namespace() {
 			catan.core.BaseController.call(this,view,model);
 			this.setModalView(modalView);
 			this.setRobView(robView);
+			// var hexType = getHexType(hex);
+			// this.getView().addHex(hex.getLocation(), hexType);
 		}
+
+		// function initFromModel() Add Hex Data (call updateFromModel)
+		// function updateFromModel() Draw Hex
         
         /**
 		 This method is called by the Rob View when a player to rob is selected via a button click.
