@@ -431,7 +431,7 @@ catan.models.Player = (function playerNameSpace(){
 					this.resources.wheat -= 1;
 					break;
 
-				alert("Byu was passed invalid type!")						
+				alert("Byu was passed invalid type!");						
 			}
 		}
 		

@@ -16,7 +16,7 @@ test("Model Initialization", function(){
 	//model.buildSettlement();
 	//model.buildCity();
 
-	//model.buyDevCard();
+	model.buyDevCard();
 
 	//model.offerTrade();
 	//model.acceptTrade();

@@ -265,7 +265,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 				var awards = this.map.getResourcesFromRoll(dieResult);
 				console.log("Resource Awards: ", awards);
 				for(var playerID in awards){
-					this.players[playerID].updateAllResouces(awards[playerID]);
+					console.log("Reward player " + playerID + " with ", awards[playerID]);
+					//this.players[playerID].updateAllResources(awards[playerID]);
 				}
 			}
 
@@ -338,10 +339,16 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @method buyDevCard
 		*/
 		ClientModel.prototype.buyDevCard = function() {
+			console.log(this.players[this.playerID].newDevCards);
+			var addedCards = new catan.models.bank.ResourceList("player");
+			addedCards.wheat++;
+			addedCards.ore++;
+			addedCards.sheep++;
+			this.players[this.playerID].updateAllResources(addedCards);
 			if(this.canBuyDevCard()){
-				this.players[this.playerID].buy("devCard");
-				//BUY ME MORE DEV CARDS!
-			}
+				var updatedModel = this.runCommand(catan.proxy.proxyCommands.BuyDevCardCommand, null);
+				console.log(this.players[this.playerID].newDevCards);
+			} 
 		}
 
 
@@ -465,7 +472,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.canBuildRoad = function() {
-			return this.player[this.playerID].canBuildRoad();
+			return this.players[this.playerID].canBuildRoad();
 		}
 
 		/**
@@ -476,7 +483,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.canBuildSettlement = function() {
-			return this.player[this.playerID].canBuildSettlement();
+			return this.players[this.playerID].canBuildSettlement();
 		}
 
 		/**
@@ -487,7 +494,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.canBuildCity = function() {
-			return this.player[this.playerID].canBuildCity();
+			return this.players[this.playerID].canBuildCity();
 		}
 
 		/**
@@ -498,7 +505,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.canBuyDevCard = function() {
-			return this.player[this.playerID].canBuyDevCard();
+			return this.players[this.playerID].canBuyDevCard();
 		}
 
 		/**
@@ -509,7 +516,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.currentPlayerResources = function() {
-			return this.player[this.playerID].currentPlayerResources();
+			return this.players[this.playerID].currentPlayerResources();
 		}
 
 		/**
@@ -520,7 +527,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.canOfferTrade = function() {
-			return this.player[this.playerID].canOfferTrade();
+			return this.players[this.playerID].canOfferTrade();
 		}
 
 		/**
@@ -531,7 +538,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.needToDiscardCheck = function() {
-			return this.player[this.playerID].needToDiscardCheck();
+			return this.players[this.playerID].needToDiscardCheck();
 		}
 
 		/**
@@ -542,7 +549,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.canAcceptTrade = function() {
-			return this.player[this.playerID].canAcceptTrade();
+			return this.players[this.playerID].canAcceptTrade();
 		}
 
 		/**
