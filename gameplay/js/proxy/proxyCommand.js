@@ -641,8 +641,8 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		core.forceClassInherit(RoadBuildingCommand, CommandTemplate);
 		function RoadBuildingCommand(newIndex){
 			CommandTemplate.call(this, "Road_Building", newIndex);
-			this.spot1 = new EdgeLocation();
-			this.spot2 = new EdgeLocation();
+			this.spot1 = null;
+			this.spot2 = null;
 		}
 		
 		RoadBuildingCommand.prototype.sendToProxy = function(args){
