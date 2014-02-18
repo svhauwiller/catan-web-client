@@ -48,13 +48,15 @@ catan.models.Map = (function mapNameSpace(){
 		* @property robber
 		* @type {HexLocation}
 		*/
+		
 		function Map(){
 			this.numbers = new Array();
 			this.ports = new Array();
 			this.radius = 4; // should default be zero???
 			this.robber = new hexgrid.HexLocation();
 			this.hexGrid = hexgrid.HexGrid.getRegular(this.radius, CatanHex);
-			console.log(this);
+			console.log("constructor");
+			//console.log(this.hexGrid);
 		};
 		
 		Map.prototype.update = function(newMap){
@@ -63,6 +65,7 @@ catan.models.Map = (function mapNameSpace(){
 			this.radius = newMap.radius;
 			this.robber = newMap.robber;
 			this.hexGrid = newMap.hexGrid;
+			console.log(this.hexGrid);
 		};
 	
 		
@@ -73,6 +76,32 @@ catan.models.Map = (function mapNameSpace(){
 			// identify associated resources (1 for settlement, 2 for city)
 			// create a map data structure with player ids as keys and resourcelists of rewards as values
 			// var rewards = {0: new catan.models.bank.ResourceList()};
+			var directions = new Array();
+			directions[0] = "N";
+			directions[1] = "NE";
+			directions[2] = "E";
+			directions[3] = "SE";
+			directions[4] = "S";
+			directions[5] = "SW";
+			directions[6] = "W";
+			directions[7] = "NW";
+			
+			var vertexArray = this.numbers[diceNum];
+			var playerArray = new Array();
+			
+			for(var i = 0; i < vertexArray.length; i++){
+				console.log(this.hexGrid);
+				var givenHex = hexgrid.getHex(new hexgrid.HexLocation(vertexArray[i].x, vertexArray[i].y));
+				for(var d = 0; d < directions.length; d++){
+					if(givenHex.getVertex(directions[d]).getOwner() != -1){
+						playerArray[playerArray.length - 1] = givenHex.getVertex(directions[d]).getOwner();
+					}
+				}
+			}
+		
+			console.log(playerArray);
+			
+			
 			var rewards = new catan.models.bank.ResourceList("player");
 			return rewards;
 		};
@@ -83,10 +112,10 @@ catan.models.Map = (function mapNameSpace(){
 			var minusOne = this.hexGrid.getHex(hex).getEdge(theDirection) - 1;
 			
 			if(plusOne == 6){
-				plusOne = 0;			
+				plusOne = 0;
 			}
 			if(minusOne == -1){
-				minusOne = 5;		
+				minusOne = 5;
 			}
 
 			if(this.hexGrid.getHex(hex).getEdge(plusOne).getOwner()==playerID||
@@ -377,15 +406,16 @@ catan.models.Map = (function mapNameSpace(){
 		};
 		
 		Map.prototype.getRobberVictims = function(){
-			/*var robberAdjacent = this.hexGrid.getHex(this.robber).getVertexes();
+			console.log(this.hexGrid);
+			var robberAdjacent = this.hexGrid.getHex(this.robber);//.getVertexes();
 			var victimList = new Array();
 			for(var i = 0; i < robberAdjacent.length; i++){
 				if(robberAdjacent[i] != -1 && !checkIfAlreadyVictim(victimList, i)){
 					victimList.push(i);
 				}
 			}
-			return victimList;*/
-			return "hello person";
+			return victimList;
+			//return "hello person";
 		};
 		
 		
