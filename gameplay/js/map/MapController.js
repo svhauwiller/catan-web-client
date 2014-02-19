@@ -38,9 +38,33 @@ catan.map.Controller = (function catan_controller_namespace() {
 			catan.core.BaseController.call(this,view,model);
 			this.setModalView(modalView);
 			this.setRobView(robView);
+
+			this.initFromModel();
+
 			// var hexType = getHexType(hex);
 			// this.getView().addHex(hex.getLocation(), hexType);
 		}
+
+		MapController.prototype.initFromModel = function() {
+			var _this = this;
+
+			var hexRows = this.getClientModel().map.hexGrid.hexes;
+			var chitNums = this.getClientModel().map.numbers;
+
+			hexRows.forEach(function(hexRow){
+				hexRow.forEach(function(hex){
+					_this.getView().addHex(hex.location, "water");
+				});
+			}); 
+
+			for(var num in chitNums){
+				chitNums[num].forEach(function(chitLoc){
+					_this.getView().addNumber(chitLoc, num);
+				})
+			}
+
+			this.getView().drawPieces();
+		};
 
 		// function initFromModel() Add Hex Data (call updateFromModel)
 		// function updateFromModel() Draw Hex
