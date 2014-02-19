@@ -45,15 +45,50 @@ catan.map.Controller = (function catan_controller_namespace() {
 			// this.getView().addHex(hex.getLocation(), hexType);
 		}
 
+		MapController.prototype.getRotationIndex = function(orientation) {
+			switch(orientation){
+				case "NW":
+					return 0;
+					break;
+				case "N":
+					return 1;
+					break;
+				case "NE":
+					return 2;
+					break;
+				case "SE":
+					return 3;
+					break;
+				case "S":
+					return 4;
+					break;
+				case "SW":
+					return 5;
+					break;
+				default:
+					return -1;
+					break;
+			}
+		};
+
 		MapController.prototype.initFromModel = function() {
 			var _this = this;
 
 			var hexRows = this.getClientModel().map.hexGrid.hexes;
 			var chitNums = this.getClientModel().map.numbers;
+			var ports = this.getClientModel().map.ports;
+			var landType;
+			var resourceType;
+			var portLocation;
 
 			hexRows.forEach(function(hexRow){
 				hexRow.forEach(function(hex){
-					_this.getView().addHex(hex.location, "water");
+					if(hex.isLand){
+						landType = hex.landtype ? hex.landtype.toLowerCase() : "desert";
+						_this.getView().addHex(hex.location, landType);
+					} else {
+						_this.getView().addHex(hex.location, "water");
+					}
 				});
 			}); 
 
@@ -63,8 +98,19 @@ catan.map.Controller = (function catan_controller_namespace() {
 				})
 			}
 
+			ports.forEach(function(port){
+				portLocation = port.location;
+				portLocation.rotation = _this.getRotationIndex(port.orientation);
+				resourceType = port.inputResource ? port.inputResource.toLowerCase() : "three";
+				console.log(port);
+				console.log(portLocation);
+				_this.getView().addPort(portLocation, resourceType);
+			});
+
 			this.getView().drawPieces();
 		};
+
+
 
 		// function initFromModel() Add Hex Data (call updateFromModel)
 		// function updateFromModel() Draw Hex
