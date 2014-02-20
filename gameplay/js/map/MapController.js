@@ -39,6 +39,8 @@ catan.map.Controller = (function catan_controller_namespace() {
 			this.setModalView(modalView);
 			this.setRobView(robView);
 
+			console.log(this.funMsg);
+
 			this.initFromModel();
 
 			// var hexType = getHexType(hex);
@@ -102,18 +104,16 @@ catan.map.Controller = (function catan_controller_namespace() {
 				portLocation = port.location;
 				portLocation.rotation = _this.getRotationIndex(port.orientation);
 				resourceType = port.inputResource ? port.inputResource.toLowerCase() : "three";
-				console.log(port);
-				console.log(portLocation);
 				_this.getView().addPort(portLocation, resourceType);
 			});
 
+			this.updateFromModel();
+		};
+
+		MapController.prototype.updateFromModel = function() {
 			this.getView().drawPieces();
 		};
 
-
-
-		// function initFromModel() Add Hex Data (call updateFromModel)
-		// function updateFromModel() Draw Hex
         
         /**
 		 This method is called by the Rob View when a player to rob is selected via a button click.

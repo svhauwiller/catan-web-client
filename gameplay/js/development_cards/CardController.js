@@ -32,6 +32,10 @@ catan.devCards.Controller = (function(){
 			Controller.call(this,view,clientModel);
 			this.setBuyView(buyView);
 		}
+
+		DevCardController.prototype.updateFromModel = function() {
+			console.log("Update Dev Card");
+		};
 		
 		/**
 		 * Called when the player buys a development card

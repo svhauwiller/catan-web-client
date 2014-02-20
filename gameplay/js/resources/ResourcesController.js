@@ -44,6 +44,10 @@ catan.resources.Controller = (function resources_namespace() {
         
 		core.defineProperty(ResourceBarController.prototype, "Actions");
 
+		ResourceBarController.prototype.updateFromModel = function() {
+			console.log("Update Resource Bar");
+		};
+
 		/**
 		 * The action to take on clicking the resource bar road button. Brings up the map 
 		 * overlay and allows you to place a road.

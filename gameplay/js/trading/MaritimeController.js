@@ -31,6 +31,10 @@ catan.trade.maritime.Controller = (function trade_namespace(){
         
 		MaritimeController.prototype = core.inherit(Controller.prototype);
 
+		MaritimeController.prototype.updateFromModel = function() {
+			console.log("Update Maritime");
+		};
+
 		/**
          * Called by the view when the player "undoes" their give selection
 		 * @method unsetGiveValue

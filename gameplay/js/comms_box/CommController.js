@@ -48,6 +48,10 @@ catan.comm.Controller = (function () {
 		function LogController(logView,model){
 			BaseCommController.call(this,logView,model);
 		}
+
+		LogController.prototype.updateFromModel = function() {
+			console.log("Update Log");
+		};
         
 		return LogController;
 	}());
@@ -69,6 +73,10 @@ catan.comm.Controller = (function () {
 		function ChatController(chatView,model){
 			BaseCommController.call(this,chatView,model);
 		}
+
+		ChatController.prototype.updateFromModel = function() {
+			console.log("Update Chat");
+		};
         
 		/**
 		Called by the view whenever input is submitted

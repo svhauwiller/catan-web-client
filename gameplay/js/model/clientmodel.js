@@ -102,6 +102,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 			this.players = new Object();
 			this.players[playerID] = new catan.models.Player();
 			this.proxy = new catan.proxy.Proxy("", playerID);
+			this.state = new catan.models.State();
 			this.tradeOffer = new catan.models.utilities.TradeOffer();
 			this.turnTracker = new catan.models.utilities.TurnTracker();
 			this.winner = null;
@@ -122,6 +123,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 			var initModel = JSON.parse(response.responseText);
 			this.initOtherPlayers(initModel.players);
 			this.updateModel(initModel);
+
 			success();
 
 			return true;
@@ -142,22 +144,31 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 
 			console.log(updatedModel);
 
-			updatedModel.players.forEach(function(player){
-				_this.players[player.id].updateAll(player);
-			});
+			if(this.state.isNew(updatedModel)){
 
-			this.bank.updateCopy(updatedModel.bank, updatedModel.deck);
-			
-			this.map.update(updatedModel.map);
+				updatedModel.players.forEach(function(player){
+					_this.players[player.id].updateAll(player);
+				});
 
-			this.chat.update(updatedModel.chat.lines);
-			this.log.update(updatedModel.log.lines);
+				this.bank.updateCopy(updatedModel.bank, updatedModel.deck);
+				
+				this.map.update(updatedModel.map);
 
-			this.turnTracker.update(updatedModel.turnTracker);
+				this.chat.update(updatedModel.chat.lines);
+				this.log.update(updatedModel.log.lines);
 
-			this.biggestArmy = updatedModel.biggestArmy;
-			this.longestRoad = updatedModel.longestRoad;
-			this.winner = updatedModel.winner;
+				this.turnTracker.update(updatedModel.turnTracker);
+
+				this.biggestArmy = updatedModel.biggestArmy;
+				this.longestRoad = updatedModel.longestRoad;
+				this.winner = updatedModel.winner;
+
+				this.state.updateModel(updatedModel);
+			}
+
+			setTimeout(function(){
+				_this.state.updateModel(updatedModel);
+			},10000);
 
 			console.log(_this);
 		}

@@ -32,6 +32,10 @@ catan.roll.Controller = (function roll_namespace(){
 			this.showRollResult = false;
 			
 		};
+
+		RollController.prototype.updateFromModel = function() {
+			console.log("Update Roll");
+		};
         
 		/**
 		 * This is called from the roll result view.  It should close the roll result view and allow the game to continue.

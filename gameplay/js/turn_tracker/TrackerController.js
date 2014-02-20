@@ -32,6 +32,10 @@ catan.turntracker.Controller = (function turntracker_namespace() {
 
 		core.forceClassInherit(TurnTrackerController,Controller);
 
+		TurnTrackerController.prototype.updateFromModel = function() {
+			console.log("Update Turn Tracker");
+		};
+
 		/**
 		 * Called by the view when the local player ends their turn.
 		 * @method endTurn

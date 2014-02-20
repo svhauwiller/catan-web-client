@@ -33,6 +33,10 @@ catan.trade.domestic.Controller= (function trade_namespace(){
 		};
         
 		DomesticController.prototype = core.inherit(Controller.prototype);
+
+		DomesticController.prototype.updateFromModel = function() {
+			console.log("Update Domestic");
+		};
          
          
 		/******** Methods called by the Domestic View *********/
