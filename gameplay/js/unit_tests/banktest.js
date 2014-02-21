@@ -22,6 +22,14 @@ test("Year of Plenty", function(){
 	ok(beforeCount > afterCount, "Unable to year of plenty");
 });
 
+test("Take Dev Card", function(){
+	var namespace = catan.models.bank;
+
+	var model = new catan.models.ClientModel(0);
+	
+	var beforeCount = model.bank
+});
+
 test("Monument", function(){
 
 	var namespace = catan.models.bank;
