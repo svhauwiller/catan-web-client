@@ -127,7 +127,7 @@ catan.models.Player = (function playerNameSpace(){
 			this.oldDevCards = new catan.models.bank.DevCardList("player");
 			this.orderNumber = 0;
 			this.playedDevCard = false;
-			this.playerID = 0;
+			this.playerID = -1;
 			this.resources = new catan.models.bank.ResourceList("player");
 			this.victoryPts = 0;
 		}
