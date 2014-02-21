@@ -223,7 +223,7 @@ catan.models.utilities = (function utilitiesNamespace(){ //namespace dec
 		TurnTracker.prototype.update = function(turnTrackerUpdate){
 			//currentTurn and status
 			this.currentTurn = turnTrackerUpdate.currentTurn;
-			this.theStatus = turnTrackerUpdate.theStatus;		
+			this.theStatus = turnTrackerUpdate.status;		
 		}
 		
 		return TurnTracker;

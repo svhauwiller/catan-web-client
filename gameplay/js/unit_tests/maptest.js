@@ -83,7 +83,21 @@ test("Update From Client Model", function(){
 	ok(isUpdated == true, "Passed", "Failed");
 });
 
-test("Get Roll Resources", function(){
+test("Can Place Road", function(){
+	console.log("Can Place Road test");
+	var model = new catan.models.ClientModel(0);
+	model.initFromServer(function(){ console.log("Initialization Complete"); });
+	console.log("here");
+	//console.log(model.map.robber);
+	var playerID = 0;	
+	var hexLoc = new catan.models.hexgrid.HexLocation(2, 0);
+	var edgeDirection = "NW";
+	var canPlaceRoad = model.map.canPlaceRoad(playerID, hexLoc, edgeDirection);
+	console.log(canPlaceRoad);
+	ok(canPlaceRoad == true, "Can Build", "Cannot Build");
+});
+
+/*test("Get Roll Resources", function(){
 	console.log("Get Robber Victims test");
 	var model = new catan.models.ClientModel(0);
 	model.initFromServer(function(){ console.log("Initialization Complete"); });
@@ -92,7 +106,7 @@ test("Get Roll Resources", function(){
 	var rewardsList = model.map.getResourcesFromRoll(6);
 	console.log(rewardsList);
 	ok(0 == "0", "The End");
-});
+});*/
 
 
 /*test("Get Robber Victims", function(){

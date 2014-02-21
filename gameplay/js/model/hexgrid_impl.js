@@ -9,12 +9,8 @@ catan.models = catan.models || {};
 */
 
 catan.models.Map = (function mapNameSpace(){
-    
-    var hexgrid = catan.models.hexgrid;
-    
-    var Map = (function Map_Class(){
-       
-       
+		var hexgrid = catan.models.hexgrid;
+		var Map = (function Map_Class(){
 		/**
 		* Map class
 		* <pre>
@@ -52,22 +48,21 @@ catan.models.Map = (function mapNameSpace(){
 		function Map(){
 			this.numbers = new Array();
 			this.ports = new Array();
-			this.radius = 4; // should default be zero???
+			this.radius = 4;
 			this.robber = new hexgrid.HexLocation();
 			this.hexGrid = hexgrid.HexGrid.getRegular(this.radius, CatanHex);
-			console.log("constructor");
-			//console.log(this.hexGrid);
 		};
 		
 		Map.prototype.update = function(newMap){
+			console.log(newMap);
 			this.numbers = newMap.numbers;
 			this.ports = newMap.ports;
 			this.radius = newMap.radius;
 			this.robber = newMap.robber;
-			this.hexGrid = newMap.hexGrid;
-			console.log(this.hexGrid);
+			this.hexGrid.update(newMap.hexGrid);
+			//this.hexGrid = newMap.hexGrid;
+			//console.log(this.hexGrid);
 		};
-	
 		
 		Map.prototype.getResourcesFromRoll = function(diceNum){
 			// find hexes that don't have robber
@@ -98,18 +93,46 @@ catan.models.Map = (function mapNameSpace(){
 					}
 				}
 			}
-		
-			console.log(playerArray);
-			
 			
 			var rewards = new catan.models.bank.ResourceList("player");
 			return rewards;
 		};
+		
+		Map.prototype.getEdge = function(theDirection){
+			if(theDirection == "NW"){
+				return 0;
+			}
+			else if(theDirection == "N"){
+				return 1;
+			}
+			else if(theDirection == "NE"){
+				return 2;
+			}
+			else if(theDirection == "SE"){
+				return 3;
+			}
+			else if(theDirection == "S"){
+				return 4;
+			}
+			else if(theDirection == "SW"){
+				return 5;
+			} 
+		}
 	
 		Map.prototype.canPlaceRoad = function(playerID, hex, theDirection){
 			var tempHex = new Object();
-			var plusOne = this.hexGrid.getHex(hex).getEdge(theDirection) + 1;
-			var minusOne = this.hexGrid.getHex(hex).getEdge(theDirection) - 1;
+			var tempHexLoc = new Object();
+			//console.log(hex);
+			
+			var currentHex = this.hexGrid.getHex(hex);
+			var edgesOfHex = currentHex.edges;
+			
+			console.log(currentHex);
+			
+			//var plusOneHexLoc = new catan.models.hexgrid.HexLocation(returnedHexLoc.location.x, returnedHexLoc.location.y);
+			
+			var plusOne = this.getEdge(theDirection) + 1;
+			var minusOne = this.getEdge(theDirection) - 1;
 			
 			if(plusOne == 6){
 				plusOne = 0;
@@ -118,13 +141,15 @@ catan.models.Map = (function mapNameSpace(){
 				minusOne = 5;
 			}
 
-			if(this.hexGrid.getHex(hex).getEdge(plusOne).getOwner()==playerID||
-				this.hexGrid.getHex(hex).getEdge(minusOne).getOwner()==playerID)
-				{return true;}
+			if(edgesOfHex[plusOne].value==playerID || edgesOfHex[minusOne].value==playerID){
+				return true;
+			}
 
-			else if(thePosition==0)
+			else if(theDirection==0)
 			{
-				tempHex = hex.getNeighborLocation(HexDirection.NW);
+				//tempHex = hex.getNeighborLocation(HexDirection.NW);
+				tempHexLoc = new catan.models.hexgrid.HexLocation(currentHex.location.x, currentHex.location.y);
+				tempHex = this.hexGrid.getHex(tempHexLoc);
 				if(!hex.equals(tempHex) && tempHex != null)
 				{
 					if(tempHex.getEdge(EdgeDirection.S).getOwner()==playerID||
@@ -134,7 +159,7 @@ catan.models.Map = (function mapNameSpace(){
 						}					
 				}	
 			}
-			else if(thePosition==1)
+			else if(theDirection==1)
 			{
 				tempHex = hex.getNeighborLocation(HexDirection.N);
 				if(!hex.equals(tempHex) && tempHex != null)
@@ -146,7 +171,7 @@ catan.models.Map = (function mapNameSpace(){
 						}	
 				}					
 			}
-			else if(thePosition==2)
+			else if(theDirection==2)
 			{
 				tempHex = hex.getNeighborLocation(HexDirection.NE);
 				if(!hex.equals(tempHex) && tempHex != null)
@@ -158,7 +183,7 @@ catan.models.Map = (function mapNameSpace(){
 						}						
 				}	
 			}
-			else if(thePosition==3)
+			else if(theDirection==3)
 			{
 				tempHex = hex.getNeighborLocation(HexDirection.SE);
 				if(!hex.equals(tempHex) && tempHex != null)
@@ -170,7 +195,7 @@ catan.models.Map = (function mapNameSpace(){
 						}						
 				}	
 			}
-			else if(thePosition==4)
+			else if(theDirection==4)
 			{
 				tempHex = hex.getNeighborLocation(HexDirection.S);
 				if(!hex.equals(tempHex) && tempHex != null)
@@ -182,7 +207,7 @@ catan.models.Map = (function mapNameSpace(){
 						}						
 				}	
 			}		
-			else if(thePosition==5)
+			else if(theDirection==5)
 			{
 				tempHex = hex.getNeighborLocation(HexDirection.SW);
 				if(!hex.equals(tempHex) && tempHex != null)
@@ -190,8 +215,8 @@ catan.models.Map = (function mapNameSpace(){
 					if(tempHex.getEdge(EdgeDirection.N).getOwner()==playerID||
 						tempHex.getEdge(EdgeDirection.SE).getOwner()==playerID)
 					{
-						return true;						
-					}						
+						return true;
+					}
 				}
 			}	
 			return false;						
