@@ -32,15 +32,24 @@ catan.points.Controller = (function VPController_Class(){
 	PointController.prototype.updateFromModel = function() {
 		console.log("Update Point");
 
-
 		var playerNum = this.getClientModel().playerID;
 
 		var player = this.getClientModel().players[playerNum];
 
 		console.log(player);
 
-
 		this.getView().setPoints(player.victoryPts);
+
+		var winnerNum = this.getClientModel().winner;
+
+		if (winnerNum != -1) {
+			var winningPlayer = this.getClientModel().players[winnerNum];
+
+			this.getGameFinishedView().setWinner(winningPlayer.name, (winnerNum == playerNum));
+
+			this.getGameFinishedView().showModal();
+		}
+
 	};
 	
 	return PointController;	
