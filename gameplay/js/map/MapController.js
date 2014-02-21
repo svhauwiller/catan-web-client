@@ -38,7 +38,86 @@ catan.map.Controller = (function catan_controller_namespace() {
 			catan.core.BaseController.call(this,view,model);
 			this.setModalView(modalView);
 			this.setRobView(robView);
+
+			console.log(this.funMsg);
+
+			this.initFromModel();
+
+			// var hexType = getHexType(hex);
+			// this.getView().addHex(hex.getLocation(), hexType);
 		}
+
+		MapController.prototype.getRotationIndex = function(orientation) {
+			switch(orientation){
+				case "NW":
+					return 0;
+					break;
+				case "N":
+					return 1;
+					break;
+				case "NE":
+					return 2;
+					break;
+				case "SE":
+					return 3;
+					break;
+				case "S":
+					return 4;
+					break;
+				case "SW":
+					return 5;
+					break;
+				default:
+					return -1;
+					break;
+			}
+		};
+
+		MapController.prototype.initFromModel = function() {
+			var _this = this;
+
+			var hexRows = this.getClientModel().map.hexGrid.hexes;
+			var chitNums = this.getClientModel().map.numbers;
+			var ports = this.getClientModel().map.ports;
+			var robberLoc = this.getClientModel().map.robber;
+
+			var landType;
+			var resourceType;
+			var portLocation;
+
+			hexRows.forEach(function(hexRow){
+				hexRow.forEach(function(hex){
+					if(hex.isLand){
+						landType = hex.landtype ? hex.landtype.toLowerCase() : "desert";
+						_this.getView().addHex(hex.location, landType);
+					} else {
+						_this.getView().addHex(hex.location, "water");
+					}
+				});
+			}); 
+
+			for(var num in chitNums){
+				chitNums[num].forEach(function(chitLoc){
+					_this.getView().addNumber(chitLoc, num);
+				})
+			}
+
+			ports.forEach(function(port){
+				portLocation = port.location;
+				portLocation.rotation = _this.getRotationIndex(port.orientation);
+				resourceType = port.inputResource ? port.inputResource.toLowerCase() : "three";
+				_this.getView().addPort(portLocation, resourceType);
+			});
+
+			this.getView().placeRobber(robberLoc);
+
+			this.updateFromModel();
+		};
+
+		MapController.prototype.updateFromModel = function() {
+			this.getView().drawPieces();
+		};
+
         
         /**
 		 This method is called by the Rob View when a player to rob is selected via a button click.

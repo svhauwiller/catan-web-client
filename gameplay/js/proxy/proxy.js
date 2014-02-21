@@ -46,20 +46,19 @@ catan.proxy.Proxy = (function proxyNameSpace(){
 
 		Proxy.prototype.sendToServer = function(type, cmdURL, JSONObj){
 			console.log(JSONObj);
-			if(type == "POST"){
-				jQuery.post(cmdURL, JSON.stringify(JSONObj), this.runCommand, "JSON").fail(this.failHandler);
-			}
-			else{ // assume its a get model
-				jQuery.get("/game/model", null, this.updateGameModel, "json").fail(this.failHandler);
-			}
+			return jQuery.ajax({
+				async: false,
+				type: type,
+				url: cmdURL,
+				data: JSON.stringify(JSONObj),
+				dataType: "JSON"
+			}).done(this.runCommand)
+			  .fail(this.failHandler);
 		};
 		
 		Proxy.prototype.runCommand = function (returnData) {
-			console.log("Run Command Run!!!");
-		}
-		
-		Proxy.prototype.updateGameModel = function (returnData) {
-			console.log("Update Model!!! Taaadaaaa!!!");
+			console.log("Successfully POSTed!");
+			console.log(returnData);
 		}
 		
 		Proxy.prototype.failHandler = function (jqXHR, textStatus, errorThrown) {

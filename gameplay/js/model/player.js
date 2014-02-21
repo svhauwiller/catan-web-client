@@ -127,17 +127,18 @@ catan.models.Player = (function playerNameSpace(){
 			this.oldDevCards = new catan.models.bank.DevCardList("player");
 			this.orderNumber = 0;
 			this.playedDevCard = false;
-			this.playerID = 0;
+			this.playerID = -1;
 			this.resources = new catan.models.bank.ResourceList("player");
 			this.victoryPts = 0;
 		}
 	
 		Player.prototype.updateAll = function(playerModel){
+			console.log(playerModel);
 			this.MAX_GAME_POINTS = playerModel.MAX_GAME_POINTS;
 			this.cities = playerModel.cities;
 			this.settlements = playerModel.settlements;
 			this.roads = playerModel.roads;
-			this.soldiers = playerModel.soldier;
+			this.soldiers = playerModel.soldiers;
 			this.color = playerModel.color;
 			this.discarded = playerModel.discarded;
 			this.largestArmy = playerModel.largestArmy;
@@ -150,13 +151,35 @@ catan.models.Player = (function playerNameSpace(){
 			this.playedDevCard = playerModel.playedDevCard;
 			this.playerID = playerModel.playerID;
 			this.replaceAllResources(playerModel.resources);
-			this.victoryPts = playerModel.victoryPts;		
+			this.victoryPts = playerModel.victoryPoints;		
 		}
 
+		/**
+		* My method description.  Like other pieces of your comment blocks, 
+		* this can span multiple lines.
+		*
+		* @method methodName
+		* @param {String} foo Argument 1
+		* @param {Object} config A config object
+		* @param {String} config.name The name on the config object
+		* @param {Function} config.callback A callback function on the config object
+		* @param {Boolean} [extra=false] Do extra, optional work
+		* @return {Boolean} Returns true on success
+		*/
 		Player.prototype.updateVic = function (points){
+			console.assert(points === -2 || points === 1 || points === 2, "Invalid updateVic parameter!");
+
+			console.log("poop");
+
 			this.victoryPts += points;
+
 		}
 
+		/**
+		* The number of the victory points of the player
+		* @property victoryPts
+		* @type {integer}
+		*/
 		Player.prototype.updateResource = function(type, amount){
 			if(type === "brick"){
 				this.resources.brick += amount;
@@ -175,18 +198,33 @@ catan.models.Player = (function playerNameSpace(){
 			}
 		}
 	
+		/**
+		* The number of the victory points of the player
+		* @property victoryPts
+		* @type {integer}
+		*/
 		Player.prototype.updateAllResources = function(resourceList) {
 			for (var key in resourceList) {
 				this.resources[key] += resourceList[key];
 			}
 		}
-	
+
+		/**
+		* The number of the victory points of the player
+		* @property victoryPts
+		* @type {integer}
+		*/	
 		Player.prototype.replaceAllResources = function(modelResourceList) {
 			for (var key in modelResourceList) {
 				this.resources[key] = modelResourceList[key];
 			}
 		}
-	
+
+		/**
+		* The number of the victory points of the player
+		* @property victoryPts
+		* @type {integer}
+		*/
 		Player.prototype.replaceDevCards = function( modelDevCardList){
 	
 			var tempDevCards = new catan.models.bank.DevCardList("player");
@@ -198,7 +236,12 @@ catan.models.Player = (function playerNameSpace(){
 			return tempDevCards;
 				
 		}
-		
+
+		/**
+		* The number of the victory points of the player
+		* @property victoryPts
+		* @type {integer}
+		*/
 		Player.prototype.canBuyRoad = function(){
 			
 			var hasBrick = false;
@@ -219,6 +262,11 @@ catan.models.Player = (function playerNameSpace(){
 
 		}
 		
+		/**
+		* The number of the victory points of the player
+		* @property victoryPts
+		* @type {integer}
+		*/
 		Player.prototype.canBuySettlement = function(){
 			
 			var hasBrick = false;
@@ -246,6 +294,11 @@ catan.models.Player = (function playerNameSpace(){
 			return (hasWood && hasBrick && hasWheat && hasSheep && hasSettlement);
 		}
 		
+		/**
+		* The number of the victory points of the player
+		* @property victoryPts
+		* @type {integer}
+		*/
 		Player.prototype.canBuyCity = function(){
 			
 			console.log("Hello Monkey");
@@ -267,6 +320,11 @@ catan.models.Player = (function playerNameSpace(){
 			return (hasWheat && hasOre && hasCity);
 		}
 		
+		/**
+		* The number of the victory points of the player
+		* @property victoryPts
+		* @type {integer}
+		*/
 		Player.prototype.canBuyDevCard = function(){
 			
 			var hasWheat = false;
@@ -286,17 +344,32 @@ catan.models.Player = (function playerNameSpace(){
 			
 			return (hasWheat && hasOre && hasSheep);
 		}
-		
+
+		/**
+		* The number of the victory points of the player
+		* @property victoryPts
+		* @type {integer}
+		*/		
 		Player.prototype.currentPlayerResources = function(){
 			
 			return this.resources;
 		}
-		
+
+		/**
+		* The number of the victory points of the player
+		* @property victoryPts
+		* @type {integer}
+		*/
 		Player.prototype.needToDiscardCheck = function(){
 			
 			return (this.resources.wood + this.resources.wheat + this.resources.sheep + this.resources.brick + this.resources.ore) > 7;
 		}
-		
+
+		/**
+		* The number of the victory points of the player
+		* @property victoryPts
+		* @type {integer}
+		*/
 		Player.prototype.hasResources = function(tradelist){
 			var hasBrick = false;
 			var hasWood = false;
@@ -323,6 +396,11 @@ catan.models.Player = (function playerNameSpace(){
 			return (hasWood && hasBrick && hasWheat && hasSheep && hasOre); 				
 		}
 	
+		/**
+		* The number of the victory points of the player
+		* @property victoryPts
+		* @type {integer}
+		*/	
 		Player.prototype.buy = function(type)
 		{
 			switch(type)
@@ -352,7 +430,9 @@ catan.models.Player = (function playerNameSpace(){
 					this.resources.sheep -= 1;
 					this.resources.ore -= 1;
 					this.resources.wheat -= 1;
-					break;						
+					break;
+
+				alert("Byu was passed invalid type!");						
 			}
 		}
 		

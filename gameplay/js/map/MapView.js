@@ -571,7 +571,7 @@ catan.map.View = (function makeMapView(){
 		
 		// Factory functions;
 		HexDefinition.prototype.makePort = function(loc,type){
-		    return makeHexLike.call(this,loc,type,this.getPortImages(),loc.getRotation());
+		    return makeHexLike.call(this,loc,type,this.getPortImages(),loc.rotation);
 		}
 		
 		//Factory functions;

@@ -44,6 +44,44 @@ catan.resources.Controller = (function resources_namespace() {
         
 		core.defineProperty(ResourceBarController.prototype, "Actions");
 
+		ResourceBarController.prototype.updateFromModel = function() {
+			var clientModel = this.getClientModel();
+			console.log("Update Resource Bar");
+			//console.log(clientModel);
+			var currentPlayerResources = clientModel.currentPlayerResources();
+			//console.log(currentPlayerResources);
+			this.getView().updateAmount("brick", currentPlayerResources["brick"]);
+			this.getView().updateAmount("ore", currentPlayerResources["ore"]);
+			this.getView().updateAmount("sheep", currentPlayerResources["sheep"]);
+			this.getView().updateAmount("wheat", currentPlayerResources["wheat"]);
+			this.getView().updateAmount("wood", currentPlayerResources["wood"]);
+			
+			var currentPlayer = clientModel.players[clientModel.playerID];
+			this.getView().updateAmount("Roads", currentPlayer.roads);
+			this.getView().updateAmount("Settlements", currentPlayer.settlements);
+			this.getView().updateAmount("Cities", currentPlayer.cities);
+			this.getView().updateAmount("Soldiers", currentPlayer.soldiers);
+			
+			//enable/disable buttons depending on the player's turn status			
+			this.clientModel = this.getClientModel();
+			this.myNumber = this.clientModel.players[this.clientModel.playerID].orderNumber
+			this.currentTurnNumber = this.clientModel.turnTracker.currentTurn;
+			if(this.myNumber === this.currentTurnNumber){
+				this.getView().setActionEnabled("Roads",true);
+				this.getView().setActionEnabled("Settlements",true);
+				this.getView().setActionEnabled("Cities",true);
+				this.getView().setActionEnabled("BuyCard",true);
+				this.getView().setActionEnabled("DevCards",true);
+			}
+		else{
+				this.getView().setActionEnabled("Roads",false);
+				this.getView().setActionEnabled("Settlements",false);
+				this.getView().setActionEnabled("Cities",false);
+				this.getView().setActionEnabled("BuyCard",false);
+				this.getView().setActionEnabled("DevCards",false)
+		}
+		};
+
 		/**
 		 * The action to take on clicking the resource bar road button. Brings up the map 
 		 * overlay and allows you to place a road.

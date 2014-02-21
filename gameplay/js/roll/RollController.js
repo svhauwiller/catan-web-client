@@ -30,7 +30,37 @@ catan.roll.Controller = (function roll_namespace(){
 			Controller.call(this,view,clientModel);
 			this.rollInterval = false;
 			this.showRollResult = false;
-			
+		};
+
+		RollController.prototype.updateFromModel = function() {
+			var clientModel = this.getClientModel();
+
+			var player = clientModel.players[clientModel.playerID];
+
+
+			if(clientModel.turnTracker.currentTurn === player.orderNumber &&
+			   clientModel.turnTracker.theStatus === "Rolling"){
+				this.startRollCountdown();
+			}
+		};
+
+
+		RollController.prototype.startRollCountdown = function() {
+			var _this = this;
+			var timerLength = 5;
+
+			var rollCountdown = setInterval(function(){
+				if(timerLength === 0){
+					clearInterval(rollCountdown);
+					_this.rollDice();
+				} else {
+					console.log(timerLength);
+					_this.getView().closeModal();
+					_this.getView().changeMessage("Rolling automatically in... " + timerLength);
+					timerLength--;
+					_this.getView().showModal();
+				}
+			}, 1000);
 		};
         
 		/**
@@ -39,6 +69,7 @@ catan.roll.Controller = (function roll_namespace(){
 		 * @return void
 		**/
 		RollController.prototype.closeResult = function(){
+			this.getRollResultView().closeModal();
 		}
 		
 		/**
@@ -47,6 +78,10 @@ catan.roll.Controller = (function roll_namespace(){
 		 * @return void
 		**/
 		RollController.prototype.rollDice = function(){
+			this.getView().closeModal();
+			var rollResult = this.getClientModel().rollDice();
+			this.getRollResultView().setAmount(rollResult);
+			this.getRollResultView().showModal();
 		};
 		
 		return RollController;

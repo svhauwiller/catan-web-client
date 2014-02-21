@@ -29,24 +29,25 @@ catan.models.bank = (function bankNameSpace(){
 		Bank.prototype.takeDev = function(){
 			var cardChosen = false;
 			while(!cardChosen){
-				var temp_index = Math.floor((Math.random()*this.devCardList.length)+1);
+				var temp_index = Math.floor((Math.random()*Object.keys(this.devCardList).length)+1);
 				var devCardString;
 				if(temp_index === 1){
-					devCardString = "sheep";
+					devCardString = "monopoly";
 				}
 				else if(temp_index === 2){
-					devCardString = "brick";
+					devCardString = "monument";
 				}
 				else if(temp_index === 3){
-					devCardString = "wheat";
+					devCardString = "roadBuilding";
 				}
 				else if(temp_index === 4){
-					devCardString = "wood";
+					devCardString = "soldier";
 				}
 				else if(temp_index === 5){
-					devCardString = "ore";
+					devCardString = "yearOfPlenty";
 				}
-					
+					console.log(Object.keys(this.devCardList).length);
+					console.log(temp_index, devCardString);
 				if(this.devCardList[devCardString] !== 0)
 				{
 					cardChosen = true;//for safety sake

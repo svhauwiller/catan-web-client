@@ -102,6 +102,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 			this.players = new Object();
 			this.players[playerID] = new catan.models.Player();
 			this.proxy = new catan.proxy.Proxy("", playerID);
+			this.state = new catan.models.State();
 			this.tradeOffer = new catan.models.utilities.TradeOffer();
 			this.turnTracker = new catan.models.utilities.TurnTracker();
 			this.winner = null;
@@ -122,6 +123,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 			var initModel = JSON.parse(response.responseText);
 			this.initOtherPlayers(initModel.players);
 			this.updateModel(initModel);
+
 			success();
 
 			return true;
@@ -131,8 +133,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 			var _this = this;
 
 			playerData.forEach(function(player){
-				if(_this.playerID !== player.id){
-					_this.players[player.id] = new catan.models.Player();
+				if(_this.playerID !== player.playerID){
+					_this.players[player.playerID] = new catan.models.Player();
 				}
 			});
 		}
@@ -142,22 +144,32 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 
 			console.log(updatedModel);
 
-			updatedModel.players.forEach(function(player){
-				_this.players[player.id].updateAll(player);
-			});
+			if(this.state.isNew(updatedModel)){
 
-			this.bank.updateCopy(updatedModel.bank, updatedModel.deck);
-			
-			this.map.update(updatedModel.map);
+				updatedModel.players.forEach(function(player){
+					_this.players[player.playerID].updateAll(player);
+				});
+				console.log(this.players);
 
-			this.chat.update(updatedModel.chat.lines);
-			this.log.update(updatedModel.log.lines);
+				this.bank.updateCopy(updatedModel.bank, updatedModel.deck);
+				
+				this.map.update(updatedModel.map);
 
-			this.turnTracker.update(updatedModel.turnTracker);
+				this.chat.update(updatedModel.chat.lines);
+				this.log.update(updatedModel.log.lines);
 
-			this.biggestArmy = updatedModel.biggestArmy;
-			this.longestRoad = updatedModel.longestRoad;
-			this.winner = updatedModel.winner;
+				this.turnTracker.update(updatedModel.turnTracker);
+
+				this.biggestArmy = updatedModel.biggestArmy;
+				this.longestRoad = updatedModel.longestRoad;
+				this.winner = updatedModel.winner;
+
+				this.state.updateModel(updatedModel);
+			}
+
+			setTimeout(function(){
+				_this.state.updateModel(updatedModel);
+			},10000);
 
 			console.log(_this);
 		}
@@ -165,7 +177,9 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		ClientModel.prototype.runCommand = function(cmd, args){
 			var cmdObj = new cmd(this.playerID);
 			var response = cmdObj.sendToProxy(args);
-			console.log("response", response);
+			var updatedModel = JSON.parse(response.responseText);
+			this.updateModel(updatedModel);
+			console.log("Response: ", response);
 		}
 
 		/**
@@ -206,9 +220,9 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @params {ResourceList} listToDiscard list of resource cards that are to be discarded
 		*/	
 		ClientModel.prototype.discardCards = function(listToDiscard) {
-
-			//1 Decrement the selected cards from player's hand
-			//2 Add selected cards to bank
+			var args = new Array();
+			args.push(listToDiscard);
+			this.runCommand(catan.proxy.proxyCommands.DiscardCardsCommand, args);
 		}
 		
 		/**
@@ -247,22 +261,30 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 				dieResult = dieResult1 + dieResult2,
 				args;
 
+			console.log("Dice Result: " + dieResult);
+
 			//ROLL DICE
 			args = new Array();
 			args.push(dieResult);
 			this.runCommand(catan.proxy.proxyCommands.RollNumberCommand, args);
 
-			if(dieResult === 7){
-				//DISCARD
+			return dieResult;
 
+			//TODO: ROB
+			// if(dieResult === 7){
+			// 	//DISCARD
+			// 	console.log("Rolled 7");
 
-				//ROB
-			} else {
-				var awards = this.map.getResourcesFromRoll(diceNum);
-				for(var playerID in awards){
-					this.players[playerID].updateAllResouces(awards[playerID]);
-				}
-			}
+			// 	//ROB
+			// } else {
+			// 	//TODO: Get proper resource map
+			// 	var awards = this.map.getResourcesFromRoll(dieResult);
+			// 	console.log("Resource Awards: ", awards);
+			// 	for(var playerID in awards){
+			// 		console.log("Reward player " + playerID + " with ", awards[playerID]);
+			// 		//this.players[playerID].updateAllResources(awards[playerID]);
+			// 	}
+			// }
 
 		}
 
@@ -333,10 +355,16 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @method buyDevCard
 		*/
 		ClientModel.prototype.buyDevCard = function() {
+			console.log(this.players[this.playerID].newDevCards);
+			var addedCards = new catan.models.bank.ResourceList("player");
+			addedCards.wheat++;
+			addedCards.ore++;
+			addedCards.sheep++;
+			this.players[this.playerID].updateAllResources(addedCards);
 			if(this.canBuyDevCard()){
-				this.players[this.playerID].buy("settlement");
-				this.map.buildSettlement(playerID, hex, edgeDirection);
-			}
+				var updatedModel = this.runCommand(catan.proxy.proxyCommands.BuyDevCardCommand, null);
+				console.log(this.players[this.playerID].newDevCards);
+			} 
 		}
 
 
@@ -460,7 +488,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.canBuildRoad = function() {
-			return this.player[this.playerID].canBuildRoad();
+			return this.players[this.playerID].canBuildRoad();
 		}
 
 		/**
@@ -471,7 +499,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.canBuildSettlement = function() {
-			return this.player[this.playerID].canBuildSettlement();
+			return this.players[this.playerID].canBuildSettlement();
 		}
 
 		/**
@@ -482,7 +510,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.canBuildCity = function() {
-			return this.player[this.playerID].canBuildCity();
+			return this.players[this.playerID].canBuildCity();
 		}
 
 		/**
@@ -493,7 +521,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.canBuyDevCard = function() {
-			return this.player[this.playerID].canBuyDevCard();
+			return this.players[this.playerID].canBuyDevCard();
 		}
 
 		/**
@@ -504,7 +532,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.currentPlayerResources = function() {
-			return this.player[this.playerID].currentPlayerResources();
+			return this.players[this.playerID].currentPlayerResources();
 		}
 
 		/**
@@ -515,7 +543,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.canOfferTrade = function() {
-			return this.player[this.playerID].canOfferTrade();
+			return this.players[this.playerID].canOfferTrade();
 		}
 
 		/**
@@ -526,7 +554,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.needToDiscardCheck = function() {
-			return this.player[this.playerID].needToDiscardCheck();
+			return this.players[this.playerID].needToDiscardCheck();
 		}
 
 		/**
@@ -537,7 +565,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.canAcceptTrade = function() {
-			return this.player[this.playerID].canAcceptTrade();
+			return this.players[this.playerID].canAcceptTrade();
 		}
 
 		/**

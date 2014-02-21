@@ -38,6 +38,10 @@ catan.discard.Controller = (function discard_namespace(){
 
 		core.defineProperty(DiscardController.prototype,"waitingView");
 
+		DiscardController.prototype.updateFromModel = function() {
+			console.log("Update Discard");
+		};
+
 		/**
 		 Called by the view when the player clicks the discard button.
          It should send the discard command and allow the game to continue.
