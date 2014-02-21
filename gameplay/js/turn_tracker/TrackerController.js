@@ -44,9 +44,9 @@ catan.turntracker.Controller = (function turntracker_namespace() {
 		TurnTrackerController.prototype.updateFromModel = function() {
 			
 			this.clientModel = this.getClientModel();
-			this.myNumber = this.clientModel.playerID;
+			this.myNumber = this.clientModel.players[this.clientModel.playerID].orderNumber
 			this.currentTurnNumber = this.clientModel.turnTracker.currentTurn;
-			console.log("myNumber is: " + this.myNumber);
+			console.log("myOrderNumber is: " + this.myNumber);
 			console.log("currentTurnNumber is: " + this.currentTurnNumber);
 			if(this.myNumber === this.currentTurnNumber){
 				this.getView().updateStateView(true, "End Turn");}
