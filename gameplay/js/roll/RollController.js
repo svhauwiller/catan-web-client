@@ -31,11 +31,32 @@ catan.roll.Controller = (function roll_namespace(){
 			this.rollInterval = false;
 			this.showRollResult = false;
 			
-			this.getView().showModal();
+			
+
+			this.startRollCountdown();
 		};
 
 		RollController.prototype.updateFromModel = function() {
 			console.log("Update Roll");
+		};
+
+
+		RollController.prototype.startRollCountdown = function() {
+			var _this = this;
+			var timerLength = 5;
+
+			var rollCountdown = setInterval(function(){
+				if(timerLength === 0){
+					clearInterval(rollCountdown);
+					_this.rollDice();
+				} else {
+					console.log(timerLength);
+					_this.getView().closeModal();
+					_this.getView().changeMessage("Rolling automatically in... " + timerLength);
+					timerLength--;
+					_this.getView().showModal();
+				}
+			}, 1000);
 		};
         
 		/**
