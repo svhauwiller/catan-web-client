@@ -35,9 +35,10 @@ catan.roll.Controller = (function roll_namespace(){
 		RollController.prototype.updateFromModel = function() {
 			var clientModel = this.getClientModel();
 
-			console.log("Turn Tracker",clientModel.turnTracker);
+			var player = clientModel.players[clientModel.playerID];
 
-			if(clientModel.turnTracker.currentTurn === clientModel.playerID &&
+
+			if(clientModel.turnTracker.currentTurn === player.orderNumber &&
 			   clientModel.turnTracker.theStatus === "Rolling"){
 				this.startRollCountdown();
 			}
