@@ -31,6 +31,7 @@ catan.roll.Controller = (function roll_namespace(){
 			this.rollInterval = false;
 			this.showRollResult = false;
 			
+			this.getView().showModal();
 		};
 
 		RollController.prototype.updateFromModel = function() {
@@ -43,6 +44,7 @@ catan.roll.Controller = (function roll_namespace(){
 		 * @return void
 		**/
 		RollController.prototype.closeResult = function(){
+			this.getRollResultView().closeModal();
 		}
 		
 		/**
@@ -51,6 +53,10 @@ catan.roll.Controller = (function roll_namespace(){
 		 * @return void
 		**/
 		RollController.prototype.rollDice = function(){
+			this.getView().closeModal();
+			var rollResult = this.getClientModel().rollDice();
+			this.getRollResultView().setAmount(rollResult);
+			this.getRollResultView().showModal();
 		};
 		
 		return RollController;

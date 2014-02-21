@@ -176,6 +176,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		ClientModel.prototype.runCommand = function(cmd, args){
 			var cmdObj = new cmd(this.playerID);
 			var response = cmdObj.sendToProxy(args);
+			return JSON.parse(response.responseText);
 			console.log("Response: ", response);
 		}
 
@@ -263,23 +264,27 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 			//ROLL DICE
 			args = new Array();
 			args.push(dieResult);
-			this.runCommand(catan.proxy.proxyCommands.RollNumberCommand, args);
+			var updatedModel = this.runCommand(catan.proxy.proxyCommands.RollNumberCommand, args);
+
+			this.updateModel(updatedModel);
+
+			return dieResult;
 
 			//TODO: ROB
-			if(dieResult === 7){
-				//DISCARD
-				console.log("Rolled 7");
+			// if(dieResult === 7){
+			// 	//DISCARD
+			// 	console.log("Rolled 7");
 
-				//ROB
-			} else {
-				//TODO: Get proper resource map
-				var awards = this.map.getResourcesFromRoll(dieResult);
-				console.log("Resource Awards: ", awards);
-				for(var playerID in awards){
-					console.log("Reward player " + playerID + " with ", awards[playerID]);
-					//this.players[playerID].updateAllResources(awards[playerID]);
-				}
-			}
+			// 	//ROB
+			// } else {
+			// 	//TODO: Get proper resource map
+			// 	var awards = this.map.getResourcesFromRoll(dieResult);
+			// 	console.log("Resource Awards: ", awards);
+			// 	for(var playerID in awards){
+			// 		console.log("Reward player " + playerID + " with ", awards[playerID]);
+			// 		//this.players[playerID].updateAllResources(awards[playerID]);
+			// 	}
+			// }
 
 		}
 
