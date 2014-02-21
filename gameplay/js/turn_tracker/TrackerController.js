@@ -24,15 +24,36 @@ catan.turntracker.Controller = (function turntracker_namespace() {
 	
 		function TurnTrackerController(view, clientModel){
 			Controller.call(this,view,clientModel);
-            
+            this.currentView = this.getView();
             // TODO: This constructor should configure its view by calling view.setClientColor and view.initializePlayer
             // NOTE: The view.updateViewState and view.updatePlayer will not work if called from here.  Instead, these
             //          methods should be called later each time the client model is updated from the server.
-		}
+
+				this.currentPlayer = clientModel.players[clientModel.playerID];
+				this.playerColor = this.currentPlayer.color;
+				this.playerName = this.currentPlayer.name;
+				this.playerNumber = this.currentPlayer.playerID;
+
+            view.initializePlayer(this.playerNumber, this.playerName, this.playerColor);
+            view.setClientColor(this.playerColor);
+            
+		};
 
 		core.forceClassInherit(TurnTrackerController,Controller);
 
 		TurnTrackerController.prototype.updateFromModel = function() {
+			
+			this.clientModel = this.getClientModel();
+			this.myNumber = this.clientModel.playerID;
+			this.currentTurnNumber = this.clientModel.turnTracker.currentTurn;
+			console.log("myNumber is: " + this.myNumber);
+			console.log("currentTurnNumber is: " + this.currentTurnNumber);
+			if(this.myNumber === this.currentTurnNumber){
+				this.getView().updateStateView(true, "End Turn");}
+			else{
+				this.getView().updateStateView(false, "Waiting on other Players...");
+			}
+			
 			console.log("Update Turn Tracker");
 		};
 
@@ -42,7 +63,10 @@ catan.turntracker.Controller = (function turntracker_namespace() {
 		 * @return void
 		 */
 		TurnTrackerController.prototype.endTurn = function(){
-		}
+			
+			this.currentView.updateStateView(false, "Waiting on other Players...");
+			this.getClientModel().finishTurn();
+		};
 		
 		return TurnTrackerController;
 	} ());

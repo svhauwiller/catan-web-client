@@ -176,7 +176,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		ClientModel.prototype.runCommand = function(cmd, args){
 			var cmdObj = new cmd(this.playerID);
 			var response = cmdObj.sendToProxy(args);
-			return JSON.parse(response.responseText);
+			var updatedModel = JSON.parse(response.responseText);
+			this.updateModel(updatedModel);
 			console.log("Response: ", response);
 		}
 
@@ -264,9 +265,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 			//ROLL DICE
 			args = new Array();
 			args.push(dieResult);
-			var updatedModel = this.runCommand(catan.proxy.proxyCommands.RollNumberCommand, args);
-
-			this.updateModel(updatedModel);
+			this.runCommand(catan.proxy.proxyCommands.RollNumberCommand, args);
 
 			return dieResult;
 
