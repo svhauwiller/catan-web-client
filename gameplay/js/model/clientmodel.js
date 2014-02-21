@@ -133,8 +133,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 			var _this = this;
 
 			playerData.forEach(function(player){
-				if(_this.playerID !== player.id){
-					_this.players[player.id] = new catan.models.Player();
+				if(_this.playerID !== player.playerID){
+					_this.players[player.playerID] = new catan.models.Player();
 				}
 			});
 		}
@@ -147,8 +147,9 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 			if(this.state.isNew(updatedModel)){
 
 				updatedModel.players.forEach(function(player){
-					_this.players[player.id].updateAll(player);
+					_this.players[player.playerID].updateAll(player);
 				});
+				console.log(this.players);
 
 				this.bank.updateCopy(updatedModel.bank, updatedModel.deck);
 				

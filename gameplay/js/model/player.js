@@ -133,11 +133,12 @@ catan.models.Player = (function playerNameSpace(){
 		}
 	
 		Player.prototype.updateAll = function(playerModel){
+			console.log(playerModel);
 			this.MAX_GAME_POINTS = playerModel.MAX_GAME_POINTS;
 			this.cities = playerModel.cities;
 			this.settlements = playerModel.settlements;
 			this.roads = playerModel.roads;
-			this.soldiers = playerModel.soldier;
+			this.soldiers = playerModel.soldiers;
 			this.color = playerModel.color;
 			this.discarded = playerModel.discarded;
 			this.largestArmy = playerModel.largestArmy;
@@ -150,7 +151,7 @@ catan.models.Player = (function playerNameSpace(){
 			this.playedDevCard = playerModel.playedDevCard;
 			this.playerID = playerModel.playerID;
 			this.replaceAllResources(playerModel.resources);
-			this.victoryPts = playerModel.victoryPts;		
+			this.victoryPts = playerModel.victoryPoints;		
 		}
 
 		/**
