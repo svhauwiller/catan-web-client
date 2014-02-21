@@ -61,6 +61,25 @@ catan.resources.Controller = (function resources_namespace() {
 			this.getView().updateAmount("Settlements", currentPlayer.settlements);
 			this.getView().updateAmount("Cities", currentPlayer.cities);
 			this.getView().updateAmount("Soldiers", currentPlayer.soldiers);
+			
+			//enable/disable buttons depending on the player's turn status			
+			this.clientModel = this.getClientModel();
+			this.myNumber = this.clientModel.players[this.clientModel.playerID].orderNumber
+			this.currentTurnNumber = this.clientModel.turnTracker.currentTurn;
+			if(this.myNumber === this.currentTurnNumber){
+				this.getView().setActionEnabled("Roads",true);
+				this.getView().setActionEnabled("Settlements",true);
+				this.getView().setActionEnabled("Cities",true);
+				this.getView().setActionEnabled("BuyCard",true);
+				this.getView().setActionEnabled("DevCards",true);
+			}
+		else{
+				this.getView().setActionEnabled("Roads",false);
+				this.getView().setActionEnabled("Settlements",false);
+				this.getView().setActionEnabled("Cities",false);
+				this.getView().setActionEnabled("BuyCard",false);
+				this.getView().setActionEnabled("DevCards",false)
+		}
 		};
 
 		/**
