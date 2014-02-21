@@ -45,7 +45,22 @@ catan.resources.Controller = (function resources_namespace() {
 		core.defineProperty(ResourceBarController.prototype, "Actions");
 
 		ResourceBarController.prototype.updateFromModel = function() {
+			var clientModel = this.getClientModel();
 			console.log("Update Resource Bar");
+			//console.log(clientModel);
+			var currentPlayerResources = clientModel.currentPlayerResources();
+			//console.log(currentPlayerResources);
+			this.getView().updateAmount("brick", currentPlayerResources["brick"]);
+			this.getView().updateAmount("ore", currentPlayerResources["ore"]);
+			this.getView().updateAmount("sheep", currentPlayerResources["sheep"]);
+			this.getView().updateAmount("wheat", currentPlayerResources["wheat"]);
+			this.getView().updateAmount("wood", currentPlayerResources["wood"]);
+			
+			var currentPlayer = clientModel.players[clientModel.playerID];
+			this.getView().updateAmount("Roads", currentPlayer.roads);
+			this.getView().updateAmount("Settlements", currentPlayer.settlements);
+			this.getView().updateAmount("Cities", currentPlayer.cities);
+			this.getView().updateAmount("Soldiers", currentPlayer.soldiers);
 		};
 
 		/**
