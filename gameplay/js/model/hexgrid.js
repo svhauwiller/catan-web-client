@@ -166,7 +166,7 @@ catan.models.hexgrid = (function HexGrid_Namespace(){ //namspace dec
 			// in otherwords bw == ld OR ld == rd OR rd == bw
 			var hexes = [];
 			var offsets = [];
-            var lengths = [];  
+			var lengths = [];  
 			var left;
 			var right;
 			var offset;
@@ -193,7 +193,7 @@ catan.models.hexgrid = (function HexGrid_Namespace(){ //namspace dec
 			}
 			this.offsets = offsets;
 			this.hexes = hexes;
-            this.linkOverlaps()
+         this.linkOverlaps();
 		};
         
         /**
@@ -342,6 +342,15 @@ catan.models.hexgrid = (function HexGrid_Namespace(){ //namspace dec
         HexGrid.prototype.getVertexes = function(){
             return getValid(this.hexGrid.getHexes(),"getValidVertexes")
         }
+    
+			HexGrid.prototype.update = function(hexGridObj){
+				this.offsets = hexGridObj.offsets;
+				this.hexes = hexGridObj.hexes;
+				this.radius = hexGridObj.radius;
+				this.x0 = hexGridObj.x0;
+				this.y0 = hexGridObj.y0;
+				//this.linkOverlaps();
+			}
 		
 		return HexGrid;
 	}());
