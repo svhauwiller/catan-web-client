@@ -32,9 +32,11 @@ catan.points.Controller = (function VPController_Class(){
 	PointController.prototype.updateFromModel = function() {
 		console.log("Update Point");
 
-		this.getClientModel().playerID();
+		var playerNum = this.getClientModel().playerID;
 
-		this.getView().setPoints(13);
+		var player = this.getClientModel().players[playerNum];
+
+		this.getView().setPoints(player.victoryPts);
 	};
 	
 	return PointController;	
