@@ -79,6 +79,8 @@ catan.map.Controller = (function catan_controller_namespace() {
 			var hexRows = this.getClientModel().map.hexGrid.hexes;
 			var chitNums = this.getClientModel().map.numbers;
 			var ports = this.getClientModel().map.ports;
+			var robberLoc = this.getClientModel().map.robber;
+
 			var landType;
 			var resourceType;
 			var portLocation;
@@ -106,6 +108,8 @@ catan.map.Controller = (function catan_controller_namespace() {
 				resourceType = port.inputResource ? port.inputResource.toLowerCase() : "three";
 				_this.getView().addPort(portLocation, resourceType);
 			});
+
+			this.getView().placeRobber(robberLoc);
 
 			this.updateFromModel();
 		};
