@@ -394,8 +394,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @method playDevCard
 		* @param {string} cardToPlay card that will be played from the player's hand
 		*/
-		ClientModel.prototype.useDevCard = function(cardToPlay) {
-			this.devCard.useCard(cardToPlay);
+		ClientModel.prototype.useDevCard = function(cardToPlay, params) {
+			this.devCard.useCard(cardToPlay, params);
 		}
 
 		/**

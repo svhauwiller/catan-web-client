@@ -236,16 +236,21 @@ catan.models.bank = (function bankNameSpace(){
 		};
 
 		Monopoly.prototype.useCard = function(parameter){
-			var playerIndex = parameter.playerIndex;
 			var resToTake = parameter.resource;
-			for(var i=0; i<this.model.players.length; i++){
-				if(i!==playerIndex){
-					var count = this.model.players[i].resources[resToTake]
-					var neg = count * -1;
-					this.model.players[i].updateResource(resToTake, neg);
-					this.model.players[playerIndex].updateResource(resToTake, count);
-				}
-			}
+
+			var args = new Array();
+			args.push(resToTake);
+
+			this.model.runCommand(catan.proxy.proxyCommands.MonopolyCommand, args);
+
+			// for(var i=0; i<this.model.players.length; i++){
+			// 	if(i!==playerIndex){
+			// 		var count = this.model.players[i].resources[resToTake]
+			// 		var neg = count * -1;
+			// 		this.model.players[i].updateResource(resToTake, neg);
+			// 		this.model.players[playerIndex].updateResource(resToTake, count);
+			// 	}
+			// }
 		}
 		return Monopoly;
 	}());
@@ -256,8 +261,9 @@ catan.models.bank = (function bankNameSpace(){
 		};
 
 		Monument.prototype.useCard = function(parameter){
-			var playerIndex = parameter.playerIndex;
-			this.model.players[playerIndex].updateVic(1);
+			this.model.runCommand(catan.proxy.proxyCommands.MonumentCommand, null);
+
+			//this.model.players[playerIndex].updateVic(1);
 
 		}
 		return Monument;
@@ -270,18 +276,25 @@ catan.models.bank = (function bankNameSpace(){
 		};
 
 		YearOfPlenty.prototype.useCard = function(parameter){
-			var playerIndex = parameter.playerIndex;
-			var resources = new Array();
+			// var playerIndex = parameter.playerIndex;
+			// var resources = new Array();
 			
 			var resource1 = parameter.resource1;
 			var resource2 = parameter.resource2;
-			this.model.players[playerIndex].updateResource(resource1,1);
-			console.log(this.model.bank.resourceList[resource1]);
-			this.model.bank.resourceList[resource1]--;
-			console.log(this.model.bank.resourceList[resource1]);
 
-			this.model.players[playerIndex].updateResource(resource2,1);
-			this.model.bank.resourceList[resource2]--;
+			var args = new Array();
+			args.push(resource1);
+			args.push(resource2);
+
+			this.model.runCommand(catan.proxy.proxyCommands.YearOfPlentyCommand, args);
+
+			// this.model.players[playerIndex].updateResource(resource1,1);
+			// console.log(this.model.bank.resourceList[resource1]);
+			// this.model.bank.resourceList[resource1]--;
+			// console.log(this.model.bank.resourceList[resource1]);
+
+			// this.model.players[playerIndex].updateResource(resource2,1);
+			// this.model.bank.resourceList[resource2]--;
 		}
 		return YearOfPlenty;
 	}());
@@ -292,9 +305,18 @@ catan.models.bank = (function bankNameSpace(){
 		};
 
 		RoadBuilding.prototype.useCard = function(parameter){
+			var location1 = parameter.location1;
+			var location2 = parameter.location2;
+
+			var args = new Array();
+			args.push(location1);
+			args.push(location2);
+
+			this.model.runCommand(catan.proxy.proxyCommands.RoadBuildingCommand, args);
+
 			//the parameters need to be worked on to finish this function
-			this.model.buildRoad(parameter.playerIndex,parameter.hex,parameter.direction);
-			this.model.buildRoad(parameter.playerIndex,parameter.hex,"SW");
+			// this.model.buildRoad(parameter.playerIndex,parameter.hex,parameter.direction);
+			// this.model.buildRoad(parameter.playerIndex,parameter.hex,"SW");
 		}
 		return RoadBuilding;
 	}());
@@ -305,6 +327,12 @@ catan.models.bank = (function bankNameSpace(){
 		};
 
 		Soldier.prototype.useCard = function(parameter){
+			var args = new Array();
+			args.push(parameter.victimIndex);
+			args.push(parameter.locationToMove);
+
+			this.model.runCommand(catan.proxy.proxyCommands.SoldierCommand, args);
+
 			//a steal function does not exist yet;
 			//this.model.steal();
 		}
