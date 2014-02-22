@@ -355,16 +355,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @method buyDevCard
 		*/
 		ClientModel.prototype.buyDevCard = function() {
-			console.log(this.players[this.playerID].newDevCards);
-			var addedCards = new catan.models.bank.ResourceList("player");
-			addedCards.wheat++;
-			addedCards.ore++;
-			addedCards.sheep++;
-			this.players[this.playerID].updateAllResources(addedCards);
-			if(this.canBuyDevCard()){
-				var updatedModel = this.runCommand(catan.proxy.proxyCommands.BuyDevCardCommand, null);
-				console.log(this.players[this.playerID].newDevCards);
-			} 
+			this.runCommand(catan.proxy.proxyCommands.BuyDevCardCommand, null);
 		}
 
 
