@@ -56,11 +56,22 @@ catan.models.Map = (function mapNameSpace(){
 		
 		Map.prototype.update = function(newMap){
 			console.log(newMap);
+			var hexes = this.hexGrid.getHexes();
+
+			hexes.forEach(function(hex){
+				var gridOffset = newMap.hexGrid.offsets[3 + hex.getLocation().getY()];
+
+				var row = 3 + hex.getLocation().getY();
+				var col = 3 + hex.getLocation().getX() - gridOffset;
+
+				hex.update(newMap.hexGrid.hexes[row][col]);
+			});
+
 			this.numbers = newMap.numbers;
 			this.ports = newMap.ports;
 			this.radius = newMap.radius;
 			this.robber = new hexgrid.HexLocation(newMap.robber.x, newMap.robber.y);
-			this.hexGrid.update(newMap.hexGrid);
+			//this.hexGrid.update(newMap.hexGrid);
 			console.log(this);
 			//this.hexGrid = newMap.hexGrid;
 			//console.log(this.hexGrid);
@@ -497,7 +508,7 @@ catan.models.Map = (function mapNameSpace(){
 			}
 		
 			CatanEdge.prototype.setOwner = function(newOwner){
-				this.owner = newOwner;			
+				this.ownerID = newOwner;			
 			}
         return CatanEdge;
     }());
@@ -540,7 +551,15 @@ catan.models.Map = (function mapNameSpace(){
 			}
 		
 			CatanVertex.prototype.setOwner = function(newOwner){
-				this.owner = newOwner;			
+				this.ownerID = newOwner;			
+			}
+
+			CatanVertex.prototype.getWorth = function(){
+				return this.worth;			
+			}
+		
+			CatanVertex.prototype.setWorth = function(newWorth){
+				this.worth = newWorth;			
 			}
 
          return CatanVertex;
@@ -568,7 +587,18 @@ catan.models.Map = (function mapNameSpace(){
         
         function CatanHex(theLocation){          
             hexgrid.BasicHex.call(this,theLocation,CatanEdge,CatanVertex);
-        } 
+        }
+
+        CatanHex.prototype.update = function(newHexData) {
+        	for(var i = 0; i < 6; i++){
+        		this.edges[i].setOwner(newHexData.edges[i].value.ownerID);
+        	}
+
+        	for(var i = 0; i < 6; i++){
+        		this.vertexes[i].setOwner(newHexData.vertexes[i].value.ownerID);
+        		this.vertexes[i].setWorth(newHexData.vertexes[i].value.worth);
+        	}
+        };
         
         return CatanHex;
     }());
