@@ -29,7 +29,6 @@ catan.discard.Controller = (function discard_namespace(){
             Controller.call(this,view,clientModel);
 			
             view.setController(this);
-            
             waitingView.setController(this);
             this.setWaitingView(waitingView);
 		}
@@ -39,15 +38,28 @@ catan.discard.Controller = (function discard_namespace(){
 		core.defineProperty(DiscardController.prototype,"waitingView");
 
 		DiscardController.prototype.updateFromModel = function() {
-			console.log("Update Discard");
-			var clientModel = this.getClientModel();
-			var currentPlayerResources = clientModel.currentPlayerResources();
-			this.getView().setResourceMaxAmount("wood",this.currentPlayerResources["wood"]);
-			this.getView().setResourceMaxAmount("brick",this.currentPlayerResources["brick"]);
-			this.getView().setResourceMaxAmount("sheep",this.currentPlayerResources["sheep"]);
-			this.getView().setResourceMaxAmount("wheat",this.currentPlayerResources["wheat"]);
-			this.getView().setResourceMaxAmount("ore",this.currentPlayerResources["ore"]);
-			
+		//TODO: Set this condition to only happen when the player needs to discard
+			if(true){
+				console.log("Update Discard");
+				this.discardingResources = {"wood":0,"brick":0,"sheep":0,"wheat":0,"ore":0};
+				this.maxDiscardValues = {"wood":0,"brick":0,"sheep":0,"wheat":0,"ore":0};
+				this.clientModel = this.getClientModel();
+				this.currentPlayerResources = this.clientModel.currentPlayerResources();
+				this.currentDiscardAmount = 0;
+				this.totalResources = 0;
+				
+				for(var myKey in this.currentPlayerResources){
+					this.totalResources += this.currentPlayerResources[myKey];
+					this.getView.setResourceMaxAmount(myKey, this.currentPlayerResources[myKey]);
+					this.maxDiscardValues[myKey] = this.currentPlayerResources[myKey];
+					if(this.currentPlayerResources[myKey]>0){
+						this.getView().setResourceAmountChangeEnabled(myKey, false, true);
+					}
+					else{
+						this.getView().setResourceAmountChangeEnabled(myKey, false, false);
+					}
+				}
+			}
 		};
 
 		/**
@@ -57,6 +69,10 @@ catan.discard.Controller = (function discard_namespace(){
 		 @return void
 		 */	
 		DiscardController.prototype.discard = function(){
+			this.getClientModel.discardCards(this.discardingResources);
+			this.getView().closeModal();
+			}
+
 		}
         
 		/**
@@ -67,27 +83,28 @@ catan.discard.Controller = (function discard_namespace(){
 		 */
 		DiscardController.prototype.increaseAmount = function(resource){
 			
-			var clientModel = this.getClientModel();
-			var currentPlayerResources = clientModel.currentPlayerResources();
-			
-			if(/*the number of cards queued is === maxAmount for that resource*/){
+			if(this.discardingResources[resource]===this.maxDiscardValues[resource]){
 				this.getView().setResourceAmountChangeEnabled(resource, false, true);
 			}
-
-			this.getView().setResourceAmount(resource, /*current discard amount + 1*/);
+			else{
+				this.getView().setResourceAmountChangeEnabled(resource, true, true);
+			}
+			var tempIncrease = (this.discardingResources[resource]+1);
+			this.getView().setResourceAmount(resource, tempIncrease);
+			this.discardingResources[resource] = tempIncrease;
 			
-			//I'm not sure if this need to be calculated each time, but that's how I have it set currently
-			this.totalResources = this.currentPlayerResources["brick"];
-			this.totalResources += this.currentPlayerResources["ore"];
-			this.totalResources += this.currentPlayerResources["sheep"];
-			this.totalResources += this.currentPlayerResources["wheat"];
-			this.totalResources += this.currentPlayerResources["wood"];
-			this.totalResources = (this.totalResources/2);
-			this.getView().setStateMessage(/*sum of all the selected resources*/+"/"+totalResources);
+			//this.currentDiscardAmount = (this.currentDiscardAmount+1);
+			this.currentDiscardAmount += 1;
+			getView().setStateMessage(this.currentDiscardAmount+"/"+(totalResources/2));
 			
-			if(/*sum of all the selected resources === totalResources*/){
+			if(this.currentDiscardAmount === (this.totalResources/2)){
 				this.getView().setDiscardButtonEnabled(true);
+				for(var myKey in this.currentPlayerResources){
+					if(this.discardingResources[myKey]>0){
+						this.getView().setResourceAmountChangeEnabled(myKey, false, true);
+					}
 				}
+			}
 		}
         
 		/**
@@ -99,26 +116,17 @@ catan.discard.Controller = (function discard_namespace(){
 		DiscardController.prototype.decreaseAmount = function(resource){
 
 			this.getView().setDiscardButtonEnabled(false);
-			this.getView().setResourceAmount(resource, /*current discard amount -1*/);
-
-			if(/*the number of cards still queued is > 0*/){
+			this.getView().setResourceAmount(resource, (this.discardingResources[resource]-1));
+			//this.currentDiscardAmount = (this.currentDiscardAmount-1);
+			this.currentDiscardAmount -= 1;
+			if(this.discardingResources[resource]>0){
 				this.getView().setResourceAmountChangeEnabled(resource, true, true);
 			}
 			else{
 				this.getView().setResourceAmountChangeEnabled(resource, true, false);
 			}
 			
-			var clientModel = this.getClientModel();
-			var currentPlayerResources = this.clientModel.currentPlayerResources();
-			
-			//I'm not sure if this need to be calculated each time, but that's how I have it set currently
-			this.totalResources = this.currentPlayerResources["brick"];
-			this.totalResources += this.currentPlayerResources["ore"];
-			this.totalResources += this.currentPlayerResources["sheep"];
-			this.totalResources += this.currentPlayerResources["wheat"];
-			this.totalResources += this.currentPlayerResources["wood"];
-			this.totalResources = (this.totalResources/2);
-			this.getView().setStateMessage(+"/"+totalResources);
+			this.getView().setStateMessage(this.currentDiscardAmount+"/"+(this.totalResources/2));
 		}
 		
 		return DiscardController;

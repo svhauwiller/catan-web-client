@@ -343,14 +343,14 @@ catan.models.hexgrid = (function HexGrid_Namespace(){ //namspace dec
             return getValid(this.hexGrid.getHexes(),"getValidVertexes")
         }
     
-			HexGrid.prototype.update = function(hexGridObj){
-				this.offsets = hexGridObj.offsets;
-				this.hexes = hexGridObj.hexes;
-				this.radius = hexGridObj.radius;
-				this.x0 = hexGridObj.x0;
-				this.y0 = hexGridObj.y0;
-				//this.linkOverlaps();
-			}
+		HexGrid.prototype.update = function(hexGridObj){
+			this.offsets = hexGridObj.offsets;
+			this.hexes = hexGridObj.hexes;
+			this.radius = hexGridObj.radius;
+			this.x0 = hexGridObj.x0;
+			this.y0 = hexGridObj.y0;
+			//this.linkOverlaps();
+		}
 		
 		return HexGrid;
 	}());

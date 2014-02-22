@@ -49,7 +49,7 @@ catan.models.Map = (function mapNameSpace(){
 			this.numbers = new Array();
 			this.ports = new Array();
 			this.radius = 4;
-			this.robber = new hexgrid.HexLocation();
+			this.robber = new hexgrid.HexLocation(0, 0);
 			this.hexGrid = hexgrid.HexGrid.getRegular(this.radius, CatanHex);
 		};
 		
@@ -58,8 +58,9 @@ catan.models.Map = (function mapNameSpace(){
 			this.numbers = newMap.numbers;
 			this.ports = newMap.ports;
 			this.radius = newMap.radius;
-			this.robber = newMap.robber;
+			this.robber = new hexgrid.HexLocation(newMap.robber.x, newMap.robber.y);
 			this.hexGrid.update(newMap.hexGrid);
+			console.log(this);
 			//this.hexGrid = newMap.hexGrid;
 			//console.log(this.hexGrid);
 		};
