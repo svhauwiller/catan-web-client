@@ -42,11 +42,11 @@ catan.discard.Controller = (function discard_namespace(){
 			console.log("Update Discard");
 			var clientModel = this.getClientModel();
 			var currentPlayerResources = clientModel.currentPlayerResources();
-			this.getView().setResourceMaxAmount("wood",currentPlayerResources["wood"]);
-			this.getView().setResourceMaxAmount("brick",currentPlayerResources["brick"]);
-			this.getView().setResourceMaxAmount("sheep",currentPlayerResources["sheep"]);
-			this.getView().setResourceMaxAmount("wheat",currentPlayerResources["wheat"]);
-			this.getView().setResourceMaxAmount("ore",currentPlayerResources["ore"]);
+			this.getView().setResourceMaxAmount("wood",this.currentPlayerResources["wood"]);
+			this.getView().setResourceMaxAmount("brick",this.currentPlayerResources["brick"]);
+			this.getView().setResourceMaxAmount("sheep",this.currentPlayerResources["sheep"]);
+			this.getView().setResourceMaxAmount("wheat",this.currentPlayerResources["wheat"]);
+			this.getView().setResourceMaxAmount("ore",this.currentPlayerResources["ore"]);
 			
 		};
 
