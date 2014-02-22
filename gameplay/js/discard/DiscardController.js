@@ -50,7 +50,7 @@ catan.discard.Controller = (function discard_namespace(){
 				
 				for(var myKey in this.currentPlayerResources){
 					this.totalResources += this.currentPlayerResources[myKey];
-					this.getView.setResourceMaxAmount(myKey, this.currentPlayerResources[myKey]);
+					this.getView().setResourceMaxAmount(myKey, this.currentPlayerResources[myKey]);
 					this.maxDiscardValues[myKey] = this.currentPlayerResources[myKey];
 					if(this.currentPlayerResources[myKey]>0){
 						this.getView().setResourceAmountChangeEnabled(myKey, false, true);
@@ -69,9 +69,8 @@ catan.discard.Controller = (function discard_namespace(){
 		 @return void
 		 */	
 		DiscardController.prototype.discard = function(){
-			this.getClientModel.discardCards(this.discardingResources);
+			this.getClientModel().discardCards(this.discardingResources);
 			this.getView().closeModal();
-			}
 
 		}
         

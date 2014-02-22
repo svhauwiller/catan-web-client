@@ -51,6 +51,7 @@ catan.models.Map = (function mapNameSpace(){
 			this.radius = 4;
 			this.robber = new hexgrid.HexLocation(0, 0);
 			this.hexGrid = hexgrid.HexGrid.getRegular(this.radius, CatanHex);
+			console.log("Hexes",this.hexGrid.getHexes());
 		};
 		
 		Map.prototype.update = function(newMap){
