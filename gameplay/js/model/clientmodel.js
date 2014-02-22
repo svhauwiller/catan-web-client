@@ -190,21 +190,13 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*
 		* @method acceptTrade
-		* @param {ResourceList} offerList list of resources being offered
-		* @param {ResourceList} requestList list of resources being requested
+		* @param {boolean} willAccept flag to determine whether or not the player has accepted the trade offer
 		*/
-		ClientModel.prototype.acceptTrade = function(offerList, requestList) {
-
-			var changedResources = offerList;
-
-			for(var type in requestList){
-				changedResources[type] -= requestList[type];
-			}
-			
-			this.players[this.playerID].updateAllResources(changedResources);
+		ClientModel.prototype.acceptTrade = function(willAccept) {
 
 			var args = new Array();
-			args.push(true);
+			args.push(willAccept);
+
 			this.runCommand(catan.proxy.proxyCommands.AcceptTradeCommand, args);
 		}
 
@@ -220,8 +212,10 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @params {ResourceList} listToDiscard list of resource cards that are to be discarded
 		*/	
 		ClientModel.prototype.discardCards = function(listToDiscard) {
+
 			var args = new Array();
 			args.push(listToDiscard);
+
 			this.runCommand(catan.proxy.proxyCommands.DiscardCardsCommand, args);
 		}
 		
@@ -240,9 +234,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 			//SEND CHAT
 			var args = new Array();
 			args.push(chatLine);
-			this.runCommand(catan.proxy.proxyCommands.SendChatCommand, args);
 
-			this.chat.addLine(chatLine);
+			this.runCommand(catan.proxy.proxyCommands.SendChatCommand, args);
 		}
 		
 		/**
@@ -263,29 +256,11 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 
 			console.log("Dice Result: " + dieResult);
 
-			//ROLL DICE
 			args = new Array();
 			args.push(dieResult);
 			this.runCommand(catan.proxy.proxyCommands.RollNumberCommand, args);
 
 			return dieResult;
-
-			//TODO: ROB
-			// if(dieResult === 7){
-			// 	//DISCARD
-			// 	console.log("Rolled 7");
-
-			// 	//ROB
-			// } else {
-			// 	//TODO: Get proper resource map
-			// 	var awards = this.map.getResourcesFromRoll(dieResult);
-			// 	console.log("Resource Awards: ", awards);
-			// 	for(var playerID in awards){
-			// 		console.log("Reward player " + playerID + " with ", awards[playerID]);
-			// 		//this.players[playerID].updateAllResources(awards[playerID]);
-			// 	}
-			// }
-
 		}
 
 		/**
@@ -297,14 +272,17 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*
 		* @method buildRoad
-		* @param {Hex} hex Hex where the edgeis based from
+		* @param {HexLocation} hexLocation Location of the Hex where the vertex is based from
 		* @param {string} edgeDirection the direction the edge is at from the hex
 		*/
-		ClientModel.prototype.buildRoad = function(playerID, hex, edgeDirection) {
-			if(this.canBuyRoad() && this.canBuildRoad(playerID, hex, edgeDirection)){
-				this.players[this.playerID].buy("road");
-				this.map.buildRoad(playerID, hex, edgeDirection);
-			}
+		ClientModel.prototype.buildRoad = function(hexLocation,  edgeDirection) {
+			var location = {x: hexLocation.x, y: hexLocation.y, direction: edgeDirection};
+			
+			var args = new Array();
+			args.push(location);
+			args.push(false);
+
+			this.runCommand(catan.proxy.proxyCommands.BuildRoadCommand, args);
 		}
 
 		/**
@@ -316,14 +294,17 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*
 		* @method buildSettlement
-		* @param {Hex} hex Hex where the vertex is based from
+		* @param {HexLocation} hexLocation Location of the Hex where the vertex is based from
 		* @param {string} vertDirection the direction the vertex is at from the hex
 		*/
-		ClientModel.prototype.buildSettlement = function(playerID, hex, vertDirection) {
-			if(this.canBuySettlement() && this.canBuildSettlement(playerID, hex, edgeDirection)){
-				this.players[this.playerID].buy("settlement");
-				this.map.buildSettlement(playerID, hex, edgeDirection);
-			}
+		ClientModel.prototype.buildSettlement = function(hexLocation,  vertDirection) {
+			var location = {x: hexLocation.x, y: hexLocation.y, direction: vertDirection};
+			
+			var args = new Array();
+			args.push(location);
+			args.push(false);
+
+			this.runCommand(catan.proxy.proxyCommands.BuildSettlementCommand, args);
 		}
 
 		/**
@@ -335,14 +316,17 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*
 		* @method buildCity
-		* @param {Hex} hex Hex where the vertex is based from
+		* @param {HexLocation} hexLocation Location of the Hex where the vertex is based from
 		* @param {string} vertDirection the direction the vertex is at from the hex
 		*/
-		ClientModel.prototype.buildCity = function(playerID, hex, vertDirection) {
-			if(this.canBuyCity() && this.canBuildCity(playerID, hex, edgeDirection)){
-				this.players[this.playerID].buy("city");
-				this.map.buildCity(playerID, hex, edgeDirection);
-			}
+		ClientModel.prototype.buildCity = function(hexLocation, vertDirection) {
+			var location = {x: hexLocation.x, y: hexLocation.y, direction: vertDirection};
+			
+			var args = new Array();
+			args.push(location);
+			args.push(false);
+
+			this.runCommand(catan.proxy.proxyCommands.BuildCityCommand, args);
 		}
 
 		/**
@@ -367,25 +351,15 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*
 		* @method offerTrade
-		* @param {int} playerIndex index of the player being offered the trade 
-		* @param {ResourceList} offerList list of resources being offered
-		* @param {ResourceList} requestList list of resources being requested
+		* @param {int} receiverIndex index of the player being offered the trade 
+		* @param {ResourceList} offerList list of resources being offered (Positive Values) and requested (Negative Values)
 		*/
-		ClientModel.prototype.offerTrade = function(playerIndex, offerList, requestList) {
-			//1 Confirm the that the player has the appropriate resources
-			//2 Query the other player with the trade offer
-			//3 Wait for response
+		ClientModel.prototype.offerTrade = function(receiverIndex, offerList) {
+			args = new Array();
+			args.push(offerList);
+			args.push(receiver);
 
-			var changedResources = requestList;
-
-			for(var type in offerList){
-				changedResources[type] -= offerList[type];
-			}
-			
-			this.players[this.playerID].updateAllResources(changedResources);
-
-			//4 Reduce the player's resources by the offer list 
-			//5 Increase the player's resources by the request list
+			this.runCommand(catan.proxy.proxyCommands.OfferTradeCommand, args);
 		}
 
 		/**
@@ -396,22 +370,18 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*
 		* @method tradeWithBank
-		* @param {ResourceList} offerList list of resources being offered
-		* @param {ResourceList} requestList list of resources being requested
+		* @param {int} ratio Ratio of player resource to 
+		* @param {ResourceList} offerResource resource being offered
+		* @param {ResourceList} requestResource resource being requested
 		*/
-		ClientModel.prototype.tradeWithBank = function(offerList, requestList) {
-			//1 Confirm the that the player has the appropriate resources
-
-			var changedResources = requestList;
-
-			for(var type in offerList){
-				changedResources[type] -= offerList[type];
-			}
+		ClientModel.prototype.tradeWithBank = function(ratio, offerResource, requestResource) {
 			
-			this.players[this.playerID].updateAllResources(changedResources);
+			args = new Array();
+			args.push(ratio);
+			args.push(offerResource);
+			args.push(requestResource);
 
-			//2 Reduce the player's resources by the offer list 
-			//3 Increase the player's resources by the request list
+			this.runCommand(catan.proxy.proxyCommands.MaritimeTradeCommand, args);
 		}
 
 		/**
@@ -436,24 +406,15 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		* 
 		* @method robberMove
+		* @param {int} victimIndex Index of the player who will be robbed from
 		* @param {Hex} locationToMove location to move the robber to
 		*/
-		ClientModel.prototype.robberMove = function(locationToMove) {
-			this.map.moveRobber(locationToMove);
-		}
+		ClientModel.prototype.robberMove = function(victimIndex, locationToMove) {
+			var args = new Array();
+			args.push(victimIndex);
+			args.push(locationToMove);
 
-		/**
-		* Declare a winner and end the game
-		* <pre>
-		* pre-conditions: One of Players has reached 10 victory points
-		* post-conditions: Winner is displayed to all Players. Game is declared as finished
-		* </pre>
-		*
-		* @method endGame
-		*/
-		ClientModel.prototype.endGame = function() {
-			//1 Stop turn progression
-			//2 Display end of game
+			this.runCommand(catan.proxy.proxyCommands.RobPlayerCommand, args);
 		}
 
 		/**
