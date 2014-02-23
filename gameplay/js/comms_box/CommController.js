@@ -54,6 +54,8 @@ catan.comm.Controller = (function () {
 
 			var logRecord = this.getClientModel().log;
 
+			console.log(logRecord);
+
 			this.getView().resetLines(logRecord.lines)
 		};
         
@@ -83,6 +85,8 @@ catan.comm.Controller = (function () {
 
 			var chatRecord = this.getClientModel().chat;
 
+			
+
 			this.getView().resetLines(chatRecord.lines)
 		};
         
@@ -98,23 +102,23 @@ catan.comm.Controller = (function () {
 			if( lineContents !== "") {
 				console.log(" Has line to add to Chat");
 
-				var playerID = this.getClientModel().playerID;
+				// var playerID = this.getClientModel().playerID;
 
-				var player = this.getClientModel().players[playerID];
+				// var player = this.getClientModel().players[playerID];
 
-				var line = {
-					source: player.name,
- 					message: lineContents,
- 					className: player.color
- 				};
+				// var line = {
+				// 	source: player.name,
+ 			// 		message: lineContents,
+ 			// 		className: player.color
+ 			// 	};
 
- 				console.log(line);
+ 			// 	console.log(line);
 
- 				var chat = this.getClientModel().chat;
+ 			// 	var chat = this.getClientModel().chat;
 
- 				chat.lines.push(line);
+ 			// 	chat.lines.push(line);
 
- 				console.log(chat.lines);
+ 			// 	console.log(chat.lines);
 
  				this.getClientModel().sendChat(lineContents);
 			}
