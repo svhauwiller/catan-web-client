@@ -151,7 +151,6 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 					_this.players[player.playerID].updateAll(player);
 					_this.orderNumbers[player.orderNumber] = player.playerID;
 				});
-				console.log(this.players);
 
 				this.bank.updateCopy(updatedModel.bank, updatedModel.deck);
 				

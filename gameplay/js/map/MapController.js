@@ -89,22 +89,31 @@ catan.map.Controller = (function catan_controller_namespace() {
 			var playerColor;
 
 			hexGrid.getHexes().forEach(function(hex){
-				console.log(hex);
 				if(hex.isLand){
 					landType = hex.getLandType() ? hex.getLandType().toLowerCase() : "desert";
 					_this.getView().addHex(hex.location, landType);
 				} else {
 					_this.getView().addHex(hex.location, "water");
 				}
+
+				hex.edges.forEach(function(edge){
+					if(edge.isOccupied() && edge.location.getDirection() > 2){
+						playerColor = playerData[orderNumbers[edge.getOwner()]].color;
+						_this.getView().placeRoad(edge.location, playerColor);
+					}
+				});
+
+				hex.vertexes.forEach(function(vert){
+					if(vert.isOccupied() && (vert.location.getDirection() === 0 || vert.location.getDirection() === 3)){
+						playerColor = playerData[orderNumbers[vert.getOwner()]].color;
+						if(vert.getWorth() === 1){
+							_this.getView().placeSettlement(vert.location, playerColor);
+						} else {
+							_this.getView().placeCity(vert.location, playerColor);
+						}
+					}
+				});
 			});
-
-			// hex.edges.forEach(function(edge){
-			// 	if(edge.isOccupied()){
-			// 		playerColor = playerData[orderNumbers[edge.getOwner()]].color;
-			// 		_this.getView().placeRoad(edge.location, playerColor);
-			// 	}
-			// });
-
 
 			for(var num in chitNums){
 				chitNums[num].forEach(function(chitLoc){

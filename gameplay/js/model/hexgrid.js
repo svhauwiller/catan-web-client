@@ -328,7 +328,7 @@ catan.models.hexgrid = (function HexGrid_Namespace(){ //namspace dec
          * @return {[hexgrid.BaseContainer]} all the edges that have roads in the hexgrid - the return type is actually your custom edge class
          */
         HexGrid.prototype.getEdges = function(){
-            return getValid(this.hexGrid.getHexes(),"getValidEdges")
+            return getValid(this.getHexes(),"getValidEdges")
         }
         
         /**
@@ -340,7 +340,7 @@ catan.models.hexgrid = (function HexGrid_Namespace(){ //namspace dec
          * @return {[hexgrid.BaseContainer]} All the vertexes that have cities/settlements in the hexgrid - the return type is actually your custom vertex class
          */
         HexGrid.prototype.getVertexes = function(){
-            return getValid(this.hexGrid.getHexes(),"getValidVertexes")
+            return getValid(this.getHexes(),"getValidVertexes")
         }
     
 		HexGrid.prototype.update = function(hexGridObj){
@@ -453,6 +453,7 @@ catan.models.hexgrid = (function HexGrid_Namespace(){ //namspace dec
 			this.setY(y);
 		}	
 		core.defineProperty(BaseLocation.prototype,"direction");
+		core.defineProperty(BaseLocation.prototype,"dir");
 		
 		BaseLocation.prototype.getHexLocation = function(){
 			return new HexLocation(this.getX(),this.getY());
@@ -542,12 +543,18 @@ catan.models.hexgrid = (function HexGrid_Namespace(){ //namspace dec
 		core.forceClassInherit(EdgeLocation,BaseLocation);
 		function EdgeLocation(hexLocation,direction,arg3){
 			BaseLocation.call(this,hexLocation,direction,arg3);
+			this.setDir(edLookup[this.getDirection()]);
 		};
 		
 		EdgeLocation.prototype.extend = function(data){
 			data.direction = EdgeDirection[data.direction];
 			return $.extend(this,data);
 		}
+
+		EdgeLocation.prototype.equals = function(otherLocation){
+			return (HexLocation.prototype.equals.call(this, otherLocation) && this.getDir() === otherLocation.getDir());
+		}
+
 		/**
 		This function returns this Edge location as well as the edge location for
 		the other hex that this edge touches. 
@@ -619,11 +626,16 @@ catan.models.hexgrid = (function HexGrid_Namespace(){ //namspace dec
 				core.assert(0 <= direction < 6);
 			}
 			BaseLocation.call(this,hexLocation,direction,arg3);
+			this.setDir(vdLookup[this.getDirection()]);
 		};
 		
 		VertexLocation.prototype.extend = function(data){
 			data.direction = VertexDirection[data.direction];
 			return $.extend(this,data);
+		}
+
+		VertexLocation.prototype.equals = function(otherLocation){
+			return (HexLocation.prototype.equals.call(this, otherLocation) && this.getDir() === otherLocation.getDir());
 		}
 	
 		/**

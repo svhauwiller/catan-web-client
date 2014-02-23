@@ -699,11 +699,11 @@ catan.map.View = (function makeMapView(){
 		var Road_Mixin = {
 			setMapLoc:function(loc){
 				this.mapLoc = loc;
-				if (loc.getDirection() === "S"){
+				if (loc.getDir() === "S"){
 					this.setRotation(0);
-				} else if (loc.getDirection() === "SW"){
+				} else if (loc.getDir() === "SW"){
 					this.setRotation(Math.PI/3);
-				} else if (loc.getDirection() === "SE"){
+				} else if (loc.getDir() === "SE"){
 					this.setRotation(2*Math.PI/3);
 				}
 			}
@@ -1144,8 +1144,9 @@ catan.map.View = (function makeMapView(){
 			var colors = new Colors(playerColor);
 			var color = colors.color;
 			var outline = colors.outline;
-			if (!getPieceAt(this.getVertexLayer(),loc))
+			if (!getPieceAt(this.getVertexLayer(),loc)){
 				placeObject.call(this,this.getVertexLayer(),this.getVertexDefinition(),"makeSettlement",loc,color,outline,noDraw);
+			}
 		}
 
 		/**
