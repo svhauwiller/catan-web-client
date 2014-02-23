@@ -699,11 +699,11 @@ catan.map.View = (function makeMapView(){
 		var Road_Mixin = {
 			setMapLoc:function(loc){
 				this.mapLoc = loc;
-				if (loc.getDir() === "S"){
+				if (loc.getDirection() === "S"){
 					this.setRotation(0);
-				} else if (loc.getDir() === "SW"){
+				} else if (loc.getDirection() === "SW"){
 					this.setRotation(Math.PI/3);
-				} else if (loc.getDir() === "SE"){
+				} else if (loc.getDirection() === "SE"){
 					this.setRotation(2*Math.PI/3);
 				}
 			}

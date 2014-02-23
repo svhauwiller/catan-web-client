@@ -8,6 +8,7 @@ catan.models.State  = (function stateNameSpace(){
 		function State(){
 			this.currentModel = null;
 			this.observers = new Array();
+			this.stateInit = false;
 		}
 
 		State.prototype.addObserver = function(observer) {
@@ -15,7 +16,12 @@ catan.models.State  = (function stateNameSpace(){
 		};
 
 		State.prototype.isNew = function(clientModel) {
-			return JSON.stringify(clientModel) !== JSON.stringify(this.currentModel);
+			if(this.stateInit){
+				return JSON.stringify(clientModel) !== JSON.stringify(this.currentModel);
+			} else {
+				this.stateInit = true;
+				return true;
+			}
 		};
 
 		State.prototype.updateModel = function(clientModel) {

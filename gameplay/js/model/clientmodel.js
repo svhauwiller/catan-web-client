@@ -98,6 +98,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 			this.longestRoad = null;
 			this.longestRoadSize = 0;
 			this.map = new catan.models.Map.Map();
+			this.orderNumbers = new Object();
 			this.playerID = playerID;
 			this.players = new Object();
 			this.players[playerID] = new catan.models.Player();
@@ -148,6 +149,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 
 				updatedModel.players.forEach(function(player){
 					_this.players[player.playerID].updateAll(player);
+					_this.orderNumbers[player.orderNumber] = player.playerID;
 				});
 				console.log(this.players);
 
@@ -166,10 +168,6 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 
 				this.state.updateModel(updatedModel);
 			}
-
-			setTimeout(function(){
-				_this.state.updateModel(updatedModel);
-			},10000);
 
 			console.log(_this);
 		}

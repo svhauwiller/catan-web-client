@@ -76,25 +76,35 @@ catan.map.Controller = (function catan_controller_namespace() {
 		MapController.prototype.initFromModel = function() {
 			var _this = this;
 
-			var hexRows = this.getClientModel().map.hexGrid.hexes;
+			var hexGrid = this.getClientModel().map.hexGrid;
 			var chitNums = this.getClientModel().map.numbers;
 			var ports = this.getClientModel().map.ports;
 			var robberLoc = this.getClientModel().map.robber;
+			var playerData = this.getClientModel().players;
+			var orderNumbers = this.getClientModel().orderNumbers;
 
 			var landType;
 			var resourceType;
 			var portLocation;
+			var playerColor;
 
-			hexRows.forEach(function(hexRow){
-				hexRow.forEach(function(hex){
-					if(hex.isLand){
-						landType = hex.landtype ? hex.landtype.toLowerCase() : "desert";
-						_this.getView().addHex(hex.location, landType);
-					} else {
-						_this.getView().addHex(hex.location, "water");
-					}
-				});
-			}); 
+			hexGrid.getHexes().forEach(function(hex){
+				console.log(hex);
+				if(hex.isLand){
+					landType = hex.getLandType() ? hex.getLandType().toLowerCase() : "desert";
+					_this.getView().addHex(hex.location, landType);
+				} else {
+					_this.getView().addHex(hex.location, "water");
+				}
+			});
+
+			// hex.edges.forEach(function(edge){
+			// 	if(edge.isOccupied()){
+			// 		playerColor = playerData[orderNumbers[edge.getOwner()]].color;
+			// 		_this.getView().placeRoad(edge.location, playerColor);
+			// 	}
+			// });
+
 
 			for(var num in chitNums){
 				chitNums[num].forEach(function(chitLoc){

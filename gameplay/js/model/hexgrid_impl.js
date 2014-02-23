@@ -51,11 +51,9 @@ catan.models.Map = (function mapNameSpace(){
 			this.radius = 4;
 			this.robber = new hexgrid.HexLocation(0, 0);
 			this.hexGrid = hexgrid.HexGrid.getRegular(this.radius, CatanHex);
-			console.log("Hexes",this.hexGrid.getHexes());
 		};
 		
 		Map.prototype.update = function(newMap){
-			console.log(newMap);
 			var hexes = this.hexGrid.getHexes();
 
 			hexes.forEach(function(hex){
@@ -72,7 +70,6 @@ catan.models.Map = (function mapNameSpace(){
 			this.radius = newMap.radius;
 			this.robber = new hexgrid.HexLocation(newMap.robber.x, newMap.robber.y);
 			//this.hexGrid.update(newMap.hexGrid);
-			console.log(this);
 			//this.hexGrid = newMap.hexGrid;
 			//console.log(this.hexGrid);
 		};
@@ -495,7 +492,7 @@ catan.models.Map = (function mapNameSpace(){
        Returns true if there is an ownerID associated, or false if the ownerID is -1
        */
 			CatanEdge.prototype.isOccupied = function(){
-				if(ownerID==-1){
+				if(this.ownerID==-1){
 					return false;					
 				}
 				else{	
@@ -538,7 +535,7 @@ catan.models.Map = (function mapNameSpace(){
        	// once you override this, put in some documentation
         
         	CatanVertex.prototype.isOccupied = function(){
-				if(ownerID==-1){
+				if(this.ownerID==-1){
 					return false;					
 				}
 				else{	
@@ -590,6 +587,10 @@ catan.models.Map = (function mapNameSpace(){
         }
 
         CatanHex.prototype.update = function(newHexData) {
+        	this.isLand = newHexData.isLand;
+
+        	this.setLandType(newHexData.landtype);
+
         	for(var i = 0; i < 6; i++){
         		this.edges[i].setOwner(newHexData.edges[i].value.ownerID);
         	}
@@ -599,6 +600,14 @@ catan.models.Map = (function mapNameSpace(){
         		this.vertexes[i].setWorth(newHexData.vertexes[i].value.worth);
         	}
         };
+
+		CatanHex.prototype.getLandType = function(){
+			return this.landType;			
+		}
+	
+		CatanHex.prototype.setLandType = function(newLandType){
+			this.landType = newLandType;			
+		}
         
         return CatanHex;
     }());
