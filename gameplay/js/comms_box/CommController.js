@@ -52,12 +52,27 @@ catan.comm.Controller = (function () {
 		LogController.prototype.updateFromModel = function() {
 			console.log("Update Log");
 
+			var _this = this;
 			var logRecord = this.getClientModel().log;
+
+			logRecord.lines.forEach(function(log){
+				log.className = _this.getClassName(log.source);
+			});
 
 			console.log(logRecord);
 
 			this.getView().resetLines(logRecord.lines)
 		};
+
+		LogController.prototype.getClassName = function(logSource) {
+			var playerData = this.getClientModel().players;
+
+			for(var playerID in playerData){
+				if(playerData[playerID].name === logSource){
+					return playerData[playerID].color;
+				}
+			}
+		}
         
 		return LogController;
 	}());

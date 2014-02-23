@@ -103,8 +103,8 @@ catan.models.utilities = (function utilitiesNamespace(){ //namespace dec
 			this.clear();
 			for(var i = 0; i < arrayOfUpdates.length; ++i){
 				var tempMessage = new MessageLine();
-				tempMessage.setSource(arrayOfUpdates[i].message);
-				tempMessage.setMessage(arrayOfUpdates[i].source);
+				tempMessage.setSource(arrayOfUpdates[i].source);
+				tempMessage.setMessage(arrayOfUpdates[i].message);
 				this.addLine(tempMessage);
 			}
 		}

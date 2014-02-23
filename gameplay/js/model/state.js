@@ -13,15 +13,11 @@ catan.models.State  = (function stateNameSpace(){
 
 		State.prototype.addObserver = function(observer) {
 			this.observers.push(observer);
+			observer.updateFromModel();
 		};
 
 		State.prototype.isNew = function(clientModel) {
-			if(this.stateInit){
-				return JSON.stringify(clientModel) !== JSON.stringify(this.currentModel);
-			} else {
-				this.stateInit = true;
-				return true;
-			}
+			return JSON.stringify(clientModel) !== JSON.stringify(this.currentModel);
 		};
 
 		State.prototype.updateModel = function(clientModel) {
