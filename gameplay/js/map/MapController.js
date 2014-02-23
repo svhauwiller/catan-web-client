@@ -38,9 +38,6 @@ catan.map.Controller = (function catan_controller_namespace() {
 			catan.core.BaseController.call(this,view,model);
 			this.setModalView(modalView);
 			this.setRobView(robView);
-
-			console.log(this.funMsg);
-
 			this.initFromModel();
 
 			// var hexType = getHexType(hex);
@@ -174,6 +171,21 @@ catan.map.Controller = (function catan_controller_namespace() {
 		 * @return void
 		**/	
 		MapController.prototype.startMove = function (pieceType,free,disconnected){
+			if(pieceType == "road"){
+				this.modalView.showModal("Road");
+				this.View.startDrop("road", this.ClientModel.players[this.ClientModel.playerID].color);
+			}
+			else if(pieceType == "settlement"){
+				this.modalView.showModal("Settlement");
+				this.View.startDrop("settlement", this.ClientModel.players[this.ClientModel.playerID].color);
+			}
+			else if(pieceType == "city"){
+				this.modalView.showModal("City");
+				this.View.startDrop("city", this.ClientModel.players[this.ClientModel.playerID].color);
+			}
+			else{ // idk, maybe robber?
+			}
+			
 		};
         
 		/**
@@ -196,6 +208,11 @@ catan.map.Controller = (function catan_controller_namespace() {
 		 @return {boolean} Whether or not the given piece can be placed at the current location.
 		*/
 		MapController.prototype.onDrag = function (loc, type) {
+			console.log("drag");
+			console.log(loc);
+			console.log(type);
+			// call canPlaceRoad
+			return true;
 		};
 
 		/**
@@ -207,6 +224,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 		 @method onDrop
 		*/
 		MapController.prototype.onDrop = function (loc, type) {
+			console.log("drop");
 		};
         
 		return MapController;

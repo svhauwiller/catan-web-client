@@ -22,15 +22,11 @@ catan.setup.Controller = (function(){
 		
 		var SetupRoundController = function (clientModel, mapController){
 			this.mapController = mapController;
-			console.log(mapController);
-			console.log(clientModel);
 			Controller.call(this,undefined,clientModel);
 			
-			mapController.modalView.showModal("Road");
-			
-			/*var mapOverlay = new catan.views.overlays.MapOverlay();
-			console.log(mapOverlay);
-			mapOverlay.showModal("City");*/
+			console.log(mapController.modalView);
+			//mapController.modalView.showModal("Road");
+			mapController.startMove("road", true, true);
 		};
         
 		core.forceClassInherit(SetupRoundController,Controller);
