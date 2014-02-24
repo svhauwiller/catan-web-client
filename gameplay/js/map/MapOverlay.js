@@ -49,7 +49,7 @@ catan.views.overlays.MapOverlay = (function (){
 		
 		NinjaModal.prototype.generateFooter = function(){
 			var footer = document.createElement("div");
-				footer.setAttribute('class','modal-footer');
+			footer.setAttribute('class','modal-footer');
 			var primary = true;
 			if (this.getAccept()){
 				footer.appendChild(this.makeAccept(primary));
@@ -114,43 +114,45 @@ catan.views.overlays.MapOverlay = (function (){
         /**
          * Shows a modal overlay of the map.
          * @method showModal 
-			@param {String} type the type of the item to place: "Robber", "Soldier", "City", "Settlement", "Road".
+	 * @param {String} type the type of the item to place: "Robber", "Soldier", "City", "Settlement", "Road".
          */
-        MapOverlay.prototype.showModal = function(type){
-			var cancelButtonInfo = undefined;
-			
+	MapOverlay.prototype.showModal = function(type){
+		var cancelButtonInfo = undefined;
+		
+		var cancelFunc = core.makeAnonymousAction(this.getController(), this.getController().cancelMove);
+		
+		this.setCancelAllowed(true);
+		
+		if (this.getCancelAllowed()){	
 			var cancelFunc = core.makeAnonymousAction(this.getController(), this.getController().cancelMove);
-			
-            if (this.getCancelAllowed()){	
-				var cancelFunc = core.makeAnonymousAction(this.getController(), this.getController().cancelMove);
-						
-				cancelButtonInfo = {
-					text:"Cancel Drop", 
-					onclick:cancelFunc
-				};
-			}
-			
-			if(type == undefined)
-				type = "piece";
-				
-			if(type == "Robber" || type == "robber")
-				cancelButtonInfo = undefined;
-			
-			var modal = new NinjaModal("Place the " + type + "!", 
-				'map-play',
-				$(".kineticjs-content").get(0), 
-				$("#map-pane").get(0),
-				undefined,
-				cancelButtonInfo
-			);
-			
-			modal.setController(this.getController());
-			this.setNinja(modal);
-			modal.showModal();
-			
+					
+			cancelButtonInfo = {
+				text:"Cancel Drop", 
+				onclick:cancelFunc
+			};
 		}
 		
-		/**
+		if(type == undefined)
+			type = "piece";
+			
+		if(type == "Robber" || type == "robber")
+			cancelButtonInfo = undefined;
+		
+		var modal = new NinjaModal("Place the " + type + "!", 
+			'map-play',
+			$(".kineticjs-content").get(0), 
+			$("#map-pane").get(0),
+			undefined,
+			cancelButtonInfo
+		);
+		
+		modal.setController(this.getController());
+		this.setNinja(modal);
+		modal.showModal();
+		
+	}
+		
+	/**
          * Closes the overlay.
          * @method closeModal
          */

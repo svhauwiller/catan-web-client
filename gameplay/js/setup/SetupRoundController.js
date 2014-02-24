@@ -26,7 +26,8 @@ catan.setup.Controller = (function(){
 			
 			console.log(mapController.modalView);
 			//mapController.modalView.showModal("Road");
-			mapController.startMove("road", true, true);
+			mapController.startMove("settlement", true, true);
+			//mapController.startMove("road", true, true);
 		};
         
 		core.forceClassInherit(SetupRoundController,Controller);
