@@ -159,6 +159,8 @@ catan.map.Controller = (function catan_controller_namespace() {
 		 * @return void
 		**/	
 		MapController.prototype.startDoubleRoadBuilding = function(){
+			this.modalView.showModal("Road");
+			this.View.startDrop("road", this.ClientModel.players[this.ClientModel.playerID].color);
 		}
 		
         
@@ -185,7 +187,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 			}
 			else{ // idk, maybe robber?
 			}
-			
+			//this.modalView.closeModal();
 		};
         
 		/**
@@ -208,9 +210,9 @@ catan.map.Controller = (function catan_controller_namespace() {
 		 @return {boolean} Whether or not the given piece can be placed at the current location.
 		*/
 		MapController.prototype.onDrag = function (loc, type) {
-			console.log("drag");
-			console.log(loc);
-			console.log(type);
+			//console.log("drag");
+			//console.log(loc);
+			//console.log(type);
 			// call canPlaceRoad
 			return true;
 		};
@@ -224,7 +226,9 @@ catan.map.Controller = (function catan_controller_namespace() {
 		 @method onDrop
 		*/
 		MapController.prototype.onDrop = function (loc, type) {
-			console.log("drop");
+			this.modalView.closeModal();
+			//this.startMove("road", true, true);
+			//console.log("drop");
 		};
         
 		return MapController;
