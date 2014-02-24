@@ -121,13 +121,19 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		ClientModel.prototype.initFromServer = function(success){
 			
 			var response = this.proxy.getModelFromServer();
-			var initModel = JSON.parse(response.responseText);
-			this.initOtherPlayers(initModel.players);
-			this.updateModel(initModel);
+			try{
+				var initModel = JSON.parse(response.responseText);
+				this.initOtherPlayers(initModel.players);
+				this.updateModel(initModel);
+				this.beginPolling();
+			} catch (ex) {
+				throw response.statusText;
+			} finally {
+				success();
+				return true;
+			}
 
-			success();
-
-			return true;
+			
 		}
 
 		ClientModel.prototype.initOtherPlayers = function(playerData){
@@ -146,6 +152,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 			console.log(updatedModel);
 
 			if(this.state.isNew(updatedModel)){
+				console.log("isNew");
 
 				updatedModel.players.forEach(function(player){
 					_this.players[player.playerID].updateAll(player);
@@ -169,6 +176,23 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 			}
 
 			console.log(_this);
+		}
+
+		ClientModel.prototype.beginPolling = function(){
+			var _this = this;
+			setInterval(function(){
+				_this.updateFromServer();
+			}, 5000);
+		}
+
+		ClientModel.prototype.updateFromServer = function(){
+			var response = this.proxy.getModelFromServer();
+			try{
+				var updatedModel = JSON.parse(response.responseText);
+				this.updateModel(updatedModel);
+			} catch (ex) {
+				throw response.statusText;
+			}
 		}
 
 		ClientModel.prototype.runCommand = function(cmd, args){

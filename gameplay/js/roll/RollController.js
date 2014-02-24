@@ -30,6 +30,7 @@ catan.roll.Controller = (function roll_namespace(){
 			Controller.call(this,view,clientModel);
 			this.rollInterval = false;
 			this.showRollResult = false;
+			this.lastRolled = -1;
 		};
 
 		RollController.prototype.updateFromModel = function() {
@@ -39,7 +40,9 @@ catan.roll.Controller = (function roll_namespace(){
 
 
 			if(clientModel.turnTracker.currentTurn === player.orderNumber &&
-			   clientModel.turnTracker.theStatus === "Rolling"){
+			   clientModel.turnTracker.theStatus === "Rolling" &&
+			   player.orderNumber !== this.lastRolled){
+			   	this.lastRolled = player.orderNumber;
 				this.startRollCountdown();
 			}
 		};
