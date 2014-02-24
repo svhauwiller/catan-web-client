@@ -49,9 +49,9 @@ catan.roll.Controller = (function roll_namespace(){
 			var _this = this;
 			var timerLength = 5;
 
-			var rollCountdown = setInterval(function(){
+			this.rollCountdown = setInterval(function(){
 				if(timerLength === 0){
-					clearInterval(rollCountdown);
+					clearInterval(_this.rollCountdown);
 					_this.rollDice();
 				} else {
 					console.log(timerLength);
@@ -78,6 +78,7 @@ catan.roll.Controller = (function roll_namespace(){
 		 * @return void
 		**/
 		RollController.prototype.rollDice = function(){
+			clearInterval(this.rollCountdown);
 			this.getView().closeModal();
 			var rollResult = this.getClientModel().rollDice();
 			this.getRollResultView().setAmount(rollResult);
