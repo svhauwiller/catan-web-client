@@ -64,6 +64,11 @@ catan.comm.Controller = (function () {
 			this.getView().resetLines(logRecord.lines)
 		};
 
+		/**
+		Adds the name of the player to a log item
+		@method getClassName
+		@param {String} chatSource The representation of a log item
+		**/
 		LogController.prototype.getClassName = function(logSource) {
 			var playerData = this.getClientModel().players;
 
@@ -98,12 +103,34 @@ catan.comm.Controller = (function () {
 		ChatController.prototype.updateFromModel = function() {
 			console.log("Update Chat");
 
+			var _this = this;
 			var chatRecord = this.getClientModel().chat;
 
-			
+
+			chatRecord.lines.forEach(function(chat){
+				chat.className = _this.getClassName(chat.source);
+			});
+
+			console.log(chatRecord);
 
 			this.getView().resetLines(chatRecord.lines)
 		};
+
+
+		/**
+		Adds the name of the player to a chat item
+		@method getClassName
+		@param {String} chatSource The representation of a chat item
+		**/
+		ChatController.prototype.getClassName = function(chatSource) {
+			var playerData = this.getClientModel().players;
+
+			for(var playerID in playerData){
+				if(playerData[playerID].name === chatSource){
+					return playerData[playerID].color;
+				}
+			}
+		}
         
 		/**
 		Called by the view whenever input is submitted
@@ -116,24 +143,6 @@ catan.comm.Controller = (function () {
 
 			if( lineContents !== "") {
 				console.log(" Has line to add to Chat");
-
-				// var playerID = this.getClientModel().playerID;
-
-				// var player = this.getClientModel().players[playerID];
-
-				// var line = {
-				// 	source: player.name,
- 			// 		message: lineContents,
- 			// 		className: player.color
- 			// 	};
-
- 			// 	console.log(line);
-
- 			// 	var chat = this.getClientModel().chat;
-
- 			// 	chat.lines.push(line);
-
- 			// 	console.log(chat.lines);
 
  				this.getClientModel().sendChat(lineContents);
 			}
