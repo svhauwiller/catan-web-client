@@ -722,7 +722,9 @@ catan.models.hexgrid = (function HexGrid_Namespace(){ //namspace dec
 		HexDirection:HexDirection,
 		VertexDirection:VertexDirection,
 		EdgeDirection:EdgeDirection,
-        BaseContainer:BaseContainer
+        BaseContainer:BaseContainer,
+        nextDirectionClockwise:nextDirectionClockwise,
+        nextDirectionCounterClockwise:nextDirectionCounterClockwise
 	}
 }());
 

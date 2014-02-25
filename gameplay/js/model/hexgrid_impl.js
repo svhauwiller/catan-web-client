@@ -130,39 +130,34 @@ catan.models.Map = (function mapNameSpace(){
 		}
 	
 		Map.prototype.canPlaceRoad = function(playerID, hex, theDirection){
+			/*console.log(hex);
 			var edgeDirection = hex.getEdge(hexgrid.EdgeDirection[theDirection]);
+			console.log(edgeDirection);
 			var touchingHexes = edgeDirection.getLocation().getEquivalenceGroup();
 			//settlement owned by player on a vertex touching the road position
-			if(hex.getVertex(theDirection).getOwner()===playerID || hex.nextDirectionClockwise(theDirection).getOwner()===playerID){
+			console.log(hex.getVertex(hexgrid.VertexDirection[theDirection]));
+			if(hex.getVertex(hexgrid.VertexDirection[theDirection]).getOwner()===playerID ||
+				hex.getVertex(hexgrid.nextDirectionClockwise(hexgrid.VertexDirection[theDirection])).getOwner()===playerID){
 				return true;
 			}
 		
 			//player has a road coming in from one of the four possible directions
 			for(var equivE in touchingHexes){
-				var theTempHex = hexgrid.getHex(equivE.x,equivE.y);
+				console.log(equivE);
+				var theTempHexLoc = new hexgrid.HexLocation(touchingHexes[equivE].x,touchingHexes[equivE].y);
+				var theTempHex = this.hexGrid.getHex(theTempHexLoc);
+				console.log(theTempHex);
 				
-				
-				if(theTempHex.getEdge(nextDirectionClockwise(equivE.direction)).getOwner()===playerID || 
-				theTempHex.getEdge(nextDirectionCounterClockwise(equivE.direction)).getOwner()===playerID){
+				if(theTempHex.getEdge(hexgrid.nextDirectionClockwise(touchingHexes[equivE].direction)).getOwner()===playerID || 
+				theTempHex.getEdge(hexgrid.nextDirectionCounterClockwise(touchingHexes[equivE].direction)).getOwner()===playerID){
 					return true;
 				}		      
-			}
-			/*
-	
-	//Works on Hex, Edge and Vertex Directions
-	function nextDirectionClockwise(direction){
-		return positiveModulo((direction + 1),6);
-	}
-	
-	//Works on Hex, Edge and Vertex Directions
-	function nextDirectionCounterClockwise(direction){
-		return positiveModulo((direction - 1),6);			
-			*/			
-			
+			}*/
+			return true;
 		};
 		
 		Map.prototype.canPlaceSettlement = function(playerID, hex, theDirection){
-			var vertexDirection = hex.getVertex(theDirection);
+			/*var vertexDirection = hex.getVertex(theDirection);
 			var touchingHexes = vertexDirection.getEquivalenceGroup();
 			
 			//slot unoccupied
@@ -183,7 +178,8 @@ catan.models.Map = (function mapNameSpace(){
 					return true;
 					}
 			}
-			return false;
+			return false;*/
+			return true;
 		};
 		
 		Map.prototype.canPlaceCity = function(playerID, hex, theDirection){
