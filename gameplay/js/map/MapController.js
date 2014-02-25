@@ -175,15 +175,15 @@ catan.map.Controller = (function catan_controller_namespace() {
 		 * @return void
 		**/	
 		MapController.prototype.startMove = function (pieceType,free,disconnected){
-			if(pieceType == "road"){
+			if(pieceType == "Road"){
 				this.modalView.showModal("Road");
 				this.View.startDrop("road", this.ClientModel.players[this.ClientModel.playerID].color);
 			}
-			else if(pieceType == "settlement"){
+			else if(pieceType == "Settlement"){
 				this.modalView.showModal("Settlement");
 				this.View.startDrop("settlement", this.ClientModel.players[this.ClientModel.playerID].color);
 			}
-			else if(pieceType == "city"){
+			else if(pieceType == "City"){
 				this.modalView.showModal("City");
 				this.View.startDrop("city", this.ClientModel.players[this.ClientModel.playerID].color);
 			}
@@ -216,7 +216,18 @@ catan.map.Controller = (function catan_controller_namespace() {
 			//console.log(loc);
 			//console.log(type);
 			// call canPlaceRoad
-			return true;
+			var hoverOverHexLoc = new catan.models.hexgrid.HexLocation(loc.x, loc.y);
+			var hoverOverHex = this.ClientModel.map.hexGrid.getHex(hoverOverHexLoc);
+			console.log(hoverOverHex);
+			if(hoverOverHex != undefined){
+				if(this.ClientModel.map.canPlaceRoad(this.ClientModel.playerID, hoverOverHex, loc.dir)){
+					return true;
+				}
+				else{
+					return false;
+				}
+			}
+			
 		};
 
 		/**
