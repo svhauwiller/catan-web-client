@@ -196,7 +196,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		}
 
 		ClientModel.prototype.runCommand = function(cmd, args){
-			var cmdObj = new cmd(this.playerID);
+			var cmdObj = new cmd(this.players[this.playerID].orderNumber);
 			var response = cmdObj.sendToProxy(args);
 			var updatedModel = JSON.parse(response.responseText);
 			this.updateModel(updatedModel);
