@@ -4,11 +4,13 @@ catan.models = catan.models || {};
 catan.models.State  = (function stateNameSpace(){
 
 	var State = (function StateClass(){
-
+		core.defineProperty(State.prototype,"state");
+		
 		function State(){
 			this.currentModel = null;
 			this.observers = new Array();
-			this.stateInit = false;
+			//this.state = "setup";
+			this.setState("setup");
 		}
 
 		State.prototype.addObserver = function(observer) {
