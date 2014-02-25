@@ -296,12 +296,12 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {HexLocation} hexLocation Location of the Hex where the vertex is based from
 		* @param {string} edgeDirection the direction the edge is at from the hex
 		*/
-		ClientModel.prototype.buildRoad = function(hexLocation,  edgeDirection) {
+		ClientModel.prototype.buildRoad = function(hexLocation,  edgeDirection, isFree) {
 			var location = {x: hexLocation.x, y: hexLocation.y, direction: edgeDirection};
 			
 			var args = new Array();
 			args.push(location);
-			args.push(false);
+			args.push(isFree);
 
 			this.runCommand(catan.proxy.proxyCommands.BuildRoadCommand, args);
 		}
@@ -318,12 +318,12 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {HexLocation} hexLocation Location of the Hex where the vertex is based from
 		* @param {string} vertDirection the direction the vertex is at from the hex
 		*/
-		ClientModel.prototype.buildSettlement = function(hexLocation,  vertDirection) {
+		ClientModel.prototype.buildSettlement = function(hexLocation,  vertDirection, isFree) {
 			var location = {x: hexLocation.x, y: hexLocation.y, direction: vertDirection};
 			
 			var args = new Array();
 			args.push(location);
-			args.push(false);
+			args.push(isFree);
 
 			this.runCommand(catan.proxy.proxyCommands.BuildSettlementCommand, args);
 		}
@@ -340,12 +340,12 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {HexLocation} hexLocation Location of the Hex where the vertex is based from
 		* @param {string} vertDirection the direction the vertex is at from the hex
 		*/
-		ClientModel.prototype.buildCity = function(hexLocation, vertDirection) {
+		ClientModel.prototype.buildCity = function(hexLocation, vertDirection, isFree) {
 			var location = {x: hexLocation.x, y: hexLocation.y, direction: vertDirection};
 			
 			var args = new Array();
 			args.push(location);
-			args.push(false);
+			args.push(isFree);
 
 			this.runCommand(catan.proxy.proxyCommands.BuildCityCommand, args);
 		}
