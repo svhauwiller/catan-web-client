@@ -69,6 +69,9 @@ catan.turntracker.View = (function turntracker_namespace(){
 		 * @return void
 		 */
 		TurnTrackerView.prototype.initializePlayer = function(playerNumber, playerName, playerColor){
+
+			console.log("Adding a player" + playerName)
+
 			var displayElem = new DisplayElement.TurnTrackerPlayerElement(playerName, playerColor);
 			this.getDisplayElems()[playerNumber] = (displayElem);
 			
