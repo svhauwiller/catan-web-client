@@ -175,15 +175,26 @@ catan.map.Controller = (function catan_controller_namespace() {
 		 * @return void
 		**/	
 		MapController.prototype.startMove = function (pieceType,free,disconnected){
-			if(pieceType == "Road"){
+			if(pieceType == "road"){
 				this.modalView.showModal("Road");
 				this.View.startDrop("road", this.ClientModel.players[this.ClientModel.playerID].color);
+				if(free){
+					free = false;
+					this.startMove("road",false,false);
+				}
 			}
-			else if(pieceType == "Settlement"){
+			else if(pieceType == "settlement"){
+				console.log("()@*#&$)(*@^#$)*(@^#$()*#@$");
 				this.modalView.showModal("Settlement");
 				this.View.startDrop("settlement", this.ClientModel.players[this.ClientModel.playerID].color);
+				
+				if(free){
+					
+					free = false;
+					this.startMove("road",false,false);
+				}
 			}
-			else if(pieceType == "City"){
+			else if(pieceType == "city"){
 				this.modalView.showModal("City");
 				this.View.startDrop("city", this.ClientModel.players[this.ClientModel.playerID].color);
 			}
@@ -239,9 +250,8 @@ catan.map.Controller = (function catan_controller_namespace() {
 		 @method onDrop
 		*/
 		MapController.prototype.onDrop = function (loc, type) {
+			console.log("drop");
 			this.modalView.closeModal();
-			//this.startMove("road", true, true);
-			//console.log("drop");
 		};
         
 		return MapController;
