@@ -238,7 +238,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 			// call canPlaceRoad
 			var hoverOverHexLoc = new catan.models.hexgrid.HexLocation(loc.x, loc.y);
 			var hoverOverHex = this.ClientModel.map.hexGrid.getHex(hoverOverHexLoc);
-			console.log(hoverOverHex);
+			//console.log(hoverOverHex);
 			if(hoverOverHex != undefined){
 				if(this.ClientModel.map.canPlaceRoad(this.ClientModel.playerID, hoverOverHex, loc.dir)){
 					return true;
@@ -262,13 +262,17 @@ catan.map.Controller = (function catan_controller_namespace() {
 			console.log("drop");
 			this.modalView.closeModal();
 			var hexLoc = new catan.models.hexgrid.HexLocation(loc.x, loc.y);
-			if(type == "road"){
-				this.ClientModel.buildRoad(hexLoc, loc.dir, false);
+			console.log(type.type);
+			if(type.type == "road"){
+				console.log("road");
+				this.getClientModel().buildRoad(hexLoc, loc.dir, false);
 			}
-			else if(type == "settlement"){
+			else if(type.type == "settlement"){
+				console.log("settlement");
 				this.ClientModel.buildSettlement(hexLoc, loc.dir, false);
 			}
-			else if(type == "settlement"){
+			else if(type.type == "city"){
+				console.log("city");
 				this.ClientModel.buildCity(hexLoc, loc.dir, false);
 			}
 			//this.startMove("Road", true, true);
