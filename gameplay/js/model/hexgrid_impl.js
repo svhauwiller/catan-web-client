@@ -130,9 +130,8 @@ catan.models.Map = (function mapNameSpace(){
 		}
 	
 		Map.prototype.canPlaceRoad = function(playerID, hex, theDirection){
-			var edgeDirection = hex.getEdge(theDirection);
-			var touchingHexes = edgeDirection.getEquivalenceGroup();
-			
+			var edgeDirection = hex.getEdge(hexgrid.EdgeDirection[theDirection]);
+			var touchingHexes = edgeDirection.getLocation().getEquivalenceGroup();
 			//settlement owned by player on a vertex touching the road position
 			if(hex.getVertex(theDirection).getOwner()===playerID || hex.nextDirectionClockwise(theDirection).getOwner()===playerID){
 				return true;
@@ -180,7 +179,7 @@ catan.models.Map = (function mapNameSpace(){
 			//has a road approaching it owned by the player
 			for(var edge in touchingHexes){
 				var myHex = hexgrid.getHex(temp.x,temp.y);
-				if(myHex.getEdge(nexDirectionClockwise(edge.direction)).getOwner===playerID){
+				if(myHex.getEdge(nexDirectionClockwise(edge.direction)).getOwner()===playerID){
 					return true;
 					}
 			}
