@@ -175,31 +175,40 @@ catan.map.Controller = (function catan_controller_namespace() {
 		 * @return void
 		**/	
 		MapController.prototype.startMove = function (pieceType,free,disconnected){
-			if(pieceType == "Road"){
-				this.modalView.showModal("Road");
-				this.View.startDrop("road", this.ClientModel.players[this.ClientModel.playerID].color);
-				/*if(free){
-					free = false;
-					this.startMove("road",false,false);
-				}*/
-			}
-			else if(pieceType == "Settlement"){
-				console.log("()@*#&$)(*@^#$)*(@^#$()*#@$");
-				this.modalView.showModal("Settlement");
-				this.View.startDrop("settlement", this.ClientModel.players[this.ClientModel.playerID].color);
-				
-				/*if(free){
+			if(!free && !disconnected){
+				if(pieceType == "Road"){
+					this.modalView.showModal("Road");
+					this.View.startDrop("road", this.ClientModel.players[this.ClientModel.playerID].color);
+					/*if(free){
+						free = false;
+						this.startMove("road",false,false);
+					}*/
+				}
+				else if(pieceType == "Settlement"){
+					console.log("()@*#&$)(*@^#$)*(@^#$()*#@$");
+					this.modalView.showModal("Settlement");
+					this.View.startDrop("settlement", this.ClientModel.players[this.ClientModel.playerID].color);
 					
-					free = false;
-					this.startMove("road",false,false);
-				}*/
+					/*if(free){
+						
+						free = false;
+						this.startMove("road",false,false);
+					}*/
+				}
+				else if(pieceType == "City"){
+					this.modalView.showModal("City");
+					this.View.startDrop("city", this.ClientModel.players[this.ClientModel.playerID].color);
+				}
+				else{ // idk, maybe robber?
+				}
 			}
-			else if(pieceType == "City"){
-				this.modalView.showModal("City");
-				this.View.startDrop("city", this.ClientModel.players[this.ClientModel.playerID].color);
+			else{
+				
 			}
-			else{ // idk, maybe robber?
-			}
+			//console.log(this.ClientModel);
+
+			
+			
 			//this.modalView.closeModal();
 		};
         
@@ -252,7 +261,17 @@ catan.map.Controller = (function catan_controller_namespace() {
 		MapController.prototype.onDrop = function (loc, type) {
 			console.log("drop");
 			this.modalView.closeModal();
-			this.startMove("Road", true, true);
+			var hexLoc = new catan.models.hexgrid.HexLocation(loc.x, loc.y);
+			if(type == "road"){
+				this.ClientModel.buildRoad(hexLoc, loc.dir, false);
+			}
+			else if(type == "settlement"){
+				this.ClientModel.buildSettlement(hexLoc, loc.dir, false);
+			}
+			else if(type == "settlement"){
+				this.ClientModel.buildCity(hexLoc, loc.dir, false);
+			}
+			//this.startMove("Road", true, true);
 		};
         
 		return MapController;
