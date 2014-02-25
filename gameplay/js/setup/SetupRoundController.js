@@ -26,7 +26,7 @@ catan.setup.Controller = (function(){
 			
 			console.log(mapController.modalView);
 			//mapController.modalView.showModal("Road");
-			mapController.startMove("Road", true, true);
+			mapController.startMove("Settlement", true, true);
 			//mapController.startMove("road", true, true);
 		};
         
