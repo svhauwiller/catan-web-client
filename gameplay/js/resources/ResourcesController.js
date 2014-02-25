@@ -80,6 +80,9 @@ catan.resources.Controller = (function resources_namespace() {
 				this.getView().setActionEnabled("BuyCard",false);
 				this.getView().setActionEnabled("DevCards",false);
 		}
+
+
+		console.log(this.getActions());
 		};
 
 		/**

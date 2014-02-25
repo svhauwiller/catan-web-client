@@ -31,6 +31,8 @@ catan.discard.Controller = (function discard_namespace(){
             view.setController(this);
             waitingView.setController(this);
             this.setWaitingView(waitingView);
+
+            this.isDiscarding = false;
 		}
 
 		core.forceClassInherit(DiscardController,Controller);
@@ -39,26 +41,42 @@ catan.discard.Controller = (function discard_namespace(){
 
 		DiscardController.prototype.updateFromModel = function() {
 		//TODO: Set this condition to only happen when the player needs to discard
-			if(true){
+			this.clientModel = this.getClientModel();
+			this.currentPlayerResources = this.clientModel.currentPlayerResources();
+			this.playerResTotal = 0;
+
+			for(var myKey in this.currentPlayerResources){
+				this.playerResTotal += this.currentPlayerResources[myKey];
+			}
+
+			if(this.clientModel.turnTracker.theStatus === "Discarding" &&
+			   this.playerResTotal > 7 && !this.isDiscarding){
 				console.log("Update Discard");
+
+				this.isDiscarding = true;
 				this.discardingResources = {"wood":0,"brick":0,"sheep":0,"wheat":0,"ore":0};
 				this.maxDiscardValues = {"wood":0,"brick":0,"sheep":0,"wheat":0,"ore":0};
-				this.clientModel = this.getClientModel();
-				this.currentPlayerResources = this.clientModel.currentPlayerResources();
+				
 				this.currentDiscardAmount = 0;
 				this.totalResources = 0;
+
+				this.getView().showModal();
 				
 				for(var myKey in this.currentPlayerResources){
 					this.totalResources += this.currentPlayerResources[myKey];
+					this.getView().setResourceAmount(myKey, "0");
 					this.getView().setResourceMaxAmount(myKey, this.currentPlayerResources[myKey]);
 					this.maxDiscardValues[myKey] = this.currentPlayerResources[myKey];
 					if(this.currentPlayerResources[myKey]>0){
-						this.getView().setResourceAmountChangeEnabled(myKey, false, true);
+						this.getView().setResourceAmountChangeEnabled(myKey, true, false);
 					}
 					else{
 						this.getView().setResourceAmountChangeEnabled(myKey, false, false);
 					}
 				}
+
+				this.getView().setStateMessage("0 / "+Math.floor(this.totalResources/2));
+				
 			}
 		};
 
@@ -71,6 +89,7 @@ catan.discard.Controller = (function discard_namespace(){
 		DiscardController.prototype.discard = function(){
 			this.getClientModel().discardCards(this.discardingResources);
 			this.getView().closeModal();
+			this.isDiscarding = false;
 
 		}
         
@@ -82,25 +101,27 @@ catan.discard.Controller = (function discard_namespace(){
 		 */
 		DiscardController.prototype.increaseAmount = function(resource){
 			
+			this.discardingResources[resource]++;
+			this.getView().setResourceAmount(resource, this.discardingResources[resource].toString());
+
 			if(this.discardingResources[resource]===this.maxDiscardValues[resource]){
 				this.getView().setResourceAmountChangeEnabled(resource, false, true);
 			}
 			else{
 				this.getView().setResourceAmountChangeEnabled(resource, true, true);
 			}
-			var tempIncrease = (this.discardingResources[resource]+1);
-			this.getView().setResourceAmount(resource, tempIncrease);
-			this.discardingResources[resource] = tempIncrease;
 			
-			//this.currentDiscardAmount = (this.currentDiscardAmount+1);
-			this.currentDiscardAmount += 1;
-			getView().setStateMessage(this.currentDiscardAmount+"/"+(totalResources/2));
 			
-			if(this.currentDiscardAmount === (this.totalResources/2)){
+			this.currentDiscardAmount++;
+			this.getView().setStateMessage(this.currentDiscardAmount+" / "+Math.floor(this.totalResources/2));
+			
+			if(this.currentDiscardAmount === Math.floor(this.totalResources/2)){
 				this.getView().setDiscardButtonEnabled(true);
 				for(var myKey in this.currentPlayerResources){
 					if(this.discardingResources[myKey]>0){
 						this.getView().setResourceAmountChangeEnabled(myKey, false, true);
+					} else {
+						this.getView().setResourceAmountChangeEnabled(myKey, false, false);
 					}
 				}
 			}
@@ -115,17 +136,25 @@ catan.discard.Controller = (function discard_namespace(){
 		DiscardController.prototype.decreaseAmount = function(resource){
 
 			this.getView().setDiscardButtonEnabled(false);
-			this.getView().setResourceAmount(resource, (this.discardingResources[resource]-1));
-			//this.currentDiscardAmount = (this.currentDiscardAmount-1);
-			this.currentDiscardAmount -= 1;
-			if(this.discardingResources[resource]>0){
-				this.getView().setResourceAmountChangeEnabled(resource, true, true);
-			}
-			else{
-				this.getView().setResourceAmountChangeEnabled(resource, true, false);
+
+			this.discardingResources[resource]--;
+			this.getView().setResourceAmount(resource, this.discardingResources[resource].toString());
+
+			for(var myKey in this.discardingResources){
+				if(this.discardingResources[myKey] === this.maxDiscardValues[myKey] && this.discardingResources[myKey] > 0){
+					this.getView().setResourceAmountChangeEnabled(myKey, false, true);
+				} else if(this.discardingResources[myKey]>0){
+					this.getView().setResourceAmountChangeEnabled(myKey, true, true);
+				} else if (this.currentPlayerResources[myKey]>0) {
+					this.getView().setResourceAmountChangeEnabled(myKey, true, false);
+				} else {
+					this.getView().setResourceAmountChangeEnabled(myKey, false, false);
+				}
+
 			}
 			
-			this.getView().setStateMessage(this.currentDiscardAmount+"/"+(this.totalResources/2));
+			this.currentDiscardAmount--;
+			this.getView().setStateMessage(this.currentDiscardAmount+" / "+Math.floor(this.totalResources/2));
 		}
 		
 		return DiscardController;

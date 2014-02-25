@@ -29,13 +29,15 @@ catan.turntracker.Controller = (function turntracker_namespace() {
             // NOTE: The view.updateViewState and view.updatePlayer will not work if called from here.  Instead, these
             //          methods should be called later each time the client model is updated from the server.
 
-				this.currentPlayer = clientModel.players[clientModel.playerID];
-				this.playerColor = this.currentPlayer.color;
-				this.playerName = this.currentPlayer.name;
-				this.playerNumber = this.currentPlayer.playerID;
+			this.clientModel = this.getClientModel();
 
-            view.initializePlayer(this.playerNumber, this.playerName, this.playerColor);
-            view.setClientColor(this.playerColor);
+            for (var player in this.clientModel.players) {
+
+	            view.initializePlayer(this.clientModel.players[player].playerID, this.clientModel.players[player].name, this.clientModel.players[player].color);
+
+			}
+
+            view.setClientColor(this.clientModel.players[this.clientModel.playerID].color);
             
 		};
 
@@ -44,15 +46,49 @@ catan.turntracker.Controller = (function turntracker_namespace() {
 		TurnTrackerController.prototype.updateFromModel = function() {
 			
 			this.clientModel = this.getClientModel();
-			this.myNumber = this.clientModel.players[this.clientModel.playerID].orderNumber
+			this.myNumber = this.clientModel.players[this.clientModel.playerID].orderNumber;
 			this.currentTurnNumber = this.clientModel.turnTracker.currentTurn;
 			console.log("myOrderNumber is: " + this.myNumber);
 			console.log("currentTurnNumber is: " + this.currentTurnNumber);
+
 			if(this.myNumber === this.currentTurnNumber){
 				this.getView().updateStateView(true, "End Turn");}
 			else{
 				this.getView().updateStateView(false, "Waiting on other Players...");
 			}
+
+
+
+
+			for (var player in this.clientModel.players) {
+				var updateItem = {
+
+					playerIndex : this.clientModel.players[player].playerID,
+					score : this.clientModel.players[player].victoryPts,
+					highlight : (this.clientModel.players[player].orderNumber === this.currentTurnNumber),
+					army : (this.clientModel.biggestArmy === this.clientModel.players[player].playerID),
+					road : (this.clientModel.longestRoad === this.clientModel.players[player].playerID)
+
+				};
+
+				console.log(updateItem);
+
+				this.getView().updatePlayer(updateItem);	
+			}
+
+			// var updateItem = {
+
+			// 	playerIndex : this.clientModel.playerID,
+			// 	score : this.clientModel.players[this.clientModel.playerID].victoryPts,
+			// 	highlight : (this.myNumber === this.currentTurnNumber),
+			// 	army : (this.clientModel.biggestArmy === this.clientModel.playerID),
+			// 	road : (this.clientModel.longestRoad === this.clientModel.playerID)
+
+			// };
+
+			// console.log(updateItem);
+
+			// this.getView().updatePlayer(updateItem);
 			
 			console.log("Update Turn Tracker");
 		};
