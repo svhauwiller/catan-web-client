@@ -132,9 +132,11 @@ catan.models.Map = (function mapNameSpace(){
 		Map.prototype.canPlaceRoad = function(playerID, hex, theDirection){
 			var edgeDirection = hex.getEdge(theDirection);
 			var touchingHexes = edgeDirection.getEquivalenceGroup();
-
-			/* Check for the current player's settlements; say yes if there's a touching settlement*/
-
+			
+			if(hex.getVertex(theDirection).getOwner()===playerID || hex.nextDirectionClockwise(theDirection).getOwner()===playerID){
+				return true;
+			}
+		
 			for(var equivE in touchingHexes){
 				var theTempHex = hexgrid.getHex(equivE.x,equivE.y);
 				
