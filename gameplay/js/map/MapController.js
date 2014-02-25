@@ -150,6 +150,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 		 * @return void
 		**/		
 		MapController.prototype.doSoldierAction = function(){    
+			console.log("soldier is doing his action");
 		}
         
 		/**
@@ -159,6 +160,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 		 * @return void
 		**/	
 		MapController.prototype.startDoubleRoadBuilding = function(){
+			console.log("double road building");
 			this.modalView.showModal("Road");
 			this.View.startDrop("road", this.ClientModel.players[this.ClientModel.playerID].color);
 		}
