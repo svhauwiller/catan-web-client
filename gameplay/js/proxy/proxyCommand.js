@@ -319,7 +319,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 
 		/**
 		* The current hex location of the robber
-		* @property robberSpot
+		* @property location
 		* @type {HexLocation}
 		*/
 		
@@ -348,7 +348,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		function RobPlayerCommand(newIndex){
 			CommandTemplate.call(this, "robPlayer", newIndex);
 			this.victimIndex = -1;
-			this.robberSpot = null;
+			this.location = null;
 		}
 		
 		RobPlayerCommand.prototype.sendToProxy = function(args){
@@ -359,7 +359,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		RobPlayerCommand.prototype.createArgs = function(args){
 			var JSONObj = CommandTemplate.prototype.createArgs(this.type, this.playerIndex);
 			JSONObj.victimIndex = args[0];
-			JSONObj.robberSpot = args[1];
+			JSONObj.location = args[1];
 			return JSONObj;
 		};
 
@@ -695,7 +695,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 
 		/**
 		* The current hex location of the robber
-		* @property robberSpot
+		* @property location
 		* @type {HexLocation}
 		*/
 		
@@ -724,7 +724,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		function SoldierCommand(newIndex){
 			CommandTemplate.call(this, "Soldier", newIndex);
 			this.victimIndex = -1;
-			this.robberSpot = null;
+			this.location = null;
 		}
 		
 		SoldierCommand.prototype.sendToProxy = function(args){
@@ -735,7 +735,7 @@ catan.proxy.proxyCommands = (function proxyCommandNameSpace(){
 		SoldierCommand.prototype.createArgs = function(args){
 			var JSONObj = CommandTemplate.prototype.createArgs(this.type, this.playerIndex);
 			JSONObj.victimIndex = args[0];
-			JSONObj.robberSpot = args[1];
+			JSONObj.location = args[1];
 			return JSONObj;
 		};
 
