@@ -78,7 +78,7 @@ catan.resources.Controller = (function resources_namespace() {
 				this.getView().setActionEnabled("Settlements",false);
 				this.getView().setActionEnabled("Cities",false);
 				this.getView().setActionEnabled("BuyCard",false);
-				this.getView().setActionEnabled("DevCards",false)
+				this.getView().setActionEnabled("DevCards",false);
 		}
 		};
 
