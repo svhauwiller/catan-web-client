@@ -270,6 +270,8 @@ catan.map.Controller = (function catan_controller_namespace() {
 				this.getClientModel().buildRoad(hexLoc, loc.dir, true);
 				console.log("road sent to server");
 				this.startMove("Settlement", true, true);
+				//if turntracker.status == FirstRound or SecondRound
+				this.ClientModel.finishTurn();
 			}
 			else if(type.type == "settlement"){
 				

@@ -27,9 +27,15 @@ catan.setup.Controller = (function(){
 			//console.log(mapController);
 			console.log(this);
 			//if(mapController.ClientModel.playerID == 
-			mapController.startMove("Road", true, true);
-			mapController.updateFromModel();
-			console.log(this);
+			var turnTracker = this.ClientModel.turnTracker;
+			if(turnTracker.theStatus == "FirstRound" || turnTracker.theStatus == "SecondRound"){
+				if(turnTracker.currentTurn == this.ClientModel.playerID ||
+					(turnTracker.currentTurn == 2 && this.ClientModel.playerID == 10) ||
+					(turnTracker.currentTurn == 3 && this.ClientModel.playerID == 11)){
+					mapController.startMove("Road", true, true);
+					//mapController.updateFromModel();
+				}
+			}
 		};
         
 		core.forceClassInherit(SetupRoundController,Controller);
