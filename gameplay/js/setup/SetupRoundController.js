@@ -23,11 +23,13 @@ catan.setup.Controller = (function(){
 		var SetupRoundController = function (clientModel, mapController){
 			this.mapController = mapController;
 			Controller.call(this,undefined,clientModel);
-			
-			console.log(mapController.modalView);
-			//mapController.modalView.showModal("Road");
-			mapController.startMove("Settlement", true, true);
-			//mapController.startMove("road", true, true);
+			//console.log(clientModel);
+			//console.log(mapController);
+			console.log(this);
+			//if(mapController.ClientModel.playerID == 
+			mapController.startMove("Road", true, true);
+			mapController.updateFromModel();
+			console.log(this);
 		};
         
 		core.forceClassInherit(SetupRoundController,Controller);

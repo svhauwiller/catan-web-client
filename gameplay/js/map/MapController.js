@@ -175,10 +175,12 @@ catan.map.Controller = (function catan_controller_namespace() {
 		 * @return void
 		**/	
 		MapController.prototype.startMove = function (pieceType,free,disconnected){
-			if(!free && !disconnected){
+			if(free && disconnected){
 				if(pieceType == "Road"){
 					this.modalView.showModal("Road");
-					this.View.startDrop("road", this.ClientModel.players[this.ClientModel.playerID].color);
+					setTimeout(function(){
+						this.View.startDrop("road", this.ClientModel.players[this.ClientModel.playerID].color);
+					}.bind(this), 0);
 					/*if(free){
 						free = false;
 						this.startMove("road",false,false);
@@ -187,8 +189,9 @@ catan.map.Controller = (function catan_controller_namespace() {
 				else if(pieceType == "Settlement"){
 					console.log("()@*#&$)(*@^#$)*(@^#$()*#@$");
 					this.modalView.showModal("Settlement");
-					this.View.startDrop("settlement", this.ClientModel.players[this.ClientModel.playerID].color);
-					
+					setTimeout(function(){
+						this.View.startDrop("settlement", this.ClientModel.players[this.ClientModel.playerID].color);
+					}.bind(this), 0);
 					/*if(free){
 						
 						free = false;
@@ -264,16 +267,19 @@ catan.map.Controller = (function catan_controller_namespace() {
 			var hexLoc = new catan.models.hexgrid.HexLocation(loc.x, loc.y);
 			console.log(type.type);
 			if(type.type == "road"){
-				console.log("road");
-				this.getClientModel().buildRoad(hexLoc, loc.dir, false);
+				this.getClientModel().buildRoad(hexLoc, loc.dir, true);
+				console.log("road sent to server");
+				this.startMove("Settlement", true, true);
 			}
 			else if(type.type == "settlement"){
-				console.log("settlement");
-				this.ClientModel.buildSettlement(hexLoc, loc.dir, false);
+				
+				this.ClientModel.buildSettlement(hexLoc, loc.dir, true);
+				console.log("settlement sent to server");
 			}
 			else if(type.type == "city"){
-				console.log("city");
-				this.ClientModel.buildCity(hexLoc, loc.dir, false);
+				
+				this.ClientModel.buildCity(hexLoc, loc.dir, true);
+				console.log("city sent to server");
 			}
 			//this.startMove("Road", true, true);
 		};

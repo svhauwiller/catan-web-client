@@ -121,7 +121,11 @@ catan.views.overlays.MapOverlay = (function (){
 		
 		var cancelFunc = core.makeAnonymousAction(this.getController(), this.getController().cancelMove);
 		
-		this.setCancelAllowed(true);
+		// if state is setup
+		if(this.Controller.ClientModel.state.state === "setup")
+			this.setCancelAllowed(false);
+		else
+			this.setCancelAllowed(true);
 		
 		if (this.getCancelAllowed()){	
 			var cancelFunc = core.makeAnonymousAction(this.getController(), this.getController().cancelMove);
