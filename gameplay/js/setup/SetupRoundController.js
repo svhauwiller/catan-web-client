@@ -19,7 +19,6 @@ catan.setup.Controller = (function(){
 		@param {map.MapController} mapController
 	*/
 	var SetupRoundController = (function (){
-		
 		var SetupRoundController = function (clientModel, mapController){
 			this.mapController = mapController;
 			Controller.call(this,undefined,clientModel);
@@ -33,8 +32,10 @@ catan.setup.Controller = (function(){
 					(turnTracker.currentTurn == 2 && this.ClientModel.playerID == 10) ||
 					(turnTracker.currentTurn == 3 && this.ClientModel.playerID == 11)){
 					mapController.startMove("Road", true, true);
-					//mapController.updateFromModel();
 				}
+			}
+			if(turnTracker.theStatus == "Rolling"){ // when we get to the Rolling status, it's time to start
+				window.location.pathname = "/catan.html";
 			}
 		};
         

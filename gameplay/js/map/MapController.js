@@ -200,7 +200,9 @@ catan.map.Controller = (function catan_controller_namespace() {
 				}
 				else if(pieceType == "City"){
 					this.modalView.showModal("City");
-					this.View.startDrop("city", this.ClientModel.players[this.ClientModel.playerID].color);
+					setTimeout(function(){
+						this.View.startDrop("city", this.ClientModel.players[this.ClientModel.playerID].color);
+					}.bind(this), 0);
 				}
 				else{ // idk, maybe robber?
 				}
