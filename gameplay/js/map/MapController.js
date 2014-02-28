@@ -80,7 +80,6 @@ catan.map.Controller = (function catan_controller_namespace() {
 			var hexGrid = this.getClientModel().map.hexGrid;
 			var chitNums = this.getClientModel().map.numbers;
 			var ports = this.getClientModel().map.ports;
-			var robberLoc = this.getClientModel().map.robber;
 
 			var landType;
 			var resourceType;
@@ -108,8 +107,6 @@ catan.map.Controller = (function catan_controller_namespace() {
 				_this.getView().addPort(portLocation, resourceType);
 			});
 
-			this.getView().placeRobber(robberLoc);
-
 			this.updateFromModel();
 		};
 
@@ -120,6 +117,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 			var playerID = this.getClientModel().playerID;
 			var playerData = this.getClientModel().players;
 			var orderNumbers = this.getClientModel().orderNumbers;
+			var robberLoc = this.getClientModel().map.robber;
 			var turnTracker = this.getClientModel().turnTracker;
 
 			var playerColor;
@@ -144,6 +142,8 @@ catan.map.Controller = (function catan_controller_namespace() {
 				});
 			});
 
+			this.getView().placeRobber(robberLoc);
+
 			if(turnTracker.theStatus === "Robbing" &&
 			   turnTracker.currentTurn === playerData[playerID].orderNumber &&
 			   !this.isRobbing){
@@ -161,6 +161,9 @@ catan.map.Controller = (function catan_controller_namespace() {
 		 @method robPlayer
 		*/
 		MapController.prototype.robPlayer = function(orderID){
+			this.getClientModel().robberMove(orderID, this.newRobberLocation);
+			this.getRobView().closeModal();
+			this.isRobbing = false;
 		}
         
         /**

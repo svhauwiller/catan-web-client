@@ -63,6 +63,7 @@ catan.discard.Controller = (function discard_namespace(){
 				this.totalResources = 0;
 
 				this.getView().showModal();
+				this.getView().setDiscardButtonEnabled(false);
 				
 				for(var myKey in this.currentPlayerResources){
 					this.totalResources += this.currentPlayerResources[myKey];
