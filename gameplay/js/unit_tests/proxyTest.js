@@ -77,7 +77,9 @@ test("Proxy Test: Rob Player",function(){
 
 		var robPlayerResp = robPlayerCmd.sendToProxy(args);
 		var updatedModel = JSON.parse(robPlayerResp.responseText);
+		console.log("#####" + updatedModel);
 		var newRobberPos = updatedModel.map.robber;
+		console.log("****" + newRobberPos);
 
 
 		ok((oldRobberPos.x !== newRobberPos.x) || (oldRobberPos.y !== newRobberPos.y), "Rob Player Test Failure: Robber has not moved from last known position.");
