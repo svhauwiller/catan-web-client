@@ -130,6 +130,11 @@ catan.models.Player = (function playerNameSpace(){
 			this.playerID = -1;
 			this.resources = new catan.models.bank.ResourceList("player");
 			this.victoryPts = 0;
+			this.woodValue = 4;
+			this.oreValue = 4;
+			this.sheepValue = 4;
+			this.wheatValue = 4;
+			this.brickValue = 4;
 		}
 	
 		Player.prototype.updateAll = function(playerModel){
@@ -152,6 +157,11 @@ catan.models.Player = (function playerNameSpace(){
 			this.playerID = playerModel.playerID;
 			this.replaceAllResources(playerModel.resources);
 			this.victoryPts = playerModel.victoryPoints;		
+			this.woodValue = playerModel.woodValue;
+			this.oreValue = playerModel.oreValue;
+			this.sheepValue = playerModel.sheepValue;
+			this.wheatValue = playerModel.wheatValue;
+			this.brickValue = playerModel.brickValue;
 		}
 
 		/**
