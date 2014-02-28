@@ -174,7 +174,7 @@ catan.models.Map = (function mapNameSpace(){
 				for(var temp in touchingHexes){
 					var myHexLoc = new catan.models.hexgrid.HexLocation(touchingHexes[temp].x,touchingHexes[temp].y);
 					var myHex = this.hexGrid.getHex(myHexLoc);
-					console.log(myHex);
+					//console.log(myHex);
 					if(myHex != undefined){
 						if(myHex.getVertex(nextDirectionClockwise(hexgrid.VertexDirection[touchingHexes[temp].dir])).getOwner()!==-1){
 							return false;
@@ -195,7 +195,7 @@ catan.models.Map = (function mapNameSpace(){
 			};
 			
 			Map.prototype.canSetupSettlement = function(playerID, hex, theDirection){
-				console.log("123456789123456789123456789123456789123456789123456789");
+				//console.log("123456789123456789123456789123456789123456789123456789");
 				//console.log(theDirection);        	
             var vertexDirection = hex.getVertex(hexgrid.VertexDirection[theDirection]);
 				//console.log(vertexDirection);	
@@ -204,11 +204,11 @@ catan.models.Map = (function mapNameSpace(){
             for(var edge in touchingHexes){
 					var myHexLoc = new catan.models.hexgrid.HexLocation(touchingHexes[edge].x,touchingHexes[edge].y);
 					var myHex = this.hexGrid.getHex(myHexLoc);
-					console.log(myHex);
+					//console.log(myHex);
 					if(myHex == undefined){
 						return false;
 					}
-				console.log(myHex.getVertex(hexgrid.VertexDirection[touchingHexes[edge].dir]));
+				//console.log(myHex.getVertex(hexgrid.VertexDirection[touchingHexes[edge].dir]));
 					if(myHex.getVertex(hexgrid.VertexDirection[touchingHexes[edge].dir]).getOwner() !== -1){
 						return false;
 					}
