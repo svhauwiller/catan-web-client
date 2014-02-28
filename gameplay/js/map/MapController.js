@@ -80,13 +80,10 @@ catan.map.Controller = (function catan_controller_namespace() {
 			var chitNums = this.getClientModel().map.numbers;
 			var ports = this.getClientModel().map.ports;
 			var robberLoc = this.getClientModel().map.robber;
-			var playerData = this.getClientModel().players;
-			var orderNumbers = this.getClientModel().orderNumbers;
 
 			var landType;
 			var resourceType;
 			var portLocation;
-			var playerColor;
 
 			hexGrid.getHexes().forEach(function(hex){
 				if(hex.isLand){
@@ -95,24 +92,6 @@ catan.map.Controller = (function catan_controller_namespace() {
 				} else {
 					_this.getView().addHex(hex.location, "water");
 				}
-
-				hex.edges.forEach(function(edge){
-					if(edge.isOccupied() && edge.location.getDirection() > 2){
-						playerColor = playerData[orderNumbers[edge.getOwner()]].color;
-						_this.getView().placeRoad(edge.location, playerColor);
-					}
-				});
-
-				hex.vertexes.forEach(function(vert){
-					if(vert.isOccupied() && (vert.location.getDirection() === 0 || vert.location.getDirection() === 3)){
-						playerColor = playerData[orderNumbers[vert.getOwner()]].color;
-						if(vert.getWorth() === 1){
-							_this.getView().placeSettlement(vert.location, playerColor);
-						} else {
-							_this.getView().placeCity(vert.location, playerColor);
-						}
-					}
-				});
 			});
 
 			for(var num in chitNums){
@@ -134,6 +113,34 @@ catan.map.Controller = (function catan_controller_namespace() {
 		};
 
 		MapController.prototype.updateFromModel = function() {
+			var _this = this;
+
+			var hexGrid = this.getClientModel().map.hexGrid;
+			var playerData = this.getClientModel().players;
+			var orderNumbers = this.getClientModel().orderNumbers;
+
+			var playerColor;
+
+			hexGrid.getHexes().forEach(function(hex){
+				hex.edges.forEach(function(edge){
+					if(edge.isOccupied() && edge.location.getDirection() > 2){
+						playerColor = playerData[orderNumbers[edge.getOwner()]].color;
+						_this.getView().placeRoad(edge.location, playerColor);
+					}
+				});
+
+				hex.vertexes.forEach(function(vert){
+					if(vert.isOccupied() && (vert.location.getDirection() === 0 || vert.location.getDirection() === 3)){
+						playerColor = playerData[orderNumbers[vert.getOwner()]].color;
+						if(vert.getWorth() === 1){
+							_this.getView().placeSettlement(vert.location, playerColor);
+						} else {
+							_this.getView().placeCity(vert.location, playerColor);
+						}
+					}
+				});
+			});
+
 			this.getView().drawPieces();
 		};
 
