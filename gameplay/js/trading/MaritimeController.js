@@ -36,17 +36,54 @@ catan.trade.maritime.Controller = (function trade_namespace(){
 			console.log("Update Maritime");
 			var clientModel = this.getClientModel();
 			var portArray = clientModel.map.ports;
-			var ownedPorts = new Array();
+			this.currentPlayer = clientModel.players[clientModel.playerID];
+			var portArray = new Array();
+			this.bankResourceArray = new Array();
 			var counter = 0;
-		/*	
-			for (var hexPlace in portArray){
-				var tempHex = clientModel.map.hexGrid.getHex(hexPlace.x, hexPlace.y);
-				if(tempHex.getVertex(tempHex.validVertex1).getOwner()===clientModel.playerID ||
-				tempHex.getVertex(tempHex.validVertex2).getOwner()===clientModel.playerID){
-					ownedPorts[counter] = tempHex.
-				}
+
+			if(this.currentPlayer.woodValue < 4){
+				portArray[counter] = "wood";
+				counter++;
 			}
-		*/
+			if(this.currentPlayer.oreValue < 4){
+				portArray[counter] = "ore";
+				counter++;
+			}
+			if(this.currentPlayer.sheepValue < 4){
+				portArray[counter] = "sheep";			
+				counter++;	
+			}
+			if(this.currentPlayer.wheatValue < 4){
+				portArray[counter] = "wheat";	
+				counter++;			
+			}
+			if(this.currentPlayer.brickValue < 4){
+				portArray[counter] = "brick";			
+				counter++;	
+			}
+			counter=0;
+			if(clientModel.bank.resourceList.wood > 0){
+				this.bankResourceArray[counter]="wood";
+				counter++;
+			}
+			if(clientModel.bank.resourceList.ore > 0){
+				this.bankResourceArray[counter]="ore";
+				counter++;
+			}
+			if(clientModel.bank.resourceList.sheep > 0){
+				this.bankResourceArray[counter]="sheep";				
+				counter++;
+			}
+			if(clientModel.bank.resourceList.wheat > 0){
+				this.bankResourceArray[counter]="wheat";				
+				counter++;
+			}
+			if(clientModel.bank.resourceList.brick > 0){
+				this.bankResourceArray[counter]="brick";				
+				counter++;
+			}
+		
+			this.getView().showGiveOptions(portArray);
 			/*clientModel.map.ports [0-8]
 			location->has x, y
 			validVertex1-> direction
@@ -70,6 +107,7 @@ catan.trade.maritime.Controller = (function trade_namespace(){
 		 * @return void
 		 */
 		MaritimeController.prototype.unsetGetValue = function(){
+			
 		};
         
 		/**
@@ -79,6 +117,9 @@ catan.trade.maritime.Controller = (function trade_namespace(){
 		 * @return void
 		 */
 		MaritimeController.prototype.setGiveValue = function(resource){
+			this.getView().selectGiveOption(resource, currentPlayer.resource);
+			this.getView().hideGiveOptions();
+			this.getView().showGetOptions(this.bankResourceArray);
 		};
         
 		/**
@@ -88,6 +129,8 @@ catan.trade.maritime.Controller = (function trade_namespace(){
 		 * @return void
 		 */
 		MaritimeController.prototype.setGetValue = function(resource){
+			this.getView.selectGetOption(resource, 1);
+			this.getView().enableTradeButton(true);
 		};
         
         function capFirst(str){
@@ -99,6 +142,11 @@ catan.trade.maritime.Controller = (function trade_namespace(){
 		 * @return void
 		 */
 		MaritimeController.prototype.makeTrade= function(){
+			
+			/*
+				increase the bank by the amount
+				decrease the player's hand by the amount			
+			*/
 		}
 		
        return MaritimeController;
