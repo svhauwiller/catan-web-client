@@ -1,3 +1,4 @@
+//STUDENT-EDITABLE-BEGIN
 /**
     This is the namespace for the intitial game round
     @module catan.setup
@@ -21,6 +22,10 @@ catan.setup.Controller = (function(){
 	var SetupRoundController = (function (){
 		var SetupRoundController = function (clientModel, mapController){
 			this.mapController = mapController;
+<<<<<<< HEAD
+			
+			Controller.call(this,undefined,clientModel);
+=======
 			Controller.call(this,undefined,clientModel);
 			//console.log(clientModel);
 			//console.log(mapController);
@@ -37,6 +42,7 @@ catan.setup.Controller = (function(){
 			if(turnTracker.theStatus == "Rolling"){ // when we get to the Rolling status, it's time to start
 				window.location.pathname = "/catan.html";
 			}
+>>>>>>> 6831e17f9f1b9405bcb940c6d45ced4b885f3692
 		};
         
 		core.forceClassInherit(SetupRoundController,Controller);
