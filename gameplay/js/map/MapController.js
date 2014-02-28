@@ -148,6 +148,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 			   turnTracker.currentTurn === playerData[playerID].orderNumber &&
 			   !this.isRobbing){
 				this.getModalView().showModal("Robber");
+				this.startMove("Robber", false, false);
 			}
 
 			this.getView().drawPieces();
@@ -216,10 +217,24 @@ catan.map.Controller = (function catan_controller_namespace() {
 					}.bind(this), 0);
 				}
 				else{ // idk, maybe robber?
+
 				}
 			}
 			else{
-				
+				if(pieceType == "Road"){
+
+				}
+				else if(pieceType == "Settlement"){
+
+				}
+				else if(pieceType == "City"){
+
+				}
+				else if(pieceType == "Robber"){
+					setTimeout(function(){
+						this.View.startDrop("robber", this.ClientModel.players[this.ClientModel.playerID].color);
+					}.bind(this), 0);
+				}
 			}
 			//console.log(this.ClientModel);
 			
@@ -268,6 +283,12 @@ catan.map.Controller = (function catan_controller_namespace() {
 						return false;
 					}
 				}
+				else if(type.type == "city"){
+
+				}
+				else if(type.type == "robber"){
+					return hoverOverHex.isLand;
+				}
 			}
 			
 		};
@@ -284,6 +305,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 			console.log("drop");
 			this.modalView.closeModal();
 			var hexLoc = new catan.models.hexgrid.HexLocation(loc.x, loc.y);
+			var dropHex = this.ClientModel.map.hexGrid.getHex(hexLoc);
 			//console.log(type.type);
 			if(type.type == "settlement"){
 				this.getClientModel().buildSettlement(hexLoc, loc.dir, true);
@@ -296,10 +318,32 @@ catan.map.Controller = (function catan_controller_namespace() {
 			else if(type.type == "road"){
 				this.ClientModel.buildRoad(hexLoc, loc.dir, true);
 			}
-			else if(type.type == "settlement"){
-				
-				this.ClientModel.buildSettlement(hexLoc, loc.dir, true);
-				console.log("settlement sent to server");
+			else if(type.type == "robber"){
+				var _this = this;
+				var playerData = this.ClientModel.players;
+				var orderNumberMap = this.ClientModel.orderNumbers
+				var vertexes = dropHex.getVertexes();
+				var victimList = new Array();
+				var playerRes = null;
+				var resTotal = 0;
+				this.newRobberLocation = hexLoc;
+				vertexes.forEach(function(vert){
+					if(vert.getOwner() !== -1 && vert.getOwner() !== playerData[_this.ClientModel.playerID].orderNumber){
+						playerRes = playerData[orderNumberMap[vert.getOwner()]].resources;
+						resTotal = 0;
+						for(var type in playerRes){
+							resTotal += playerRes[type];
+						}
+						victimList.push({
+							color: playerData[orderNumberMap[vert.getOwner()]].color,
+							name: playerData[orderNumberMap[vert.getOwner()]].name,
+							playerNum: vert.getOwner(),
+							cards: resTotal
+						});
+					}
+				});
+				this.getRobView().setPlayerInfo(victimList);
+				this.getRobView().showModal();
 			}
 			else if(type.type == "city"){
 				
