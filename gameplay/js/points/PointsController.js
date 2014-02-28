@@ -1,3 +1,4 @@
+//STUDENT-EDITABLE-BEGIN
 var catan = catan || {};
 catan.points = catan.points || {};
 catan.points.Controller = catan.points.Controller || {};
@@ -55,4 +56,3 @@ catan.points.Controller = (function VPController_Class(){
 	return PointController;	
 }());
 // STUDENT-REMOVE-END
-

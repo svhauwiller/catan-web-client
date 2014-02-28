@@ -1,3 +1,4 @@
+//STUDENT-EDITABLE-BEGIN
 var catan = catan || {};
 catan.resources = catan.resources || {};
 
@@ -67,10 +68,24 @@ catan.resources.Controller = (function resources_namespace() {
 			this.myNumber = this.clientModel.players[this.clientModel.playerID].orderNumber
 			this.currentTurnNumber = this.clientModel.turnTracker.currentTurn;
 			if(this.myNumber === this.currentTurnNumber){
+				//if(currentPlayerResources["brick"]>0 && currentPlayerResources["wood"]>0){
+				if(this.currentPlayer.canBuyRoad()){
 				this.getView().setActionEnabled("Roads",true);
+				}
+			//	if(currentPlayerResources["wood"]>0 && currentPlayerResources["sheep"]>0 &&
+			//	currentPlayerResources["brick"]>0 && currentPlayerResources["wheat"]>0){
+				if(this.currentPlayer.canBuySettlement()){
 				this.getView().setActionEnabled("Settlements",true);
+				}
+			//	if(currentPlayerResources["wheat"]>1 && currentPlayerResources["ore"]>2){
+				if(this.currentPlayer.canBuyCity()){				
 				this.getView().setActionEnabled("Cities",true);
+				}
+			//	if(currentPlayerResources["sheep"]>0 && currentPlayerResources["wheat"]>0 &&
+			//	currentPlayerResources["stone"]>0){
+				if(this.currentPlayer.canBuyDevCard()){
 				this.getView().setActionEnabled("BuyCard",true);
+				}
 				this.getView().setActionEnabled("DevCards",true);
 			}
 		else{

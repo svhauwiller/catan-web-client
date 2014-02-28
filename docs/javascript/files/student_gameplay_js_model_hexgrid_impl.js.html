@@ -220,6 +220,7 @@
 
 <div class="file">
     <pre class="code prettyprint linenums">
+//STUDENT-EDITABLE-BEGIN   
 var catan = catan || {};
 catan.models = catan.models || {};
 
@@ -261,15 +262,17 @@ catan.models.Map = (function mapNameSpace(){
     
         core.forceClassInherit(CatanEdge, hexgrid.BaseContainer);
     
-        function CatanEdge(){}
+        function CatanEdge(){
+			//jQuery(&quot;#debug&quot;).append(&quot;&lt;br&gt;In Edge Constructor&quot;);
+		}
         
-        // once you override this, put in some documentation
-        function isOccupied(){
-            return false; // default implementation, change this!
-        }
-
         return CatanEdge;
     }());
+	
+	CatanEdge.prototype.isOccupied = function() 
+	{
+		return false; //default implementation. Change this!
+	}
     
     /**
 	This class represents a vertex. It inherits from BaseContainer.
@@ -288,15 +291,17 @@ catan.models.Map = (function mapNameSpace(){
     
         core.forceClassInherit(CatanVertex, hexgrid.BaseContainer);
         
-        function CatanVertex(){}
+        function CatanVertex(){
+			//jQuery(&quot;#debug&quot;).append(&quot;&lt;br&gt;In Vertex Constructor&quot;);
+		}
         
-        // once you override this, put in some documentation
-        function isOccupied(){ 
-            return false; // default implementation, change this!
-        }
-
-        return CatanVertex;
+         return CatanVertex;
     }()); 
+	
+	CatanVertex.prototype.isOccupied = function() 
+	{
+		return false; //default implementation. Change this!
+	}
     
     
     /**
@@ -320,6 +325,7 @@ catan.models.Map = (function mapNameSpace(){
         
         function CatanHex(location){          
             hexgrid.BasicHex.call(this,location,CatanEdge,CatanVertex);
+			$(&quot;#debug&quot;).append(&quot;&lt;br&gt;In CatanHex Constructor (&quot; + this.getLocation().getX() + &quot;, &quot; + this.getLocation().getY() + &quot;)&quot;);
         } 
         
         return CatanHex;
@@ -328,6 +334,7 @@ catan.models.Map = (function mapNameSpace(){
 	return Map;
 
 }());
+
 
 
 
