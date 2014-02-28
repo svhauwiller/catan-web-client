@@ -43,6 +43,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 			
 			this.overlayOpen = false;
 			this.isRobbing = false;
+			this.settlementBuilt = false; // keeps track of the second part of a player's set up round
 
 			// var hexType = getHexType(hex);
 			// this.getView().addHex(hex.getLocation(), hexType);
@@ -199,6 +200,8 @@ catan.map.Controller = (function catan_controller_namespace() {
 		**/	
 		MapController.prototype.startMove = function (pieceType,free,disconnected){
 			this.overlapOpen = true; // theoretically, assuming that no errors occur in this method
+			this.free = free;
+			this.disconnected = disconnected;
 			console.log("PIECETYPE IS " + pieceType);
 			if(free && disconnected){
 				if(pieceType == "Road"){
@@ -279,11 +282,21 @@ catan.map.Controller = (function catan_controller_namespace() {
 					}
 				}
 				else if(type.type == "settlement"){
-					if(this.ClientModel.map.canPlaceSettlement(this.ClientModel.playerID, hoverOverHex, loc.dir)){
-						return true;
+					if(this.disconnected){ // if in setup round, rules are different
+						if(this.ClientModel.map.canSetupSettlement(this.ClientModel.playerID, hoverOverHex, loc.dir)){
+							return true;
+						}
+						else{
+							return false;
+						}
 					}
 					else{
-						return false;
+						if(this.ClientModel.map.canPlaceSettlement(this.ClientModel.playerID, hoverOverHex, loc.dir)){
+							return true;
+						}
+						else{
+							return false;
+						}
 					}
 				}
 				else if(type.type == "city"){
@@ -311,15 +324,26 @@ catan.map.Controller = (function catan_controller_namespace() {
 			var dropHex = this.ClientModel.map.hexGrid.getHex(hexLoc);
 			//console.log(type.type);
 			if(type.type == "settlement"){
-				this.getClientModel().buildSettlement(hexLoc, loc.dir, true);
-				console.log("road sent to server");
-				this.startMove("Road", true, true);
-				//if turntracker.status == FirstRound or SecondRound
-				this.ClientModel.finishTurn();
+				this.ClientModel.buildSettlement(hexLoc, loc.dir, true);
+				console.log("settlement sent to server");
+				/*if(this.free && this.disconnected){//a.k.a. during setup round
+					this.startMove("Road", true, true);
+					//if turntracker.status == FirstRound or SecondRound
+					//this.ClientModel.finishTurn();
+				}*/
+				this.settlementBuilt = true;
+				console.log(this);
 				this.overlapOpen = false;
 			}
 			else if(type.type == "road"){
-				this.ClientModel.buildRoad(hexLoc, loc.dir, true);
+				console.log(this);
+				this.getClientModel().buildRoad(hexLoc, loc.dir, true);
+				console.log("road sent to server");
+				if(this.free && this.disconnected){//a.k.a. during setup round
+					this.getClientModel().finishTurn();
+				}
+				this.settlementBuilt = false;
+				this.overlapOpen = false;
 			}
 			else if(type.type == "robber"){
 				var _this = this;
