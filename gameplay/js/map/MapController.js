@@ -40,6 +40,8 @@ catan.map.Controller = (function catan_controller_namespace() {
 			this.setModalView(modalView);
 			this.setRobView(robView);
 			this.initFromModel();
+			
+			this.overlayOpen = false;
 
 			// var hexType = getHexType(hex);
 			// this.getView().addHex(hex.getLocation(), hexType);
@@ -176,6 +178,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 		 * @return void
 		**/	
 		MapController.prototype.startMove = function (pieceType,free,disconnected){
+			this.overlapOpen = true; // theoretically, assuming that no errors occur in this method
 			console.log("PIECETYPE IS " + pieceType);
 			if(free && disconnected){
 				if(pieceType == "Road"){
@@ -203,8 +206,6 @@ catan.map.Controller = (function catan_controller_namespace() {
 				
 			}
 			//console.log(this.ClientModel);
-
-			
 			
 			//this.modalView.closeModal();
 		};
@@ -216,6 +217,8 @@ catan.map.Controller = (function catan_controller_namespace() {
 		 * @return void
 		 * */
 		MapController.prototype.cancelMove = function(){
+			// might need more code here...
+			this.modalView.closeModal();
 		}
 
 		/**
@@ -229,19 +232,25 @@ catan.map.Controller = (function catan_controller_namespace() {
 		 @return {boolean} Whether or not the given piece can be placed at the current location.
 		*/
 		MapController.prototype.onDrag = function (loc, type) {
-			//console.log("drag");
-			//console.log(loc);
-			//console.log(type);
-			// call canPlaceRoad
 			var hoverOverHexLoc = new catan.models.hexgrid.HexLocation(loc.x, loc.y);
 			var hoverOverHex = this.ClientModel.map.hexGrid.getHex(hoverOverHexLoc);
 			//console.log(hoverOverHex);
 			if(hoverOverHex != undefined){
-				if(this.ClientModel.map.canPlaceRoad(this.ClientModel.playerID, hoverOverHex, loc.dir)){
-					return true;
+				if(type.type == "road"){
+					if(this.ClientModel.map.canPlaceRoad(this.ClientModel.playerID, hoverOverHex, loc.dir)){
+						return true;
+					}
+					else{
+						return false;
+					}
 				}
-				else{
-					return false;
+				else if(type.type == "settlement"){
+					if(this.ClientModel.map.canPlaceSettlement(this.ClientModel.playerID, hoverOverHex, loc.dir)){
+						return true;
+					}
+					else{
+						return false;
+					}
 				}
 			}
 			
@@ -259,13 +268,14 @@ catan.map.Controller = (function catan_controller_namespace() {
 			console.log("drop");
 			this.modalView.closeModal();
 			var hexLoc = new catan.models.hexgrid.HexLocation(loc.x, loc.y);
-			console.log(type.type);
+			//console.log(type.type);
 			if(type.type == "settlement"){
 				this.getClientModel().buildSettlement(hexLoc, loc.dir, true);
 				console.log("road sent to server");
 				this.startMove("Road", true, true);
 				//if turntracker.status == FirstRound or SecondRound
 				this.ClientModel.finishTurn();
+				this.overlapOpen = false;
 			}
 			else if(type.type == "road"){
 				this.ClientModel.buildRoad(hexLoc, loc.dir, true);
