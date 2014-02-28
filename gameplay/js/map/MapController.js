@@ -42,6 +42,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 			this.initFromModel();
 			
 			this.overlayOpen = false;
+			this.isRobbing = false;
 
 			// var hexType = getHexType(hex);
 			// this.getView().addHex(hex.getLocation(), hexType);
@@ -116,8 +117,10 @@ catan.map.Controller = (function catan_controller_namespace() {
 			var _this = this;
 
 			var hexGrid = this.getClientModel().map.hexGrid;
+			var playerID = this.getClientModel().playerID;
 			var playerData = this.getClientModel().players;
 			var orderNumbers = this.getClientModel().orderNumbers;
+			var turnTracker = this.getClientModel().turnTracker;
 
 			var playerColor;
 
@@ -140,6 +143,12 @@ catan.map.Controller = (function catan_controller_namespace() {
 					}
 				});
 			});
+
+			if(turnTracker.theStatus === "Robbing" &&
+			   turnTracker.currentTurn === playerData[playerID].orderNumber &&
+			   !this.isRobbing){
+				this.getModalView().showModal("Robber");
+			}
 
 			this.getView().drawPieces();
 		};

@@ -34,6 +34,7 @@ catan.discard.Controller = (function discard_namespace(){
             this.setWaitingView(waitingView);
 
             this.isDiscarding = false;
+            this.isWaiting = false;
 		}
 
 		core.forceClassInherit(DiscardController,Controller);
@@ -78,6 +79,12 @@ catan.discard.Controller = (function discard_namespace(){
 
 				this.getView().setStateMessage("0 / "+Math.floor(this.totalResources/2));
 				
+			} else if (this.clientModel.turnTracker.theStatus === "Discarding" && !this.isWaiting){
+				this.isWaiting = true;
+				this.getWaitingView().showModal();
+			} else if (this.clientModel.turnTracker.theStatus !== "Discarding" && this.isWaiting){
+				this.isWaiting = false;
+				this.getWaitingView().closeModal();
 			}
 		};
 
@@ -91,7 +98,9 @@ catan.discard.Controller = (function discard_namespace(){
 			this.getClientModel().discardCards(this.discardingResources);
 			this.getView().closeModal();
 			this.isDiscarding = false;
-
+			this.isWaiting = true;
+			this.getWaitingView().closeModal();
+			this.getWaitingView().showModal();
 		}
         
 		/**
