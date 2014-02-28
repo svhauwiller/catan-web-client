@@ -44,7 +44,7 @@ catan.turntracker.Controller = (function turntracker_namespace() {
 		core.forceClassInherit(TurnTrackerController,Controller);
 
 		TurnTrackerController.prototype.updateFromModel = function() {
-			
+/*			
 			this.clientModel = this.getClientModel();
 			this.myNumber = this.clientModel.players[this.clientModel.playerID].orderNumber;
 			this.currentTurnNumber = this.clientModel.turnTracker.currentTurn;
@@ -56,10 +56,6 @@ catan.turntracker.Controller = (function turntracker_namespace() {
 			else{
 				this.getView().updateStateView(false, "Waiting on other Players...");
 			}
-
-
-
-
 			for (var player in this.clientModel.players) {
 				var updateItem = {
 
@@ -68,28 +64,37 @@ catan.turntracker.Controller = (function turntracker_namespace() {
 					highlight : (this.clientModel.players[player].orderNumber === this.currentTurnNumber),
 					army : (this.clientModel.biggestArmy === this.clientModel.players[player].playerID),
 					road : (this.clientModel.longestRoad === this.clientModel.players[player].playerID)
-
 				};
-
 				console.log(updateItem);
-
 				this.getView().updatePlayer(updateItem);	
 			}
+*/
 
-			// var updateItem = {
-
-			// 	playerIndex : this.clientModel.playerID,
-			// 	score : this.clientModel.players[this.clientModel.playerID].victoryPts,
-			// 	highlight : (this.myNumber === this.currentTurnNumber),
-			// 	army : (this.clientModel.biggestArmy === this.clientModel.playerID),
-			// 	road : (this.clientModel.longestRoad === this.clientModel.playerID)
-
-			// };
-
-			// console.log(updateItem);
-
-			// this.getView().updatePlayer(updateItem);
+var tempObject;
+			this.clientModel = this.getClientModel();
+			this.myNumber = this.clientModel.players[this.clientModel.playerID].orderNumber
+			this.currentTurnNumber = this.clientModel.turnTracker.currentTurn;
+			console.log("myOrderNumber is: " + this.myNumber);
+			console.log("currentTurnNumber is: " + this.currentTurnNumber);
 			
+			//this should go through all the players in clientModel
+			for(var singlePlayer in this.clientModel.players){
+				tempObject = new Object();
+				//highlight if true, remove highlight if not
+				if(this.myNumber === this.currentTurnNumber){
+					tempObject.highlight = true;
+					this.getView().updateStateView(true, "End Turn");
+				}
+				else{
+					tempObject.highlight = false;
+					this.getView().updateStateView(false, "Waiting on other Players...");
+				}
+				tempObject.army = this.clientModel.players[singlePlayer].largestArmy;
+				tempObject.score = this.clientModel.players[singlePlayer].victoryPts;
+				tempObject.road = this.clientModel.players[singlePlayer].longestRoad;
+				//this should push the updates to the view
+				this.getView().updatePlayer(object);
+			}
 			console.log("Update Turn Tracker");
 		};
 
