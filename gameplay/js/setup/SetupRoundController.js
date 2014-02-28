@@ -1,3 +1,4 @@
+//STUDENT-EDITABLE-BEGIN
 /**
     This is the namespace for the intitial game round
     @module catan.setup
@@ -22,12 +23,8 @@ catan.setup.Controller = (function(){
 		
 		var SetupRoundController = function (clientModel, mapController){
 			this.mapController = mapController;
-			Controller.call(this,undefined,clientModel);
 			
-			console.log(mapController.modalView);
-			//mapController.modalView.showModal("Road");
-			mapController.startMove("Settlement", true, true);
-			//mapController.startMove("road", true, true);
+			Controller.call(this,undefined,clientModel);
 		};
         
 		core.forceClassInherit(SetupRoundController,Controller);

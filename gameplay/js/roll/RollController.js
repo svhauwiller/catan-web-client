@@ -1,3 +1,4 @@
+//STUDENT-EDITABLE-BEGIN
 /**
     This is the namespace the rolling interface
     @module catan.roll
@@ -61,9 +62,10 @@ catan.roll.Controller = (function roll_namespace(){
 				} else {
 					console.log(timerLength);
 					_this.getView().closeModal();
+					_this.getView().showModal();
 					_this.getView().changeMessage("Rolling automatically in... " + timerLength);
 					timerLength--;
-					_this.getView().showModal();
+					
 				}
 			}, 1000);
 		};
@@ -86,8 +88,8 @@ catan.roll.Controller = (function roll_namespace(){
 			clearInterval(this.rollCountdown);
 			this.getView().closeModal();
 			var rollResult = this.getClientModel().rollDice();
-			this.getRollResultView().setAmount(rollResult);
 			this.getRollResultView().showModal();
+			this.getRollResultView().setAmount(rollResult);
 		};
 		
 		return RollController;

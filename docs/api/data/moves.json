@@ -475,7 +475,7 @@
             "type":         {"type":"Soldier"},
             "playerIndex":  {"type":"integer","description":"Who's playing this dev card"},
             "victimIndex":  {"type":"integer",      "description":"The order index of the player to rob"},
-            "robberSpot":   {"type":"HexLocation",  "description":"the new location of the robber"}
+            "location":   {"type":"HexLocation",  "description":"the new location of the robber"}
         }
     },
     "Road_Building_":{
@@ -529,7 +529,7 @@
         "properties":{
             "type": {"type":"maritimeTrade"},
             "playerIndex": {"type":"integer","description":"Who's doing the trading"},
-            "ratio": {"type":"ResourceList","description":"The ratio of the trade your doing as an integer (ie. put 3 for a 3:1 trade)"},
+            "ratio": {"type":"integer","description":"The ratio of the trade your doing as an integer (ie. put 3 for a 3:1 trade)"},
             "inputResource": {"type":"String","description":"What type of resource you're giving."},
             "outputResource": {"type":"String","description":"What type of resource you're getting."}
         }

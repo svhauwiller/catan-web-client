@@ -1,3 +1,4 @@
+//STUDENT-EDITABLE-BEGIN
 catan.client = (function Client_NameSpace(){
 
 	var ViewIniter = (function ViewIniter_Object(){
@@ -139,8 +140,7 @@ catan.client = (function Client_NameSpace(){
 			(function(){
                 for( name in controllers){
                     var controller = controllers[name];
-                    controller.funMsg = "Blame it on my ADD baby...";
-                    // Add your Observer here
+                    model.state.addObserver(controller);
                 }
             }())
 		};
