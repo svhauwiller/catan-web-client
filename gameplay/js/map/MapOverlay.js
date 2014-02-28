@@ -118,27 +118,18 @@ catan.views.overlays.MapOverlay = (function (){
          * @method showModal 
 			@param {String} type the type of the item to place: "Robber", "Soldier", "City", "Settlement", "Road".
          */
-<<<<<<< HEAD
-        MapOverlay.prototype.showModal = function(type){
+		MapOverlay.prototype.showModal = function(type){
 			var cancelButtonInfo = undefined;
-			
-=======
-	MapOverlay.prototype.showModal = function(type){
-		var cancelButtonInfo = undefined;
 		
-		var cancelFunc = core.makeAnonymousAction(this.getController(), this.getController().cancelMove);
-		
-		// if state is setup
-		if(this.Controller.ClientModel.state.state === "setup")
-			this.setCancelAllowed(false);
-		else
-			this.setCancelAllowed(true);
-		
-		if (this.getCancelAllowed()){	
->>>>>>> 6831e17f9f1b9405bcb940c6d45ced4b885f3692
 			var cancelFunc = core.makeAnonymousAction(this.getController(), this.getController().cancelMove);
-			
-            if (this.getCancelAllowed()){	
+		
+			// if state is setup
+			if(this.Controller.ClientModel.state.state === "setup")
+				this.setCancelAllowed(false);
+			else
+				this.setCancelAllowed(true);
+
+			if (this.getCancelAllowed()){	
 				var cancelFunc = core.makeAnonymousAction(this.getController(), this.getController().cancelMove);
 						
 				cancelButtonInfo = {
