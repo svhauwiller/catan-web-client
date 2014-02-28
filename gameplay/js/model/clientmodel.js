@@ -381,7 +381,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		ClientModel.prototype.offerTrade = function(receiverIndex, offerList) {
 			args = new Array();
 			args.push(offerList);
-			args.push(receiver);
+			args.push(receiverIndex);
 
 			this.runCommand(catan.proxy.proxyCommands.OfferTradeCommand, args);
 		}
