@@ -247,7 +247,6 @@ catan.devCards.View = (function (){
 		}
         
 		DevCardView.prototype.useMonument = function(){
-			console.log("using road!");
 			this.getController().useMonument()
 		}
         

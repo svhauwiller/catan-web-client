@@ -25,6 +25,11 @@ catan.resources.Controller = (function resources_namespace() {
 		
 	var ResourceBarController = (function ResourceBarController_Class(){
     
+		core.forceClassInherit(ResourceBarController,Controller);
+        
+		//ResourceBarController.prototype.constructor = ResourceBarController;
+        
+		core.defineProperty(ResourceBarController.prototype, "Actions");
 		/**
 		 Controller class for the Resources View.
 		 @class ResourceBarController
@@ -37,67 +42,49 @@ catan.resources.Controller = (function resources_namespace() {
 		function ResourceBarController(view,clientModel,actions){
 			this.setActions(actions);
 			Controller.call(this,view,clientModel);
+			this.clientModel = clientModel;
+			this.init();
 		};
+	
 
-		core.forceClassInherit(ResourceBarController,Controller);
-        
-		ResourceBarController.prototype.constructor = ResourceBarController;
-        
-		core.defineProperty(ResourceBarController.prototype, "Actions");
 
-		ResourceBarController.prototype.updateFromModel = function() {
-			var clientModel = this.getClientModel();
-			console.log("Update Resource Bar");
-			//console.log(clientModel);
-			var currentPlayerResources = clientModel.currentPlayerResources();
-			//console.log(currentPlayerResources);
+
+
+		ResourceBarController.prototype.init = function(){
+			var currentPlayerResources = this.clientModel.currentPlayerResources();
 			this.getView().updateAmount("brick", currentPlayerResources["brick"]);
 			this.getView().updateAmount("ore", currentPlayerResources["ore"]);
 			this.getView().updateAmount("sheep", currentPlayerResources["sheep"]);
 			this.getView().updateAmount("wheat", currentPlayerResources["wheat"]);
 			this.getView().updateAmount("wood", currentPlayerResources["wood"]);
 			
-			var currentPlayer = clientModel.players[clientModel.playerID];
+			var currentPlayer = this.clientModel.players[this.clientModel.playerID];
 			this.getView().updateAmount("Roads", currentPlayer.roads);
 			this.getView().updateAmount("Settlements", currentPlayer.settlements);
 			this.getView().updateAmount("Cities", currentPlayer.cities);
 			this.getView().updateAmount("Soldiers", currentPlayer.soldiers);
-			
-			//enable/disable buttons depending on the player's turn status			
-			this.clientModel = this.getClientModel();
-			this.myNumber = this.clientModel.players[this.clientModel.playerID].orderNumber
+
+			this.myNumber = this.clientModel.players[this.clientModel.playerID].orderNumber;
 			this.currentTurnNumber = this.clientModel.turnTracker.currentTurn;
 			if(this.myNumber === this.currentTurnNumber){
-				//if(currentPlayerResources["brick"]>0 && currentPlayerResources["wood"]>0){
-				if(currentPlayer.canBuyRoad()){
-					this.getView().setActionEnabled("Roads",true);
-				}
-			//	if(currentPlayerResources["wood"]>0 && currentPlayerResources["sheep"]>0 &&
-			//	currentPlayerResources["brick"]>0 && currentPlayerResources["wheat"]>0){
-				if(currentPlayer.canBuySettlement()){
-					this.getView().setActionEnabled("Settlements",true);
-				}
-			//	if(currentPlayerResources["wheat"]>1 && currentPlayerResources["ore"]>2){
-				if(currentPlayer.canBuyCity()){				
-					this.getView().setActionEnabled("Cities",true);
-				}
-			//	if(currentPlayerResources["sheep"]>0 && currentPlayerResources["wheat"]>0 &&
-			//	currentPlayerResources["stone"]>0){
-				if(currentPlayer.canBuyDevCard()){
-					this.getView().setActionEnabled("BuyCard",true);
-				}
+				this.getView().setActionEnabled("Roads",currentPlayer.canBuyRoad());
+				this.getView().setActionEnabled("Settlements",currentPlayer.canBuySettlement());
+				this.getView().setActionEnabled("Cities",currentPlayer.canBuyCity());
+				this.getView().setActionEnabled("BuyCard",currentPlayer.canBuyDevCard());
 				this.getView().setActionEnabled("DevCards",true);
 			}
-		else{
+			else{
 				this.getView().setActionEnabled("Roads",false);
 				this.getView().setActionEnabled("Settlements",false);
 				this.getView().setActionEnabled("Cities",false);
 				this.getView().setActionEnabled("BuyCard",false);
 				this.getView().setActionEnabled("DevCards",false);
-		}
+			}
+		};
 
-
-		console.log(this.getActions());
+		ResourceBarController.prototype.updateFromModel = function() {
+			this.clientModel = this.getClientModel();
+			this.init();
 		};
 
 		/**
