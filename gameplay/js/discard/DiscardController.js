@@ -65,7 +65,6 @@ catan.discard.Controller = (function discard_namespace(){
 				
 				for(var myKey in this.currentPlayerResources){
 					this.totalResources += this.currentPlayerResources[myKey];
-					this.getView().setResourceAmount(myKey, "0");
 					this.getView().setResourceMaxAmount(myKey, this.currentPlayerResources[myKey]);
 					this.maxDiscardValues[myKey] = this.currentPlayerResources[myKey];
 					if(this.currentPlayerResources[myKey]>0){
@@ -74,6 +73,7 @@ catan.discard.Controller = (function discard_namespace(){
 					else{
 						this.getView().setResourceAmountChangeEnabled(myKey, false, false);
 					}
+					this.getView().setResourceAmount(myKey, "0");
 				}
 
 				this.getView().setStateMessage("0 / "+Math.floor(this.totalResources/2));
@@ -103,7 +103,7 @@ catan.discard.Controller = (function discard_namespace(){
 		DiscardController.prototype.increaseAmount = function(resource){
 			
 			this.discardingResources[resource]++;
-			this.getView().setResourceAmount(resource, this.discardingResources[resource].toString());
+			
 
 			if(this.discardingResources[resource]===this.maxDiscardValues[resource]){
 				this.getView().setResourceAmountChangeEnabled(resource, false, true);
@@ -112,7 +112,8 @@ catan.discard.Controller = (function discard_namespace(){
 				this.getView().setResourceAmountChangeEnabled(resource, true, true);
 			}
 			
-			
+			this.getView().setResourceAmount(resource, this.discardingResources[resource]);
+
 			this.currentDiscardAmount++;
 			this.getView().setStateMessage(this.currentDiscardAmount+" / "+Math.floor(this.totalResources/2));
 			
@@ -124,6 +125,7 @@ catan.discard.Controller = (function discard_namespace(){
 					} else {
 						this.getView().setResourceAmountChangeEnabled(myKey, false, false);
 					}
+					this.getView().setResourceAmount(myKey, this.discardingResources[myKey]);
 				}
 			}
 		}
@@ -139,7 +141,6 @@ catan.discard.Controller = (function discard_namespace(){
 			this.getView().setDiscardButtonEnabled(false);
 
 			this.discardingResources[resource]--;
-			this.getView().setResourceAmount(resource, this.discardingResources[resource].toString());
 
 			for(var myKey in this.discardingResources){
 				if(this.discardingResources[myKey] === this.maxDiscardValues[myKey] && this.discardingResources[myKey] > 0){
@@ -151,7 +152,7 @@ catan.discard.Controller = (function discard_namespace(){
 				} else {
 					this.getView().setResourceAmountChangeEnabled(myKey, false, false);
 				}
-
+				this.getView().setResourceAmount(myKey, this.discardingResources[myKey]);
 			}
 			
 			this.currentDiscardAmount--;
