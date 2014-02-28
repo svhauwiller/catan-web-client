@@ -31,6 +31,10 @@ catan.devCards.Controller = (function(){
 		function DevCardController(view, buyView, clientModel, soldierAction, roadAction){
 			Controller.call(this,view,clientModel);
 			this.setBuyView(buyView);
+			this.soldierAction = soldierAction;
+			this.roadAction = roadAction;
+			
+			
 		}
 
 		DevCardController.prototype.updateFromModel = function() {
@@ -43,6 +47,8 @@ catan.devCards.Controller = (function(){
 		 * @return void
 		 */
 		DevCardController.prototype.buyCard = function(){
+			var clientModel = this.getClientModel();
+			clientModel.buyDevCard();
 		}
         
 		/**
@@ -53,6 +59,11 @@ catan.devCards.Controller = (function(){
 		 * @return void
 		 */
 		DevCardController.prototype.useYearOfPlenty = function(resource1, resource2){
+			var clientModel = this.getClientModel();
+			param = new Object();
+			param.resource1 = resource1;
+			param.resource2 = resource2;
+			clientModel.useDevCard("yearOfPlenty" , param);
 		}
         
 		/**
@@ -62,6 +73,10 @@ catan.devCards.Controller = (function(){
 		 * @return void
 		 */
 		DevCardController.prototype.useMonopoly= function(resource){
+			var clientModel = this.getClientModel();
+			param = new Object();
+			param.resource = resource;
+			clientModel.useDevCard("monopoly", param);
 		}
         
 		/**
@@ -70,6 +85,8 @@ catan.devCards.Controller = (function(){
 		 * @return void
 		 */
 		DevCardController.prototype.useMonument = function(){
+			var clientModel = this.getClientModel();
+			calientModel.useDevCard("monument");
 		}
         
 		/**
@@ -78,6 +95,8 @@ catan.devCards.Controller = (function(){
 		 * @return void
 		 */
 		DevCardController.prototype.useSoldier= function(){
+			var clientModel = this.getClientModel();
+			
 		}
         
 		/**
@@ -86,6 +105,7 @@ catan.devCards.Controller = (function(){
 		 * @return void
 		 */
 		DevCardController.prototype.useRoadBuild = function(resource){
+		
 		}
 
 		return DevCardController;

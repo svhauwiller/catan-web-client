@@ -175,28 +175,19 @@ catan.map.Controller = (function catan_controller_namespace() {
 		 * @return void
 		**/	
 		MapController.prototype.startMove = function (pieceType,free,disconnected){
+			console.log("PIECETYPE IS " + pieceType);
 			if(free && disconnected){
 				if(pieceType == "Road"){
 					this.modalView.showModal("Road");
 					setTimeout(function(){
 						this.View.startDrop("road", this.ClientModel.players[this.ClientModel.playerID].color);
 					}.bind(this), 0);
-					/*if(free){
-						free = false;
-						this.startMove("road",false,false);
-					}*/
 				}
 				else if(pieceType == "Settlement"){
-					console.log("()@*#&$)(*@^#$)*(@^#$()*#@$");
 					this.modalView.showModal("Settlement");
 					setTimeout(function(){
 						this.View.startDrop("settlement", this.ClientModel.players[this.ClientModel.playerID].color);
 					}.bind(this), 0);
-					/*if(free){
-						
-						free = false;
-						this.startMove("road",false,false);
-					}*/
 				}
 				else if(pieceType == "City"){
 					this.modalView.showModal("City");
@@ -268,12 +259,15 @@ catan.map.Controller = (function catan_controller_namespace() {
 			this.modalView.closeModal();
 			var hexLoc = new catan.models.hexgrid.HexLocation(loc.x, loc.y);
 			console.log(type.type);
-			if(type.type == "road"){
-				this.getClientModel().buildRoad(hexLoc, loc.dir, true);
+			if(type.type == "settlement"){
+				this.getClientModel().buildSettlement(hexLoc, loc.dir, true);
 				console.log("road sent to server");
-				this.startMove("Settlement", true, true);
+				this.startMove("Road", true, true);
 				//if turntracker.status == FirstRound or SecondRound
 				this.ClientModel.finishTurn();
+			}
+			else if(type.type == "road"){
+				this.ClientModel.buildRoad(hexLoc, loc.dir, true);
 			}
 			else if(type.type == "settlement"){
 				

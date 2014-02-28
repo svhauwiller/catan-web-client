@@ -1019,7 +1019,7 @@ catan.map.View = (function makeMapView(){
 			var color = colors.color;
 			var outline = colors.outline;
 			
-			
+			console.log("OBJECTTYPE IS " + objectType);
 			switch(objectType){
 				case "city":
 					targetLayer = this.getVertexLayer();
@@ -1027,6 +1027,7 @@ catan.map.View = (function makeMapView(){
 					goodShape = typeDef.makeCity(new VertexLoc(0.5,0.5,"W"),color,outline);
 					break;
 				case "settlement":
+					console.log("We be in here");
 					targetLayer = this.getVertexLayer();
 					typeDef = this.getVertexDefinition();
 					goodShape = typeDef.makeSettlement(new VertexLoc(0.5,0.5,"W"),color,outline);
@@ -1034,7 +1035,7 @@ catan.map.View = (function makeMapView(){
 				case "road":
 					targetLayer = this.getEdgeLayer();
 					typeDef = this.getEdgeDefinition();
-					goodShape = typeDef.makeRoad(new EdgeLoc(0.5,0.5,"E"),color,outline);
+					goodShape = typeDef.makeRoad(new EdgeLoc(0.5,0.5,"SE"),color,outline);
 					break;
 				case "robber":
 					targetLayer = this.getRobberLayer();
@@ -1047,7 +1048,7 @@ catan.map.View = (function makeMapView(){
 	
 			var dragController = new DragController(typeDef,targetLayer,this.getDragLayer(),{type:objectType,color:color});
 			this.setDragController(dragController);
-			
+			console.log("we get here");
 			var shapeNo = typeDef.makeNoGo(new Point(0,0),this.getImages().misc.nogo);
 			dragController.startPlacement(goodShape,shapeNo,this.getOnDrag(),this.getOnDrop());
 		}
@@ -1070,6 +1071,7 @@ catan.map.View = (function makeMapView(){
 		 @method cancelDrop
 		*/
 		MapView.prototype.cancelDrop = function cancelDrop(){
+			console.log("THIS DOES GET CALLED");
 			this.getDragController().finishPlacement(false);
 			this.getStage().draw();
 		}

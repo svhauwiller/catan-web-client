@@ -31,7 +31,7 @@ catan.setup.Controller = (function(){
 				if(turnTracker.currentTurn == this.ClientModel.playerID ||
 					(turnTracker.currentTurn == 2 && this.ClientModel.playerID == 10) ||
 					(turnTracker.currentTurn == 3 && this.ClientModel.playerID == 11)){
-					mapController.startMove("Road", true, true);
+					mapController.startMove("Settlement", true, true);
 				}
 			}
 			if(turnTracker.theStatus == "Rolling"){ // when we get to the Rolling status, it's time to start
