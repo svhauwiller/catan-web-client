@@ -135,6 +135,7 @@ catan.models.Player = (function playerNameSpace(){
 			this.sheepValue = 4;
 			this.wheatValue = 4;
 			this.brickValue = 4;
+			console.log(this);
 		}
 	
 		Player.prototype.updateAll = function(playerModel){
@@ -157,11 +158,7 @@ catan.models.Player = (function playerNameSpace(){
 			this.playerID = playerModel.playerID;
 			this.replaceAllResources(playerModel.resources);
 			this.victoryPts = playerModel.victoryPoints;		
-			this.woodValue = playerModel.woodValue;
-			this.oreValue = playerModel.oreValue;
-			this.sheepValue = playerModel.sheepValue;
-			this.wheatValue = playerModel.wheatValue;
-			this.brickValue = playerModel.brickValue;
+
 		}
 
 		/**
