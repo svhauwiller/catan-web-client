@@ -27,14 +27,16 @@ catan.setup.Controller = (function(){
 			//console.log(clientModel);
 			//console.log(mapController);
 			console.log(this);
-			
 		};
 		
 		core.forceClassInherit(SetupRoundController,Controller);
 		
 		SetupRoundController.prototype.updateFromModel = function(){
+			console.log("Update Setup");
+			console.log(this.mapController.overlayOpen);
 			//this.mapController.updateFromModel();
 			//this.ClientModel.updateFromModel();
+			
 			if(this.mapController.overlayOpen == false){
 				var turnTracker = this.ClientModel.turnTracker;
 				if(turnTracker.theStatus == "FirstRound" || turnTracker.theStatus == "SecondRound"){
@@ -45,6 +47,7 @@ catan.setup.Controller = (function(){
 						console.log(this.mapController.settlementBuilt);
 						if(this.mapController.settlementBuilt == false){
 							this.mapController.startMove("Settlement", true, true);
+							console.log(this.mapController.overlayOpen);
 						}
 						else{ // settlementBuilt == true
 							this.mapController.startMove("Road", true, true);
