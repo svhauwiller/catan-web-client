@@ -32,15 +32,30 @@ catan.devCards.Controller = (function(){
 		function DevCardController(view, buyView, clientModel, soldierAction, roadAction){
 			Controller.call(this,view,clientModel);
 			this.setBuyView(buyView);
+			this.view = view;
 			this.soldierAction = soldierAction;
 			this.roadAction = roadAction;
-			
-			
+			this.clientModel = clientModel;	
 		}
 
 		DevCardController.prototype.updateFromModel = function() {
 			console.log("Update Dev Card");
+			this.clientModel = this.getClientModel();
+			this.init();
 		};
+
+		DevCardController.prototype.init = function () {
+			var player = this.clientModel.players[this.clientModel.playerID];
+			var oldCards = player.oldDevCards;
+			var newCards = player.newDevCards;
+			var devTypes = catan.definitions.CardTypes;
+
+			for (type in devTypes){
+				this.view.setCardEnabled(devTypes[type], (oldCards[devTypes[type]] > 0));
+				this.view.updateAmount(devTypes[type], (oldCards[devTypes[type]] + newCards[devTypes[type]]));
+			}
+			
+		}
 		
 		/**
 		 * Called when the player buys a development card
@@ -48,8 +63,8 @@ catan.devCards.Controller = (function(){
 		 * @return void
 		 */
 		DevCardController.prototype.buyCard = function(){
-			var clientModel = this.getClientModel();
-			clientModel.buyDevCard();
+			this.clientModel.buyDevCard();
+			
 		}
         
 		/**
@@ -60,11 +75,11 @@ catan.devCards.Controller = (function(){
 		 * @return void
 		 */
 		DevCardController.prototype.useYearOfPlenty = function(resource1, resource2){
-			var clientModel = this.getClientModel();
 			param = new Object();
+			//where/when do these resources get picked?
 			param.resource1 = resource1;
 			param.resource2 = resource2;
-			clientModel.useDevCard("yearOfPlenty" , param);
+			this.clientModel.useDevCard("yearOfPlenty" , param);
 		}
         
 		/**
@@ -74,10 +89,9 @@ catan.devCards.Controller = (function(){
 		 * @return void
 		 */
 		DevCardController.prototype.useMonopoly= function(resource){
-			var clientModel = this.getClientModel();
 			param = new Object();
 			param.resource = resource;
-			clientModel.useDevCard("monopoly", param);
+			this.clientModel.useDevCard("monopoly", param);
 		}
         
 		/**
@@ -86,8 +100,7 @@ catan.devCards.Controller = (function(){
 		 * @return void
 		 */
 		DevCardController.prototype.useMonument = function(){
-			var clientModel = this.getClientModel();
-			calientModel.useDevCard("monument");
+			this.clientModel.useDevCard("monument");
 		}
         
 		/**
@@ -96,8 +109,7 @@ catan.devCards.Controller = (function(){
 		 * @return void
 		 */
 		DevCardController.prototype.useSoldier= function(){
-			var clientModel = this.getClientModel();
-			
+			this.soldierAction();
 		}
         
 		/**
@@ -106,7 +118,7 @@ catan.devCards.Controller = (function(){
 		 * @return void
 		 */
 		DevCardController.prototype.useRoadBuild = function(resource){
-		
+			this.roadAction();
 		}
 
 		return DevCardController;

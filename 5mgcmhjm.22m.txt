@@ -1,0 +1,17 @@
+﻿hello jerk
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch master
+# Your branch and 'origin/master' have diverged,
+# and have 2 and 5 different commits each, respectively.
+#   (use "git pull" to merge the remote branch into yours)
+#
+# You are currently rebasing branch 'master' on '4f707e2'.
+#   (all conflicts fixed: run "git rebase --continue")
+#
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	new file:   gameplay/js/setup/SetupRoundController.js
+#
+
