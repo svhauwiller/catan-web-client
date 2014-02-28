@@ -45,7 +45,7 @@ catan.turntracker.Controller = (function turntracker_namespace() {
 		core.forceClassInherit(TurnTrackerController,Controller);
 
 		TurnTrackerController.prototype.updateFromModel = function() {
-/*			
+			
 			this.clientModel = this.getClientModel();
 			this.myNumber = this.clientModel.players[this.clientModel.playerID].orderNumber;
 			this.currentTurnNumber = this.clientModel.turnTracker.currentTurn;
@@ -69,9 +69,9 @@ catan.turntracker.Controller = (function turntracker_namespace() {
 				console.log(updateItem);
 				this.getView().updatePlayer(updateItem);	
 			}
-*/
 
-var tempObject;
+
+/*var tempObject;
 			this.clientModel = this.getClientModel();
 			this.myNumber = this.clientModel.players[this.clientModel.playerID].orderNumber
 			this.currentTurnNumber = this.clientModel.turnTracker.currentTurn;
@@ -94,8 +94,8 @@ var tempObject;
 				tempObject.score = this.clientModel.players[singlePlayer].victoryPts;
 				tempObject.road = this.clientModel.players[singlePlayer].longestRoad;
 				//this should push the updates to the view
-				this.getView().updatePlayer(object);
-			}
+				this.getView().updatePlayer(tempObject);
+			}*/
 			console.log("Update Turn Tracker");
 		};
 
