@@ -33,6 +33,23 @@ catan.trade.maritime.Controller = (function trade_namespace(){
 
 		MaritimeController.prototype.updateFromModel = function() {
 			console.log("Update Maritime");
+			var clientModel = this.getClientModel();
+			var portArray = clientModel.map.ports;
+			var ownedPorts = new Array();
+			var counter = 0;
+		/*	
+			for (var hexPlace in portArray){
+				var tempHex = clientModel.map.hexGrid.getHex(hexPlace.x, hexPlace.y);
+				if(tempHex.getVertex(tempHex.validVertex1).getOwner()===clientModel.playerID ||
+				tempHex.getVertex(tempHex.validVertex2).getOwner()===clientModel.playerID){
+					ownedPorts[counter] = tempHex.
+				}
+			}
+		*/
+			/*clientModel.map.ports [0-8]
+			location->has x, y
+			validVertex1-> direction
+			validVertex2*/
 		};
 
 		/**
@@ -41,6 +58,9 @@ catan.trade.maritime.Controller = (function trade_namespace(){
 		 * @return void
 		 */
 		MaritimeController.prototype.unsetGiveValue = function(){
+			this.getView().hideGetOptions();
+			this.getView().showGiveOptions();
+			this.getView().enableTradeButton(false);
 		};
         
 		/**
