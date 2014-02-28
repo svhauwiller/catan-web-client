@@ -69,7 +69,16 @@ catan.trade.maritime.Controller = (function trade_namespace(){
 				counter++;	
 			}
 		
-			if(counter === 0){
+			this.myNumber = this.getClientModel().players[this.getClientModel().playerID].orderNumber;
+			this.currentTurnNumber = this.getClientModel().turnTracker.currentTurn;
+
+			if(this.myNumber != this.currentTurnNumber){
+				this.getView().setMessage("Currently not your turn");
+				this.getView().hideGetOptions();
+				this.getView().hideGiveOptions();
+				this.getView().enableTradeButton(false);
+			}
+			else if(counter === 0){
 				this.getView().setMessage("You lack the needed resources");
 				this.getView().hideGetOptions();
 				this.getView().hideGiveOptions();
@@ -172,15 +181,17 @@ catan.trade.maritime.Controller = (function trade_namespace(){
 		 * @return void
 		 */
 		MaritimeController.prototype.makeTrade= function(){
-			this.clientModel.bank.resourceList[this.bankResource]-=1;
-			this.clientModel.bank.resourceList[this.playerResource]+= this.playerAmount;
+			//this.clientModel.bank...
+			this.getClientModel().bank.resourceList[this.bankResource]-=1;
+			this.getClientModel().bank.resourceList[this.playerResource]+= this.playerAmount;
 			/*
 			console.log("************************************");
 			console.log(this.currentPlayer.resources[this.playerResource]);
 			console.log(this.playerAmount);
 			*/
-			this.currentPlayer.resources[this.playerResource]-= this.playerAmount;
-			this.currentPlayer.resources[this.bankResource]+=1;
+			//this.currentPlayer.resources...
+			this.clientModel.players[this.clientModel.playerID].resources[this.playerResource]-= this.playerAmount;
+			this.clientModel.players[this.clientModel.playerID].resources[this.bankResource]+=1;
 			/*
 			console.log("Player resource amount of "+this.playerResource+": "+this.currentPlayer.resources[this.playerResource]);
 			console.log("Player resource amount of "+this.bankResource+": "+this.currentPlayer.resources[this.bankResource]);
