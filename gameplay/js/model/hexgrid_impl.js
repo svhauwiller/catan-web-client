@@ -131,12 +131,13 @@ catan.models.Map = (function mapNameSpace(){
         }
     
         Map.prototype.canPlaceRoad = function(playerID, hex, theDirection){
-            console.log(hex);
+            /*
+            //console.log(hex);
             var edgeDirection = hex.getEdge(hexgrid.EdgeDirection[theDirection]);
-            console.log(edgeDirection);
+            //console.log(edgeDirection);
             var touchingHexes = edgeDirection.getLocation().getEquivalenceGroup();
             //settlement owned by player on a vertex touching the road position
-            console.log(hex.getVertex(hexgrid.EdgeDirection[theDirection]));
+            //console.log(hex.getVertex(hexgrid.EdgeDirection[theDirection]));
             if(hex.getVertex(hexgrid.EdgeDirection[theDirection]).getOwner()===playerID ||
                 hex.getVertex(nextDirectionClockwise(hexgrid.EdgeDirection[theDirection])).getOwner()===playerID){
                 return true;
@@ -144,26 +145,26 @@ catan.models.Map = (function mapNameSpace(){
         
             //player has a road coming in from one of the four possible directions
             for(var equivE in touchingHexes){
-                console.log(equivE);
+                //console.log(equivE);
                 var theTempHexLoc = new hexgrid.HexLocation(touchingHexes[equivE].x,touchingHexes[equivE].y);
                 var theTempHex = this.hexGrid.getHex(theTempHexLoc);
-                console.log(theTempHex);
+                //console.log(theTempHex);
                 
                 if(theTempHex.getEdge(hexgrid.nextDirectionClockwise(touchingHexes[equivE].direction)).getOwner()===playerID || 
                 theTempHex.getEdge(nextDirectionCounterClockwise(touchingHexes[equivE].direction)).getOwner()===playerID){
                     return true;
                 }             
-            }
+            }*/
             return true;
         };
         
         Map.prototype.canPlaceSettlement = function(playerID, hex, theDirection){
-console.log(theDirection);        	
+//console.log(theDirection);        	
             var vertexDirection = hex.getVertex(hexgrid.VertexDirection[theDirection]);
-console.log(vertexDirection);
+//console.log(vertexDirection);
             var touchingHexes = vertexDirection.location.getEquivalenceGroup();
             
-            console.log(touchingHexes);
+            //console.log(touchingHexes);
             
             //slot unoccupied
             if(vertexDirection.getOwner()!==-1){
@@ -191,6 +192,33 @@ console.log(vertexDirection);
 					}
 				}
 				return false;
+			};
+			
+			Map.prototype.canSetupSettlement = function(playerID, hex, theDirection){
+				console.log("123456789123456789123456789123456789123456789123456789");
+				//console.log(theDirection);        	
+            var vertexDirection = hex.getVertex(hexgrid.VertexDirection[theDirection]);
+				//console.log(vertexDirection);	
+            var touchingHexes = vertexDirection.location.getEquivalenceGroup();
+            //console.log(touchingHexes);
+            for(var edge in touchingHexes){
+					var myHexLoc = new catan.models.hexgrid.HexLocation(touchingHexes[edge].x,touchingHexes[edge].y);
+					var myHex = this.hexGrid.getHex(myHexLoc);
+					console.log(myHex);
+					if(myHex == undefined){
+						return false;
+					}
+				console.log(myHex.getVertex(hexgrid.VertexDirection[touchingHexes[edge].dir]));
+					if(myHex.getVertex(hexgrid.VertexDirection[touchingHexes[edge].dir]).getOwner() !== -1){
+						return false;
+					}
+					/*if(myHex != undefined){
+						if(myHex.getEdge(nextDirectionClockwise(hexgrid.VertexDirection[touchingHexes[edge].dir])).getOwner()===playerID){
+							return true;
+						}
+					}*/
+				}
+				return true;
 			};
         
 			Map.prototype.canPlaceCity = function(playerID, hex, theDirection){

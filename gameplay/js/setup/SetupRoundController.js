@@ -42,10 +42,17 @@ catan.setup.Controller = (function(){
 						(turnTracker.currentTurn == 2 && this.ClientModel.playerID == 10) ||
 						(turnTracker.currentTurn == 3 && this.ClientModel.playerID == 11)){
 						this.mapController.overlayOpen = true;
-						this.mapController.startMove("Settlement", true, true);
+						console.log(this.mapController.settlementBuilt);
+						if(this.mapController.settlementBuilt == false){
+							this.mapController.startMove("Settlement", true, true);
+						}
+						else{ // settlementBuilt == true
+							this.mapController.startMove("Road", true, true);
+						}
 					}
 				}
 				if(turnTracker.theStatus == "Rolling"){ // when we get to the Rolling status, it's time to start
+					this.ClientModel.state.setState("Regular");
 					window.location.pathname = "/catan.html";
 				}
 			}
