@@ -156,6 +156,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 				console.log("isNew");
 
 				updatedModel.players.forEach(function(player){
+					//console.log(player.playerID);
+					//console.log(player.orderNumber);
 					_this.players[player.playerID].updateAll(player);
 					_this.orderNumbers[player.orderNumber] = player.playerID;
 				});
