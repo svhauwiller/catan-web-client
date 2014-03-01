@@ -75,6 +75,8 @@ catan.devCards.Controller = (function(){
 		 * @return void
 		 */
 		DevCardController.prototype.useYearOfPlenty = function(resource1, resource2){
+			console.log("RESOURCES " + resource1 + " " + resource2);
+			//this.view.showYop();
 			param = new Object();
 			//where/when do these resources get picked?
 			param.resource1 = resource1;
@@ -89,7 +91,9 @@ catan.devCards.Controller = (function(){
 		 * @return void
 		 */
 		DevCardController.prototype.useMonopoly= function(resource){
+			console.log("MONOPOLY BUTTON");
 			param = new Object();
+			//this.view.showMon();
 			param.resource = resource;
 			this.clientModel.useDevCard("monopoly", param);
 		}
@@ -109,6 +113,7 @@ catan.devCards.Controller = (function(){
 		 * @return void
 		 */
 		DevCardController.prototype.useSoldier= function(){
+			console.log("SOLDIER GET");
 			this.soldierAction();
 		}
         

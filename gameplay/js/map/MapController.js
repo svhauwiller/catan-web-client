@@ -189,6 +189,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 			console.log("double road building");
 			this.modalView.showModal("Road");
 			this.View.startDrop("road", this.ClientModel.players[this.ClientModel.playerID].color);
+			this.startMove("road", true, false);
 		}
 		
         
@@ -206,7 +207,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 			this.free = free;
 			this.disconnected = disconnected;
 			console.log("PIECETYPE IS " + pieceType);
-			if(free && disconnected){
+			if(free){
 				if(pieceType == "Road"){
 					this.modalView.showModal("Road");
 					setTimeout(function(){
