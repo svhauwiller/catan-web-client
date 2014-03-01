@@ -48,23 +48,23 @@ catan.trade.maritime.Controller = (function trade_namespace(){
 			this.bankResourceArray = new Array();
 			var counter = 0;
 
-			if(this.currentPlayer.woodValue < 4 && this.currentPlayer.woodValue <= this.currentPlayer.resources.wood){
+			if(this.currentPlayer.woodValue <= this.currentPlayer.resources.wood){
 				this.portArray[counter] = "wood";
 				counter++;
 			}
-			if(this.currentPlayer.oreValue < 4 && this.currentPlayer.oreValue <= this.currentPlayer.resources.ore){
+			if(this.currentPlayer.oreValue <= this.currentPlayer.resources.ore){
 				this.portArray[counter] = "ore";
 				counter++;
 			}
-			if(this.currentPlayer.sheepValue < 4 && this.currentPlayer.sheepValue <= this.currentPlayer.resources.sheep){
+			if(this.currentPlayer.sheepValue <= this.currentPlayer.resources.sheep){
 				this.portArray[counter] = "sheep";			
 				counter++;	
 			}
-			if(this.currentPlayer.wheatValue < 4 && this.currentPlayer.wheatValue <= this.currentPlayer.resources.wheat){
+			if(this.currentPlayer.wheatValue <= this.currentPlayer.resources.wheat){
 				this.portArray[counter] = "wheat";	
 				counter++;			
 			}
-			if(this.currentPlayer.brickValue < 4 && this.currentPlayer.brickValue <= this.currentPlayer.resources.brick){
+			if(this.currentPlayer.brickValue <= this.currentPlayer.resources.brick){
 				this.portArray[counter] = "brick";			
 				counter++;	
 			}
