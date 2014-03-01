@@ -231,7 +231,10 @@ catan.map.Controller = (function catan_controller_namespace() {
 			}
 			else{
 				if(pieceType == "Road"){
-
+					this.modalView.showModal("Road");
+					setTimeout(function(){
+						this.View.startDrop("road", this.ClientModel.players[this.ClientModel.playerID].color);
+					}.bind(this), 0);
 				}
 				else if(pieceType == "Settlement"){
 
@@ -330,7 +333,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 			if(type.type == "settlement"){
 				//this.settlementBuilt = false;
 				//console.log(this);
-				this.ClientModel.buildSettlement(hexLoc, loc.dir, true);
+				this.ClientModel.buildSettlement(hexLoc, loc.dir, this.free);
 				//this.ClientModel.buildSettlement(hexLoc, loc.dir, true);
 				console.log("settlement sent to server");
 				/*if(this.free && this.disconnected){//a.k.a. during setup round
@@ -344,7 +347,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 				//console.log(this);
 				//this.settlementBuilt = true;
 				
-				this.getClientModel().buildRoad(hexLoc, loc.dir, true);
+				this.getClientModel().buildRoad(hexLoc, loc.dir, this.free);
 				/*if(this.free && this.disconnected){//a.k.a. during setup round
 					this.getClientModel().finishTurn();
 				}*/
@@ -379,7 +382,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 			}
 			else if(type.type == "city"){
 				
-				this.ClientModel.buildCity(hexLoc, loc.dir, true);
+				this.ClientModel.buildCity(hexLoc, loc.dir, this.free);
 				console.log("city sent to server");
 			}
 			//this.startMove("Road", true, true);
