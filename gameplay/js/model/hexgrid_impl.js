@@ -222,16 +222,9 @@ catan.models.Map = (function mapNameSpace(){
 			};
         
 			Map.prototype.canPlaceCity = function(playerID, hex, theDirection){
-				//if(this.hexGrid.getHex(hex).getVer
-            
-				if(this.hexGrid.getHex(hex).getEdge(edgePlusOne).getOwner()==playerID||
-					this.hexGrid.getHex(hex).getEdge(edgeMinusOne).getOwner()==playerID)
-						{toReturnEdge = true;}
+                var dirIndex = catan.models.hexgrid.VertexDirection[theDirection];
 
-				if(this.hexGrid.getHex(hex).getVertex(vertPlusOne).isOccupied()||
-						this.hexGrid.getHex(hex).getVertex(vertMinusOne).isOccupied())
-						{toReturnVert = false;}
-
+                return (hex.vertexes[dirIndex].getOwner() === playerID && hex.vertexes[dirIndex].getWorth() === 1);
 			};
 
 			function positiveModulo(lhs,rhs){

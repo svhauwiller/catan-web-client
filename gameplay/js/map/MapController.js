@@ -311,8 +311,6 @@ catan.map.Controller = (function catan_controller_namespace() {
 					}
 				}
 				else if(type.type == "city"){
-					//RETURNING TRUE UNTIL TESTS ARE RIGHT
-					return true;
 					return this.ClientModel.map.canPlaceCity(this.ClientModel.playerID, hoverOverHex, loc.dir);
 				}
 				else if(type.type == "robber"){
