@@ -43,6 +43,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 			
 			this.overlayOpen = false;
 			this.isRobbing = false;
+			this.isSoldier = false;
 			this.settlementBuilt = false; // keeps track of the second part of a player's set up round
 			this.free = false;
 			this.disconnected = false;
@@ -165,6 +166,13 @@ catan.map.Controller = (function catan_controller_namespace() {
 		*/
 		MapController.prototype.robPlayer = function(orderID){
 			this.getClientModel().robberMove(orderID, this.newRobberLocation);
+			if(this.isSoldier){
+				param = new Object();
+				param.victimIndex=orderID;
+				param.locationToMove = this.newRobberLocation;
+				this.getClientModel().useDevCard("soldier",param);
+				this.isSoldier = false;
+			}
 			this.getRobView().closeModal();
 			this.isRobbing = false;
 		}
@@ -177,6 +185,10 @@ catan.map.Controller = (function catan_controller_namespace() {
 		**/		
 		MapController.prototype.doSoldierAction = function(){    
 			console.log("soldier is doing his action");
+			this.isSoldier = true;
+			this.isRobbing = true;
+			this.getModalView().showModal("Robber");
+			this.startMove("Robber", false, false);
 		}
         
 		/**
