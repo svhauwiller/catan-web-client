@@ -44,6 +44,8 @@ catan.map.Controller = (function catan_controller_namespace() {
 			this.overlayOpen = false;
 			this.isRobbing = false;
 			this.settlementBuilt = false; // keeps track of the second part of a player's set up round
+			this.free = false;
+			this.disconnected = false;
 
 			// var hexType = getHexType(hex);
 			// this.getView().addHex(hex.getLocation(), hexType);
@@ -199,7 +201,8 @@ catan.map.Controller = (function catan_controller_namespace() {
 		 * @return void
 		**/	
 		MapController.prototype.startMove = function (pieceType,free,disconnected){
-			this.overlapOpen = true; // theoretically, assuming that no errors occur in this method
+			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>overlayOpen = true");
+			this.overlayOpen = true; // theoretically, assuming that no errors occur in this method
 			this.free = free;
 			this.disconnected = disconnected;
 			console.log("PIECETYPE IS " + pieceType);
@@ -318,32 +321,34 @@ catan.map.Controller = (function catan_controller_namespace() {
 		 @method onDrop
 		*/
 		MapController.prototype.onDrop = function (loc, type) {
-			console.log("drop");
+			this.overlayOpen = false;
+			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>overlayOpen = false");
 			this.modalView.closeModal();
 			var hexLoc = new catan.models.hexgrid.HexLocation(loc.x, loc.y);
 			var dropHex = this.ClientModel.map.hexGrid.getHex(hexLoc);
 			//console.log(type.type);
 			if(type.type == "settlement"){
+				//this.settlementBuilt = false;
+				//console.log(this);
 				this.ClientModel.buildSettlement(hexLoc, loc.dir, true);
+				//this.ClientModel.buildSettlement(hexLoc, loc.dir, true);
 				console.log("settlement sent to server");
 				/*if(this.free && this.disconnected){//a.k.a. during setup round
 					this.startMove("Road", true, true);
 					//if turntracker.status == FirstRound or SecondRound
 					//this.ClientModel.finishTurn();
 				}*/
-				this.settlementBuilt = true;
-				console.log(this);
-				this.overlapOpen = false;
+				
 			}
 			else if(type.type == "road"){
-				console.log(this);
+				//console.log(this);
+				//this.settlementBuilt = true;
+				
 				this.getClientModel().buildRoad(hexLoc, loc.dir, true);
-				console.log("road sent to server");
-				if(this.free && this.disconnected){//a.k.a. during setup round
+				/*if(this.free && this.disconnected){//a.k.a. during setup round
 					this.getClientModel().finishTurn();
-				}
-				this.settlementBuilt = false;
-				this.overlapOpen = false;
+				}*/
+				console.log("road sent to server");	
 			}
 			else if(type.type == "robber"){
 				var _this = this;
