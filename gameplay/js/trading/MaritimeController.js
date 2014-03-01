@@ -38,8 +38,7 @@ catan.trade.maritime.Controller = (function trade_namespace(){
 
 		MaritimeController.prototype.updateFromModel = function() {
 						
-			if(this.updateController === true)
-			{
+
 			console.log("Update Maritime");
 			this.clientModel = this.getClientModel();
 			this.portArray = this.clientModel.map.ports;
@@ -47,7 +46,8 @@ catan.trade.maritime.Controller = (function trade_namespace(){
 			var portArray = new Array();
 			this.bankResourceArray = new Array();
 			var counter = 0;
-
+			if(this.updateController === true)
+			{
 			if(this.currentPlayer.woodValue <= this.currentPlayer.resources.wood){
 				this.portArray[counter] = "wood";
 				counter++;
@@ -182,22 +182,17 @@ catan.trade.maritime.Controller = (function trade_namespace(){
 		 */
 		MaritimeController.prototype.makeTrade= function(){
 			//this.clientModel.bank...
-			this.getClientModel().bank.resourceList[this.bankResource]-=1;
-			this.getClientModel().bank.resourceList[this.playerResource]+= this.playerAmount;
-			/*
-			console.log("************************************");
-			console.log(this.currentPlayer.resources[this.playerResource]);
-			console.log(this.playerAmount);
-			*/
+			//this.getClientModel().bank.resourceList[this.bankResource]-=1;
+			//this.getClientModel().bank.resourceList[this.playerResource]+= this.playerAmount;
+
 			//this.currentPlayer.resources...
-			this.clientModel.players[this.clientModel.playerID].resources[this.playerResource]-= this.playerAmount;
-			this.clientModel.players[this.clientModel.playerID].resources[this.bankResource]+=1;
-			/*
-			console.log("Player resource amount of "+this.playerResource+": "+this.currentPlayer.resources[this.playerResource]);
-			console.log("Player resource amount of "+this.bankResource+": "+this.currentPlayer.resources[this.bankResource]);
-			console.log("***********************************");
-			*/			
+			//this.clientModel.players[this.clientModel.playerID].resources[this.playerResource]-= this.playerAmount;
+			//this.clientModel.players[this.clientModel.playerID].resources[this.bankResource]+=1;
+			
+			this.clientModel.tradeWithBank(this.currentPlayer[this.playerResource], this.playerResource, this.bankResource);
+			this.getView().enableTradeButton(false);
 			this.updateController = true;
+			this.updateFromModel();
 			
 		}
 		
