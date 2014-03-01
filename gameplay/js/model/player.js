@@ -139,7 +139,7 @@ catan.models.Player = (function playerNameSpace(){
 		}
 	
 		Player.prototype.updateAll = function(playerModel){
-			console.log(playerModel);
+			//console.log(playerModel);
 			this.MAX_GAME_POINTS = playerModel.MAX_GAME_POINTS;
 			this.cities = playerModel.cities;
 			this.settlements = playerModel.settlements;

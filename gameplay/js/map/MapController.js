@@ -331,32 +331,16 @@ catan.map.Controller = (function catan_controller_namespace() {
 		*/
 		MapController.prototype.onDrop = function (loc, type) {
 			this.overlayOpen = false;
-			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>overlayOpen = false");
+			console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>overlayOpen = false: " + type.type);
 			this.modalView.closeModal();
 			var hexLoc = new catan.models.hexgrid.HexLocation(loc.x, loc.y);
 			var dropHex = this.ClientModel.map.hexGrid.getHex(hexLoc);
-			//console.log(type.type);
 			if(type.type == "settlement"){
-				//this.settlementBuilt = false;
-				//console.log(this);
 				this.ClientModel.buildSettlement(hexLoc, loc.dir, this.free);
-				//this.ClientModel.buildSettlement(hexLoc, loc.dir, true);
 				console.log("settlement sent to server");
-				/*if(this.free && this.disconnected){//a.k.a. during setup round
-					this.startMove("Road", true, true);
-					//if turntracker.status == FirstRound or SecondRound
-					//this.ClientModel.finishTurn();
-				}*/
-				
 			}
 			else if(type.type == "road"){
-				//console.log(this);
-				//this.settlementBuilt = true;
-				
 				this.getClientModel().buildRoad(hexLoc, loc.dir, this.free);
-				/*if(this.free && this.disconnected){//a.k.a. during setup round
-					this.getClientModel().finishTurn();
-				}*/
 				console.log("road sent to server");	
 			}
 			else if(type.type == "robber"){
@@ -387,7 +371,6 @@ catan.map.Controller = (function catan_controller_namespace() {
 				this.getRobView().showModal();
 			}
 			else if(type.type == "city"){
-				
 				this.ClientModel.buildCity(hexLoc, loc.dir, this.free);
 				console.log("city sent to server");
 			}

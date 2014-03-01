@@ -36,42 +36,33 @@ catan.setup.Controller = (function(){
 		SetupRoundController.prototype.updateFromModel = function(){
 			console.log("Update Setup");
 			console.log(this.mapController.overlayOpen);
-			//this.mapController.updateFromModel();
-			//this.ClientModel.updateFromModel();
 			
 			if(this.mapController.overlayOpen == false){
 				var turnTracker = this.ClientModel.turnTracker;
-console.log("currentTurn:" + turnTracker.currentTurn);
+				console.log(turnTracker.theStatus + ":" + turnTracker.currentTurn);
 				if(turnTracker.theStatus == "FirstRound" || turnTracker.theStatus == "SecondRound"){
 					
 					if(turnTracker.currentTurn == this.ClientModel.playerID ||
 						(turnTracker.currentTurn == 2 && this.ClientModel.playerID == 10) ||
 						(turnTracker.currentTurn == 3 && this.ClientModel.playerID == 11)){
-						console.log(this.numRoads);
-						console.log(this.ClientModel.players[this.ClientModel.playerID].roads);
+						console.log("Road: " + this.numRoads + " == " + this.ClientModel.players[this.ClientModel.playerID].roads);
+						console.log("Settlements: " + this.numSettlements + " == " + this.ClientModel.players[this.ClientModel.playerID].settlements);
 						if(this.numRoads == this.ClientModel.players[this.ClientModel.playerID].roads){
+							console.log("startMove road");
 							this.mapController.startMove("Road", true, true);
 						}	
 						else if(this.numSettlements == this.ClientModel.players[this.ClientModel.playerID].settlements){
+							console.log("startMove settlement");
 							this.mapController.startMove("Settlement", true, true);
 						}
 						else{
-							this.numSettlements = this.numSettlements - 1;
-							this.numRoads = this.numRoads - 1;
-							
-							console.log(this);
-							this.ClientModel.updateFromServer();
+							console.log("finishTurn");
+							this.numSettlements = this.ClientModel.players[this.ClientModel.playerID].settlements;
+							this.numRoads = this.ClientModel.players[this.ClientModel.playerID].roads;
 							console.log(this);
 							this.ClientModel.finishTurn();
+							console.log(this.mapController);
 						}
-						/*console.log(this.mapController.settlementBuilt);
-						if(this.mapController.settlementBuilt == false){
-							this.mapController.startMove("Road", true, true);
-							console.log(this.mapController.overlayOpen);
-						}
-						else{ // settlementBuilt == true
-							this.mapController.startMove("Settlement", true, true);
-						}*/
 					}
 				}
 				if(turnTracker.theStatus == "Rolling"){ // when we get to the Rolling status, it's time to start
