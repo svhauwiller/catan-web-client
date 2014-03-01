@@ -131,6 +131,34 @@ catan.models.Map = (function mapNameSpace(){
         }
     
         Map.prototype.canPlaceRoad = function(playerID, hex, theDirection){
+            var dirIndex = catan.models.hexgrid.EdgeDirection[theDirection];
+
+            if(hex.edges[dirIndex].getOwner() !== -1){
+                return false;
+            }
+
+            //HAS A NEIGHBORING VERTEX
+            var neighborVert1 = dirIndex;
+            var neighborVert2 = (dirIndex + 1) % 6;
+            var vert1Owner = hex.vertexes[neighborVert1].getOwner();
+            var vert2Owner = hex.vertexes[neighborVert2].getOwner();
+
+            if(vert1Owner === playerID || vert2Owner === playerID){
+                return true;
+            } 
+
+            //HAS A NEIGHBORING ROAD
+            var neighborEdge1 = dirIndex == 0 ? 5 : dirIndex - 1;
+            var neighborEdge2 = (dirIndex + 1) % 6;
+            var edge1Owner = hex.edges[neighborEdge1].getOwner();
+            var edge2Owner = hex.edges[neighborEdge2].getOwner();
+            if(edge1Owner === playerID || edge2Owner === playerID){
+                return true;
+            } else {
+                return false;
+            }
+
+
             /*
             //console.log(hex);
             var edgeDirection = hex.getEdge(hexgrid.EdgeDirection[theDirection]);
