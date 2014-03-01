@@ -200,8 +200,9 @@ catan.map.Controller = (function catan_controller_namespace() {
 		MapController.prototype.startDoubleRoadBuilding = function(){
 			console.log("double road building");
 			this.modalView.showModal("Road");
-			this.View.startDrop("road", this.ClientModel.players[this.ClientModel.playerID].color);
+			//this.View.startDrop("road", this.ClientModel.players[this.ClientModel.playerID].color);
 			this.startMove("road", true, false);
+			this.getClientModel().useDevCard("roadBuilding");
 		}
 		
         
