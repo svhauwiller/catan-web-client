@@ -226,9 +226,6 @@ catan.map.Controller = (function catan_controller_namespace() {
 						this.View.startDrop("city", this.ClientModel.players[this.ClientModel.playerID].color);
 					}.bind(this), 0);
 				}
-				else{ // idk, maybe robber?
-
-				}
 			}
 			else{
 				if(pieceType == "Road"){
@@ -238,10 +235,16 @@ catan.map.Controller = (function catan_controller_namespace() {
 					}.bind(this), 0);
 				}
 				else if(pieceType == "Settlement"){
-
+					this.modalView.showModal("Settlement");
+					setTimeout(function(){
+						this.View.startDrop("settlement", this.ClientModel.players[this.ClientModel.playerID].color);
+					}.bind(this), 0);
 				}
 				else if(pieceType == "City"){
-
+					this.modalView.showModal("City");
+					setTimeout(function(){
+						this.View.startDrop("city", this.ClientModel.players[this.ClientModel.playerID].color);
+					}.bind(this), 0);
 				}
 				else if(pieceType == "Robber"){
 					setTimeout(function(){
@@ -289,6 +292,8 @@ catan.map.Controller = (function catan_controller_namespace() {
 					}
 				}
 				else if(type.type == "settlement"){
+					//RETURNING TRUE UNTIL TESTS ARE RIGHT
+					return true;
 					if(this.disconnected){ // if in setup round, rules are different
 						if(this.ClientModel.map.canSetupSettlement(this.ClientModel.playerID, hoverOverHex, loc.dir)){
 							return true;
@@ -307,7 +312,9 @@ catan.map.Controller = (function catan_controller_namespace() {
 					}
 				}
 				else if(type.type == "city"){
-
+					//RETURNING TRUE UNTIL TESTS ARE RIGHT
+					return true;
+					return this.ClientModel.map.canPlaceCity(this.ClientModel.playerID, hoverOverHex, loc.dir);
 				}
 				else if(type.type == "robber"){
 					return hoverOverHex.isLand;

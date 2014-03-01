@@ -109,14 +109,26 @@ catan.trade.domestic.Controller= (function trade_namespace(){
 				this.getView().setStateMessage(this.messages[0]);
 			}
 
+			console.log("Deciding if Trade is ongoing.")
+			console.log(this.clientModel.tradeOffer.getReceiver());
+			console.log(this.clientModel.tradeOffer.getSender());
+			console.log(this.clientModel.turnTracker.getStatus());
+
+			console.log(this.myNumber);
+
 
 
 			//THIS IS THE CODE TO SET WHO IS TRADING AFTER A RELOAD - NOT DONE
-			if (this.clientModel.tradeOffer.getReceiver === this.myNumber)
+			if (this.clientModel.tradeOffer.getReceiver() === this.myNumber)
 				this.acceptView.showModal();
 
-			if (this.clientModel.tradeOffer.getSender === this.myNumber)
+			if (this.clientModel.tradeOffer.getSender() === this.myNumber){
+				
 				this.waitingView.showModal();
+
+				if (this.clientModel.tradeOffer.getStatus() === "done")
+					this.waitingView.closeModal();
+			}
 
 
 
@@ -302,8 +314,11 @@ catan.trade.domestic.Controller= (function trade_namespace(){
 		*/
 		DomesticController.prototype.acceptTrade = function(willAccept){
 
-			//NOT DONE
-			this.clientModel()
+			//NOT DONE HERE!!!!!!!
+
+			this.AcceptView.closeModal();
+			this.clientModel.acceptTrade(willAccept);
+			//this.clientModel.tradeOffer.setStatus("Done");
 
 			alert("My name is Monkey.");
 		};
