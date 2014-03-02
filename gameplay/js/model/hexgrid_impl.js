@@ -131,60 +131,34 @@ catan.models.Map = (function mapNameSpace(){
         }
     
         Map.prototype.canPlaceRoad = function(playerID, hex, theDirection){
-            var dirIndex = catan.models.hexgrid.EdgeDirection[theDirection];
+            var hexgrid = catan.models.hexgrid;
+            var dirIndex = hexgrid.EdgeDirection[theDirection];
+            var neighborVertexes = hex.edges[dirIndex].location.getNeighborVertexes();
+            var connectedEdges = hex.edges[dirIndex].location.getConnectedEdges();
 
             if(hex.edges[dirIndex].getOwner() !== -1){
                 return false;
             }
 
             //HAS A NEIGHBORING VERTEX
-            var neighborVert1 = dirIndex;
-            var neighborVert2 = (dirIndex + 1) % 6;
-            var vert1Owner = hex.vertexes[neighborVert1].getOwner();
-            var vert2Owner = hex.vertexes[neighborVert2].getOwner();
-
-			console.log("playerID:" + playerID + ", vert1:" + vert1Owner + ", vert2:" + vert2Owner);
-            if(vert1Owner === playerID || vert2Owner === playerID){
-                return true;
-            } 
+            for(var i = 0; i < neighborVertexes.length; i++){
+                var ownerLoc = new hexgrid.HexLocation(neighborVertexes[i].x, neighborVertexes[i].y);
+                var ownerHex = this.hexGrid.getHex(ownerLoc);
+                if(ownerHex.vertexes[neighborVertexes[i].direction].getOwner() === playerID){
+                    return true;
+                }
+            }
 
             //HAS A NEIGHBORING ROAD
-            var neighborEdge1 = dirIndex == 0 ? 5 : dirIndex - 1;
-            var neighborEdge2 = (dirIndex + 1) % 6;
-            var edge1Owner = hex.edges[neighborEdge1].getOwner();
-            var edge2Owner = hex.edges[neighborEdge2].getOwner();
-            if(edge1Owner === playerID || edge2Owner === playerID){
-                return true;
-            } else {
-                return false;
-            }
-
-
-            /*
-            //console.log(hex);
-            var edgeDirection = hex.getEdge(hexgrid.EdgeDirection[theDirection]);
-            //console.log(edgeDirection);
-            var touchingHexes = edgeDirection.getLocation().getEquivalenceGroup();
-            //settlement owned by player on a vertex touching the road position
-            //console.log(hex.getVertex(hexgrid.EdgeDirection[theDirection]));
-            if(hex.getVertex(hexgrid.EdgeDirection[theDirection]).getOwner()===playerID ||
-                hex.getVertex(nextDirectionClockwise(hexgrid.EdgeDirection[theDirection])).getOwner()===playerID){
-                return true;
-            }
-        
-            //player has a road coming in from one of the four possible directions
-            for(var equivE in touchingHexes){
-                //console.log(equivE);
-                var theTempHexLoc = new hexgrid.HexLocation(touchingHexes[equivE].x,touchingHexes[equivE].y);
-                var theTempHex = this.hexGrid.getHex(theTempHexLoc);
-                //console.log(theTempHex);
-                
-                if(theTempHex.getEdge(hexgrid.nextDirectionClockwise(touchingHexes[equivE].direction)).getOwner()===playerID || 
-                theTempHex.getEdge(nextDirectionCounterClockwise(touchingHexes[equivE].direction)).getOwner()===playerID){
+            for(var i = 0; i < connectedEdges.length; i++){
+                var ownerLoc = new hexgrid.HexLocation(connectedEdges[i].x, connectedEdges[i].y);
+                var ownerHex = this.hexGrid.getHex(ownerLoc);
+                if(ownerHex.edges[connectedEdges[i].direction].getOwner() === playerID){
                     return true;
-                }             
-            }*/
-            return true;
+                }
+            }
+
+            return false;
         };
         
         Map.prototype.canPlaceSettlement = function(playerID, hex, theDirection){
