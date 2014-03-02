@@ -142,11 +142,6 @@ catan.models.Map = (function mapNameSpace(){
             var neighborVert2 = (dirIndex + 1) % 6;
             var vert1Owner = hex.vertexes[neighborVert1].getOwner();
             var vert2Owner = hex.vertexes[neighborVert2].getOwner();
-			
-			if(playerID === 10)
-				playerID = 2;
-			if(playerID === 11)
-				playerID = 3;
 
 			console.log("playerID:" + playerID + ", vert1:" + vert1Owner + ", vert2:" + vert2Owner);
             if(vert1Owner === playerID || vert2Owner === playerID){

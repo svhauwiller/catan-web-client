@@ -272,10 +272,11 @@ catan.map.Controller = (function catan_controller_namespace() {
 		MapController.prototype.onDrag = function (loc, type) {
 			var hoverOverHexLoc = new catan.models.hexgrid.HexLocation(loc.x, loc.y);
 			var hoverOverHex = this.ClientModel.map.hexGrid.getHex(hoverOverHexLoc);
+			var playerIndex = this.ClientModel.players[this.ClientModel.playerID].orderNumber;
 			//console.log(hoverOverHex);
 			if(hoverOverHex != undefined){
 				if(type.type == "road"){
-					if(this.ClientModel.map.canPlaceRoad(this.ClientModel.playerID, hoverOverHex, loc.dir)){
+					if(this.ClientModel.map.canPlaceRoad(playerIndex, hoverOverHex, loc.dir)){
 						return true;
 					}
 					else{
@@ -286,7 +287,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 					//RETURNING TRUE UNTIL TESTS ARE RIGHT
 					return true;
 					if(this.disconnected){ // if in setup round, rules are different
-						if(this.ClientModel.map.canSetupSettlement(this.ClientModel.playerID, hoverOverHex, loc.dir)){
+						if(this.ClientModel.map.canSetupSettlement(playerIndex, hoverOverHex, loc.dir)){
 							return true;
 						}
 						else{
@@ -294,7 +295,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 						}
 					}
 					else{
-						if(this.ClientModel.map.canPlaceSettlement(this.ClientModel.playerID, hoverOverHex, loc.dir)){
+						if(this.ClientModel.map.canPlaceSettlement(playerIndex, hoverOverHex, loc.dir)){
 							return true;
 						}
 						else{
@@ -303,7 +304,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 					}
 				}
 				else if(type.type == "city"){
-					return this.ClientModel.map.canPlaceCity(this.ClientModel.playerID, hoverOverHex, loc.dir);
+					return this.ClientModel.map.canPlaceCity(playerIndex, hoverOverHex, loc.dir);
 				}
 				else if(type.type == "robber"){
 					return hoverOverHex.isLand;
