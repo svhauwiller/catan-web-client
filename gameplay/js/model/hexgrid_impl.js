@@ -161,18 +161,46 @@ catan.models.Map = (function mapNameSpace(){
             return false;
         };
         
-        Map.prototype.canPlaceSettlement = function(playerID, hex, theDirection){
-//console.log(theDirection);        	
-            var vertexDirection = hex.getVertex(hexgrid.VertexDirection[theDirection]);
-//console.log(vertexDirection);
-            var touchingHexes = vertexDirection.location.getEquivalenceGroup();
-            
-            //console.log(touchingHexes);
-            
-            //slot unoccupied
-            if(vertexDirection.getOwner()!==-1){
+		Map.prototype.canPlaceSettlement = function(playerID, hex, theDirection){
+			var hexgrid = catan.models.hexgrid;
+			var dirIndex = hexgrid.VertexDirection[theDirection];    	
+            var connectedEdges = hex.getVertex(dirIndex).location.getConnectedEdges();
+		console.log(connectedEdges);
+			
+            // if vertex is occupied
+            if(hex.getVertex(dirIndex).getOwner()!==-1){
                 return false;
             }
+			
+			var ownConnectedEdge = false;
+			
+			// check if an connected edge's owner id is equal to its own
+			for(var i = 0; i < connectedEdges.length; i++){
+				var myHexLoc = new catan.models.hexgrid.HexLocation(connectedEdges[i].x,connectedEdges[i].y);
+				var myHex = this.hexGrid.getHex(myHexLoc);
+				if(myHex.getEdge(connectedEdges[i].direction).ownerID === playerID){
+					ownConnectedEdge = true;
+				}
+			}
+			if(!ownConnectedEdge){
+				return false;
+			}
+			
+			// check that all other vertices around it
+			for(var i = 0; i < connectedEdges.length; i++){
+				var myHexLoc = new catan.models.hexgrid.HexLocation(connectedEdges[i].x,connectedEdges[i].y);
+				var myHex = this.hexGrid.getHex(myHexLoc);
+				var neighborVertexes = myHex.edges[connectedEdges[i].direction].location.getNeighborVertexes();
+				for(var j = 0; j < 2; j++){
+					var aHexLoc = new catan.models.hexgrid.HexLocation(neighborVertexes[j].x,neighborVertexes[j].y);
+					var aHex = this.hexGrid.getHex(aHexLoc);
+					if(aHex.getVertex(neighborVertexes[j].direction).ownerID !== -1){
+						return false;
+					}
+				}
+			}
+			return true;
+			/*
             //distance one from vertex unoccupied
 				for(var temp in touchingHexes){
 					var myHexLoc = new catan.models.hexgrid.HexLocation(touchingHexes[temp].x,touchingHexes[temp].y);
@@ -195,6 +223,7 @@ catan.models.Map = (function mapNameSpace(){
 					}
 				}
 				return false;
+				*/
 			};
 			
 			Map.prototype.canSetupSettlement = function(playerID, hex, theDirection){

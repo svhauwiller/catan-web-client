@@ -48,14 +48,15 @@ catan.setup.Controller = (function(){
 						console.log("Road: " + this.numRoads + " == " + this.ClientModel.players[this.ClientModel.playerID].roads);
 						console.log("Settlements: " + this.numSettlements + " == " + this.ClientModel.players[this.ClientModel.playerID].settlements);
 						
-						if(this.numSettlements == this.ClientModel.players[this.ClientModel.playerID].settlements){
+						
+						if(this.numRoads == this.ClientModel.players[this.ClientModel.playerID].roads){
+							console.log("startMove road");
+							this.mapController.startMove("Road", true, true);
+						}
+						else if(this.numSettlements == this.ClientModel.players[this.ClientModel.playerID].settlements){
 							console.log("startMove settlement");
 							this.mapController.startMove("Settlement", true, true);
 						}
-						else if(this.numRoads == this.ClientModel.players[this.ClientModel.playerID].roads){
-							console.log("startMove road");
-							this.mapController.startMove("Road", true, true);
-						}	
 						else{
 							console.log("finishTurn");
 							this.numSettlements = this.ClientModel.players[this.ClientModel.playerID].settlements;

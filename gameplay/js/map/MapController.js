@@ -284,8 +284,6 @@ catan.map.Controller = (function catan_controller_namespace() {
 					}
 				}
 				else if(type.type == "settlement"){
-					//RETURNING TRUE UNTIL TESTS ARE RIGHT
-					return true;
 					if(this.disconnected){ // if in setup round, rules are different
 						if(this.ClientModel.map.canSetupSettlement(playerIndex, hoverOverHex, loc.dir)){
 							return true;
