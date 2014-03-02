@@ -220,50 +220,28 @@ catan.map.Controller = (function catan_controller_namespace() {
 			this.free = free;
 			this.disconnected = disconnected;
 			console.log("PIECETYPE IS " + pieceType);
-			if(free){
-				if(pieceType == "Road"){
-					this.modalView.showModal("Road");
-					setTimeout(function(){
-						this.View.startDrop("road", this.ClientModel.players[this.ClientModel.playerID].color);
-					}.bind(this), 0);
-				}
-				else if(pieceType == "Settlement"){
-					this.modalView.showModal("Settlement");
-					setTimeout(function(){
-						this.View.startDrop("settlement", this.ClientModel.players[this.ClientModel.playerID].color);
-					}.bind(this), 0);
-				}
-				else if(pieceType == "City"){
-					this.modalView.showModal("City");
-					setTimeout(function(){
-						this.View.startDrop("city", this.ClientModel.players[this.ClientModel.playerID].color);
-					}.bind(this), 0);
-				}
+			if(pieceType == "Road"){
+				this.modalView.showModal("Road");
+				setTimeout(function(){
+					this.View.startDrop("road", this.ClientModel.players[this.ClientModel.playerID].color);
+				}.bind(this), 0);
 			}
-			else{
-				if(pieceType == "Road"){
-					this.modalView.showModal("Road");
-					setTimeout(function(){
-						this.View.startDrop("road", this.ClientModel.players[this.ClientModel.playerID].color);
-					}.bind(this), 0);
-				}
-				else if(pieceType == "Settlement"){
-					this.modalView.showModal("Settlement");
-					setTimeout(function(){
-						this.View.startDrop("settlement", this.ClientModel.players[this.ClientModel.playerID].color);
-					}.bind(this), 0);
-				}
-				else if(pieceType == "City"){
-					this.modalView.showModal("City");
-					setTimeout(function(){
-						this.View.startDrop("city", this.ClientModel.players[this.ClientModel.playerID].color);
-					}.bind(this), 0);
-				}
-				else if(pieceType == "Robber"){
-					setTimeout(function(){
-						this.View.startDrop("robber", this.ClientModel.players[this.ClientModel.playerID].color);
-					}.bind(this), 0);
-				}
+			else if(pieceType == "Settlement"){
+				this.modalView.showModal("Settlement");
+				setTimeout(function(){
+					this.View.startDrop("settlement", this.ClientModel.players[this.ClientModel.playerID].color);
+				}.bind(this), 0);
+			}
+			else if(pieceType == "City"){
+				this.modalView.showModal("City");
+				setTimeout(function(){
+					this.View.startDrop("city", this.ClientModel.players[this.ClientModel.playerID].color);
+				}.bind(this), 0);
+			}
+			else if(pieceType == "Robber"){
+				setTimeout(function(){
+					this.View.startDrop("robber", this.ClientModel.players[this.ClientModel.playerID].color);
+				}.bind(this), 0);
 			}
 			//console.log(this.ClientModel);
 			
