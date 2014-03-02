@@ -164,13 +164,12 @@ catan.models.Map = (function mapNameSpace(){
 		Map.prototype.canPlaceSettlement = function(playerID, hex, theDirection){
 			var hexgrid = catan.models.hexgrid;
 			var dirIndex = hexgrid.VertexDirection[theDirection];    	
-            var connectedEdges = hex.getVertex(dirIndex).location.getConnectedEdges();
-		console.log(connectedEdges);
+			var connectedEdges = hex.getVertex(dirIndex).location.getConnectedEdges();
 			
-            // if vertex is occupied
-            if(hex.getVertex(dirIndex).getOwner()!==-1){
-                return false;
-            }
+			// if vertex is occupied
+			if(hex.getVertex(dirIndex).getOwner()!==-1){
+				return false;
+			}
 			
 			var ownConnectedEdge = false;
 			
@@ -200,57 +199,45 @@ catan.models.Map = (function mapNameSpace(){
 				}
 			}
 			return true;
-			/*
-            //distance one from vertex unoccupied
-				for(var temp in touchingHexes){
-					var myHexLoc = new catan.models.hexgrid.HexLocation(touchingHexes[temp].x,touchingHexes[temp].y);
-					var myHex = this.hexGrid.getHex(myHexLoc);
-					//console.log(myHex);
-					if(myHex != undefined){
-						if(myHex.getVertex(nextDirectionClockwise(hexgrid.VertexDirection[touchingHexes[temp].dir])).getOwner()!==-1){
-							return false;
-						}
-					}
-				}
-            //has a road approaching it owned by the player
-            for(var edge in touchingHexes){
-					var myHexLoc = new catan.models.hexgrid.HexLocation(touchingHexes[edge].x,touchingHexes[edge].y);
-					var myHex = this.hexGrid.getHex(myHexLoc);
-					if(myHex != undefined){
-						if(myHex.getEdge(nextDirectionClockwise(hexgrid.VertexDirection[touchingHexes[edge].dir])).getOwner()===playerID){
-							return true;
-						}
-					}
-				}
-				return false;
-				*/
-			};
+		};
 			
-			Map.prototype.canSetupSettlement = function(playerID, hex, theDirection){
-				//console.log("123456789123456789123456789123456789123456789123456789");
-				//console.log(theDirection);        	
-            var vertexDirection = hex.getVertex(hexgrid.VertexDirection[theDirection]);
-				//console.log(vertexDirection);	
+		Map.prototype.canSetupSettlement = function(playerID, hex, theDirection){  
+			var hexgrid = catan.models.hexgrid;
+			var dirIndex = hexgrid.VertexDirection[theDirection];    	
+			var connectedEdges = hex.getVertex(dirIndex).location.getConnectedEdges();
+			
+			// if vertex is occupied
+			if(hex.getVertex(dirIndex).getOwner()!==-1){
+				return false;
+			}
+			
+			// check that all other vertices around it
+			for(var i = 0; i < connectedEdges.length; i++){
+				var myHexLoc = new catan.models.hexgrid.HexLocation(connectedEdges[i].x,connectedEdges[i].y);
+				var myHex = this.hexGrid.getHex(myHexLoc);
+				var neighborVertexes = myHex.edges[connectedEdges[i].direction].location.getNeighborVertexes();
+				for(var j = 0; j < 2; j++){
+					var aHexLoc = new catan.models.hexgrid.HexLocation(neighborVertexes[j].x,neighborVertexes[j].y);
+					var aHex = this.hexGrid.getHex(aHexLoc);
+					if(aHex.getVertex(neighborVertexes[j].direction).ownerID !== -1){
+						return false;
+					}
+				}
+			}
+			return true;     	
+            /*var vertexDirection = hex.getVertex(hexgrid.VertexDirection[theDirection]);
             var touchingHexes = vertexDirection.location.getEquivalenceGroup();
-            //console.log(touchingHexes);
             for(var edge in touchingHexes){
 					var myHexLoc = new catan.models.hexgrid.HexLocation(touchingHexes[edge].x,touchingHexes[edge].y);
 					var myHex = this.hexGrid.getHex(myHexLoc);
-					//console.log(myHex);
 					if(myHex == undefined){
 						return false;
 					}
-				//console.log(myHex.getVertex(hexgrid.VertexDirection[touchingHexes[edge].dir]));
 					if(myHex.getVertex(hexgrid.VertexDirection[touchingHexes[edge].dir]).getOwner() !== -1){
 						return false;
 					}
-					/*if(myHex != undefined){
-						if(myHex.getEdge(nextDirectionClockwise(hexgrid.VertexDirection[touchingHexes[edge].dir])).getOwner()===playerID){
-							return true;
-						}
-					}*/
 				}
-				return true;
+				return true;*/
 			};
         
 			Map.prototype.canPlaceCity = function(playerID, hex, theDirection){
