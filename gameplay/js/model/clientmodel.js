@@ -170,6 +170,12 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 				this.log.update(updatedModel.log.lines);
 
 				this.turnTracker.update(updatedModel.turnTracker);
+				if (updatedModel.tradeOffer !== undefined)
+					this.tradeOffer.update(updatedModel.tradeOffer)
+				if (updatedModel.tradeOffer === undefined) {
+					this.tradeOffer.setSender(-1);
+					this.tradeOffer.setReceiver(-1); 
+				}
 
 				this.biggestArmy = updatedModel.biggestArmy;
 				this.longestRoad = updatedModel.longestRoad;

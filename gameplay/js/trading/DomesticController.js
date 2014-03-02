@@ -110,24 +110,39 @@ catan.trade.domestic.Controller= (function trade_namespace(){
 			}
 
 			console.log("Deciding if Trade is ongoing.")
-			console.log(this.clientModel.tradeOffer.getReceiver());
-			console.log(this.clientModel.tradeOffer.getSender());
+			console.log(this.clientModel.tradeOffer);
+			console.log("Sender " + this.clientModel.tradeOffer.getSender());
 			console.log(this.clientModel.turnTracker.getStatus());
+			console.log("Receiver " + this.clientModel.tradeOffer.getReceiver())
 
 			console.log(this.myNumber);
 
 
 
+
 			//THIS IS THE CODE TO SET WHO IS TRADING AFTER A RELOAD - NOT DONE
-			if (this.clientModel.tradeOffer.getReceiver() === this.myNumber)
+			if (this.clientModel.tradeOffer.getReceiver() === this.myNumber){
+
+				console.log("I should only get here if offered a trade!");
+				console.log("Sender is " + this.clientModel.tradeOffer.getSender());
+				this.theirNumber = this.clientModel.tradeOffer.getSender();
+				this.theirID = this.clientModel.orderNumbers[this.theirNumber];
+				this.theirName = this.clientModel.players[this.theirNumber].name;
+
+				console.log(this.theirName);
+				this.makeAccept();
 				this.acceptView.showModal();
+			}
 
 			if (this.clientModel.tradeOffer.getSender() === this.myNumber){
 				
 				this.waitingView.showModal();
 
-				if (this.clientModel.tradeOffer.getStatus() === "done")
-					this.waitingView.closeModal();
+			}
+
+			if(this.clientModel.tradeOffer.getSender() !== this.myNumber && this.clientModel.tradeOffer.getReceiver() !== this.myNumber) {
+				this.acceptView.closeModal();
+				this.waitingView.closeModal();
 			}
 
 
@@ -295,12 +310,12 @@ catan.trade.domestic.Controller= (function trade_namespace(){
 			console.log(this.tradeResources);
 			this.clientModel.offerTrade(this.tradePartner, this.tradeResources)
 			
-			alert("My name is sendTradeOffer.");
+			//alert("My name is sendTradeOffer.");
 
 
 			//NOT DONE HERE!!!!!!!
 			// this.isWaiting = true;
-			this.waitingView.showModal();
+			//this.waitingView.showModal();
 		};
         
         
@@ -316,13 +331,48 @@ catan.trade.domestic.Controller= (function trade_namespace(){
 
 			//NOT DONE HERE!!!!!!!
 
-			this.AcceptView.closeModal();
+
 			this.clientModel.acceptTrade(willAccept);
+
+			//this.acceptView.closeModal();
 			//this.clientModel.tradeOffer.setStatus("Done");
 
-			alert("My name is Monkey.");
+			console.log("######################## My name is Crazy Monkey.");
 		};
-            
+
+		DomesticController.prototype.makeAccept = function(){	
+    
+    		
+			this.canAcceptTrade = true;
+
+			this.acceptView.setPlayerName(this.theirName);
+			this.offeredList = this.clientModel.tradeOffer.getOffer()
+			this.myResources = this.clientModel.players[this.myNumber];
+			for (var resource in this.offeredList) {
+				if (this.offeredList[resource] > 0) {
+					this.acceptView.addGiveResource(resource, this.offeredList[resource]);
+				}
+				if (this.offeredList[resource] < 0) {
+					console.log(" Offered item = " + this.offeredList[resource]);
+
+
+					this.acceptView.addGetResource(resource, this.offeredList[resource]);
+
+					var absResourceValue = (0 - this.offeredList[resource]);
+
+					console.log(" ABS Offered item = " + absResourceValue);
+
+					if (this.myResources.resources[resource] < absResourceValue)
+						this.canAcceptTrade = false;
+				}
+			}
+
+			console.log("Got Here");
+			this.acceptView.setAcceptEnabled(this.canAcceptTrade);
+
+
+
+    	}        
 		return DomesticController;
     }());
 			

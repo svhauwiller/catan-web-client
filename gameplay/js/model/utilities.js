@@ -170,6 +170,12 @@ catan.models.utilities = (function utilitiesNamespace(){ //namespace dec
 		TradeOffer.prototype.getOffer = function(){
 			return this.offer;		
 		}
+
+		TradeOffer.prototype.update = function(tradeOfferUpdate){
+			this.offer = tradeOfferUpdate.offer;
+			this.receiver = tradeOfferUpdate.receiver;
+			this.sender = tradeOfferUpdate.sender;		
+		}
 		
 		
 		return TradeOffer;
