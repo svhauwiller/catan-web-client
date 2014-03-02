@@ -67,7 +67,7 @@ catan.resources.Controller = (function resources_namespace() {
 			this.myNumber = this.clientModel.players[this.clientModel.playerID].orderNumber;
 			this.currentTurnNumber = this.clientModel.turnTracker.currentTurn;
 			if(this.myNumber === this.currentTurnNumber){
-				this.getView().setActionEnabled("Roads",true);
+				this.getView().setActionEnabled("Roads",currentPlayer.canBuyRoad());
 				this.getView().setActionEnabled("Settlements",currentPlayer.canBuySettlement());
 				this.getView().setActionEnabled("Cities",currentPlayer.canBuyCity());
 				this.getView().setActionEnabled("BuyCard",currentPlayer.canBuyDevCard());
