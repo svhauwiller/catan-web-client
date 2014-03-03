@@ -41,9 +41,9 @@ catan.trade.maritime.Controller = (function trade_namespace(){
 
 			console.log("Update Maritime");
 			this.clientModel = this.getClientModel();
-			this.portArray = this.clientModel.map.ports;
+			//this.portArray = this.clientModel.map.ports;
 			this.currentPlayer = this.clientModel.players[this.clientModel.playerID];
-			var portArray = new Array();
+			this.portArray = new Array();
 			this.bankResourceArray = new Array();
 			var counter = 0;
 			if(this.updateController === true)
@@ -106,7 +106,7 @@ catan.trade.maritime.Controller = (function trade_namespace(){
 					this.bankResourceArray[counter]="brick";				
 					counter++;
 				}
-		
+
 				this.getView().showGiveOptions(this.portArray);
 				this.getView().hideGetOptions();
 				this.getView().setMessage("Please Select Resource to Give");
@@ -126,6 +126,7 @@ catan.trade.maritime.Controller = (function trade_namespace(){
 		MaritimeController.prototype.unsetGiveValue = function(){
 			this.getView().hideGetOptions();
 			this.getView().showGiveOptions(this.portArray);
+
 			this.updateController = true;
 			this.getView().enableTradeButton(false);
 			this.getView().setMessage("Please Select Resource to Give");
@@ -149,6 +150,7 @@ catan.trade.maritime.Controller = (function trade_namespace(){
 		 * @return void
 		 */
 		MaritimeController.prototype.setGiveValue = function(resource){
+
 			this.updateController = false;
 			var tempValue = resource+"Value";
 
