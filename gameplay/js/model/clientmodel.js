@@ -232,6 +232,10 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		*/
 		ClientModel.prototype.acceptTrade = function(willAccept) {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+			if(typeof willAccept === true || typeof willAccept === false){
+>>>>>>> 0296647306f75200e8d2cce9bb0b71bafc93667f
 =======
 			if(typeof willAccept === true || typeof willAccept === false){
 >>>>>>> 0296647306f75200e8d2cce9bb0b71bafc93667f
@@ -429,6 +433,10 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		*/
 		ClientModel.prototype.tradeWithBank = function(ratio, offerResource, requestResource) {
 <<<<<<< HEAD
+<<<<<<< HEAD
+=======
+			if(typeof ratio === 'number' && offerResource instanceof ResourceList && requestResource instanceof ResourceList){
+>>>>>>> 0296647306f75200e8d2cce9bb0b71bafc93667f
 =======
 			if(typeof ratio === 'number' && offerResource instanceof ResourceList && requestResource instanceof ResourceList){
 >>>>>>> 0296647306f75200e8d2cce9bb0b71bafc93667f
@@ -468,7 +476,11 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		*/
 		ClientModel.prototype.robberMove = function(victimIndex, locationToMove) {
 <<<<<<< HEAD
+<<<<<<< HEAD
 			console.log("ClientModel- robberMove");
+=======
+			if(typeof victimIndex === 'number' && locationToMove instanceof Hex){
+>>>>>>> 0296647306f75200e8d2cce9bb0b71bafc93667f
 =======
 			if(typeof victimIndex === 'number' && locationToMove instanceof Hex){
 >>>>>>> 0296647306f75200e8d2cce9bb0b71bafc93667f
