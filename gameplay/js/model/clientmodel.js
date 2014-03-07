@@ -233,12 +233,17 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		ClientModel.prototype.acceptTrade = function(willAccept) {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 			if(typeof willAccept === true || typeof willAccept === false){
 >>>>>>> 0296647306f75200e8d2cce9bb0b71bafc93667f
 =======
 			if(typeof willAccept === true || typeof willAccept === false){
 >>>>>>> 0296647306f75200e8d2cce9bb0b71bafc93667f
+=======
+			//if(typeof willAccept === true || typeof willAccept === false)
+			{
+>>>>>>> origin/master
 			var args = new Array();
 			args.push(willAccept);
 
@@ -260,7 +265,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		ClientModel.prototype.discardCards = function(listToDiscard) {
 
 			var args = new Array();
-			if(listToDiscard instanceof ResourceList){ 
+			if(listToDiscard instanceof catan.models.bank.ResourceList){ 
 			args.push(listToDiscard);
 
 			this.runCommand(catan.proxy.proxyCommands.DiscardCardsCommand, args);
@@ -325,7 +330,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {string} edgeDirection the direction the edge is at from the hex
 		*/
 		ClientModel.prototype.buildRoad = function(hexLocation,  edgeDirection, isFree) {
-			if(hexLocation instanceof HexLocation && typeof edgeDirction==='string'){
+			//if(hexLocation instanceof catan.models.hexgrid.HexLocation && typeof edgeDirction==='string')
+			{
 			var location = {x: hexLocation.x, y: hexLocation.y, direction: edgeDirection};
 			
 			var args = new Array();
@@ -349,7 +355,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {string} vertDirection the direction the vertex is at from the hex
 		*/
 		ClientModel.prototype.buildSettlement = function(hexLocation,  vertDirection, isFree) {
-			if(hexLocation instanceof HexLocation && typeof edgeDirction==='string'){
+			//if(hexLocation instanceof catan.models.hexgrid.HexLocation && typeof edgeDirction==='string')
+			{
 			var location = {x: hexLocation.x, y: hexLocation.y, direction: vertDirection};
 			
 			var args = new Array();
@@ -373,7 +380,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {string} vertDirection the direction the vertex is at from the hex
 		*/
 		ClientModel.prototype.buildCity = function(hexLocation, vertDirection, isFree) {
-			if(hexLocation instanceof HexLocation && typeof edgeDirction==='string'){
+			//if(hexLocation instanceof catan.models.hexgrid.HexLocation && typeof edgeDirction==='string')
+			{
 			var location = {x: hexLocation.x, y: hexLocation.y, direction: vertDirection};
 			
 			var args = new Array();
@@ -410,7 +418,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {ResourceList} offerList list of resources being offered (Positive Values) and requested (Negative Values)
 		*/
 		ClientModel.prototype.offerTrade = function(receiverIndex, offerList) {
-			if(typeof receiverIndex === 'number' && offerList instanceof ResourceList){
+			//if(typeof receiverIndex === 'number' && offerList instanceof catan.models.bank.ResourceList)
+			{
 			args = new Array();
 			args.push(offerList);
 			args.push(receiverIndex);
@@ -428,18 +437,23 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		*
 		* @method tradeWithBank
 		* @param {int} ratio Ratio of player resource to 
-		* @param {ResourceList} offerResource resource being offered
-		* @param {ResourceList} requestResource resource being requested
+		* @param {string} offerResource resource being offered
+		* @param {string} requestResource resource being requested
 		*/
 		ClientModel.prototype.tradeWithBank = function(ratio, offerResource, requestResource) {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 =======
 			if(typeof ratio === 'number' && offerResource instanceof ResourceList && requestResource instanceof ResourceList){
 >>>>>>> 0296647306f75200e8d2cce9bb0b71bafc93667f
 =======
 			if(typeof ratio === 'number' && offerResource instanceof ResourceList && requestResource instanceof ResourceList){
 >>>>>>> 0296647306f75200e8d2cce9bb0b71bafc93667f
+=======
+			if(typeof ratio === 'number' && typeof offerResource === 'string' && typeof requestResource === 'string')
+			{
+>>>>>>> origin/master
 			args = new Array();
 			args.push(ratio);
 			args.push(offerResource);
@@ -477,6 +491,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		ClientModel.prototype.robberMove = function(victimIndex, locationToMove) {
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 			console.log("ClientModel- robberMove");
 =======
 			if(typeof victimIndex === 'number' && locationToMove instanceof Hex){
@@ -484,6 +499,9 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 =======
 			if(typeof victimIndex === 'number' && locationToMove instanceof Hex){
 >>>>>>> 0296647306f75200e8d2cce9bb0b71bafc93667f
+=======
+			if(typeof victimIndex === 'number' && locationToMove instanceof catan.models.hexgrid.Hex){
+>>>>>>> origin/master
 			var args = new Array();
 			args.push(victimIndex);
 			args.push(locationToMove);
