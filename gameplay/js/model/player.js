@@ -6,7 +6,6 @@ catan.models = catan.models || {};
 *
 * @module catan.models.Player
 */
-
 catan.models.Player = (function playerNameSpace(){
 	
 	var Player = (function PlayerClass(){
@@ -135,11 +134,10 @@ catan.models.Player = (function playerNameSpace(){
 			this.sheepValue = 4;
 			this.wheatValue = 4;
 			this.brickValue = 4;
-			console.log(this);
+			//console.log(this);
 		}
 	
 		Player.prototype.updateAll = function(playerModel){
-			//console.log(playerModel);
 			this.MAX_GAME_POINTS = playerModel.MAX_GAME_POINTS;
 			this.cities = playerModel.cities;
 			this.settlements = playerModel.settlements;
@@ -162,65 +160,11 @@ catan.models.Player = (function playerNameSpace(){
 		}
 
 		/**
-		* My method description.  Like other pieces of your comment blocks, 
-		* this can span multiple lines.
-		*
-		* @method methodName
-		* @param {String} foo Argument 1
-		* @param {Object} config A config object
-		* @param {String} config.name The name on the config object
-		* @param {Function} config.callback A callback function on the config object
-		* @param {Boolean} [extra=false] Do extra, optional work
-		* @return {Boolean} Returns true on success
-		*/
-		Player.prototype.updateVic = function (points){
-			console.assert(points === -2 || points === 1 || points === 2, "Invalid updateVic parameter!");
-
-			console.log("poop");
-
-			this.victoryPts += points;
-
-		}
-
-		/**
-		* The number of the victory points of the player
-		* @property victoryPts
-		* @type {integer}
-		*/
-		Player.prototype.updateResource = function(type, amount){
-			if(type === "brick"){
-				this.resources.brick += amount;
-			}
-			else if(type === "wheat"){
-				this.resources.wheat += amount;
-			}
-			else if(type === "sheep"){
-				this.resources.sheep += amount;
-			}
-			else if(type === "ore"){
-				this.resources.ore += amount;
-			}
-			else if(type === "wood"){
-				this.resources.wood += amount;
-			}
-		}
-	
-		/**
-		* The number of the victory points of the player
-		* @property victoryPts
-		* @type {integer}
-		*/
-		Player.prototype.updateAllResources = function(resourceList) {
-			for (var key in resourceList) {
-				this.resources[key] += resourceList[key];
-			}
-		}
-
-		/**
 		* The number of the victory points of the player
 		* @property victoryPts
 		* @type {integer}
 		*/	
+		//NO SMELLS HERE
 		Player.prototype.replaceAllResources = function(modelResourceList) {
 			for (var key in modelResourceList) {
 				this.resources[key] = modelResourceList[key];
@@ -232,8 +176,8 @@ catan.models.Player = (function playerNameSpace(){
 		* @property victoryPts
 		* @type {integer}
 		*/
-		Player.prototype.replaceDevCards = function( modelDevCardList){
-	
+		//This seems like it creates a Empty list of dev cards and then assigns that list to an already compiled list of dev cards. Why not just send the already compiled list
+		Player.prototype.replaceDevCards = function(modelDevCardList){
 			var tempDevCards = new catan.models.bank.DevCardList("player");
 					
 			for (var key in modelDevCardList) {
@@ -249,23 +193,12 @@ catan.models.Player = (function playerNameSpace(){
 		* @property victoryPts
 		* @type {integer}
 		*/
+		// Seems like this could all be condensed down to just one boolean
 		Player.prototype.canBuyRoad = function(){
-			
-			var hasBrick = false;
-			var hasWood = false;
-			var hasRoad = false;
-			
-			if (this.resources.brick > 0){
-				hasBrick = true;
-				}
-			if (this.resources.wood > 0){
-				hasWood = true;
-				}
-			if (this.roads > 0){
-				hasRoad = true;
-				}			
-			
-			return (hasWood && hasBrick && hasRoad);
+			var hasEnough = false;
+			if(this.resources.brick>0 && this.resources.wood > 0 && this.roads > 0)
+				hasEnough=true;
+			return hasEnough;
 
 		}
 		
@@ -274,31 +207,12 @@ catan.models.Player = (function playerNameSpace(){
 		* @property victoryPts
 		* @type {integer}
 		*/
+		//Same with function above
 		Player.prototype.canBuySettlement = function(){
-			
-			var hasBrick = false;
-			var hasWood = false;
-			var hasWheat = false;
-			var hasSheep = false;
-			var hasSettlement = false;
-			
-			if (this.resources.brick > 0){
-				hasBrick = true;
-				}
-			if (this.resources.wood > 0){
-				hasWood = true;
-				}
-			if (this.resources.wheat > 0){
-				hasWheat = true;
-				}
-			if (this.resources.sheep > 0){
-				hasSheep = true;
-				}
-			if (this.settlements > 0){
-				hasSettlement = true;
-				}		
-			
-			return (hasWood && hasBrick && hasWheat && hasSheep && hasSettlement);
+			var hasEnough = false;
+			if(this.resources.wheat>0 && this.resources.brick > 0 && this.resources.sheep > 0 && this.resources.wood > 0 && this.settlements > 0)
+				hasEnough=true;
+			return hasEnough;
 		}
 		
 		/**
@@ -306,25 +220,12 @@ catan.models.Player = (function playerNameSpace(){
 		* @property victoryPts
 		* @type {integer}
 		*/
+		// same as above
 		Player.prototype.canBuyCity = function(){
-			
-			console.log("Hello Monkey");
-
-			var hasWheat = false;
-			var hasOre = false;
-			var hasCity = false;
-
-			if (this.resources.wheat >= 2){
-				hasWheat = true;
-				}
-			if (this.resources.ore >= 3){
-				hasOre = true;
-				}
-			if (this.cities > 0){
-				hasCity = true;
-				}
-			
-			return (hasWheat && hasOre && hasCity);
+			var hasEnough = false;
+			if(this.resources.wheat>0 && this.resources.ore > 0 && this.cities > 0)
+				hasEnough=true;
+			return hasEnough;
 		}
 		
 		/**
@@ -332,24 +233,13 @@ catan.models.Player = (function playerNameSpace(){
 		* @property victoryPts
 		* @type {integer}
 		*/
+		// Same as above
 		Player.prototype.canBuyDevCard = function(){
+			var hasEnough = false;
+			if(this.resources.wheat>0 && this.resources.ore > 0 && this.resources.sheep > 0)
+				hasEnough=true;
+			return hasEnough;
 			
-			var hasWheat = false;
-			var hasOre = false;
-			var hasSheep = false;
-			
-
-			if (this.resources.wheat > 0){
-				hasWheat = true;
-				}
-			if (this.resources.ore > 0){
-				hasOre= true;
-				}	
-			if (this.resources.sheep > 0){
-				hasSheep = true;
-				}		
-			
-			return (hasWheat && hasOre && hasSheep);
 		}
 
 		/**
@@ -358,89 +248,7 @@ catan.models.Player = (function playerNameSpace(){
 		* @type {integer}
 		*/		
 		Player.prototype.currentPlayerResources = function(){
-			
 			return this.resources;
-		}
-
-		/**
-		* The number of the victory points of the player
-		* @property victoryPts
-		* @type {integer}
-		*/
-		Player.prototype.needToDiscardCheck = function(){
-			
-			return (this.resources.wood + this.resources.wheat + this.resources.sheep + this.resources.brick + this.resources.ore) > 7;
-		}
-
-		/**
-		* The number of the victory points of the player
-		* @property victoryPts
-		* @type {integer}
-		*/
-		Player.prototype.hasResources = function(tradelist){
-			var hasBrick = false;
-			var hasWood = false;
-			var hasWheat = false;
-			var hasSheep = false;
-			var hasOre = false;
-			
-			if (this.resources.brick >= tradelist.resources.brick){
-				hasBrick = true;
-				}
-			if (this.resources.wood >= tradelist.resources.wood){
-				hasWood = true;
-				}
-			if (this.resources.wheat >= tradelist.resources.wheat){
-				hasWheat = true;
-				}
-			if (this.resources.sheep >= tradelist.resources.sheep){
-				hasSheep = true;
-				}	
-			if (this.resources.Ore >= tradelist.resources.ore){
-				hasOre = true;
-				}		
-			
-			return (hasWood && hasBrick && hasWheat && hasSheep && hasOre); 				
-		}
-	
-		/**
-		* The number of the victory points of the player
-		* @property victoryPts
-		* @type {integer}
-		*/	
-		Player.prototype.buy = function(type)
-		{
-			switch(type)
-			{
-				case "settlement":
-					this.resources.wheat -= 1;
-					this.resources.wood -= 1;
-					this.resources.brick -= 1;
-					this.resources.sheep -= 1;
-					this.settlements -= 1;
-					break;
-				
-				case "city":
-					this.resources.wheat -= 2;
-					this.resources.ore -= 3;
-					this.settlements += 1;
-					this.cities -= 1;
-					break;
-					
-				case "road":
-					this.resources.wood -= 1;
-					this.resources.brick -= 1;
-					this.roads -= 1;
-					break;
-					
-				case "devCard":
-					this.resources.sheep -= 1;
-					this.resources.ore -= 1;
-					this.resources.wheat -= 1;
-					break;
-
-				alert("Byu was passed invalid type!");						
-			}
 		}
 		
 		return Player;
