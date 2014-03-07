@@ -156,8 +156,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 				console.log("isNew");
 
 				updatedModel.players.forEach(function(player){
-					//console.log(player.playerID);
-					//console.log(player.orderNumber);
+					console.log(player.playerID);
+					console.log(player.orderNumber);
 					_this.players[player.playerID].updateAll(player);
 					_this.orderNumbers[player.orderNumber] = player.playerID;
 				});
@@ -188,6 +188,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		}
 
 		ClientModel.prototype.beginPolling = function(){
+			console.log("ClientModel- beginPolling");
 			var _this = this;
 			setInterval(function(){
 				_this.updateFromServer();
@@ -223,7 +224,6 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {boolean} willAccept flag to determine whether or not the player has accepted the trade offer
 		*/
 		ClientModel.prototype.acceptTrade = function(willAccept) {
-
 			var args = new Array();
 			args.push(willAccept);
 
@@ -405,7 +405,6 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {ResourceList} requestResource resource being requested
 		*/
 		ClientModel.prototype.tradeWithBank = function(ratio, offerResource, requestResource) {
-			
 			args = new Array();
 			args.push(ratio);
 			args.push(offerResource);
@@ -440,6 +439,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {Hex} locationToMove location to move the robber to
 		*/
 		ClientModel.prototype.robberMove = function(victimIndex, locationToMove) {
+			console.log("ClientModel- robberMove");
 			var args = new Array();
 			args.push(victimIndex);
 			args.push(locationToMove);
@@ -457,6 +457,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @method finishTurn
 		*/
 		ClientModel.prototype.finishTurn = function() {
+			console.log("ClientModel- finishTurn");
 			 this.runCommand(catan.proxy.proxyCommands.FinishTurnCommand, null);
 		}
 
@@ -470,6 +471,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.canBuildRoad = function() {
+			console.log("ClientModel- canBuildRoad");
 			return this.players[this.playerID].canBuildRoad();
 		}
 
@@ -514,40 +516,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.currentPlayerResources = function() {
+			console.log("ClientModel- currentPlayerResources");
 			return this.players[this.playerID].currentPlayerResources();
-		}
-
-		/**
-		* Determine if the player has suffcient resources to offer a given trade
-		* <pre>
-		* pre-conditions: It is the current player's turn
-		* post-conditions: Permission to offer a trade is returned
-		* </pre>
-		*/
-		ClientModel.prototype.canOfferTrade = function() {
-			return this.players[this.playerID].canOfferTrade();
-		}
-
-		/**
-		* Determine if the player has seven resource cards and must discard due to the roll of a seven
-		* <pre>
-		* pre-conditions: NONE
-		* post-conditions: Order to discard cards or not 
-		* </pre>
-		*/
-		ClientModel.prototype.needToDiscardCheck = function() {
-			return this.players[this.playerID].needToDiscardCheck();
-		}
-
-		/**
-		* Determine if the player has suffcient resources to accept a given trade
-		* <pre>
-		* pre-conditions: NONE
-		* post-conditions: Permission to accept a trade is returned
-		* </pre>
-		*/
-		ClientModel.prototype.canAcceptTrade = function() {
-			return this.players[this.playerID].canAcceptTrade();
 		}
 
 		/**
