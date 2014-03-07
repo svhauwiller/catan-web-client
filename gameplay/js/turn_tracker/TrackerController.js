@@ -26,9 +26,6 @@ catan.turntracker.Controller = (function turntracker_namespace() {
 		function TurnTrackerController(view, clientModel){
 			Controller.call(this,view,clientModel);
             this.currentView = this.getView();
-            // TODO: This constructor should configure its view by calling view.setClientColor and view.initializePlayer
-            // NOTE: The view.updateViewState and view.updatePlayer will not work if called from here.  Instead, these
-            //          methods should be called later each time the client model is updated from the server.
 
 			this.clientModel = this.getClientModel();
 
@@ -69,33 +66,6 @@ catan.turntracker.Controller = (function turntracker_namespace() {
 				console.log(updateItem);
 				this.getView().updatePlayer(updateItem);	
 			}
-
-
-/*var tempObject;
-			this.clientModel = this.getClientModel();
-			this.myNumber = this.clientModel.players[this.clientModel.playerID].orderNumber
-			this.currentTurnNumber = this.clientModel.turnTracker.currentTurn;
-			console.log("myOrderNumber is: " + this.myNumber);
-			console.log("currentTurnNumber is: " + this.currentTurnNumber);
-			
-			//this should go through all the players in clientModel
-			for(var singlePlayer in this.clientModel.players){
-				tempObject = new Object();
-				//highlight if true, remove highlight if not
-				if(this.myNumber === this.currentTurnNumber){
-					tempObject.highlight = true;
-					this.getView().updateStateView(true, "End Turn");
-				}
-				else{
-					tempObject.highlight = false;
-					this.getView().updateStateView(false, "Waiting on other Players...");
-				}
-				tempObject.army = this.clientModel.players[singlePlayer].largestArmy;
-				tempObject.score = this.clientModel.players[singlePlayer].victoryPts;
-				tempObject.road = this.clientModel.players[singlePlayer].longestRoad;
-				//this should push the updates to the view
-				this.getView().updatePlayer(tempObject);
-			}*/
 			console.log("Update Turn Tracker");
 		};
 
