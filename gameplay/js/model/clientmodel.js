@@ -430,19 +430,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {string} requestResource resource being requested
 		*/
 		ClientModel.prototype.tradeWithBank = function(ratio, offerResource, requestResource) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-			if(typeof ratio === 'number' && offerResource instanceof ResourceList && requestResource instanceof ResourceList){
->>>>>>> 0296647306f75200e8d2cce9bb0b71bafc93667f
-=======
-			if(typeof ratio === 'number' && offerResource instanceof ResourceList && requestResource instanceof ResourceList){
->>>>>>> 0296647306f75200e8d2cce9bb0b71bafc93667f
-=======
 			if(typeof ratio === 'number' && typeof offerResource === 'string' && typeof requestResource === 'string')
 			{
->>>>>>> origin/master
 			args = new Array();
 			args.push(ratio);
 			args.push(offerResource);
@@ -478,19 +467,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {Hex} locationToMove location to move the robber to
 		*/
 		ClientModel.prototype.robberMove = function(victimIndex, locationToMove) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-			console.log("ClientModel- robberMove");
-=======
-			if(typeof victimIndex === 'number' && locationToMove instanceof Hex){
->>>>>>> 0296647306f75200e8d2cce9bb0b71bafc93667f
-=======
-			if(typeof victimIndex === 'number' && locationToMove instanceof Hex){
->>>>>>> 0296647306f75200e8d2cce9bb0b71bafc93667f
-=======
 			if(typeof victimIndex === 'number' && locationToMove instanceof catan.models.hexgrid.Hex){
->>>>>>> origin/master
 			var args = new Array();
 			args.push(victimIndex);
 			args.push(locationToMove);
@@ -509,7 +486,6 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @method finishTurn
 		*/
 		ClientModel.prototype.finishTurn = function() {
-			console.log("ClientModel- finishTurn");
 			 this.runCommand(catan.proxy.proxyCommands.FinishTurnCommand, null);
 		}
 
@@ -523,7 +499,6 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.canBuildRoad = function() {
-			console.log("ClientModel- canBuildRoad");
 			return this.players[this.playerID].canBuildRoad();
 		}
 
@@ -568,7 +543,6 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* </pre>
 		*/
 		ClientModel.prototype.currentPlayerResources = function() {
-			console.log("ClientModel- currentPlayerResources");
 			return this.players[this.playerID].currentPlayerResources();
 		}
 
