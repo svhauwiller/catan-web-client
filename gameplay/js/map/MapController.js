@@ -47,6 +47,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 			this.settlementBuilt = false; // keeps track of the second part of a player's set up round
 			this.free = false;
 			this.disconnected = false;
+			this.roadBuildingCard = false;
 
 			// var hexType = getHexType(hex);
 			// this.getView().addHex(hex.getLocation(), hexType);
@@ -199,10 +200,11 @@ catan.map.Controller = (function catan_controller_namespace() {
 		**/	
 		MapController.prototype.startDoubleRoadBuilding = function(){
 			console.log("double road building");
+			this.roadBuildingCard = true;
 			this.modalView.showModal("Road");
-			//this.View.startDrop("road", this.ClientModel.players[this.ClientModel.playerID].color);
-			this.startMove("road", true, false);
+			//this.View.startDrop("road", this.ClientModel.players[this.ClientModel.playerID].color);			
 			this.getClientModel().useDevCard("roadBuilding");
+			this.startMove("road", true, false);
 		}
 		
         
@@ -243,6 +245,9 @@ catan.map.Controller = (function catan_controller_namespace() {
 					this.View.startDrop("robber", this.ClientModel.players[this.ClientModel.playerID].color);
 				}.bind(this), 0);
 			}
+			//console.log(this.ClientModel);
+			
+			//this.modalView.closeModal();
 		};
         
 		/**
@@ -252,6 +257,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 		 * @return void
 		 * */
 		MapController.prototype.cancelMove = function(){
+			// might need more code here...
 			this.modalView.closeModal();
 		}
 
@@ -269,6 +275,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 			var hoverOverHexLoc = new catan.models.hexgrid.HexLocation(loc.x, loc.y);
 			var hoverOverHex = this.ClientModel.map.hexGrid.getHex(hoverOverHexLoc);
 			var playerIndex = this.ClientModel.players[this.ClientModel.playerID].orderNumber;
+			//console.log(hoverOverHex);
 			if(hoverOverHex != undefined){
 				if(type.type == "road"){
 					if(this.ClientModel.map.canPlaceRoad(playerIndex, hoverOverHex, loc.dir)){
@@ -326,9 +333,9 @@ catan.map.Controller = (function catan_controller_namespace() {
 			}
 			else if(type.type == "road"){
 				this.getClientModel().buildRoad(hexLoc, loc.dir, this.free);
-				if(this.free){
-					//THIS SHOULDN"T BE PUSHED UNTIL TESTED
-					this.startMove("road",true,false);
+				if(this.roadBuildingCard === true){
+					this.roadBuildingCard = false;
+					this.startMove("road", true, false);
 				}
 				console.log("road sent to server");	
 			}
