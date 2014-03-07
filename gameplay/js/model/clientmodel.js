@@ -231,19 +231,8 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {boolean} willAccept flag to determine whether or not the player has accepted the trade offer
 		*/
 		ClientModel.prototype.acceptTrade = function(willAccept) {
-<<<<<<< HEAD
-<<<<<<< HEAD
-<<<<<<< HEAD
-=======
-			if(typeof willAccept === true || typeof willAccept === false){
->>>>>>> 0296647306f75200e8d2cce9bb0b71bafc93667f
-=======
-			if(typeof willAccept === true || typeof willAccept === false){
->>>>>>> 0296647306f75200e8d2cce9bb0b71bafc93667f
-=======
-			//if(typeof willAccept === true || typeof willAccept === false)
+			if(typeof willAccept === true || typeof willAccept === false)
 			{
->>>>>>> origin/master
 			var args = new Array();
 			args.push(willAccept);
 
