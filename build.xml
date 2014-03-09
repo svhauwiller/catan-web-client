@@ -1,4 +1,5 @@
-﻿<project name="Demo Server" default="server" basedir=".">
+﻿<project name="Server" default="server" basedir=".">
+	<import file="nbproject/build-impl.xml"/>
 
 	<!-- PROPERTIES -->
 	<!-- ********** -->	
@@ -7,13 +8,33 @@
     <property name="port.arg" value="8081"/>
     <property name="web.arg" value="gameplay"/>
     <property name="requests.arg" value="ug"/>
-    
+
+    <!-- Directory containing application source code -->
+	<property name="src.dir" location="src"/>
+	<!-- Directory containing testing source code -->
+	<property name="test.dir" location="test"/>
+	<!-- Directory where the Java compiler puts .class files -->
+	<property name="build.dir" location="build"/>
     <!-- Base output folder -->
     <property name="dest.dir" value="docs"/>
     <!-- YUIDoc output Folder -->
     <property name="yuidoc.dir" value="${dest.dir}/javascript"/>
+    <!-- Java libraries included from here -->
+    <property name="javalib.dir" location="libs"/>
     <!-- Jar file path/name from here -->
     <property name="jar.file" value="server.jar"/>
+
+
+    <path id="lib-classpath">
+		<fileset dir="${javalib.dir}">
+			<include name="**/*.jar" />
+		</fileset>
+	</path>
+
+	<path id="all-classpath">
+		<path refid="lib-classpath"/>
+		<pathelement location="${build.dir}"/>
+	</path>
 
 	<!-- TARGETS -->
 	<!-- ******* -->
@@ -23,6 +44,28 @@
 			<arg value="${port.arg}"/>
 			<arg value="${web.arg}"/>
 			<arg value="${requests.arg}"/>
+			<assertions>
+				<enable/>
+			</assertions>
+		</java>
+	</target>
+
+	<target name="init" description="create build directories">
+		<tstamp/>
+		<mkdir dir="${build.dir}"/>
+	</target>
+
+	<target name="compile" depends="init" description="compile the source code">
+		<javac srcdir="${src.dir}" classpathref="lib-classpath" destdir="${build.dir}" debug="true" includeantruntime="true" />
+		<javac srcdir="${test.dir}" classpathref="lib-classpath" destdir="${build.dir}" debug="true" includeantruntime="true" />
+	</target>
+
+	<target name="our-server" depends="compile" description="Runs our custom server">
+		<java classname="server.Server" fork="yes">
+			<classpath>
+				<path refid="all-classpath"/>
+			</classpath>
+			<arg value="${web.arg}"/>
 			<assertions>
 				<enable/>
 			</assertions>

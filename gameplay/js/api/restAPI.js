@@ -22,7 +22,8 @@ function generatePlayerImpersonator(data){
     gameList = data;
     var gameNum = 1;
 
-    data.forEach(function(game){
+    gameList.forEach(function(game){
+        console.log(game);
         jQuery("#game-select").append('<option value="' + gameNum + '">' + game.title + '</option>');
         gameNum++;
     });
