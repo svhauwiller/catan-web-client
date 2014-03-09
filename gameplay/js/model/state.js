@@ -23,8 +23,8 @@ catan.models.State  = (function stateNameSpace(){
 		};
 
 		State.prototype.updateModel = function(clientModel) {
-			console.log("updateModel");
-			console.log(this.observers);
+			//console.log("updateModel");
+			//console.log(this.observers);
 		   	this.currentModel = clientModel;
 		   	this.notifyObservers();
 		};

@@ -210,17 +210,31 @@ catan.models.Map = (function mapNameSpace(){
 			if(hex.getVertex(dirIndex).getOwner()!==-1){
 				return false;
 			}
+		
+			var edgesInTheOcean = 0;
+			for(var n = 0; n < connectedEdges.length; n++){
+				var myHexLoc = new catan.models.hexgrid.HexLocation(connectedEdges[n].x,connectedEdges[n].y);
+				var myHex = this.hexGrid.getHex(myHexLoc);
+				if(myHex === undefined || !myHex.isLand){
+					edgesInTheOcean = edgesInTheOcean + 1;
+				}
+			}
+			if(edgesInTheOcean === 3){
+				return false;
+			}
 			
 			// check that all other vertices around it
 			for(var i = 0; i < connectedEdges.length; i++){
 				var myHexLoc = new catan.models.hexgrid.HexLocation(connectedEdges[i].x,connectedEdges[i].y);
 				var myHex = this.hexGrid.getHex(myHexLoc);
-				var neighborVertexes = myHex.edges[connectedEdges[i].direction].location.getNeighborVertexes();
-				for(var j = 0; j < 2; j++){
-					var aHexLoc = new catan.models.hexgrid.HexLocation(neighborVertexes[j].x,neighborVertexes[j].y);
-					var aHex = this.hexGrid.getHex(aHexLoc);
-					if(aHex.getVertex(neighborVertexes[j].direction).ownerID !== -1){
-						return false;
+				if(myHex !== undefined){
+					var neighborVertexes = myHex.edges[connectedEdges[i].direction].location.getNeighborVertexes();
+					for(var j = 0; j < 2; j++){
+						var aHexLoc = new catan.models.hexgrid.HexLocation(neighborVertexes[j].x,neighborVertexes[j].y);
+						var aHex = this.hexGrid.getHex(aHexLoc);
+						if(aHex.getVertex(neighborVertexes[j].direction).ownerID !== -1){
+							return false;
+						}
 					}
 				}
 			}
