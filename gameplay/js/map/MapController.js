@@ -44,13 +44,9 @@ catan.map.Controller = (function catan_controller_namespace() {
 			this.overlayOpen = false;
 			this.isRobbing = false;
 			this.isSoldier = false;
-			this.settlementBuilt = false; // keeps track of the second part of a player's set up round
 			this.free = false;
 			this.disconnected = false;
 			this.roadBuildingCard = false;
-
-			// var hexType = getHexType(hex);
-			// this.getView().addHex(hex.getLocation(), hexType);
 		}
 
 		MapController.prototype.getRotationIndex = function(orientation) {
