@@ -41,8 +41,12 @@ catan.discard.Controller = (function discard_namespace(){
 
 		core.defineProperty(DiscardController.prototype,"waitingView");
 
+		/**
+		Called by when the Client model updates.
+		@method updateFromModel
+		@return void
+		*/
 		DiscardController.prototype.updateFromModel = function() {
-		//TODO: Set this condition to only happen when the player needs to discard
 			this.clientModel = this.getClientModel();
 			this.currentPlayerResources = this.clientModel.currentPlayerResources();
 			this.playerResTotal = 0;
@@ -66,16 +70,7 @@ catan.discard.Controller = (function discard_namespace(){
 				this.getView().setDiscardButtonEnabled(false);
 				
 				for(var myKey in this.currentPlayerResources){
-					this.totalResources += this.currentPlayerResources[myKey];
-					this.getView().setResourceMaxAmount(myKey, this.currentPlayerResources[myKey]);
-					this.maxDiscardValues[myKey] = this.currentPlayerResources[myKey];
-					if(this.currentPlayerResources[myKey]>0){
-						this.getView().setResourceAmountChangeEnabled(myKey, true, false);
-					}
-					else{
-						this.getView().setResourceAmountChangeEnabled(myKey, false, false);
-					}
-					this.getView().setResourceAmount(myKey, "0");
+					this.manageResource(myKey);
 				}
 
 				this.getView().setStateMessage("0 / "+Math.floor(this.totalResources/2));
@@ -88,6 +83,28 @@ catan.discard.Controller = (function discard_namespace(){
 				this.getWaitingView().closeModal();
 			}
 		};
+
+
+		/**
+		Called by UpdateFromModel to enable or disable resources.
+		@param mykey {element name} name of an element in a resource list.
+		@method magageResource
+		@return void
+
+		*/
+		DiscardController.prototype.manageResource = function(myKey){
+			this.totalResources += this.currentPlayerResources[myKey];
+			this.getView().setResourceMaxAmount(myKey, this.currentPlayerResources[myKey]);
+			this.maxDiscardValues[myKey] = this.currentPlayerResources[myKey];
+			if(this.currentPlayerResources[myKey]>0){
+				this.getView().setResourceAmountChangeEnabled(myKey, true, false);
+			}
+			else{
+				this.getView().setResourceAmountChangeEnabled(myKey, false, false);
+			}
+			this.getView().setResourceAmount(myKey, "0");
+		}
+
 
 		/**
 		 Called by the view when the player clicks the discard button.

@@ -34,11 +34,14 @@ catan.roll.Controller = (function roll_namespace(){
 			this.lastRolled = -1;
 		};
 
+		/**
+		 * This is called when the client modal has been updated.
+		 * @method updateFromModel
+		 * @return void
+		**/
 		RollController.prototype.updateFromModel = function() {
 			var clientModel = this.getClientModel();
-
 			var player = clientModel.players[clientModel.playerID];
-
 
 			if(clientModel.turnTracker.currentTurn === player.orderNumber &&
 			   clientModel.turnTracker.theStatus === "Rolling" &&
@@ -47,10 +50,14 @@ catan.roll.Controller = (function roll_namespace(){
 			}
 
 			this.lastRolled = clientModel.turnTracker.currentTurn;
-
 		};
 
 
+		/**
+		 * This is called from updateFromModel and starts the timer until auto roll occurs.
+		 * @method startRollCountdown
+		 * @return void
+		**/
 		RollController.prototype.startRollCountdown = function() {
 			var _this = this;
 			var timerLength = 5;

@@ -108,7 +108,6 @@ catan.devCards.Controller = (function(){
 		 * @return void
 		 */
 		DevCardController.prototype.useSoldier= function(){
-			console.log("SOLDIER GET");
 			this.soldierAction();
 		}
         
@@ -117,7 +116,7 @@ catan.devCards.Controller = (function(){
 		 * @method useRoadBuild
 		 * @return void
 		 */
-		DevCardController.prototype.useRoadBuild = function(resource){
+		DevCardController.prototype.useRoadBuild = function(){
 			this.roadAction();
 		}
 

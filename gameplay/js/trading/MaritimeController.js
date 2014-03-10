@@ -58,20 +58,17 @@ catan.trade.maritime.Controller = (function trade_namespace(){
 					this.portArray[counter] = resource;
 					counter++;
 				}
-			}
-				
+			}			
 			this.myNumber = this.getClientModel().players[this.getClientModel().playerID].orderNumber;
 			this.currentTurnNumber = this.getClientModel().turnTracker.currentTurn;
 
 			if(this.myNumber != this.currentTurnNumber){
 				this.getView().setMessage("Currently not your turn");
-				this.getView().hideGetOptions();
 				this.getView().hideGiveOptions();
 				this.getView().enableTradeButton(false);
 			}
 			else if(counter === 0){
 				this.getView().setMessage("You lack the needed resources");
-				this.getView().hideGetOptions();
 				this.getView().hideGiveOptions();
 				this.getView().enableTradeButton(false);
 			}
@@ -87,9 +84,9 @@ catan.trade.maritime.Controller = (function trade_namespace(){
 					}
 				}	
 				this.getView().showGiveOptions(this.portArray);
-				this.getView().hideGetOptions();
 				this.getView().setMessage("Please Select Resource to Give");
 			}
+			this.getView().hideGetOptions();
 			}
 		};
 

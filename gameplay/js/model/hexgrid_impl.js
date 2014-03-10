@@ -54,6 +54,11 @@ catan.models.Map = (function mapNameSpace(){
             this.hexGrid = hexgrid.HexGrid.getRegular(this.radius, CatanHex);
         };
         
+		/**
+		* @method update
+		* @param {Object} newMap - A copy of the new map that has updated information
+		* */
+		
         Map.prototype.update = function(newMap){
             var hexes = this.hexGrid.getHexes();
 
@@ -70,18 +75,13 @@ catan.models.Map = (function mapNameSpace(){
             this.ports = newMap.ports;
             this.radius = newMap.radius;
             this.robber = new hexgrid.HexLocation(newMap.robber.x, newMap.robber.y);
-            //this.hexGrid.update(newMap.hexGrid);
-            //this.hexGrid = newMap.hexGrid;
-            //console.log(this.hexGrid);
         };
         
+		/**
+		* @method getResourcesFromRoll
+		* @param {int} diceNum - The number rolled by the current player
+		* */
         Map.prototype.getResourcesFromRoll = function(diceNum){
-            // find hexes that don't have robber
-            // find buildings
-            // identify players
-            // identify associated resources (1 for settlement, 2 for city)
-            // create a map data structure with player ids as keys and resourcelists of rewards as values
-            // var rewards = {0: new catan.models.bank.ResourceList()};
             var directions = new Array();
             directions[0] = "N";
             directions[1] = "NE";
@@ -130,6 +130,13 @@ catan.models.Map = (function mapNameSpace(){
             } 
         }
     
+		/**
+		* @method canPlaceRoad
+		* @param {int} playerID - The id of the current player
+		* @param {Hex} hex - The hex on which the player wants to build
+		* @param {int} theDirection - The direction of the selected edge on the hex
+		* @return {boolean} Whether or not the current player can build a road in the selected location
+		* */
         Map.prototype.canPlaceRoad = function(playerID, hex, theDirection){
             var hexgrid = catan.models.hexgrid;
             var dirIndex = hexgrid.EdgeDirection[theDirection];
@@ -161,6 +168,13 @@ catan.models.Map = (function mapNameSpace(){
             return false;
         };
         
+		/**
+		* @method canPlaceSettlement
+		* @param {int} playerID - The id of the current player
+		* @param {Hex} hex - The hex on which the player wants to build
+		* @param {int} theDirection - The direction of the selected vertex on the hex
+		* @return {boolean} Whether or not the current player can build a settlement in the selected location
+		* */
 		Map.prototype.canPlaceSettlement = function(playerID, hex, theDirection){
 			var hexgrid = catan.models.hexgrid;
 			var dirIndex = hexgrid.VertexDirection[theDirection];    	
@@ -200,7 +214,14 @@ catan.models.Map = (function mapNameSpace(){
 			}
 			return true;
 		};
-			
+		
+		/**
+		* @method canSetupSettlement
+		* @param {int} playerID - The id of the current player
+		* @param {Hex} hex - The hex on which the player wants to build
+		* @param {int} theDirection - The direction of the selected vertex on the hex
+		* @return {boolean} Whether or not the current player can build a settlement in the selected location
+		* */
 		Map.prototype.canSetupSettlement = function(playerID, hex, theDirection){  
 			var hexgrid = catan.models.hexgrid;
 			var dirIndex = hexgrid.VertexDirection[theDirection];    	
@@ -239,65 +260,62 @@ catan.models.Map = (function mapNameSpace(){
 				}
 			}
 			return true;     	
-            /*var vertexDirection = hex.getVertex(hexgrid.VertexDirection[theDirection]);
-            var touchingHexes = vertexDirection.location.getEquivalenceGroup();
-            for(var edge in touchingHexes){
-					var myHexLoc = new catan.models.hexgrid.HexLocation(touchingHexes[edge].x,touchingHexes[edge].y);
-					var myHex = this.hexGrid.getHex(myHexLoc);
-					if(myHex == undefined){
-						return false;
-					}
-					if(myHex.getVertex(hexgrid.VertexDirection[touchingHexes[edge].dir]).getOwner() !== -1){
-						return false;
-					}
-				}
-				return true;*/
-			};
+		};
         
-			Map.prototype.canPlaceCity = function(playerID, hex, theDirection){
-                var dirIndex = catan.models.hexgrid.VertexDirection[theDirection];
-
-                return (hex.vertexes[dirIndex].getOwner() === playerID && hex.vertexes[dirIndex].getWorth() === 1);
-			};
-
-			function positiveModulo(lhs,rhs){
-				// The inner paren makes the range -rhs to rhs
-				// The addition puts it to 0 to 2rhs
-				// The last modulo reduces it to 0 to rhs
-				return ((lhs % rhs) + rhs) % rhs;
-			}
-	
-			function getOppositeDirection(direction){
-				return positiveModulo((direction + 3),6);
-			}
-	
-			//Works on Hex, Edge and Vertex Directions
-			function nextDirectionClockwise(direction){
-				return positiveModulo((direction + 1),6);
-			}
-	
-			//Works on Hex, Edge and Vertex Directions
-			function nextDirectionCounterClockwise(direction){
-				return positiveModulo((direction - 1),6);
-			}        
+		/**
+		* @method canPlaceCity
+		* @param {int} playerID - The id of the current player
+		* @param {Hex} hex - The hex on which the player wants to build
+		* @param {int} theDirection - The direction of the selected vertex on the hex
+		* @return {boolean} Whether or not the current player can build a settlement in the selected location
+		* */
+		Map.prototype.canPlaceCity = function(playerID, hex, theDirection){
+			var dirIndex = catan.models.hexgrid.VertexDirection[theDirection];
+			return (hex.vertexes[dirIndex].getOwner() === playerID && hex.vertexes[dirIndex].getWorth() === 1);
+		};        
         
-        
+		/**
+		* @method buildRoad
+		* @param {int} playerID - The id of the current player
+		* @param {Hex} hex - The hex on which the player wants to build
+		* @param {int} theDirection - The direction of the selected edge on the hex
+		* */
         Map.prototype.buildRoad = function(playerID, hex, theDirection){
             this.hexGrid.getHex(hex).getEdge(theDirection).setOwner(playerID);
         };
         
+		/**
+		* @method buildSettlement
+		* @param {int} playerID - The id of the current player
+		* @param {Hex} hex - The hex on which the player wants to build
+		* @param {int} theDirection - The direction of the selected vertex on the hex
+		* */
         Map.prototype.buildSettlement = function(playerID, hex, theDirection){
             this.hexGrid.getHex(hex).getVertex(theDirection).setOwner(playerID);
         };
         
+		/**
+		* @method buildCity
+		* @param {int} playerID - The id of the current player
+		* @param {Hex} hex - The hex on which the player wants to build
+		* @param {int} theDirection - The direction of the selected vertex on the hex
+		* */
         Map.prototype.buildCity = function(playerID, hex, theDirection){
             this.hexGrid.getHex(hex).getVertex(theDirection).setOwner(playerID);
         };
         
+		/**
+		* @method robberMove
+		* @param {HexLocation} hextoMoveTo - The new location of the robber
+		* */
         Map.prototype.robberMove = function(hextoMoveTo){
             this.robber = hexToMoveTo;
         };
         
+		/**
+		* @method getRobberVictims
+		* @return {Array} A list of the victims surrounding the robber
+		* */
         Map.prototype.getRobberVictims = function(){
             console.log(this.hexGrid);
             var robberAdjacent = this.hexGrid.getHex(this.robber);//.getVertexes();
@@ -308,9 +326,7 @@ catan.models.Map = (function mapNameSpace(){
                 }
             }
             return victimList;
-            //return "hello person";
         };
-        
         
         Map.prototype.checkIfAlreadyVictim = function(victimList, playerIndex){
             for(var n = 0; n < victimList.length; n++){
@@ -320,7 +336,6 @@ catan.models.Map = (function mapNameSpace(){
             }
             return false;
         };
-        
         return Map;
         
     }());
@@ -346,26 +361,26 @@ catan.models.Map = (function mapNameSpace(){
                 this.ownerID = -1;
         }
         
-       /*
-       Returns true if there is an ownerID associated, or false if the ownerID is -1
-       */
-            CatanEdge.prototype.isOccupied = function(){
-                if(this.ownerID==-1){
-                    return false;                   
-                }
-                else{   
-                    return true;
-                }
-            }
+		/*
+		Returns true if there is an ownerID associated, or false if the ownerID is -1
+		*/
+		CatanEdge.prototype.isOccupied = function(){
+			if(this.ownerID==-1){
+				return false;                   
+			}
+			else{   
+				return true;
+			}
+		}
 
-            CatanEdge.prototype.getOwner = function(){
-                return this.ownerID;            
-            }
+		CatanEdge.prototype.getOwner = function(){
+			return this.ownerID;            
+		}
         
-            CatanEdge.prototype.setOwner = function(newOwner){
-                this.ownerID = newOwner;            
-            }
-        return CatanEdge;
+		CatanEdge.prototype.setOwner = function(newOwner){
+			this.ownerID = newOwner;            
+		}
+		return CatanEdge;
     }());
     
     /**
@@ -380,44 +395,42 @@ catan.models.Map = (function mapNameSpace(){
     @extends hexgrid.BaseContainer
     
     @class CatanVertex
-    */
-    var CatanVertex = (function CatanVertex_Class(){
-    
-            core.forceClassInherit(CatanVertex, hexgrid.BaseContainer);
-        
-            function CatanVertex(){
-                this.ownerID = -1;
-               this.worth = 0;  
-            }
+	*/
+	var CatanVertex = (function CatanVertex_Class(){
+		core.forceClassInherit(CatanVertex, hexgrid.BaseContainer);
+		function CatanVertex(){
+			this.ownerID = -1;
+			this.worth = 0;  
+		}
         
         // once you override this, put in some documentation
         
-            CatanVertex.prototype.isOccupied = function(){
-                if(this.ownerID==-1){
-                    return false;                   
-                }
-                else{   
-                    return true;
-                }
-            }
+		CatanVertex.prototype.isOccupied = function(){
+			if(this.ownerID==-1){
+				return false;                   
+			}
+			else{   
+				return true;
+			}
+		}
         
-            CatanVertex.prototype.getOwner = function(){
-                return this.ownerID;            
-            }
+		CatanVertex.prototype.getOwner = function(){
+			return this.ownerID;            
+		}
         
-            CatanVertex.prototype.setOwner = function(newOwner){
-                this.ownerID = newOwner;            
-            }
+		CatanVertex.prototype.setOwner = function(newOwner){
+			this.ownerID = newOwner;            
+		}
 
-            CatanVertex.prototype.getWorth = function(){
-                return this.worth;          
-            }
+		CatanVertex.prototype.getWorth = function(){
+			return this.worth;          
+		}
         
-            CatanVertex.prototype.setWorth = function(newWorth){
-                this.worth = newWorth;          
-            }
+		CatanVertex.prototype.setWorth = function(newWorth){
+			this.worth = newWorth;          
+		}
 
-         return CatanVertex;
+		return CatanVertex;
     }()); 
     
     
