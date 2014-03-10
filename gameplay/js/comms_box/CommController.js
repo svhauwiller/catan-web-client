@@ -54,7 +54,7 @@ catan.comm.Controller = (function () {
 			console.log("Update Log");
 
 			var _this = this;
-			var logRecord = this.getClientModel().log;
+			var logRecord = _this.getClientModel().log;
 
 			logRecord.lines.forEach(function(log){
 				log.className = _this.getClassName(log.source);
@@ -62,7 +62,7 @@ catan.comm.Controller = (function () {
 
 			console.log(logRecord);
 
-			this.getView().resetLines(logRecord.lines)
+			_this.getView().resetLines(logRecord.lines)
 		};
 
 		/**
@@ -120,8 +120,10 @@ catan.comm.Controller = (function () {
 
 		/**
 		Adds the name of the player to a chat item
+		NOTE OF CLARIFICATION BECAUSE THIS CONFUSED ME: for some reason the server requires a "Class Name" which is actually the player's color...
 		@method getClassName
 		@param {String} chatSource The representation of a chat item
+		@return {String} The color of the player
 		**/
 		ChatController.prototype.getClassName = function(chatSource) {
 			var playerData = this.getClientModel().players;
