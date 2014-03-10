@@ -92,7 +92,7 @@ catan.discard.Controller = (function discard_namespace(){
 		@return void
 
 		*/
-		DiscardController.prototype.manageResource(var myKey){
+		DiscardController.prototype.manageResource = function(myKey){
 			this.totalResources += this.currentPlayerResources[myKey];
 			this.getView().setResourceMaxAmount(myKey, this.currentPlayerResources[myKey]);
 			this.maxDiscardValues[myKey] = this.currentPlayerResources[myKey];
