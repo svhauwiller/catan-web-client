@@ -231,7 +231,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {boolean} willAccept flag to determine whether or not the player has accepted the trade offer
 		*/
 		ClientModel.prototype.acceptTrade = function(willAccept) {
-			if(typeof willAccept === true || typeof willAccept === false)
+
 			{
 			var args = new Array();
 			args.push(willAccept);
@@ -275,7 +275,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		ClientModel.prototype.sendChat = function(chatLine) {
 			//SEND CHAT
 			var args = new Array();
-			if(typeof chatLine === 'string'){ 
+			{ 
 			args.push(chatLine);
 			this.runCommand(catan.proxy.proxyCommands.SendChatCommand, args);
 			}
@@ -319,7 +319,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {string} edgeDirection the direction the edge is at from the hex
 		*/
 		ClientModel.prototype.buildRoad = function(hexLocation,  edgeDirection, isFree) {
-			//if(hexLocation instanceof catan.models.hexgrid.HexLocation && typeof edgeDirction==='string')
+		
 			{
 			var location = {x: hexLocation.x, y: hexLocation.y, direction: edgeDirection};
 			
@@ -344,7 +344,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {string} vertDirection the direction the vertex is at from the hex
 		*/
 		ClientModel.prototype.buildSettlement = function(hexLocation,  vertDirection, isFree) {
-			//if(hexLocation instanceof catan.models.hexgrid.HexLocation && typeof edgeDirction==='string')
+		
 			{
 			var location = {x: hexLocation.x, y: hexLocation.y, direction: vertDirection};
 			
@@ -369,7 +369,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {string} vertDirection the direction the vertex is at from the hex
 		*/
 		ClientModel.prototype.buildCity = function(hexLocation, vertDirection, isFree) {
-			//if(hexLocation instanceof catan.models.hexgrid.HexLocation && typeof edgeDirction==='string')
+		
 			{
 			var location = {x: hexLocation.x, y: hexLocation.y, direction: vertDirection};
 			
@@ -407,7 +407,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {ResourceList} offerList list of resources being offered (Positive Values) and requested (Negative Values)
 		*/
 		ClientModel.prototype.offerTrade = function(receiverIndex, offerList) {
-			//if(typeof receiverIndex === 'number' && offerList instanceof catan.models.bank.ResourceList)
+			
 			{
 			args = new Array();
 			args.push(offerList);
@@ -430,7 +430,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {string} requestResource resource being requested
 		*/
 		ClientModel.prototype.tradeWithBank = function(ratio, offerResource, requestResource) {
-			if(typeof ratio === 'number' && typeof offerResource === 'string' && typeof requestResource === 'string')
+		
 			{
 			args = new Array();
 			args.push(ratio);
@@ -467,7 +467,7 @@ catan.models.ClientModel  = (function clientModelNameSpace(){
 		* @param {Hex} locationToMove location to move the robber to
 		*/
 		ClientModel.prototype.robberMove = function(victimIndex, locationToMove) {
-			if(typeof victimIndex === 'number' && locationToMove instanceof catan.models.hexgrid.Hex){
+		{
 			var args = new Array();
 			args.push(victimIndex);
 			args.push(locationToMove);

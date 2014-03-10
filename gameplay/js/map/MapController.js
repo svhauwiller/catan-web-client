@@ -277,25 +277,16 @@ catan.map.Controller = (function catan_controller_namespace() {
 					if(this.ClientModel.map.canPlaceRoad(playerIndex, hoverOverHex, loc.dir)){
 						return true;
 					}
-					else{
-						return false;
-					}
 				}
 				else if(type.type == "settlement"){
 					if(this.disconnected){ // if in setup round, rules are different
 						if(this.ClientModel.map.canSetupSettlement(playerIndex, hoverOverHex, loc.dir)){
 							return true;
 						}
-						else{
-							return false;
-						}
 					}
 					else{
 						if(this.ClientModel.map.canPlaceSettlement(playerIndex, hoverOverHex, loc.dir)){
 							return true;
-						}
-						else{
-							return false;
 						}
 					}
 				}
@@ -305,6 +296,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 				else if(type.type == "robber"){
 					return hoverOverHex.isLand;
 				}
+			return false;
 			}
 			
 		};
