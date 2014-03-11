@@ -45,11 +45,11 @@ catan.resources.Controller = (function resources_namespace() {
 			this.clientModel = clientModel;
 			this.init();
 		};
-	
 
-
-
-
+		/**
+		* Initializes the resource bar.
+		 @method init
+        */
 		ResourceBarController.prototype.init = function(){
 			var currentPlayerResources = this.clientModel.currentPlayerResources();
 			this.getView().updateAmount("brick", currentPlayerResources["brick"]);
@@ -168,4 +168,3 @@ catan.resources.Controller = (function resources_namespace() {
 	
 	return ResourceBarController;
 }());
-

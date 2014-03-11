@@ -76,59 +76,6 @@ catan.models.Map = (function mapNameSpace(){
             this.radius = newMap.radius;
             this.robber = new hexgrid.HexLocation(newMap.robber.x, newMap.robber.y);
         };
-        
-		/**
-		* @method getResourcesFromRoll
-		* @param {int} diceNum - The number rolled by the current player
-		* */
-        Map.prototype.getResourcesFromRoll = function(diceNum){
-            var directions = new Array();
-            directions[0] = "N";
-            directions[1] = "NE";
-            directions[2] = "E";
-            directions[3] = "SE";
-            directions[4] = "S";
-            directions[5] = "SW";
-            directions[6] = "W";
-            directions[7] = "NW";
-            
-            var vertexArray = this.numbers[diceNum];
-            var playerArray = new Array();
-            
-            for(var i = 0; i < vertexArray.length; i++){
-                console.log(this.hexGrid);
-                var givenHex = hexgrid.getHex(new hexgrid.HexLocation(vertexArray[i].x, vertexArray[i].y));
-                for(var d = 0; d < directions.length; d++){
-                    if(givenHex.getVertex(directions[d]).getOwner() != -1){
-                        playerArray[playerArray.length - 1] = givenHex.getVertex(directions[d]).getOwner();
-                    }
-                }
-            }
-            
-            var rewards = new catan.models.bank.ResourceList("player");
-            return rewards;
-        };
-        
-        Map.prototype.getEdge = function(theDirection){
-            if(theDirection == "NW"){
-                return 0;
-            }
-            else if(theDirection == "N"){
-                return 1;
-            }
-            else if(theDirection == "NE"){
-                return 2;
-            }
-            else if(theDirection == "SE"){
-                return 3;
-            }
-            else if(theDirection == "S"){
-                return 4;
-            }
-            else if(theDirection == "SW"){
-                return 5;
-            } 
-        }
     
 		/**
 		* @method canPlaceRoad
@@ -310,31 +257,6 @@ catan.models.Map = (function mapNameSpace(){
 		* */
         Map.prototype.robberMove = function(hextoMoveTo){
             this.robber = hexToMoveTo;
-        };
-        
-		/**
-		* @method getRobberVictims
-		* @return {Array} A list of the victims surrounding the robber
-		* */
-        Map.prototype.getRobberVictims = function(){
-            console.log(this.hexGrid);
-            var robberAdjacent = this.hexGrid.getHex(this.robber);//.getVertexes();
-            var victimList = new Array();
-            for(var i = 0; i < robberAdjacent.length; i++){
-                if(robberAdjacent[i] != -1 && !checkIfAlreadyVictim(victimList, i)){
-                    victimList.push(i);
-                }
-            }
-            return victimList;
-        };
-        
-        Map.prototype.checkIfAlreadyVictim = function(victimList, playerIndex){
-            for(var n = 0; n < victimList.length; n++){
-                if(victimList[n] == playerIndex){
-                    return true;
-                }
-            }
-            return false;
         };
         return Map;
         
