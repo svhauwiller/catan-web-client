@@ -2,15 +2,6 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group>
-            <file>file:/C:/Users/Wesley/Documents/My%20SchoolWork/Science/CS/Projects/340/catan-web-client/src/server/handler/UtilitiesHandler.java</file>
-            <file>file:/C:/Users/Wesley/Documents/My%20SchoolWork/Science/CS/Projects/340/catan-web-client/src/server/handler/CurrentGameHandler.java</file>
-            <file>file:/C:/Users/Wesley/Documents/My%20SchoolWork/Science/CS/Projects/340/catan-web-client/src/server/handler/AllGamesHandler.java</file>
-            <file>file:/C:/Users/Wesley/Documents/My%20SchoolWork/Science/CS/Projects/340/catan-web-client/src/server/Server.java</file>
-            <file>file:/C:/Users/Wesley/Documents/My%20SchoolWork/Science/CS/Projects/340/catan-web-client/src/server/handler/MovesHandler.java</file>
-            <file>file:/C:/Users/Wesley/Documents/My%20SchoolWork/Science/CS/Projects/340/catan-web-client/src/server/api/utils/UserLogin.java</file>
-            <file>file:/C:/Users/Wesley/Documents/My%20SchoolWork/Science/CS/Projects/340/catan-web-client/src/server/handler/UserHandler.java</file>
-            <file>file:/C:/Users/Wesley/Documents/My%20SchoolWork/Science/CS/Projects/340/catan-web-client/src/server/communication/GameModel.java</file>
-        </group>
+        <group/>
     </open-files>
 </project-private>

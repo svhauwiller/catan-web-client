@@ -88,6 +88,9 @@ public class MovesHandler implements HttpHandler{
 			case "acceptTrade":
 				sendTradeResponse(ex, xStream);
 				break;
+			case "maritimeTrade":
+				tradeWithBank(ex, xStream);
+				break;
 			case "discardCards":
 				discardCards(ex, xStream);
 				break;
@@ -307,6 +310,21 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void sendTradeResponse(HttpExchange ex, XStream xStream) throws IOException{
+		OutputStream responseStream = ex.getResponseBody();
+		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
+		byte [] bytearray  = new byte [(int)jsonFile.length()];
+		FileInputStream fis = new FileInputStream(jsonFile);
+		BufferedInputStream bis = new BufferedInputStream(fis);
+		bis.read(bytearray, 0, bytearray.length);
+		//GameModel response = new GameModel();
+
+		//OutputStream responseStream = ex.getResponseBody();
+		ex.sendResponseHeaders(200, jsonFile.length());
+		responseStream.write(bytearray,0,bytearray.length);
+		responseStream.close();
+	}
+
+	private void tradeWithBank(HttpExchange ex, XStream xStream) throws IOException{
 		OutputStream responseStream = ex.getResponseBody();
 		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
 		byte [] bytearray  = new byte [(int)jsonFile.length()];
