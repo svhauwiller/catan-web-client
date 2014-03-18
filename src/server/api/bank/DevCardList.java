@@ -51,11 +51,11 @@ public class DevCardList {
 	}
 
 	public int getRoadBuilding(){
-		return roadBuilder;
+		return roadBuilding;
 	}
 
 	public void setRoadBuilding(int amount){
-		roadBuilder = amount;
+		roadBuilding = amount;
 	}
 	
 	public int getMonument(){

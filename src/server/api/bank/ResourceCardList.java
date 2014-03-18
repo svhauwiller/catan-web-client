@@ -75,5 +75,5 @@ public class ResourceCardList {
 	public void updateOre(int amount){
 		ore+=amount;
 	}
-	
+}
 
