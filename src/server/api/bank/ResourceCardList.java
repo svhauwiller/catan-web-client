@@ -25,5 +25,37 @@ public class ResourceCardList {
 		this.wheat = 22;
 		this.ore = 22;
 	}
+
+	public int getBrick(){
+		return brick;
+	}
 	
+	public void setBrick(int amount){
+		brick = amount;
+	}
+	
+	public int getWood(){
+		return wood;
+	}
+
+	public void setWood(int amount){
+		wood = amount;
+	}
+
+	public int getSheep(){
+		return sheep;
+	}
+	
+	public void setSheep(int amount){
+		sheep = amount;
+	}
+
+	public int getOre(){
+		return ore;
+	}
+	
+	public void setOre(int amount){
+		ore = amount;
+	}
+
 }
