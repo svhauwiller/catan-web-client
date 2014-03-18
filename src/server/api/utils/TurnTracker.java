@@ -4,19 +4,12 @@
  * and open the template in the editor.
  */
 
-package server.api.utils;
+//package server.api.utils;
 
 /**
  *
  * @author Wesley
  */
-public class TurnTracker {
-	
-	private int currentTurn;
-	private String status;
-	
-	public TurnTracker(){
-		currentTurn = 0;
-		status = "Rolling";
-	}
+public interface TurnTracker {
+
 }
