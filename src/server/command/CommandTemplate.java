@@ -9,6 +9,6 @@ package server.command;
  * @author jtsai
  */
 public interface CommandTemplate {
-    public abstract void execute(String args);
-    public abstract void undo();
+    public void execute(String args);
+    public void undo();
 }

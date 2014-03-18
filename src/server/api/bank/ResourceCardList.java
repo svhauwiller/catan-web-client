@@ -26,6 +26,7 @@ public class ResourceCardList {
 		this.ore = 22;
 	}
 
+	/////////////////////////////////////////////////GETTERS AND SETTERS//////////////////////////////////////////////////////////////
 	public int getBrick(){
 		return brick;
 	}
@@ -58,4 +59,21 @@ public class ResourceCardList {
 		ore = amount;
 	}
 
-}
+	////////////////////////////////////////////UPDATE METHODS///////////////////////////////////////////////////////////
+	public void updateBrick(int amount){
+		brick += amount;
+	}
+	
+	public void updateWood(int amount){
+		wood+=amount;
+	}
+	
+	public void updateSheep(int amount){
+		sheep+=amount;
+	}
+
+	public void updateOre(int amount){
+		ore+=amount;
+	}
+	
+
