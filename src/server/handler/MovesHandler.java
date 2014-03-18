@@ -58,7 +58,7 @@ public class MovesHandler implements HttpHandler{
 			case "buyDevCard":
 				getNewDevCard(ex, xStream);
 				break;
-			case "Year_Of_Plenty":
+			case "Year_of_Plenty":
 				useYearOfPlenty(ex, xStream);
 				break;
 			case "Road_Building":
