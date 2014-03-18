@@ -4,12 +4,12 @@
  * and open the template in the editor.
  */
 
-package server.api.utils;
+//package server.api.utils;
 
 /**
  *
  * @author Wesley
  */
-public class MessageLine {
+public interface MessageLine {
 	
 }
