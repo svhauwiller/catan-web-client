@@ -44,7 +44,7 @@ public class UtilitiesHandler implements HttpHandler{
 
 	private void changeLogLevel(HttpExchange ex, XStream xStream) throws IOException {
 		OutputStream responseStream = ex.getResponseBody();
-		String response = "You have successfully called /util/changeLogLevel.";
+		String response = "Success";
 		byte[] responseData = response.getBytes(Charset.forName("utf-8"));
 		ex.sendResponseHeaders(200, response.length());
 		responseStream.write(responseData);

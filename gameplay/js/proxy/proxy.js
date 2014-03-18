@@ -28,11 +28,7 @@ catan.proxy.Proxy = (function proxyNameSpace(){
 		* @return {null}
 		*/
 
-		function Proxy(newType, newIndex){
-			this.type = newType;
-			this.playerIndex = newIndex;
-			this.JSONObject = new Object();
-		}
+		function Proxy(){}
 		
 		Proxy.prototype.getModelFromServer = function () {
 			return jQuery.ajax({

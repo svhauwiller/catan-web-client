@@ -38,10 +38,10 @@ public class Server {
 
 		server.createContext("/", new BaseHandler(serverRoot));
 		server.createContext("/user/", new UserHandler());
-		server.createContext("/games/", new AllGamesHandler());
-		server.createContext("/game/", new CurrentGameHandler());
+		server.createContext("/games/", new AllGamesHandler(serverRoot));
+		server.createContext("/game/", new CurrentGameHandler(serverRoot));
 		server.createContext("/util/", new UtilitiesHandler());
-		server.createContext("/moves/", new MovesHandler());
+		server.createContext("/moves/", new MovesHandler(serverRoot));
 		//server.createContext("/games/list", new TestHandler());
 
 		server.start();

@@ -38,12 +38,22 @@ catan.devCards.Controller = (function(){
 			this.clientModel = clientModel;	
 		}
 
+		/**
+		 * Called when the client model updates
+		 * @method updateFromModel
+		 * @return void
+		 */
 		DevCardController.prototype.updateFromModel = function() {
 			console.log("Update Dev Card");
 			this.clientModel = this.getClientModel();
 			this.init();
 		};
 
+		/**
+		 * Called when the update method is called
+		 * @method init
+		 * @return void
+		 */
 		DevCardController.prototype.init = function () {
 			var player = this.clientModel.players[this.clientModel.playerID];
 			var oldCards = player.oldDevCards;
@@ -54,7 +64,6 @@ catan.devCards.Controller = (function(){
 				this.view.setCardEnabled(devTypes[type], (oldCards[devTypes[type]] > 0));
 				this.view.updateAmount(devTypes[type], (oldCards[devTypes[type]] + newCards[devTypes[type]]));
 			}
-			
 		}
 		
 		/**
@@ -125,4 +134,3 @@ catan.devCards.Controller = (function(){
 	
 	return DevCardController;
 }());
-

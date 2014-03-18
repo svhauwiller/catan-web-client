@@ -13,7 +13,10 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
 import com.thoughtworks.xstream.io.json.JsonWriter;
+import java.io.BufferedInputStream;
 import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -31,6 +34,12 @@ import server.communication.GameList;
  * @author Wesley
  */
 public class AllGamesHandler implements HttpHandler {
+	
+	private String serverRoot;
+	
+	public AllGamesHandler(String serverRoot){
+		this.serverRoot = serverRoot;
+	}
 
     @Override
     public void handle(HttpExchange ex) throws IOException {
@@ -58,24 +67,42 @@ public class AllGamesHandler implements HttpHandler {
     }
 
 	private void getGameList(HttpExchange ex, XStream xStream) throws IOException{
-		ArrayList<GameInfo> response = new ArrayList<>();
-		
-		for(int i = 0; i < 3; i++){
-			response.add(new GameInfo());
-		}
-
 		OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, xStream.toXML(response).length());
-		xStream.toXML(response, responseStream);
+		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "games_list.json");
+		byte [] bytearray  = new byte [(int)jsonFile.length()];
+		FileInputStream fis = new FileInputStream(jsonFile);
+		BufferedInputStream bis = new BufferedInputStream(fis);
+		bis.read(bytearray, 0, bytearray.length);
+		//GameModel response = new GameModel();
+
+		//OutputStream responseStream = ex.getResponseBody();
+		ex.sendResponseHeaders(200, jsonFile.length());
+		responseStream.write(bytearray,0,bytearray.length);
 		responseStream.close();
+//		ArrayList<GameInfo> response = new ArrayList<>();
+//		
+//		for(int i = 0; i < 3; i++){
+//			response.add(new GameInfo());
+//		}
+//
+//		OutputStream responseStream = ex.getResponseBody();
+//		ex.sendResponseHeaders(200, xStream.toXML(response).length());
+//		xStream.toXML(response, responseStream);
+//		responseStream.close();
 	}
 
-	private void createGame(HttpExchange ex, XStream xStream) throws IOException {
+	private void createGame(HttpExchange ex, XStream xStream) throws IOException{
 		OutputStream responseStream = ex.getResponseBody();
-		String response = "You have successfully called /games/create.";
-		byte[] responseData = response.getBytes(Charset.forName("utf-8"));
-		ex.sendResponseHeaders(200, response.length());
-		responseStream.write(responseData);
+		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "games_create.json");
+		byte [] bytearray  = new byte [(int)jsonFile.length()];
+		FileInputStream fis = new FileInputStream(jsonFile);
+		BufferedInputStream bis = new BufferedInputStream(fis);
+		bis.read(bytearray, 0, bytearray.length);
+		//GameModel response = new GameModel();
+
+		//OutputStream responseStream = ex.getResponseBody();
+		ex.sendResponseHeaders(200, jsonFile.length());
+		responseStream.write(bytearray,0,bytearray.length);
 		responseStream.close();
 	}
 

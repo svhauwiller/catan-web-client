@@ -77,7 +77,7 @@ public class UserHandler implements HttpHandler{
 
 	private void registerUser(HttpExchange ex, XStream xStream) throws IOException {
 		OutputStream responseStream = ex.getResponseBody();
-		String response = "You have successfully called /user/register.";
+		String response = "Success";
 		byte[] responseData = response.getBytes(Charset.forName("utf-8"));
 		ex.sendResponseHeaders(200, response.length());
 		responseStream.write(responseData);
