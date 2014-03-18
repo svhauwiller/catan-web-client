@@ -4,11 +4,13 @@
  */
 package server.command;
 
+import server.communication.GameModel;
+
 /**
  *
  * @author jtsai
  */
 public interface CommandTemplate {
-    public void execute(String args);
+    public GameModel execute(String[] args);
     public void undo();
 }
