@@ -65,4 +65,24 @@ public class DevCardList {
 	public void setMonument(int amount){
 		monument = amount;
 	}
+
+	public void updateYearOfPlenty(int amount){
+		yearOfPlenty += amount;
+	}
+
+	public void updateMonopoly(int amount){
+		monopoly += amount;
+	}
+
+	public void updateSoldier(int amount){
+		soldier += amount;
+	}
+
+	public void updateRoadBuilder(int amount){
+		roadBuilder += amount;
+	}
+	
+	public void updateMonument(int amount){
+		monument += amount;
+	}
 }

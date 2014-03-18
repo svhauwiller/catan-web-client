@@ -75,5 +75,9 @@ public class ResourceCardList {
 	public void updateOre(int amount){
 		ore+=amount;
 	}
+
+	public void updateWheat(int amount){
+		wheat+=amount;
+	}
 }
 
