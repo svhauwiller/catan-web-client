@@ -47,9 +47,5 @@ public class GameModel {
 		this.tradeOffer = null;
 		this.turnTracker = new TurnTracker();
 		this.winner = -1;
-		
-		for(int i = 0; i < 4; i++){
-			this.players.add(new Player(i, new PlayerInfo()));
-		}
 	}
 }
