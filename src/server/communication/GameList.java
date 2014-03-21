@@ -27,7 +27,7 @@ public class GameList {
 	
 	private ArrayList<GameInfo> gameList;
 	
-	public GameList(){
+	private GameList(){
 		gameList = new ArrayList<>();
 	}
 	
