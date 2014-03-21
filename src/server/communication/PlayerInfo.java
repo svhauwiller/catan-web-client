@@ -25,4 +25,16 @@ public class PlayerInfo {
 		this.name = name;
 	}
 	
+	public PlayerColor getColor(){
+		return color;
+	}
+
+	public int getId(){
+		return id;
+	}
+	
+	public String getName() {
+		return name;
+	}
+	
 }

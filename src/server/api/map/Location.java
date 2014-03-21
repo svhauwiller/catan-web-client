@@ -22,4 +22,29 @@ public class Location {
 			direction = "NW";
 		}
 	}
+	
+	public int getX(){
+		return x;
+	}
+	
+	public void setX(int newX){
+		x = newX;
+	}
+	
+	public int getY(){
+		return y;
+	}
+	
+	public void setY(int newY){
+		y = newY;
+	}
+	
+	public String getDirection(){
+		return direction;
+	}
+	
+	public void setDirection(String newDirection){
+		direction = newDirection;
+	}
 }
+

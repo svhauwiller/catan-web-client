@@ -16,4 +16,9 @@ public class Edge {
 	public Edge(){
 		value = new Contents(false);
 	}
+	
+	public void setOwner(int ownerID){
+		value.setOwnerID(ownerID);
+	}
 }
+

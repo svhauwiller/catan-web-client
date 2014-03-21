@@ -46,4 +46,17 @@ public class Map {
 		chits.put(12, new ArrayList<Location>());
 		return chits;
 	}
+	
+	public void updateEdgeOwner(Location hexLoc, int direction, int ownerID){ // build road
+		hexGrid.updateEdgeOwner(hexLoc, direction, ownerID);
+	}
+	
+	public void updateVertexOwner(Location hexLoc, int direction, int ownerID){ // build settlement or city
+		hexGrid.updateVertexOwner(hexLoc, direction, ownerID);
+	}
+	
+	public void moveRobber(Location hexLoc, int direction){
+		
+	}
 }
+

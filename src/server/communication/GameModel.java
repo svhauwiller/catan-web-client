@@ -42,14 +42,14 @@ public class GameModel {
 		this.log = new MessageList();
 		this.longestRoad = -1;
 		this.map = new Map();
-		this.players = new ArrayList<>();
+		this.players = new ArrayList<Player>();
 		this.revision = 0;
 		this.tradeOffer = null;
 		this.turnTracker = new TurnTracker();
 		this.winner = -1;
 		
 		for(int i = 0; i < 4; i++){
-			this.players.add(new Player(i));
+			this.players.add(new Player(i, new PlayerInfo()));
 		}
 	}
 }

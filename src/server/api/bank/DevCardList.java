@@ -26,4 +26,63 @@ public class DevCardList {
 		this.monument = 5;
 	}
 	
+	public int getYearOfPlenty(){
+		return yearOfPlenty;
+	}
+	
+	public void setYearOfPlenty(int amount){
+		yearOfPlenty = amount;
+	}
+
+	public int getMonopoly(){
+		return monopoly;
+	}
+
+	public void setMonopoly(int amount){
+		monopoly = amount;
+	}
+
+	public int getSoldier(){
+		return soldier;
+	}
+
+	public void setSoldier(int amount){
+		soldier = amount;
+	}
+
+	public int getRoadBuilding(){
+		return roadBuilding;
+	}
+
+	public void setRoadBuilding(int amount){
+		roadBuilding = amount;
+	}
+	
+	public int getMonument(){
+		return monument;
+	}
+
+	public void setMonument(int amount){
+		monument = amount;
+	}
+
+	public void updateYearOfPlenty(int amount){
+		yearOfPlenty += amount;
+	}
+
+	public void updateMonopoly(int amount){
+		monopoly += amount;
+	}
+
+	public void updateSoldier(int amount){
+		soldier += amount;
+	}
+
+	public void updateRoadBuilder(int amount){
+		roadBuilding += amount;
+	}
+	
+	public void updateMonument(int amount){
+		monument += amount;
+	}
 }

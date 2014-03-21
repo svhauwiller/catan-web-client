@@ -1,21 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//package server.api.utils;
 
-package server.api.utils;
+public class RealTradeOffer implements TradeOffer{
 
-/**
- *
- * @author Wesley
- */
-public class TradeOffer {
 	private String sender;
 	private String receiver;
 	//private ResourceList theResourceList;
 	//TODO: check TA code to see what is returned by their server on a tradeRequest
-	public TradeOffer()
+	public RealTradeOffer()
 	{
 		setSender(null);
 		setReceiver(null);
@@ -36,4 +27,5 @@ public class TradeOffer {
 	public void setReceiver(String receiver) {
 		this.receiver = receiver;
 	}
+	
 }

@@ -13,11 +13,17 @@ import java.util.ArrayList;
  * @author Wesley
  */
 public class MessageList {
-	
 	private ArrayList<MessageLine> lines;
-	
-	public MessageList(){
+
+	public MessageList() {
 		this.lines = new ArrayList<>();
 	}
 	
+	public ArrayList<MessageLine> getLines() {
+		return lines;
+	}
+
+	public void setLines(ArrayList<MessageLine> lines) {
+		this.lines = lines;
+	}	
 }

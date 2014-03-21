@@ -1,21 +1,12 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+import java.util.HashMap;
 
 //package server.api.utils;
 
-import java.util.HashMap;
-
-/**
- *
- * @author Wesley
- */
-public class UserLogin {
+public class RealUserLogin implements UserLogin {
+	
 	private HashMap<String, String> validUsers;
 	
-	public UserLogin(){
+	public RealUserLogin(){
 		validUsers.put("Sam", "sam");
 		validUsers.put("Brooke", "brooke");
 		validUsers.put("Pete", "pete");
@@ -43,4 +34,5 @@ public class UserLogin {
 		
 		validUsers.put(username, password);
 	}
+	
 }

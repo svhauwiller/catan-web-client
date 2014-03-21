@@ -19,6 +19,9 @@ public class Hex {
 	private Location location;
 	private ArrayList<Vertex> vertexes;
 	
+	//var edLookup = ["NW","N","NE","SE","S","SW"]
+	//var vdLookup = ["W","NW","NE","E","SE","SW"]
+	
 	public Hex(){
 		edges = new ArrayList<>();
 		isLand = true;
@@ -32,4 +35,12 @@ public class Hex {
 		}
 	}
 	
+	public void updateEdgeOwner(int direction, int ownerID){
+		edges.get(direction).setOwner(ownerID);
+	}
+	
+	public void updateVertexOwner(int direction, int ownerID){
+		vertexes.get(direction).setOwner(ownerID);
+	}
 }
+

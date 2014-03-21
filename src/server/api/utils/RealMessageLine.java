@@ -1,26 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+//package server.api.utils;
 
-package server.api.utils;
-
-/**
- *
- * @author Wesley
- */
-public class MessageLine {
+public class RealMessageLine implements MessageLine {
 	private String message;
 	private String source;
 	
-	public MessageLine()
+	public RealMessageLine()
 	{
 		setMessage(null);
 		setSource(null);
 	}
 
-	public MessageLine(String theMessage, String theSource){
+	public RealMessageLine(String theMessage, String theSource){
 		setMessage(theMessage);
 		setSource(theSource);
 	}
