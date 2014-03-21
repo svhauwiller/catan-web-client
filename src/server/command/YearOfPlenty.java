@@ -1,4 +1,4 @@
-package server.command
+package server.command;
 
 import server.communication.GameModel;
 import java.util.*;

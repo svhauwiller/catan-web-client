@@ -1,4 +1,4 @@
-package server.command
+package server.command;
 
 import server.communication.GameModel;
 import java.util.*;
@@ -15,23 +15,23 @@ public class Monopoly implements CommandTemplate {
 			if(GameModel.getPlayers().get(i).getId() != id){
 				if(args[0].compareTo("wheat")==0){
 					totalGained += GameModel.getPlayers().get(i).getResourceCardList().getWheat();
-					GameModel.getPlayers().get(i).getResourceCardList().updateWheat(-1*getWheat())
+					GameModel.getPlayers().get(i).getResourceCardList().updateWheat(-1*getWheat());
 				}
 				else if(args[0].compareTo("ore")==0){
 					totalGained += GameModel.getPlayers().get(i).getResourceCardList().getOre();
-					GameModel.getPlayers().get(i).getResourceCardList().updateOre(-1*getOre())
+					GameModel.getPlayers().get(i).getResourceCardList().updateOre(-1*getOre());
 				}
 				else if(args[0].compareTo("sheep")==0){
 					totalGained += GameModel.getPlayers().get(i).getResourceCardList().getSheep();
-					GameModel.getPlayers().get(i).getResourceCardList().updateSheep(-1*getSheep())
+					GameModel.getPlayers().get(i).getResourceCardList().updateSheep(-1*getSheep());
 				}
 				else if(args[0].compareTo("wood")==0){
 					totalGained += GameModel.getPlayers().get(i).getResourceCardList().getWood();
-					GameModel.getPlayers().get(i).getResourceCardList().updateWood(-1*getWood())
+					GameModel.getPlayers().get(i).getResourceCardList().updateWood(-1*getWood());
 				}
 				else if(args[0].compareTo("brick")==0){
 					totalGained += GameModel.getPlayers().get(i).getResourceCardList().getBrick();
-					GameModel.getPlayers().get(i).getResourceCardList().updateBrick(-1*getBrick())
+					GameModel.getPlayers().get(i).getResourceCardList().updateBrick(-1*getBrick());
 				}
 			}
 		}

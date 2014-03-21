@@ -1,4 +1,4 @@
-package server.command
+package server.command;
 
 import server.communication.GameModel;
 import java.util.*;
@@ -24,7 +24,7 @@ public class BuyDevCard implements CommandTemplate{
 		myResource.updateSheep(-1);
 
 		//retrieve the dev card
-		DevCardList myDevList = GameModel.getDeck() //This still needs to be made
+		DevCardList myDevList = GameModel.getDeck(); //This still needs to be made
 		Random rand = new Random();
 		int x = rand.nextInt(5);
 		//it could be that the random number is already done and that the args is which dev card to give.
@@ -69,7 +69,7 @@ public class BuyDevCard implements CommandTemplate{
 		myResource.updateSheep(1);
 
 		//retrieve the dev card
-		DevCardList myDevList = GameModel.getDeck() //This still needs to be made
+		DevCardList myDevList = GameModel.getDeck(); //This still needs to be made
 		Random rand = new Random();
 		int x = rand.nextInt(5);
 		//Not sure how to do this since it is done randomly 
