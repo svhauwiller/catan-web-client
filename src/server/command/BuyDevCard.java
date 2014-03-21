@@ -11,7 +11,7 @@ public class BuyDevCard implements CommandTemplate{
 
 		//put the resources back in the bank
 		//This isn't possible because bank is private;
-		GameModel.bank.updateOre(1);
+		/*GameModel.bank.updateOre(1);
 		GameModel.bank.updateWheat(1);
 		GameModel.bank.updateSheep(1);
 		
@@ -42,7 +42,7 @@ public class BuyDevCard implements CommandTemplate{
 		else if(x==2){
 			//be Soldier
 			player.newDevCards.updateSoldier(1);
-			myDevList.updateSolider(-1);
+			myDevList.updateSoldier(-1);
 		}
 		else if(x==3){
 			//be RoadBuilder
@@ -53,11 +53,12 @@ public class BuyDevCard implements CommandTemplate{
 			//be monument
 			player.oldDevCards.updateMonument(1);
 			myDevList.updateMonument(-1);
-		}
+		}*/
+return null;
 	}
 	
 	public void undo(){
-		GameModel.bank.updateOre(-1);
+		/*GameModel.bank.updateOre(-1);
 		GameModel.bank.updateWheat(-1);
 		GameModel.bank.updateSheep(-1);
 		
@@ -97,6 +98,6 @@ public class BuyDevCard implements CommandTemplate{
 			//be monument
 			player.oldDevCards.updateMonument(-1);
 			myDevList.updateMonument(1);
-		}
+		}*/
 	}
 }

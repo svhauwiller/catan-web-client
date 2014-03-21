@@ -4,7 +4,7 @@
  * and open the template in the editor.
  */
 
-//package server.api.utils;
+package server.api.utils;
 
 import java.util.ArrayList;
 
@@ -12,8 +12,18 @@ import java.util.ArrayList;
  *
  * @author Wesley
  */
-public interface MessageList {
-	
+public class MessageList {
+	private ArrayList<MessageLine> lines;
 
+	public MessageList() {
+		this.lines = new ArrayList<>();
+	}
 	
+	public ArrayList<MessageLine> getLines() {
+		return lines;
+	}
+
+	public void setLines(ArrayList<MessageLine> lines) {
+		this.lines = lines;
+	}	
 }

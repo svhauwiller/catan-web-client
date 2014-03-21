@@ -6,7 +6,7 @@ import java.util.*;
 public class Monopoly implements CommandTemplate {
 	public GameModel execute(String[] args){
 		//take away dev card from player
-		GameModel.getCurrentPlayer().getOldDevCards().updateMonopoly(-1);
+		/*GameModel.getCurrentPlayer().getOldDevCards().updateMonopoly(-1);
 
 		//take resource away from players
 		int id = GameModel.getCurrentPlayer().getId();
@@ -46,7 +46,8 @@ public class Monopoly implements CommandTemplate {
 		else if(args[0].compareTo("wood")==0)
 				GameModel.getCurrentPlayer().getResourceCardList().updateWood(totalGained);
 		else if(args[0].compareTo("brick")==0)
-				GameModel.getCurrentPlayer().getResourceCardList().updateBrick(totalGained);
+				GameModel.getCurrentPlayer().getResourceCardList().updateBrick(totalGained);*/
+return null;
 	}
 	public void undo(){
 	}

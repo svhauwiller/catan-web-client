@@ -4,12 +4,36 @@
  * and open the template in the editor.
  */
 
-//package server.api.utils;
+package server.api.utils;
 
 /**
  *
  * @author Wesley
  */
-public interface TradeOffer {
+public class TradeOffer {
+	private String sender;
+	private String receiver;
+	//private ResourceList theResourceList;
+	//TODO: check TA code to see what is returned by their server on a tradeRequest
+	public TradeOffer()
+	{
+		setSender(null);
+		setReceiver(null);
+	}
 
+	public String getSender() {
+		return sender;
+	}
+
+	public void setSender(String sender) {
+		this.sender = sender;
+	}
+
+	public String getReceiver() {
+		return receiver;
+	}
+
+	public void setReceiver(String receiver) {
+		this.receiver = receiver;
+	}
 }

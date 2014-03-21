@@ -9,7 +9,7 @@ public class YearOfPlenty implements CommandTemplate {
 		//Will need to figure out the parameters because they will contain what resource needs to be taken
 
 		//Take dev card away from current player
-		GameModel.getCurrentPlayer().getOldDevCards().updateYearOfPlenty(-1);
+		/*GameModel.getCurrentPlayer().getOldDevCards().updateYearOfPlenty(-1);
 		
 		//take resources away from gamemodel bank
 		for(int i=0; i<2;i++){
@@ -37,7 +37,8 @@ public class YearOfPlenty implements CommandTemplate {
 				GameModel.getCurrentPlayer().getResourcesList().updateWood(1);
 			else if(args[i].compareTo("brick")==0)
 				GameModel.getCurrentPlayer().getResourcesList().updateBrick(1);
-		}
+		}*/
+return null;
 	}
     public void undo(){
 	

@@ -13,9 +13,11 @@ import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
 import com.thoughtworks.xstream.io.json.JsonWriter;
 import java.io.BufferedInputStream;
+import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.charset.Charset;
@@ -250,6 +252,23 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void buildRoad(HttpExchange ex, XStream xStream) throws IOException{
+		InputStreamReader requestReader = new InputStreamReader(ex.getRequestBody(),"utf-8");
+		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
+
+		int bytes;
+		StringBuilder request = new StringBuilder(1024);
+		while ((bytes = bufferedReqReader.read()) != -1) {
+			request.append((char) bytes);
+		}
+
+		bufferedReqReader.close();
+		requestReader.close();
+		
+		System.out.println(request.toString());
+
+// parse/retrieve needed info
+// put that info in 
+
 		OutputStream responseStream = ex.getResponseBody();
 		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
 		byte [] bytearray  = new byte [(int)jsonFile.length()];

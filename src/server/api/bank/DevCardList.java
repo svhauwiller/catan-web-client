@@ -79,7 +79,7 @@ public class DevCardList {
 	}
 
 	public void updateRoadBuilder(int amount){
-		roadBuilder += amount;
+		roadBuilding += amount;
 	}
 	
 	public void updateMonument(int amount){
