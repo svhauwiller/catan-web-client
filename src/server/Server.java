@@ -4,6 +4,7 @@
  */
 package server;
 
+import com.google.inject.*;
 import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
@@ -17,6 +18,8 @@ public class Server {
 	private static final int SERVER_PORT_NUMBER = 8081;
 	private static final int MAX_WAITING_CONNECTIONS = 0;
 	
+	public static Injector CLASS_INJECTOR = null;
+	
 	private String serverRoot;
 
 	private HttpServer server;
@@ -27,6 +30,13 @@ public class Server {
 	private void run(String[] args) throws ServerException {
 
 		serverRoot = args[0];
+		
+		if(args.length > 1){
+			Server.CLASS_INJECTOR = Guice.createInjector(new TestingModule());
+		} else {
+			Server.CLASS_INJECTOR = Guice.createInjector(new ProductionModule());
+		}
+		
 		
 		try {
 			server = HttpServer.create(new InetSocketAddress(SERVER_PORT_NUMBER), MAX_WAITING_CONNECTIONS);

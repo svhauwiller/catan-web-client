@@ -17,13 +17,13 @@ public class GameInfo {
 	private ArrayList<PlayerInfo> players;
 	private String title;
 	
-	public GameInfo(){
-		id = 0;
-		players = new ArrayList<>();
-		title = "Default Game";
-		
-		for(int i = 0; i < 4; i++){
-			players.add(new PlayerInfo());
-		}
+	public GameInfo(int id, String title){
+		this.id = id;
+		this.players = new ArrayList<>();
+		this.title = title;
+	}
+	
+	public void addPlayer(PlayerInfo player){
+		players.add(player);
 	}
 }

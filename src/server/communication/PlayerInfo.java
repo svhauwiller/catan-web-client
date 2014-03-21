@@ -19,10 +19,10 @@ public class PlayerInfo {
 	private int id;
 	private String name;
 	
-	public PlayerInfo(){
-		color = PlayerColor.orange;
-		id = 0;
-		name = "Sam";
+	public PlayerInfo(PlayerColor color, int id, String name){
+		this.color = color;
+		this.id = id;
+		this.name = name;
 	}
 	
 }

@@ -26,6 +26,7 @@ import java.net.CookieManager;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
+import server.FormDataParser;
 import server.communication.GameInfo;
 import server.communication.GameList;
 
@@ -67,42 +68,34 @@ public class AllGamesHandler implements HttpHandler {
     }
 
 	private void getGameList(HttpExchange ex, XStream xStream) throws IOException{
+		ArrayList<GameInfo> response = GameList.getGameList();
 		OutputStream responseStream = ex.getResponseBody();
-		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "games_list.json");
-		byte [] bytearray  = new byte [(int)jsonFile.length()];
-		FileInputStream fis = new FileInputStream(jsonFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		bis.read(bytearray, 0, bytearray.length);
-		//GameModel response = new GameModel();
-
-		//OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, jsonFile.length());
-		responseStream.write(bytearray,0,bytearray.length);
+		ex.sendResponseHeaders(200, xStream.toXML(response).length());
+		xStream.toXML(response, responseStream);
 		responseStream.close();
-//		ArrayList<GameInfo> response = new ArrayList<>();
-//		
-//		for(int i = 0; i < 3; i++){
-//			response.add(new GameInfo());
-//		}
-//
-//		OutputStream responseStream = ex.getResponseBody();
-//		ex.sendResponseHeaders(200, xStream.toXML(response).length());
-//		xStream.toXML(response, responseStream);
-//		responseStream.close();
 	}
 
 	private void createGame(HttpExchange ex, XStream xStream) throws IOException{
-		OutputStream responseStream = ex.getResponseBody();
-		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "games_create.json");
-		byte [] bytearray  = new byte [(int)jsonFile.length()];
-		FileInputStream fis = new FileInputStream(jsonFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		bis.read(bytearray, 0, bytearray.length);
-		//GameModel response = new GameModel();
+		InputStreamReader requestReader = new InputStreamReader(ex.getRequestBody(),"utf-8");
+		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
 
-		//OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, jsonFile.length());
-		responseStream.write(bytearray,0,bytearray.length);
+		int bytes;
+		StringBuilder request = new StringBuilder(1024);
+		while ((bytes = bufferedReqReader.read()) != -1) {
+			request.append((char) bytes);
+		}
+
+		bufferedReqReader.close();
+		requestReader.close();
+		
+		System.out.println(request.toString());
+		
+		HashMap<String, String> parsedRequest = FormDataParser.parse(request.toString());
+		
+		GameInfo response = GameList.addGame(parsedRequest.get("name"));
+		OutputStream responseStream = ex.getResponseBody();
+		ex.sendResponseHeaders(200, xStream.toXML(response).length());
+		xStream.toXML(response, responseStream);
 		responseStream.close();
 	}
 
@@ -121,12 +114,15 @@ public class AllGamesHandler implements HttpHandler {
 		
 		System.out.println(request.toString());
 		
-		Headers responseHeaders = ex.getResponseHeaders();
-		CookieManager cm = new CookieManager();
-		responseHeaders.add("Set-Cookie", "catan.game=0");
-		responseHeaders.add("Set-Cookie", "catan.user={\"name\":\"Sam\",\"password\":\"sam\",\"playerID\":0}");
+		HashMap<String, String> parsedRequest = FormDataParser.parse(request.toString());
+
 		
-		cm.put(ex.getRequestURI(), responseHeaders);
+//		Headers responseHeaders = ex.getResponseHeaders();
+//		CookieManager cm = new CookieManager();
+//		responseHeaders.add("Set-Cookie", "catan.game=0");
+//		responseHeaders.add("Set-Cookie", "catan.user={\"name\":\"Sam\",\"password\":\"sam\",\"playerID\":0}");
+//		
+//		cm.put(ex.getRequestURI(), responseHeaders);
 		
 		OutputStream responseStream = ex.getResponseBody();
 		String response = "Success! You have joined the game.";
