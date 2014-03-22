@@ -6,6 +6,9 @@
 
 package server;
 
+import server.api.utils.UserLogin;
+import server.api.utils.iUserLogin;
+
 import com.google.inject.*;
 
 /**
@@ -16,6 +19,7 @@ public class ProductionModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
+		bind(iUserLogin.class).to(UserLogin.class);
 	}
 	
 }

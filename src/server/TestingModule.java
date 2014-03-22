@@ -6,6 +6,9 @@
 
 package server;
 
+import server.api.utils.fakeUser;
+import server.api.utils.iUserLogin;
+
 import com.google.inject.*;
 
 /**
@@ -16,7 +19,7 @@ public class TestingModule extends AbstractModule {
 
 	@Override
 	protected void configure() {
-		
+		bind(iUserLogin.class).to(fakeUser.class);
 	}
 	
 }

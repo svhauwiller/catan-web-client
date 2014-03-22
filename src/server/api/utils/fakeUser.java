@@ -14,23 +14,25 @@ import java.util.HashMap;
  *
  * @author Wesley
  */
-public class UserLogin implements iUserLogin{
+public class fakeUser implements iUserLogin{
 	private HashMap<String, String> validUsers;
 	
 	//@Inject
-	public UserLogin(){
-		validUsers.put("Sam", "sam");
-		validUsers.put("Brooke", "brooke");
-		validUsers.put("Pete", "pete");
-		validUsers.put("Mark", "mark");
+	public fakeUser(){
+		validUsers.put("Herman", "herman");
+		validUsers.put("Frodo", "frodo");
+		validUsers.put("BigMcLargeHuge", "big");
+		validUsers.put("Thelma", "thelma");
 	}
 	
 	public HashMap<String, String> getValidUsers() {
 		return validUsers;
 	}
+
 	public void setValidUsers(HashMap<String, String> validUsers) {
 		this.validUsers = validUsers;
 	}
+
 	public boolean validateUserLogin(HashMap<String,String>userInfo) {
 		
 		return validUsers.get(userInfo.get("username")).equals(userInfo.get("password"));
@@ -41,3 +43,4 @@ public class UserLogin implements iUserLogin{
 		validUsers.put(userInfo.get("username"), userInfo.get("password"));
 	}
 }
+
