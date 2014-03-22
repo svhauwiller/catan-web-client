@@ -29,6 +29,7 @@ import java.util.HashMap;
 import server.FormDataParser;
 import server.communication.GameInfo;
 import server.communication.GameList;
+import server.communication.PlayerInfo;
 
 /**
  *
@@ -115,6 +116,11 @@ public class AllGamesHandler implements HttpHandler {
 		System.out.println(request.toString());
 		
 		HashMap<String, String> parsedRequest = FormDataParser.parse(request.toString());
+		
+//		try{
+//			PlayerInfo player = new PlayerInfo(parsedRequest.get("color"));
+//			GameList.addplayerToGame(player, parsedRequest.get("id"));
+//		}
 
 		
 //		Headers responseHeaders = ex.getResponseHeaders();

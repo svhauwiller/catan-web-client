@@ -24,10 +24,10 @@ public class GameModel {
 	private static GameModel instance;
 	
 	private static GameModel instance(){
-		if(getInstance() == null){
+		if(instance == null){
 			instance = new GameModel();
 		}
-		return getInstance();
+		return instance;
 	}
 	
 	private ResourceCardList bank;

@@ -7,12 +7,15 @@
 package server.communication;
 
 import java.util.ArrayList;
+import server.ServerException;
 
 /**
  *
  * @author Wesley
  */
-public class GameInfo {
+public class GameInfo{
+	private final int MAX_PLAYERS = 4;
+	
 	private int id;
 	private ArrayList<PlayerInfo> players;
 	private String title;
@@ -23,7 +26,11 @@ public class GameInfo {
 		this.title = title;
 	}
 	
-	public void addPlayer(PlayerInfo player){
-		players.add(player);
+	public void addPlayer(PlayerInfo player) throws ServerException{
+		if(players.size() < MAX_PLAYERS){
+			players.add(player);
+		} else {
+			throw new ServerException("Game is full");
+		}
 	}
 }

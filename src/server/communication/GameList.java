@@ -7,6 +7,7 @@
 package server.communication;
 
 import java.util.ArrayList;
+import server.ServerException;
 
 /**
  *
@@ -41,7 +42,7 @@ public class GameList {
 		return gameList;
 	}
 	
-	private void _addPlayerToGame(PlayerInfo player, int gameID){
+	private void _addPlayerToGame(PlayerInfo player, int gameID) throws ServerException{
 		gameList.get(gameID).addPlayer(player);
 	}
 	
@@ -54,7 +55,7 @@ public class GameList {
 	
 	public static ArrayList<GameInfo> getGameList() {return instance()._getGameList();}
 	
-	public static void addPlayerToGame(PlayerInfo player, int gameID) {instance()._addPlayerToGame(player, gameID);}
+	public static void addPlayerToGame(PlayerInfo player, int gameID) throws ServerException {instance()._addPlayerToGame(player, gameID);}
 	
 	
 }
