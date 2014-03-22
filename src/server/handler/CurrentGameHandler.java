@@ -20,6 +20,8 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import server.command.CommandTemplate;
+import server.communication.CommandList;
 import server.communication.GameInfo;
 import server.communication.GameModel;
 
@@ -75,38 +77,24 @@ public class CurrentGameHandler implements HttpHandler{
 	}
 
 	private void resetCurrentGame(HttpExchange ex, XStream xStream) throws IOException{
+		GameModel response = GameModel.reset();
 		OutputStream responseStream = ex.getResponseBody();
-		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
-		byte [] bytearray  = new byte [(int)jsonFile.length()];
-		FileInputStream fis = new FileInputStream(jsonFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		bis.read(bytearray, 0, bytearray.length);
-		//GameModel response = new GameModel();
-
-		//OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, jsonFile.length());
-		responseStream.write(bytearray,0,bytearray.length);
+		ex.sendResponseHeaders(200, xStream.toXML(response).length());
+		xStream.toXML(response, responseStream);
 		responseStream.close();
 	}
 
 	private void getGameCommands(HttpExchange ex, XStream xStream) throws IOException{
+		ArrayList<CommandTemplate> response = CommandList.getExecutedCommands();
 		OutputStream responseStream = ex.getResponseBody();
-		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_commands.json");
-		byte [] bytearray  = new byte [(int)jsonFile.length()];
-		FileInputStream fis = new FileInputStream(jsonFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		bis.read(bytearray, 0, bytearray.length);
-		//GameModel response = new GameModel();
-
-		//OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, jsonFile.length());
-		responseStream.write(bytearray,0,bytearray.length);
+		ex.sendResponseHeaders(200, xStream.toXML(response).length());
+		xStream.toXML(response, responseStream);
 		responseStream.close();
 	}
 
 	private void addAItoGame(HttpExchange ex, XStream xStream) throws IOException {
 		OutputStream responseStream = ex.getResponseBody();
-		String response = "Success";
+		String response = "AI not supported in this version";
 		byte[] responseData = response.getBytes(Charset.forName("utf-8"));
 		ex.sendResponseHeaders(200, response.length());
 		responseStream.write(responseData);

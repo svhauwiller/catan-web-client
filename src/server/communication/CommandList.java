@@ -29,6 +29,10 @@ public class CommandList {
 		executedCommands = new ArrayList<>();
 	}
 	
+	private ArrayList<CommandTemplate> _getExecutedCommands() {
+		return executedCommands;
+	}
+	
 	private void _recordCommand(CommandTemplate command){
 		executedCommands.add(command);
 	}
@@ -40,6 +44,7 @@ public class CommandList {
 		executedCommands.clear();
 	}
 	
+	public static ArrayList<CommandTemplate> getExecutedCommands(){return instance()._getExecutedCommands();}
 	
 	public static void recordCommand(CommandTemplate command) {instance()._recordCommand(command);}
 	
