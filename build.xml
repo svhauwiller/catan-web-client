@@ -71,6 +71,17 @@
 			</assertions>
 		</java>
 	</target>
+
+	<target name="test" depends="compile" description="Runs unit tests on our server">
+		<java classname="server.ServerUnitTests" fork="yes">
+			<classpath>
+				<path refid="all-classpath"/>
+			</classpath>
+			<assertions>
+				<enable/>
+			</assertions>
+		</java>
+	</target>
     
     <target name="make-js-doc" description="Parse and produce the javascript docs">
         <echo> Making javascript documentation</echo>
