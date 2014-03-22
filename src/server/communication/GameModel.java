@@ -57,6 +57,11 @@ public class GameModel {
 		this.turnTracker = new TurnTracker();
 		this.winner = -1;
 	}
+	
+	private GameModel _reset() {
+		CommandList.undoAll();
+		return instance;
+	}
 
 	/**
 	 * @return the bank
@@ -143,6 +148,7 @@ public class GameModel {
 	}
 	
 	public static GameModel getInstance(){return instance();}
+	public static GameModel reset(){return instance()._reset();}
 	public static ResourceCardList getBank(){return instance()._getBank();}
 	public static int getBiggestArmy(){return instance()._getBiggestArmy();}
 	public static MessageList getChat(){return instance()._getChat();}
@@ -155,5 +161,7 @@ public class GameModel {
 	public static TradeOffer getTradeOffer(){return instance()._getTradeOffer();}
 	public static TurnTracker getTurnTracker(){return instance()._getTurnTracker();}
 	public static int getWinner(){return instance()._getWinner();}
+
+	
 	
 }
