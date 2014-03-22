@@ -5,6 +5,7 @@ import java.util.*;
 
 public class BuyDevCard implements CommandTemplate{
 
+	//args[0] = Playerid
 	public GameModel execute(String[] args){
 		int playerNum = Integer.parseInt(args[0]);
 		GameModel gmod = GameModel.getInstance();
