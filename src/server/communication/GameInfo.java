@@ -26,6 +26,14 @@ public class GameInfo{
 		this.title = title;
 	}
 	
+	public ArrayList<PlayerInfo> getPlayers(){
+		return players;
+	}
+	
+	public String getTitle(){
+		return title;
+	}
+	
 	public void addPlayer(PlayerInfo player) throws ServerException{
 		if(players.size() < MAX_PLAYERS){
 			players.add(player);
