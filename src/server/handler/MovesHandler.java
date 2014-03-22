@@ -162,6 +162,21 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void getNewDevCard(HttpExchange ex, XStream xStream) throws IOException{
+		InputStreamReader requestReader = new InputStreamReader(ex.getRequestBody(),"utf-8");
+		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
+
+		int bytes;
+		StringBuilder request = new StringBuilder(1024);
+		while ((bytes = bufferedReqReader.read()) != -1) {
+			request.append((char) bytes);
+		}
+
+		bufferedReqReader.close();
+		requestReader.close();
+		
+		System.out.println(request.toString());
+
+
 		OutputStream responseStream = ex.getResponseBody();
 		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
 		byte [] bytearray  = new byte [(int)jsonFile.length()];
@@ -177,6 +192,20 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void useYearOfPlenty(HttpExchange ex, XStream xStream) throws IOException{
+		InputStreamReader requestReader = new InputStreamReader(ex.getRequestBody(),"utf-8");
+		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
+
+		int bytes;
+		StringBuilder request = new StringBuilder(1024);
+		while ((bytes = bufferedReqReader.read()) != -1) {
+			request.append((char) bytes);
+		}
+
+		bufferedReqReader.close();
+		requestReader.close();
+		
+		System.out.println(request.toString());
+
 		OutputStream responseStream = ex.getResponseBody();
 		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
 		byte [] bytearray  = new byte [(int)jsonFile.length()];
@@ -192,6 +221,20 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void useRoadBuilding(HttpExchange ex, XStream xStream) throws IOException{
+		InputStreamReader requestReader = new InputStreamReader(ex.getRequestBody(),"utf-8");
+		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
+
+		int bytes;
+		StringBuilder request = new StringBuilder(1024);
+		while ((bytes = bufferedReqReader.read()) != -1) {
+			request.append((char) bytes);
+		}
+
+		bufferedReqReader.close();
+		requestReader.close();
+		
+		System.out.println(request.toString());
+
 		OutputStream responseStream = ex.getResponseBody();
 		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
 		byte [] bytearray  = new byte [(int)jsonFile.length()];
@@ -207,6 +250,20 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void useSoldier(HttpExchange ex, XStream xStream) throws IOException{
+		InputStreamReader requestReader = new InputStreamReader(ex.getRequestBody(),"utf-8");
+		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
+
+		int bytes;
+		StringBuilder request = new StringBuilder(1024);
+		while ((bytes = bufferedReqReader.read()) != -1) {
+			request.append((char) bytes);
+		}
+
+		bufferedReqReader.close();
+		requestReader.close();
+		
+		System.out.println(request.toString());
+
 		OutputStream responseStream = ex.getResponseBody();
 		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
 		byte [] bytearray  = new byte [(int)jsonFile.length()];
@@ -222,6 +279,20 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void useMonopoly(HttpExchange ex, XStream xStream) throws IOException{
+		InputStreamReader requestReader = new InputStreamReader(ex.getRequestBody(),"utf-8");
+		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
+
+		int bytes;
+		StringBuilder request = new StringBuilder(1024);
+		while ((bytes = bufferedReqReader.read()) != -1) {
+			request.append((char) bytes);
+		}
+
+		bufferedReqReader.close();
+		requestReader.close();
+		
+		System.out.println(request.toString());
+
 		OutputStream responseStream = ex.getResponseBody();
 		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
 		byte [] bytearray  = new byte [(int)jsonFile.length()];
@@ -237,6 +308,20 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void useMonument(HttpExchange ex, XStream xStream) throws IOException{
+		InputStreamReader requestReader = new InputStreamReader(ex.getRequestBody(),"utf-8");
+		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
+
+		int bytes;
+		StringBuilder request = new StringBuilder(1024);
+		while ((bytes = bufferedReqReader.read()) != -1) {
+			request.append((char) bytes);
+		}
+
+		bufferedReqReader.close();
+		requestReader.close();
+		
+		System.out.println(request.toString());
+
 		OutputStream responseStream = ex.getResponseBody();
 		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
 		byte [] bytearray  = new byte [(int)jsonFile.length()];
