@@ -21,6 +21,9 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.util.Scanner;
+import java.util.Arrays;
+import server.command.*;
 
 /**
  *
@@ -176,6 +179,16 @@ public class MovesHandler implements HttpHandler{
 		
 		System.out.println(request.toString());
 
+		Scanner scan = new Scanner(request.toString());
+		System.out.println(scan.next());
+		System.out.println(scan.next());
+		System.out.println(scan.next());
+		System.out.println(scan.next());
+		String[] args = new String[]{scan.next().toString()};
+		
+		BuyDevCard bdcObject = new BuyDevCard();
+		bdcObject.execute(args);
+		scan.close();
 
 		OutputStream responseStream = ex.getResponseBody();
 		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
@@ -206,6 +219,22 @@ public class MovesHandler implements HttpHandler{
 		
 		System.out.println(request.toString());
 
+		Scanner scan = new Scanner(request.toString());
+		System.out.println(scan.next());
+		System.out.println(scan.next());
+		System.out.println(scan.next());
+		System.out.println(scan.next());
+		String[] args = new String[3];
+		args[0]=scan.next().toString();
+		scan.next();
+		args[1] = scan.next().toString();
+		scan.next();
+		args[2] = scan.next().toString();
+		scan.close();
+		
+		YearOfPlenty yopObject = new YearOfPlenty();
+		yopObject.execute(args);
+
 		OutputStream responseStream = ex.getResponseBody();
 		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
 		byte [] bytearray  = new byte [(int)jsonFile.length()];
@@ -234,6 +263,35 @@ public class MovesHandler implements HttpHandler{
 		requestReader.close();
 		
 		System.out.println(request.toString());
+
+		Scanner scan = new Scanner(request.toString());
+		String[] args = new String[7];
+		System.out.println(scan.next());
+		System.out.println(scan.next());
+		System.out.println(scan.next());
+		System.out.println(scan.next());
+		args[0] = scan.next().toString();
+		scan.next();
+		scan.next();
+		scan.next();
+		args[1] = scan.next().toString();
+		System.out.println(scan.next());
+		args[2] = scan.next().toString();
+		System.out.println(scan.next());
+		args[3] = scan.next().toString();
+		scan.next();
+		scan.next();
+		scan.next();
+		scan.next();
+		args[4] = scan.next().toString();
+		scan.next();
+		args[5] = scan.next().toString();
+		scan.next();
+		args[6] = scan.next().toString();
+		scan.close();
+
+		RoadBuilding rbObject = new RoadBuilding();
+		rbObject.execute(args);
 
 		OutputStream responseStream = ex.getResponseBody();
 		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
@@ -264,6 +322,26 @@ public class MovesHandler implements HttpHandler{
 		
 		System.out.println(request.toString());
 
+		Scanner scan = new Scanner(request.toString());
+		String[] args = new String[4];
+		scan.next();
+		scan.next();
+		scan.next();
+		scan.next();
+		args[0] = scan.next();
+		scan.next();
+		args[1] = scan.next();
+		scan.next();
+		scan.next();
+		scan.next();
+		args[2] = scan.next();
+		scan.next();
+		args[3] = scan.next();
+		scan.close();
+
+		Soldier sObject = new Soldier();
+		sObject.execute(args);
+
 		OutputStream responseStream = ex.getResponseBody();
 		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
 		byte [] bytearray  = new byte [(int)jsonFile.length()];
@@ -292,6 +370,20 @@ public class MovesHandler implements HttpHandler{
 		requestReader.close();
 		
 		System.out.println(request.toString());
+		
+		Scanner scan = new Scanner(request.toString());
+		String[] args = new String[2];
+		scan.next();
+		scan.next();
+		scan.next();
+		scan.next();
+		args[1] = scan.next();
+		scan.next();
+		args[0] = scan.next();
+		scan.close();
+		
+		Monopoly mObject = new Monopoly();
+		mObject.execute(args);
 
 		OutputStream responseStream = ex.getResponseBody();
 		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
@@ -321,6 +413,19 @@ public class MovesHandler implements HttpHandler{
 		requestReader.close();
 		
 		System.out.println(request.toString());
+
+		Scanner scan = new Scanner(request.toString());
+		String[] args = new String[1];
+	
+		scan.next();
+		scan.next();
+		scan.next();
+		scan.next();
+		args[0] = scan.next();
+		scan.close();
+	
+		Monument monObject = new Monument();
+		monObject.execute(args);
 
 		OutputStream responseStream = ex.getResponseBody();
 		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
