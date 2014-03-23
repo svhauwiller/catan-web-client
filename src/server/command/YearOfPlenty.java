@@ -40,7 +40,7 @@ public class YearOfPlenty implements CommandTemplate {
 				gmod.getPlayer(playerNum).getResourceCardList().updateWood(1);
 			else if(args[i].compareTo("brick")==0)
 				gmod.getPlayer(playerNum).getResourceCardList().updateBrick(1);
-		}*/
+		}
 		return gmod;
 	}
     public void undo(){
