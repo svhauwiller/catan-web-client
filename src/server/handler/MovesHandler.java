@@ -23,7 +23,9 @@ import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.Scanner;
 import java.util.Arrays;
+import java.util.HashMap;
 import server.command.*;
+import server.JSONDataParser;
 
 /**
  *
@@ -458,6 +460,46 @@ public class MovesHandler implements HttpHandler{
 
 // parse/retrieve needed info
 // put that info in 
+
+		//Scanner scan = new Scanner(request.toString());
+		String[] args = new String[5];
+		int index = 0;
+		
+		HashMap<String, String> parsedRequest = JSONDataParser.parse(request.toString());
+		
+		/*while(scan.hasNext()){
+			String next = scan.next();
+			System.out.println(next == "\"playerIndex\":");
+			if(next.equals("\"playerIndex\":") ||
+				next.equals("\"x\":") ||
+				next.equals("\"y\":") ||
+				next.equals("\"direction\":") ||
+				next.equals("\"free\":")){
+				args[index] = scan.next();
+				System.out.println("ADD: " + args[index]);
+				index++;
+			}
+		}*/
+		/*System.out.println(scan.next());
+		System.out.println(scan.next());
+		System.out.println(scan.next());
+		System.out.println(scan.next());
+		System.out.println(scan.next());
+		System.out.println(scan.next());
+		System.out.println(scan.next());
+		System.out.println(scan.next());
+		System.out.println(scan.next());
+		System.out.println(scan.next());
+		System.out.println(scan.next());
+		System.out.println(scan.next());
+		System.out.println(scan.next());
+		System.out.println(scan.next());
+		//String[] args = new String[]{scan.next().toString()};
+		
+		//BuyDevCard bdcObject = new BuyDevCard();
+		//bdcObject.execute(args);
+		scan.close();*/
+
 
 		OutputStream responseStream = ex.getResponseBody();
 		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
