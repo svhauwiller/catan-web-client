@@ -59,6 +59,11 @@ public class ResourceCardList {
 		ore = amount;
 	}
 
+	public int getWheat(){
+		return wheat;
+	}
+
+
 	////////////////////////////////////////////UPDATE METHODS///////////////////////////////////////////////////////////
 	public void updateBrick(int amount){
 		brick += amount;
