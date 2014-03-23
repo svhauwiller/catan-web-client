@@ -4,41 +4,44 @@ import server.communication.GameModel;
 import java.util.*;
 
 public class YearOfPlenty implements CommandTemplate {
+	//args[0] = playerId;
+	//args[1] = resource1;
+	//args[2] = resource2;
     public GameModel execute(String[] args){
-		//MOSTLY SUDO CODE
-		//Will need to figure out the parameters because they will contain what resource needs to be taken
-
+		int playerNum = Integer.parseInt(args[0]);
+		GameModel gmod = GameModel.getInstance();
+		
 		//Take dev card away from current player
-		/*GameModel.getCurrentPlayer().getOldDevCards().updateYearOfPlenty(-1);
+		GameModel.getPlayer(playerNum).getOldDevCards().updateYearOfPlenty(-1);
 		
 		//take resources away from gamemodel bank
-		for(int i=0; i<2;i++){
+		for(int i=1; i<2;i++){
 			if(args[i].compareTo("wheat")==0)
-				GameModel.getBank().updateWheat(-1);
+				gmod.getBank().updateWheat(-1);
 			else if(args[i].compareTo("ore")==0)
-				GameModel.getBank().updateOre(-1);
+				gmod.getBank().updateOre(-1);
 			else if(args[i].compareTo("sheep")==0)
-				GameModel.getBank().updateSheep(-1);
+				gmod.getBank().updateSheep(-1);
 			else if(args[i].compareTo("wood")==0)
-				GameModel.getBank().updateWood(-1);
+				gmod.getBank().updateWood(-1);
 			else if(args[i].compareTo("brick")==0)
-				GameModel.getBank().updateBrick(-1);
+				gmod.getBank().updateBrick(-1);
 		}
 
 		//give resources to the player
-		for(int i=0; i<2; i++){
+		for(int i=1; i<2; i++){
 			if(args[i].compareTo("wheat")==0)
-				GameModel.getCurrentPlayer().getResourcesList().updateWheat(1);
+				gmod.getPlayer(playerNum).getResourceCardList().updateWheat(1);
 			else if(args[i].compareTo("ore")==0)
-				GameModel.getCurrentPlayer().getResourcesList().updateOre(1);
+				gmod.getPlayer(playerNum).getResourceCardList().updateOre(1);
 			else if(args[i].compareTo("sheep")==0)
-				GameModel.getCurrentPlayer().getResourcesList().updateSheep(1);
+				gmod.getPlayer(playerNum).getResourceCardList().updateSheep(1);
 			else if(args[i].compareTo("wood")==0)
-				GameModel.getCurrentPlayer().getResourcesList().updateWood(1);
+				gmod.getPlayer(playerNum).getResourceCardList().updateWood(1);
 			else if(args[i].compareTo("brick")==0)
-				GameModel.getCurrentPlayer().getResourcesList().updateBrick(1);
+				gmod.getPlayer(playerNum).getResourceCardList().updateBrick(1);
 		}*/
-return null;
+		return gmod;
 	}
     public void undo(){
 	
