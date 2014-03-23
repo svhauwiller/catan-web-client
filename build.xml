@@ -13,6 +13,8 @@
 	<property name="src.dir" location="src"/>
 	<!-- Directory containing testing source code -->
 	<property name="test.dir" location="test"/>
+	<property name="test-build.dir" location="test-build"/>
+	<property name="test-reports.dir" location="test-reports"/>
 	<!-- Directory where the Java compiler puts .class files -->
 	<property name="build.dir" location="build"/>
     <!-- Base output folder -->
@@ -23,6 +25,11 @@
     <property name="javalib.dir" location="libs"/>
     <!-- Jar file path/name from here -->
     <property name="jar.file" value="server.jar"/>
+
+    <property name="cobertura-home.dir" location="${javalib.dir}/cobertura-2.0.3"/>
+ 	<property name="coverage-build.dir" location="coverage-build"/>
+ 	<property name="coverage-reports.dir" location="coverage-reports"/>
+ 	<property name="coverage-data-file" location="${coverage-reports.dir}/cobertura.ser"/>
 
 
     <path id="lib-classpath">
@@ -35,6 +42,23 @@
 		<path refid="lib-classpath"/>
 		<pathelement location="${build.dir}"/>
 	</path>
+
+	<path id="cobertura-classpath">
+ 		<fileset dir="${cobertura-home.dir}">
+ 			<include name="**/*.jar" />
+ 		</fileset>
+ 		<fileset dir="${cobertura-home.dir}/lib">
+ 			<include name="**/*.jar" />
+ 		</fileset>
+ 	</path>
+
+	<path id="junit-classpath">
+ 		<fileset dir="${javalib.dir}">
+ 			<include name="junit-4.8.2.jar" />
+ 		</fileset>
+ 	</path>
+
+ 	<taskdef classpathref="cobertura-classpath" resource="tasks.properties"/>
 
 	<!-- TARGETS -->
 	<!-- ******* -->
@@ -72,16 +96,52 @@
 		</java>
 	</target>
 
+	<target name="cb-instrument" depends="compile" description="instrument class files for code coverage analysis">
+ 		<cobertura-instrument todir="${coverage-build.dir}" datafile="${coverage-data-file}">
+ 			<fileset dir="${build.dir}">
+ 				<include name="**/*.class"/>
+ 			</fileset>
+ 		</cobertura-instrument>
+ 	</target>
+
+ 	<target name="compile-tests" depends="cb-instrument" description="compile unit tests " >
+ 		<javac srcdir="${test.dir}" destdir="${test-build.dir}" debug="true">
+ 			<classpath>
+ 				<pathelement location="${coverage-build.dir}"/>
+ 				<pathelement location="${build.dir}"/>
+ 			</classpath>
+ 			<classpath refid="junit-classpath" />
+ 			<classpath refid="cobertura-classpath" />
+ 		</javac>
+ 	</target>
+
 	<target name="test" depends="compile" description="Runs unit tests on our server">
-		<java classname="server.ServerUnitTests" fork="yes">
-			<classpath>
-				<path refid="all-classpath"/>
-			</classpath>
-			<assertions>
-				<enable/>
-			</assertions>
-		</java>
+
+		<junit fork="no" printsummary="yes" haltonfailure="no">
+ 			<jvmarg value="-XX:-UseSplitVerifier"/>
+ 			<classpath>
+ 				<pathelement location="${coverage-build.dir}"/>
+ 				<pathelement location="${build.dir}"/>
+ 				<pathelement location="${test-build.dir}"/>
+ 			</classpath>
+ 			<classpath refid="cobertura-classpath" />
+ 			<classpath refid="junit-classpath" />
+ 
+ 			<sysproperty key="net.sourceforge.cobertura.datafile" value="${coverage-data-file}"/>
+ 
+ 			<formatter type="plain"/>
+ 
+ 			<batchtest fork="yes" todir="${test-reports.dir}">
+ 				<fileset dir="${test.dir}">
+ 					<include name="**/*.java"/>
+ 				</fileset>
+ 			</batchtest>
+ 		</junit>
+
+ 		<cobertura-report srcdir="${src.dir}" destdir="${coverage-reports.dir}" datafile="${coverage-data-file}"/>
 	</target>
+
+	
     
     <target name="make-js-doc" description="Parse and produce the javascript docs">
         <echo> Making javascript documentation</echo>
