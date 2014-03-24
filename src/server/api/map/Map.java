@@ -56,7 +56,9 @@ public class Map {
 	}
 	
 	public void moveRobber(Location hexLoc, int direction){
-		
+		robber.setX(hexLoc.getX());
+		robber.setY(hexLoc.getY());
+		robber.setDirection(direction);
 	}
 }
 
