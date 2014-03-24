@@ -55,10 +55,9 @@ public class Map {
 		hexGrid.updateVertexOwner(hexLoc, direction, ownerID);
 	}
 	
-	public void moveRobber(Location hexLoc, int direction){
+	public void moveRobber(Location hexLoc){
 		robber.setX(hexLoc.getX());
 		robber.setY(hexLoc.getY());
-		robber.setDirection(direction);
 	}
 }
 
