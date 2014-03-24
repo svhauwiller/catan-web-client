@@ -74,14 +74,25 @@
 		</java>
 	</target>
 
-	<target name="init" description="create build directories">
-		<tstamp/>
-		<mkdir dir="${build.dir}"/>
-	</target>
+	<target name="init">
+ 		<tstamp/>
+ 		<mkdir dir="${build.dir}"/>
+ 		<mkdir dir="${test-build.dir}"/>
+ 		<mkdir dir="${test-reports.dir}"/>
+ 		<mkdir dir="${coverage-build.dir}"/>
+ 		<mkdir dir="${coverage-reports.dir}"/>
+ 	</target>
+
+ 	<target name="clean" description="clean build files" >
+ 		<delete dir="${build.dir}"/>
+ 		<delete dir="${test-build.dir}"/>
+ 		<delete dir="${test-reports.dir}"/>
+ 		<delete dir="${coverage-build.dir}"/>
+ 		<delete dir="${coverage-reports.dir}"/>
+ 	</target>
 
 	<target name="compile" depends="init" description="compile the source code">
 		<javac srcdir="${src.dir}" classpathref="lib-classpath" destdir="${build.dir}" debug="true" includeantruntime="true" />
-		<javac srcdir="${test.dir}" classpathref="lib-classpath" destdir="${build.dir}" debug="true" includeantruntime="true" />
 	</target>
 
 	<target name="our-server" depends="compile" description="Runs our custom server">
@@ -115,10 +126,13 @@
  		</javac>
  	</target>
 
-	<target name="test" depends="compile" description="Runs unit tests on our server">
+	<target name="test" depends="compile-tests" description="Runs unit tests on our server">
 
 		<junit fork="no" printsummary="yes" haltonfailure="no">
  			<jvmarg value="-XX:-UseSplitVerifier"/>
+
+ 			<sysproperty key="net.sourceforge.cobertura.datafile" file="${coverage-data-file}"/>
+
  			<classpath>
  				<pathelement location="${coverage-build.dir}"/>
  				<pathelement location="${build.dir}"/>
@@ -126,8 +140,6 @@
  			</classpath>
  			<classpath refid="cobertura-classpath" />
  			<classpath refid="junit-classpath" />
- 
- 			<sysproperty key="net.sourceforge.cobertura.datafile" value="${coverage-data-file}"/>
  
  			<formatter type="plain"/>
  
