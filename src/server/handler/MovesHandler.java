@@ -566,18 +566,59 @@ System.out.println("response sent");
 	}
 
 	private void discardCards(HttpExchange ex, XStream xStream) throws IOException{
-		OutputStream responseStream = ex.getResponseBody();
-		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
-		byte [] bytearray  = new byte [(int)jsonFile.length()];
-		FileInputStream fis = new FileInputStream(jsonFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		bis.read(bytearray, 0, bytearray.length);
-		//GameModel response = new GameModel();
+		InputStreamReader requestReader = new InputStreamReader(ex.getRequestBody(),"utf-8");
+		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
 
-		//OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, jsonFile.length());
-		responseStream.write(bytearray,0,bytearray.length);
+		int bytes;
+		StringBuilder request = new StringBuilder(1024);
+		while ((bytes = bufferedReqReader.read()) != -1) {
+			request.append((char) bytes);
+		}
+
+		bufferedReqReader.close();
+		requestReader.close();
+		
+		System.out.println(request.toString());
+
+		JSONObject obj = new JSONObject(request.toString());
+		String[] args = new String[6];
+		args[0] = obj.optString("playerIndex");
+		JSONObject subObject = obj.getJSONObject("discardedCards");
+		args[1] = subObject.optString("brick");
+		args[2] = subObject.optString("ore");
+		args[3] = subObject.optString("sheep");
+		args[4] = subObject.optString("wheat");
+		args[5] = subObject.optString("wood");
+
+
+		DiscardCards discardCardsObj = new DiscardCards();
+		discardCardsObj.execute(args);
+		CommandList.recordCommand(discardCardsObj);
+
+		GameModel response = GameModel.getInstance();
+		OutputStream responseStream = ex.getResponseBody();
+		ex.sendResponseHeaders(200, xStream.toXML(response).length());
+		xStream.toXML(response, responseStream);
 		responseStream.close();
+
+
+
+
+		// OutputStream responseStream = ex.getResponseBody();
+		// File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
+		// byte [] bytearray  = new byte [(int)jsonFile.length()];
+		// FileInputStream fis = new FileInputStream(jsonFile);
+		// BufferedInputStream bis = new BufferedInputStream(fis);
+		// bis.read(bytearray, 0, bytearray.length);
+		// //GameModel response = new GameModel();
+
+
+
+
+		// //OutputStream responseStream = ex.getResponseBody();
+		// ex.sendResponseHeaders(200, jsonFile.length());
+		// responseStream.write(bytearray,0,bytearray.length);
+		// responseStream.close();
 	}
     
 }
