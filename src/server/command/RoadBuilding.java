@@ -17,6 +17,7 @@ public class RoadBuilding implements CommandTemplate {
 		int playerNum = Integer.parseInt(args[0]);
 		gmod.getPlayer(playerNum).getOldDevCards().updateRoadBuilding(-1);
 
+		//set the locations
 		Location spot1 = new Location(true);
 		Location spot2 = new Location(true);
 	
@@ -27,11 +28,10 @@ public class RoadBuilding implements CommandTemplate {
 		spot2.setX(Integer.parseInt(args[4]));
 		spot2.setY(Integer.parseInt(args[5]));
 		spot2.setDirection(args[6]);
-		//build both roads
 
-		Map map = new Map();
-		map.updateEdgeOwner(spot1, playerNum);
-		map.updateEdgeOwner(spot2, playerNum);
+		//build both roads
+		//gmod.getMap().updateEdgeOwner(spot1, playerNum);
+		//gmod.getMap().updateEdgeOwner(spot2, playerNum);
 		
 		
 		return null;

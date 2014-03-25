@@ -78,7 +78,7 @@ public class DevCardList {
 		soldier += amount;
 	}
 
-	public void updateRoadBuilder(int amount){
+	public void updateRoadBuilding(int amount){
 		roadBuilding += amount;
 	}
 	
