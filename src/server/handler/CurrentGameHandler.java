@@ -67,29 +67,27 @@ public class CurrentGameHandler implements HttpHandler{
 				throw new UnsupportedOperationException("\"" + methodName + "\" is not supported in this context.");
 		}
     }
-
-	private void getGameModel(HttpExchange ex, XStream xStream) throws IOException{
-		GameModel response = GameModel.getInstance();
+	
+	private void sendResponseObject(HttpExchange ex, XStream xStream, Object response) throws IOException{
 		OutputStream responseStream = ex.getResponseBody();
 		ex.sendResponseHeaders(200, xStream.toXML(response).length());
 		xStream.toXML(response, responseStream);
 		responseStream.close();
+	}
+
+	private void getGameModel(HttpExchange ex, XStream xStream) throws IOException{
+		GameModel response = GameModel.getInstance();
+		sendResponseObject(ex, xStream, response);
 	}
 
 	private void resetCurrentGame(HttpExchange ex, XStream xStream) throws IOException{
 		GameModel response = GameModel.reset();
-		OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, xStream.toXML(response).length());
-		xStream.toXML(response, responseStream);
-		responseStream.close();
+		sendResponseObject(ex, xStream, response);
 	}
 
 	private void getGameCommands(HttpExchange ex, XStream xStream) throws IOException{
 		ArrayList<CommandTemplate> response = CommandList.getExecutedCommands();
-		OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, xStream.toXML(response).length());
-		xStream.toXML(response, responseStream);
-		responseStream.close();
+		sendResponseObject(ex, xStream, response);
 	}
 
 	private void addAItoGame(HttpExchange ex, XStream xStream) throws IOException {

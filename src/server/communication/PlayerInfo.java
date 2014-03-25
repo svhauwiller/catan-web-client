@@ -23,6 +23,9 @@ public class PlayerInfo {
 		this.color = color;
 		this.id = id;
 		this.name = name;
+		System.out.println(color);
+		System.out.println(id);
+		System.out.println(name);
 	}
 	
 	public PlayerColor getColor(){
@@ -35,6 +38,10 @@ public class PlayerInfo {
 	
 	public String getName() {
 		return name;
+	}
+	
+	public void setColor(PlayerColor color){
+		this.color = color;
 	}
 	
 }

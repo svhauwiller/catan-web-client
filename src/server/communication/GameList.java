@@ -43,7 +43,11 @@ public class GameList {
 	}
 	
 	private void _addPlayerToGame(PlayerInfo player, int gameID) throws ServerException{
-		gameList.get(gameID).addPlayer(player);
+		if(gameID < gameList.size()){
+			gameList.get(gameID).addPlayer(player);
+		} else {
+			throw new ServerException("Invalid Game ID");
+		}
 	}
 	
 	

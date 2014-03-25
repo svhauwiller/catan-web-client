@@ -121,26 +121,19 @@ public class UserHandler implements HttpHandler{
 		responseStream.write(responseData);
 		responseStream.close();
 	}
-	private String exchangeToString(InputStream requestBody)
-	{
-		StringBuilder request = new StringBuilder();
-		try{
+	private String exchangeToString(InputStream requestBody) throws IOException{
 		InputStreamReader requestReader = new InputStreamReader(requestBody,"utf-8");
 		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
 
 		int bytes;
-		request = new StringBuilder(1024);
+		StringBuilder request = new StringBuilder(1024);
 		while ((bytes = bufferedReqReader.read()) != -1) {
 			request.append((char) bytes);
 		}
 
 		bufferedReqReader.close();
 		requestReader.close();
-		}
-		catch(Exception e)
-		{
-			
-		}
+		
 		return request.toString();
 	}
 }

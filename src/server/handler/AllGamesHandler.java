@@ -18,6 +18,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.PrintStream;
@@ -27,6 +28,9 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
 import server.FormDataParser;
+import server.JSONObject;
+import server.ServerException;
+import server.api.player.Player.PlayerColor;
 import server.communication.GameInfo;
 import server.communication.GameList;
 import server.communication.PlayerInfo;
@@ -67,75 +71,77 @@ public class AllGamesHandler implements HttpHandler {
 				throw new UnsupportedOperationException("\"" + methodName + "\" is not supported in this context.");
 		}
     }
+	
+	private String getRequestString(InputStream requestStream) throws IOException{
+		InputStreamReader requestReader = new InputStreamReader(requestStream,"utf-8");
+		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
+
+		int bytes;
+		StringBuilder request = new StringBuilder(1024);
+		while ((bytes = bufferedReqReader.read()) != -1) {
+			request.append((char) bytes);
+		}
+
+		bufferedReqReader.close();
+		requestReader.close();
+		
+		return request.toString();
+	}
+	
+	private void sendResponseObject(HttpExchange ex, XStream xStream, Object response) throws IOException{
+		OutputStream responseStream = ex.getResponseBody();
+		ex.sendResponseHeaders(200, xStream.toXML(response).length());
+		xStream.toXML(response, responseStream);
+		responseStream.close();
+	}
 
 	private void getGameList(HttpExchange ex, XStream xStream) throws IOException{
 		ArrayList<GameInfo> response = GameList.getGameList();
-		OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, xStream.toXML(response).length());
-		xStream.toXML(response, responseStream);
-		responseStream.close();
+		
+		sendResponseObject(ex, xStream, response);
 	}
 
 	private void createGame(HttpExchange ex, XStream xStream) throws IOException{
-		InputStreamReader requestReader = new InputStreamReader(ex.getRequestBody(),"utf-8");
-		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
-
-		int bytes;
-		StringBuilder request = new StringBuilder(1024);
-		while ((bytes = bufferedReqReader.read()) != -1) {
-			request.append((char) bytes);
-		}
-
-		bufferedReqReader.close();
-		requestReader.close();
-		
-		System.out.println(request.toString());
-		
-		HashMap<String, String> parsedRequest = FormDataParser.parse(request.toString());
+		HashMap<String, String> parsedRequest = FormDataParser.parse(getRequestString(ex.getRequestBody()));
 		
 		GameInfo response = GameList.addGame(parsedRequest.get("name"));
-		OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, xStream.toXML(response).length());
-		xStream.toXML(response, responseStream);
-		responseStream.close();
+		
+		sendResponseObject(ex, xStream, response);
 	}
 
 	private void joinGame(HttpExchange ex, XStream xStream) throws IOException {
-		InputStreamReader requestReader = new InputStreamReader(ex.getRequestBody(),"utf-8");
-		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
-
-		int bytes;
-		StringBuilder request = new StringBuilder(1024);
-		while ((bytes = bufferedReqReader.read()) != -1) {
-			request.append((char) bytes);
+		HashMap<String, String> parsedRequest = FormDataParser.parse(getRequestString(ex.getRequestBody()));
+		
+		String currentCookies = ex.getRequestHeaders().get("Cookie").get(0);
+		
+		HashMap<String, String> parsedCookies = new HashMap<>();
+		String[] dataElems = currentCookies.split(";");
+		for (String dataElem : dataElems) {
+			String[] keyValPair = dataElem.split("=");
+			parsedCookies.put(keyValPair[0].trim(), keyValPair[1].trim());
 		}
-
-		bufferedReqReader.close();
-		requestReader.close();
 		
-		System.out.println(request.toString());
-		
-		HashMap<String, String> parsedRequest = FormDataParser.parse(request.toString());
-		
-//		try{
-//			PlayerInfo player = new PlayerInfo(parsedRequest.get("color"));
-//			GameList.addplayerToGame(player, parsedRequest.get("id"));
-//		}
-
-		
-//		Headers responseHeaders = ex.getResponseHeaders();
-//		CookieManager cm = new CookieManager();
-//		responseHeaders.add("Set-Cookie", "catan.game=0");
-//		responseHeaders.add("Set-Cookie", "catan.user={\"name\":\"Sam\",\"password\":\"sam\",\"playerID\":0}");
-//		
-//		cm.put(ex.getRequestURI(), responseHeaders);
+		JSONObject obj = new JSONObject(parsedCookies.get("catan.user"));
 		
 		OutputStream responseStream = ex.getResponseBody();
-		String response = "Success! You have joined the game.";
-		byte[] responseData = response.getBytes(Charset.forName("utf-8"));
-		ex.sendResponseHeaders(200, response.length());
-		responseStream.write(responseData);
-		responseStream.close();
+		String response = "";
+		
+		try{
+			PlayerInfo player = new PlayerInfo(PlayerColor.valueOf(parsedRequest.get("color")), Integer.parseInt(obj.optString("playerID")), obj.optString("name"));
+			GameList.addPlayerToGame(player, Integer.parseInt(parsedRequest.get("id")));
+			response = "Success! You have joined the game.";
+			
+			Headers responseHeaders = ex.getResponseHeaders();
+			responseHeaders.add("Set-Cookie", "catan.game=" + parsedRequest.get("id") + "; path=/");
+		} catch (Exception e){
+			response = e.getMessage();
+		} finally {
+			byte[] responseData = response.getBytes(Charset.forName("utf-8"));
+			ex.sendResponseHeaders(200, response.length());
+			responseStream.write(responseData);
+			responseStream.close();
+		}
+		
 	}
     
 }

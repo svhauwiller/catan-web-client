@@ -26,6 +26,16 @@ public class GameInfo{
 		this.title = title;
 	}
 	
+	private boolean colorIsUnique(PlayerInfo testingPlayer){
+		for (PlayerInfo gamePlayer : players) {
+			if(!gamePlayer.getName().equals(testingPlayer.getName()) && 
+				gamePlayer.getColor().equals(testingPlayer.getColor())){
+				return false;
+			}
+		}
+		return true;
+	}
+	
 	public ArrayList<PlayerInfo> getPlayers(){
 		return players;
 	}
@@ -35,10 +45,18 @@ public class GameInfo{
 	}
 	
 	public void addPlayer(PlayerInfo player) throws ServerException{
-		if(players.size() < MAX_PLAYERS){
-			players.add(player);
+		if(players.size() >= MAX_PLAYERS){
+			throw new ServerException("Game is full.");
+		} else if (!colorIsUnique(player)){
+			throw new ServerException("Another player in this game is playing as this color.");
 		} else {
-			throw new ServerException("Game is full");
+			for (PlayerInfo gamePlayer : players) {
+				if(gamePlayer.getName().equals(player.getName())){
+					gamePlayer.setColor(player.getColor());
+					return;
+				}
+			}
+			players.add(player);
 		}
 	}
 }

@@ -17,6 +17,7 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Writer;
@@ -110,6 +111,29 @@ public class MovesHandler implements HttpHandler{
 				throw new UnsupportedOperationException("\"" + methodName + "\" is not supported in this context.");
 		}
     }
+	
+	private String getRequestString(InputStream requestStream) throws IOException{
+		InputStreamReader requestReader = new InputStreamReader(requestStream,"utf-8");
+		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
+
+		int bytes;
+		StringBuilder request = new StringBuilder(1024);
+		while ((bytes = bufferedReqReader.read()) != -1) {
+			request.append((char) bytes);
+		}
+
+		bufferedReqReader.close();
+		requestReader.close();
+		
+		return request.toString();
+	}
+	
+	private void sendResponseObject(HttpExchange ex, XStream xStream, Object response) throws IOException{
+		OutputStream responseStream = ex.getResponseBody();
+		ex.sendResponseHeaders(200, xStream.toXML(response).length());
+		xStream.toXML(response, responseStream);
+		responseStream.close();
+	}
 
 	private void updateChatLog(HttpExchange ex, XStream xStream) throws IOException{
 		OutputStream responseStream = ex.getResponseBody();
@@ -157,37 +181,21 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void finishTurn(HttpExchange ex, XStream xStream) throws IOException{
-		OutputStream responseStream = ex.getResponseBody();
-		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
-		byte [] bytearray  = new byte [(int)jsonFile.length()];
-		FileInputStream fis = new FileInputStream(jsonFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		bis.read(bytearray, 0, bytearray.length);
-		//GameModel response = new GameModel();
-
-		//OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, jsonFile.length());
-		responseStream.write(bytearray,0,bytearray.length);
-		responseStream.close();
+		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
+		String[] args = new String[2];
+		args[0] = obj.optString("type");
+		args[1] = obj.optString("playerIndex");
+		
+		FinishTurn finishTurnAction = new FinishTurn();
+		finishTurnAction.execute(args);
+		CommandList.recordCommand(finishTurnAction);
+		
+		GameModel response = GameModel.getInstance();
+		sendResponseObject(ex, xStream, response);
 	}
 
 	private void getNewDevCard(HttpExchange ex, XStream xStream) throws IOException{
-		InputStreamReader requestReader = new InputStreamReader(ex.getRequestBody(),"utf-8");
-		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
-
-		int bytes;
-		StringBuilder request = new StringBuilder(1024);
-		while ((bytes = bufferedReqReader.read()) != -1) {
-			request.append((char) bytes);
-		}
-
-		
-		bufferedReqReader.close();
-		requestReader.close();
-		
-		System.out.println(request.toString());
-
-		Scanner scan = new Scanner(request.toString());
+		Scanner scan = new Scanner(getRequestString(ex.getRequestBody()));
 		System.out.println(scan.next());
 		System.out.println(scan.next());
 		System.out.println(scan.next());
@@ -215,21 +223,7 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void useYearOfPlenty(HttpExchange ex, XStream xStream) throws IOException{
-		InputStreamReader requestReader = new InputStreamReader(ex.getRequestBody(),"utf-8");
-		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
-
-		int bytes;
-		StringBuilder request = new StringBuilder(1024);
-		while ((bytes = bufferedReqReader.read()) != -1) {
-			request.append((char) bytes);
-		}
-
-		bufferedReqReader.close();
-		requestReader.close();
-		
-		System.out.println(request.toString());
-
-		Scanner scan = new Scanner(request.toString());
+		Scanner scan = new Scanner(getRequestString(ex.getRequestBody()));
 		System.out.println(scan.next());
 		System.out.println(scan.next());
 		System.out.println(scan.next());
@@ -260,21 +254,7 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void useRoadBuilding(HttpExchange ex, XStream xStream) throws IOException{
-		InputStreamReader requestReader = new InputStreamReader(ex.getRequestBody(),"utf-8");
-		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
-
-		int bytes;
-		StringBuilder request = new StringBuilder(1024);
-		while ((bytes = bufferedReqReader.read()) != -1) {
-			request.append((char) bytes);
-		}
-
-		bufferedReqReader.close();
-		requestReader.close();
-		
-		System.out.println(request.toString());
-
-		Scanner scan = new Scanner(request.toString());
+		Scanner scan = new Scanner(getRequestString(ex.getRequestBody()));
 		String[] args = new String[7];
 		System.out.println(scan.next());
 		System.out.println(scan.next());
@@ -318,21 +298,7 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void useSoldier(HttpExchange ex, XStream xStream) throws IOException{
-		InputStreamReader requestReader = new InputStreamReader(ex.getRequestBody(),"utf-8");
-		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
-
-		int bytes;
-		StringBuilder request = new StringBuilder(1024);
-		while ((bytes = bufferedReqReader.read()) != -1) {
-			request.append((char) bytes);
-		}
-
-		bufferedReqReader.close();
-		requestReader.close();
-		
-		System.out.println(request.toString());
-
-		Scanner scan = new Scanner(request.toString());
+		Scanner scan = new Scanner(getRequestString(ex.getRequestBody()));
 		String[] args = new String[4];
 		scan.next();
 		scan.next();
@@ -367,21 +333,7 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void useMonopoly(HttpExchange ex, XStream xStream) throws IOException{
-		InputStreamReader requestReader = new InputStreamReader(ex.getRequestBody(),"utf-8");
-		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
-
-		int bytes;
-		StringBuilder request = new StringBuilder(1024);
-		while ((bytes = bufferedReqReader.read()) != -1) {
-			request.append((char) bytes);
-		}
-
-		bufferedReqReader.close();
-		requestReader.close();
-		
-		System.out.println(request.toString());
-		
-		Scanner scan = new Scanner(request.toString());
+		Scanner scan = new Scanner(getRequestString(ex.getRequestBody()));
 		String[] args = new String[2];
 		scan.next();
 		scan.next();
@@ -410,21 +362,7 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void useMonument(HttpExchange ex, XStream xStream) throws IOException{
-		InputStreamReader requestReader = new InputStreamReader(ex.getRequestBody(),"utf-8");
-		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
-
-		int bytes;
-		StringBuilder request = new StringBuilder(1024);
-		while ((bytes = bufferedReqReader.read()) != -1) {
-			request.append((char) bytes);
-		}
-
-		bufferedReqReader.close();
-		requestReader.close();
-		
-		System.out.println(request.toString());
-
-		Scanner scan = new Scanner(request.toString());
+		Scanner scan = new Scanner(getRequestString(ex.getRequestBody()));
 		String[] args = new String[1];
 	
 		scan.next();
@@ -452,21 +390,7 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void buildRoad(HttpExchange ex, XStream xStream) throws IOException{
-		InputStreamReader requestReader = new InputStreamReader(ex.getRequestBody(),"utf-8");
-		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
-
-		int bytes;
-		StringBuilder request = new StringBuilder(1024);
-		while ((bytes = bufferedReqReader.read()) != -1) {
-			request.append((char) bytes);
-		}
-
-		bufferedReqReader.close();
-		requestReader.close();
-		
-		//System.out.println(request.toString());
-
-		JSONObject obj = new JSONObject(request.toString());
+		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
 		String[] args = new String[5];
 		args[0] = obj.optString("playerIndex");
 		JSONObject subObject = obj.getJSONObject("roadLocation");
@@ -483,10 +407,7 @@ System.out.println("executed");
 		CommandList.recordCommand(buildRoadObj);
 System.out.println("recorded");
 		GameModel response = GameModel.getInstance();
-		OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, xStream.toXML(response).length());
-		xStream.toXML(response, responseStream);
-		responseStream.close();
+		sendResponseObject(ex, xStream, response);
 System.out.println("response sent");
 	}
 
@@ -566,21 +487,7 @@ System.out.println("response sent");
 	}
 
 	private void discardCards(HttpExchange ex, XStream xStream) throws IOException{
-		InputStreamReader requestReader = new InputStreamReader(ex.getRequestBody(),"utf-8");
-		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
-
-		int bytes;
-		StringBuilder request = new StringBuilder(1024);
-		while ((bytes = bufferedReqReader.read()) != -1) {
-			request.append((char) bytes);
-		}
-
-		bufferedReqReader.close();
-		requestReader.close();
-		
-		System.out.println(request.toString());
-
-		JSONObject obj = new JSONObject(request.toString());
+		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
 		String[] args = new String[6];
 		args[0] = obj.optString("playerIndex");
 		JSONObject subObject = obj.getJSONObject("discardedCards");
@@ -596,29 +503,7 @@ System.out.println("response sent");
 		CommandList.recordCommand(discardCardsObj);
 
 		GameModel response = GameModel.getInstance();
-		OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, xStream.toXML(response).length());
-		xStream.toXML(response, responseStream);
-		responseStream.close();
-
-
-
-
-		// OutputStream responseStream = ex.getResponseBody();
-		// File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
-		// byte [] bytearray  = new byte [(int)jsonFile.length()];
-		// FileInputStream fis = new FileInputStream(jsonFile);
-		// BufferedInputStream bis = new BufferedInputStream(fis);
-		// bis.read(bytearray, 0, bytearray.length);
-		// //GameModel response = new GameModel();
-
-
-
-
-		// //OutputStream responseStream = ex.getResponseBody();
-		// ex.sendResponseHeaders(200, jsonFile.length());
-		// responseStream.write(bytearray,0,bytearray.length);
-		// responseStream.close();
+		sendResponseObject(ex, xStream, response);
 	}
     
 }
