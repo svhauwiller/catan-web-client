@@ -452,8 +452,6 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void buildRoad(HttpExchange ex, XStream xStream) throws IOException{
-
-System.out.println("Hi, I'm MovesHandler.");
 		InputStreamReader requestReader = new InputStreamReader(ex.getRequestBody(),"utf-8");
 		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
 
@@ -466,7 +464,7 @@ System.out.println("Hi, I'm MovesHandler.");
 		bufferedReqReader.close();
 		requestReader.close();
 		
-		System.out.println(">>"+request.toString());
+		System.out.println(request.toString());
 
 		JSONObject obj = new JSONObject(request.toString());
 		String[] args = new String[5];
@@ -479,18 +477,12 @@ System.out.println("Hi, I'm MovesHandler.");
 
 		BuildRoad buildRoadObj = new BuildRoad();
 		buildRoadObj.execute(args);
+		CommandList.recordCommand(buildRoadObj);
 
+		GameModel response = GameModel.getInstance();
 		OutputStream responseStream = ex.getResponseBody();
-		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
-		byte [] bytearray  = new byte [(int)jsonFile.length()];
-		FileInputStream fis = new FileInputStream(jsonFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		bis.read(bytearray, 0, bytearray.length);
-		//GameModel response = new GameModel();
-
-		//OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, jsonFile.length());
-		responseStream.write(bytearray,0,bytearray.length);
+		ex.sendResponseHeaders(200, xStream.toXML(response).length());
+		xStream.toXML(response, responseStream);
 		responseStream.close();
 	}
 
