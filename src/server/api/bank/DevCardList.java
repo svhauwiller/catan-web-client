@@ -85,4 +85,8 @@ public class DevCardList {
 	public void updateMonument(int amount){
 		monument += amount;
 	}
+	
+	public int getTotal(){
+		return getMonument() + getRoadBuilding() + getMonopoly() + getYearOfPlenty() + getSoldier();
+	}
 }

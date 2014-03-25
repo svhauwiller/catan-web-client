@@ -49,7 +49,7 @@ public class GameModel {
 		this.bank = new ResourceCardList();
 		this.biggestArmy = -1;
 		this.chat = new MessageList();
-		this.deck = new DevCardList();
+		this.deck = new DevCardList("bank");
 		this.log = new MessageList();
 		this.longestRoad = -1;
 		this.map = new Map();
