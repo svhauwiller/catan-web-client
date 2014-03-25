@@ -2,6 +2,7 @@ package server.handler;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
+import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.thoughtworks.xstream.XStream;
@@ -20,12 +21,16 @@ import java.io.PrintStream;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 
 import server.FormDataParser;
 import server.ProductionModule;
 import server.ServerException;
-import server.api.utils.iUserLogin;
+import server.api.player.Player;
+import server.api.utils.*;
+import server.communication.GameModel;
 
 
 
@@ -51,9 +56,11 @@ public class UserHandler implements HttpHandler{
 		});
         
         //Google Guice here; put specific iUserLogin class name below
+        				System.out.println("Pre-juice");
         Injector injector = Guice.createInjector(new ProductionModule());
+        				System.out.println("Mid-juice");
         iUserLogin theUser = injector.getInstance(iUserLogin.class);
-        
+        				System.out.println("Post-juice");
 		String methodName = ex.getRequestURI().getPath().substring(6);
 		switch(methodName){
 			case "login":
@@ -77,13 +84,20 @@ public class UserHandler implements HttpHandler{
 
 		boolean validUserHuh = theUser.validateUserLogin(requestData);
 		OutputStream responseStream = ex.getResponseBody();
+		Headers responseHeaders = ex.getResponseHeaders();
+
 		if(validUserHuh){
 			String response = "Success";
 			responseData = response.getBytes(Charset.forName("utf-8"));
 			ex.sendResponseHeaders(200, response.length());
+			//get player information and set Cookie
+			Player currentPlayer = GameModel.getPlayerByName(requestData.get("username"));
+			responseHeaders.add("catan.user", "{\"name\":\""+requestData.get("username")
+					+"\",\"password\":\""+requestData.get("password")
+					+"\",\"playerID\":"+currentPlayer.getUserID()+"}");
 		}
 		else{
-			String response = "Falure";
+			String response = "Failure";
 			responseData = response.getBytes(Charset.forName("utf-8"));
 		}
 		responseStream.write(responseData);
@@ -93,11 +107,13 @@ public class UserHandler implements HttpHandler{
 	private void registerUser(HttpExchange ex, XStream xStream, iUserLogin theUser) throws IOException {
 		String request = exchangeToString(ex.getRequestBody());
 		HashMap<String, String> requestData = new HashMap<>();
+		System.out.println("Pre-parse");
 		requestData = FormDataParser.parse(request);
-		
+		System.out.println("UserHandler pre-call");
 		theUser.registerUser(requestData); 
 		
 		OutputStream responseStream = ex.getResponseBody();
+
 		String response = "Success";
 		byte[] responseData = response.getBytes(Charset.forName("utf-8"));
 		ex.sendResponseHeaders(200, response.length());

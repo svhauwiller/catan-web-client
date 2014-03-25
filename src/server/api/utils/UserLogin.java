@@ -9,6 +9,7 @@ package server.api.utils;
 //package server.api.utils;
 
 import java.util.HashMap;
+import com.google.inject.Inject;
 
 /**
  *
@@ -17,12 +18,16 @@ import java.util.HashMap;
 public class UserLogin implements iUserLogin{
 	private HashMap<String, String> validUsers;
 	
-	//@Inject
+	@Inject
 	public UserLogin(){
 		validUsers.put("Sam", "sam");
 		validUsers.put("Brooke", "brooke");
 		validUsers.put("Pete", "pete");
 		validUsers.put("Mark", "mark");
+		validUsers.put("Herman", "herman");
+		validUsers.put("Frodo", "frodo");
+		validUsers.put("BigMcLargeHuge", "big");
+		validUsers.put("Thelma", "thelma");
 	}
 	
 	public HashMap<String, String> getValidUsers() {

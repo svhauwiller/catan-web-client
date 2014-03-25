@@ -60,6 +60,14 @@ public class Player {
 	public ResourceCardList getResourceCardList(){
 		return resources;
 	}
+	
+	public String getName(){
+		return name;
+	}
+	
+	public int getUserID(){
+		return playerID;
+	}
         
         public DevCardList getOldDevCards(){
             return oldDevCards;

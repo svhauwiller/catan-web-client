@@ -9,10 +9,12 @@ package server.communication;
 import server.api.utils.TradeOffer;
 import server.api.utils.TurnTracker;
 import server.api.player.Player;
+import server.api.player.Player.PlayerColor;
 import server.api.utils.MessageList;
 import server.api.map.Map;
 import server.api.bank.ResourceCardList;
 import server.api.bank.DevCardList;
+
 import java.util.ArrayList;
 
 /**
@@ -118,6 +120,17 @@ public class GameModel {
 	private Player _getPlayer(int playerNumber) {
 		return players.get(playerNumber);
 	}
+	
+	private Player _getPlayerByName(String playerName)
+	{
+		for(Player p : players)
+		{
+			if(playerName.equalsIgnoreCase(p.getName())){
+				return p;
+			}
+		}
+		return new Player(-10, new PlayerInfo(PlayerColor.blue,100,"FAIL"));
+	}
 
 	/**
 	 * @return the revision
@@ -157,6 +170,7 @@ public class GameModel {
 	public static int getLongestRoad(){return instance()._getLongestRoad();}
 	public static Map getMap(){return instance()._getMap();}
 	public static Player getPlayer(int playerNumber){return instance()._getPlayer(playerNumber);}
+	public static Player getPlayerByName(String playerName){return instance()._getPlayerByName(playerName);}
 	public static int getRevision(){return instance()._getRevision();}
 	public static TradeOffer getTradeOffer(){return instance()._getTradeOffer();}
 	public static TurnTracker getTurnTracker(){return instance()._getTurnTracker();}

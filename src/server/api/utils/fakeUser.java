@@ -10,6 +10,8 @@ package server.api.utils;
 
 import java.util.HashMap;
 
+import com.google.inject.Inject;
+
 /**
  *
  * @author Wesley
@@ -17,7 +19,7 @@ import java.util.HashMap;
 public class fakeUser implements iUserLogin{
 	private HashMap<String, String> validUsers;
 	
-	//@Inject
+	@Inject
 	public fakeUser(){
 		validUsers.put("Herman", "herman");
 		validUsers.put("Frodo", "frodo");
