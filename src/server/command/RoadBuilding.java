@@ -33,7 +33,7 @@ public class RoadBuilding implements CommandTemplate {
 		//GameModel.getMap().updateEdgeOwner(spot2, playerNum);
 		
 		
-		return GameModel;
+		return null;
 	}
 	public void undo(){}
 }
