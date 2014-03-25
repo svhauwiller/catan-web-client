@@ -8,7 +8,7 @@ public class BuyDevCard implements CommandTemplate{
 	private int x= -1;
 	private int playerNum=-1;
 	//args[0] = Playerid
-	@override
+	@Override
 	public GameModel execute(String[] args){
 		playerNum = Integer.parseInt(args[0]);
 		//This is mostly sudo code and will need to be changed in accordance with the actual methods that have yet to be made
@@ -73,7 +73,7 @@ public class BuyDevCard implements CommandTemplate{
 		return null;
 	}
 	
-	@override
+	@Override
 	public void undo(){
 		//This is mostly sudo code and will need to be changed in accordance with the actual methods that have yet to be made
 		//And because im not 100% sure what the args are

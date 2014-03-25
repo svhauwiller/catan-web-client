@@ -9,7 +9,7 @@ public class Soldier implements CommandTemplate {
 	//args[1] = victim player id
 	//args[2] = x location
 	//args[3] = y location
-	@override
+	@Override
 	public GameModel execute(String[] args){
 		int playerNum = Integer.parseInt(args[0]);
 		int vicNum = Integer.parseInt(args[1]);
@@ -68,6 +68,6 @@ public class Soldier implements CommandTemplate {
 	return null;
 	}
 	
-	@override
+	@Override
 	public void undo(){}
 }
