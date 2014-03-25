@@ -8,6 +8,7 @@ package server.communication;
 
 import java.util.ArrayList;
 import server.ServerException;
+import server.api.player.Player;
 
 /**
  *
@@ -50,13 +51,16 @@ public class GameInfo{
 		} else if (!colorIsUnique(player)){
 			throw new ServerException("Another player in this game is playing as this color.");
 		} else {
-			for (PlayerInfo gamePlayer : players) {
-				if(gamePlayer.getName().equals(player.getName())){
-					gamePlayer.setColor(player.getColor());
+			for (int i = 0; i < players.size(); i++) {
+				if(players.get(i).getName().equals(player.getName())){
+					players.get(i).setColor(player.getColor());
+					GameModel.getPlayer(i).setColor(player.getColor());
 					return;
 				}
 			}
 			players.add(player);
+			Player playerData = new Player(players.size() - 1, player);
+			GameModel.addPlayer(playerData);
 		}
 	}
 }

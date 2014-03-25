@@ -27,6 +27,7 @@ public class FinishTurn implements CommandTemplate {
 		int currentTurn = GameModel.getTurnTracker().getCurrentTurn();
 		GameModel.getTurnTracker().setCurrentTurn((currentTurn + 1) % 4);
 		GameModel.getTurnTracker().setStatus("Rolling");
+		GameModel.incrementRevision();
 		
 		return null;
 	}

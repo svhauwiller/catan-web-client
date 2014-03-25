@@ -472,18 +472,20 @@ System.out.println("response sent");
 	}
 
 	private void tradeWithBank(HttpExchange ex, XStream xStream) throws IOException{
-		OutputStream responseStream = ex.getResponseBody();
-		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
-		byte [] bytearray  = new byte [(int)jsonFile.length()];
-		FileInputStream fis = new FileInputStream(jsonFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		bis.read(bytearray, 0, bytearray.length);
-		//GameModel response = new GameModel();
-
-		//OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, jsonFile.length());
-		responseStream.write(bytearray,0,bytearray.length);
-		responseStream.close();
+		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
+		String[] args = new String[5];
+		args[0] = obj.optString("type");
+		args[1] = obj.optString("playerIndex");
+		args[2] = obj.optString("ratio");
+		args[3] = obj.optString("inputResource").toLowerCase();
+		args[4] = obj.optString("outputResource").toLowerCase();
+		
+		MaritimeTrade maritimeTradeAction = new MaritimeTrade();
+		maritimeTradeAction.execute(args);
+		CommandList.recordCommand(maritimeTradeAction);
+		
+		GameModel response = GameModel.getInstance();
+		sendResponseObject(ex, xStream, response);
 	}
 
 	private void discardCards(HttpExchange ex, XStream xStream) throws IOException{

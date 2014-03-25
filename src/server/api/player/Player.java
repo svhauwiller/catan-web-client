@@ -98,6 +98,10 @@ public class Player {
             victoryPoints += in;
         }
 	
+	public void setColor(PlayerColor color){
+		this.color = color;
+	}
+	
 	
 	
 	
