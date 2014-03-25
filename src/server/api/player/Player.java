@@ -38,6 +38,7 @@ public class Player {
 	private int victoryPoints;
 	
 	public Player(int orderNumberIn, PlayerInfo playerInfoIn){
+		System.out.println("Player constructor");
 		cities = 4;
 		color = playerInfoIn.getColor();
 		discarded = false;

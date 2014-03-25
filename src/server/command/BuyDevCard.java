@@ -44,6 +44,7 @@ public class BuyDevCard implements CommandTemplate{
 			else if(x == 1){
 				//be Monopoly
 				if(GameModel.getDeck().getMonopoly()!=0){
+					taken = true;
 					GameModel.getPlayer(playerNum).getNewDevCards().updateMonopoly(1);
 					GameModel.getDeck().updateMonopoly(-1);
 				}
@@ -51,6 +52,7 @@ public class BuyDevCard implements CommandTemplate{
 			else if(x==2){
 				//be Soldier
 				if(GameModel.getDeck().getSoldier()!=0){
+					taken = true;
 					GameModel.getPlayer(playerNum).getNewDevCards().updateSoldier(1);
 					GameModel.getDeck().updateSoldier(-1);
 				}
@@ -58,6 +60,7 @@ public class BuyDevCard implements CommandTemplate{
 			else if(x==3){
 				//be RoadBuilding
 				if(GameModel.getDeck().getRoadBuilding()!=0){
+					taken = true;
 					GameModel.getPlayer(playerNum).getNewDevCards().updateRoadBuilding(1);
 					GameModel.getDeck().updateRoadBuilding(-1);
 				}
@@ -65,6 +68,7 @@ public class BuyDevCard implements CommandTemplate{
 			else if(x==4){
 				//be monument
 				if(GameModel.getDeck().getMonument()!=0){
+					taken = true;
 					GameModel.getPlayer(playerNum).getNewDevCards().updateMonument(1);
 					GameModel.getDeck().updateMonument(-1);
 				}

@@ -46,6 +46,7 @@ public class GameModel {
 	private int winner;
 	
 	private GameModel(){
+		System.out.println("gameModel constructor");
 		this.bank = new ResourceCardList("bank");
 		this.biggestArmy = -1;
 		this.chat = new MessageList();

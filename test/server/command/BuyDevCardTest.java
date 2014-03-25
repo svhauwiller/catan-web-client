@@ -30,7 +30,7 @@ public class BuyDevCardTest{
 		
 		String[] args = new String[]{"0"};
 		bdcObject.execute(args);
-		
+		System.out.println("Hello dane");
 		assertEquals(GameModel.getPlayer(0).getOldDevCards().getTotal() + GameModel.getPlayer(0).getNewDevCards().getTotal(), 1);
 	}
 	
