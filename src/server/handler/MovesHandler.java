@@ -21,12 +21,16 @@ import java.io.InputStreamReader;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 import java.util.Arrays;
 import java.util.HashMap;
 import server.command.*;
 import server.JSONDataParser;
 import server.communication.*;
+import server.JSONArray;
+import server.JSONObject;
 
 /**
  *
@@ -462,60 +466,23 @@ public class MovesHandler implements HttpHandler{
 		
 		System.out.println(request.toString());
 
-// parse/retrieve needed info
-// put that info in 
-
-		//Scanner scan = new Scanner(request.toString());
+		JSONObject obj = new JSONObject(request.toString());
 		String[] args = new String[5];
-		int index = 0;
-		
-		HashMap<String, String> parsedRequest = JSONDataParser.parse(request.toString());
-		
-		/*while(scan.hasNext()){
-			String next = scan.next();
-			System.out.println(next == "\"playerIndex\":");
-			if(next.equals("\"playerIndex\":") ||
-				next.equals("\"x\":") ||
-				next.equals("\"y\":") ||
-				next.equals("\"direction\":") ||
-				next.equals("\"free\":")){
-				args[index] = scan.next();
-				System.out.println("ADD: " + args[index]);
-				index++;
-			}
-		}*/
-		/*System.out.println(scan.next());
-		System.out.println(scan.next());
-		System.out.println(scan.next());
-		System.out.println(scan.next());
-		System.out.println(scan.next());
-		System.out.println(scan.next());
-		System.out.println(scan.next());
-		System.out.println(scan.next());
-		System.out.println(scan.next());
-		System.out.println(scan.next());
-		System.out.println(scan.next());
-		System.out.println(scan.next());
-		System.out.println(scan.next());
-		System.out.println(scan.next());
-		//String[] args = new String[]{scan.next().toString()};
-		
-		//BuyDevCard bdcObject = new BuyDevCard();
-		//bdcObject.execute(args);
-		scan.close();*/
+		args[0] = obj.optString("playerIndex");
+		JSONObject subObject = obj.getJSONObject("roadLocation");
+		args[1] = subObject.optString("x");
+		args[2] = subObject.optString("y");
+		args[3] = subObject.optString("direction");
+		args[4] = obj.optString("free");
 
+		BuildRoad buildRoadObj = new BuildRoad();
+		buildRoadObj.execute(args);
+		CommandList.recordCommand(buildRoadObj);
 
+		GameModel response = GameModel.getInstance();
 		OutputStream responseStream = ex.getResponseBody();
-		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
-		byte [] bytearray  = new byte [(int)jsonFile.length()];
-		FileInputStream fis = new FileInputStream(jsonFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		bis.read(bytearray, 0, bytearray.length);
-		//GameModel response = new GameModel();
-
-		//OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, jsonFile.length());
-		responseStream.write(bytearray,0,bytearray.length);
+		ex.sendResponseHeaders(200, xStream.toXML(response).length());
+		xStream.toXML(response, responseStream);
 		responseStream.close();
 	}
 
