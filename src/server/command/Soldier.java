@@ -64,7 +64,7 @@ public class Soldier implements CommandTemplate {
 				}
 			}
 		}
-		return GameModel;
+		return GameModel.getInstance();
 	}
 	public void undo(){}
 }

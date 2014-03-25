@@ -174,6 +174,10 @@ public class GameModel {
 		this.longestRoad = longestRoad;
 	}
 	
+	private void _addPlayer(Player newPlayer){
+		this.players.add(newPlayer);
+	}
+	
 	private void _incrementRevision(){
 		this.revision++;
 	}
@@ -202,6 +206,7 @@ public class GameModel {
 	public static int getWinner(){return instance()._getWinner();}
 	public static void setBiggestArmy(int playerID){instance()._setBiggestArmy(playerID);}
 	public static void setLongestRoad(int playerID){instance()._setLongestRoad(playerID);}
+	public static void addPlayer(Player newPlayer){instance()._addPlayer(newPlayer);}
 	public static void incrementRevision(){instance()._incrementRevision();}
 	public static void setWinner(int playerID){instance()._setWinner(playerID);}
 }
