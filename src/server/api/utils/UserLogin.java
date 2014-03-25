@@ -20,6 +20,7 @@ public class UserLogin implements iUserLogin{
 	
 	@Inject
 	public UserLogin(){
+		validUsers = new HashMap<>();
 		validUsers.put("Sam", "sam");
 		validUsers.put("Brooke", "brooke");
 		validUsers.put("Pete", "pete");

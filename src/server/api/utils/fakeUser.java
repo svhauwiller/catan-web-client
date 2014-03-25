@@ -21,6 +21,7 @@ public class fakeUser implements iUserLogin{
 	
 	@Inject
 	public fakeUser(){
+		validUsers = new HashMap<>();
 		validUsers.put("Herman", "herman");
 		validUsers.put("Frodo", "frodo");
 		validUsers.put("BigMcLargeHuge", "big");
