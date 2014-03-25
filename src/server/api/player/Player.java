@@ -45,8 +45,8 @@ public class Player {
 		longestRoad = false;
 		monuments = 0;
 		name = playerInfoIn.getName();
-		newDevCards = new DevCardList();
-		oldDevCards = new DevCardList();
+		newDevCards = new DevCardList("player");
+		oldDevCards = new DevCardList("player");
 		orderNumber = orderNumberIn;
 		playedDevCard = false;
 		playerID = 0;
