@@ -19,7 +19,9 @@ import server.api.player.Player.PlayerColor;
  */
 public class GameListTests {
 	@Before
-    public void setup(){}
+    public void setup(){
+		GameList.getGameList().clear();
+	}
     
     @After
     public void teardown(){}
@@ -37,16 +39,31 @@ public class GameListTests {
 	
 	@Test
 	public void joinGameTest() throws ServerException{
-		assertFalse(GameList.getGameList().isEmpty());
-		assertEquals(GameList.getGameList().get(0).getTitle(), "NewGame");
-		
+		assertTrue(GameList.getGameList().isEmpty());
+		GameList.addGame("NewGame");
 		GameInfo game = GameList.getGameList().get(0);
-		
 		assertTrue(game.getPlayers().isEmpty());
 		
-		game.addPlayer(new PlayerInfo(PlayerColor.orange, 0, "Sam"));
+		GameList.addPlayerToGame(new PlayerInfo(PlayerColor.orange, 0, "Sam"), 0);
 		
-		assertFalse(game.getPlayers().isEmpty());
-		assertEquals(game.getPlayers().get(0).getName(), "Sam");
+		assertFalse(GameList.getGameList().get(0).getPlayers().isEmpty());
+		assertEquals(GameList.getGameList().get(0).getPlayers().get(0).getName(), "Sam");
+		assertEquals(GameList.getGameList().get(0).getPlayers().get(0).getColor(), PlayerColor.orange);
+		assertEquals(GameList.getGameList().get(0).getPlayers().get(0).getId(), 0);
 	}
+	
+	@Test(expected=ServerException.class)
+	public void tooManyPlayersTest() throws ServerException{
+		assertTrue(GameList.getGameList().isEmpty());
+		GameList.addGame("NewGame");
+		GameInfo game = GameList.getGameList().get(0);
+		assertTrue(game.getPlayers().isEmpty());
+		
+		GameList.addPlayerToGame(new PlayerInfo(PlayerColor.orange, 0, "Sam"), 0);
+		GameList.addPlayerToGame(new PlayerInfo(PlayerColor.blue, 1, "Brooke"), 0);
+		GameList.addPlayerToGame(new PlayerInfo(PlayerColor.red, 2, "Pete"), 0);
+		GameList.addPlayerToGame(new PlayerInfo(PlayerColor.puce, 3, "Mark"), 0);
+		GameList.addPlayerToGame(new PlayerInfo(PlayerColor.brown, 4, "James"), 0);
+	}
+	
 }
