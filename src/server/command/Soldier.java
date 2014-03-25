@@ -64,7 +64,7 @@ public class Soldier implements CommandTemplate {
 				}
 			}
 		}
-		return null;
+	return null;
 	}
 	public void undo(){}
 }
