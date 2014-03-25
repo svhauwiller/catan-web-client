@@ -40,7 +40,7 @@ public class YearOfPlenty implements CommandTemplate {
 			else if(args[i].compareTo("brick")==0)
 				GameModel.getPlayer(playerNum).getResourceCardList().updateBrick(1);
 		}
-		return GameModel.getInstance();
+	return null;
 	}
     public void undo(){
 	
