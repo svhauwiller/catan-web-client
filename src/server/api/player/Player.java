@@ -50,7 +50,7 @@ public class Player {
 		orderNumber = orderNumberIn;
 		playedDevCard = false;
 		playerID = 0;
-		resources = new ResourceCardList();
+		resources = new ResourceCardList("player");
 		roads = 13;
 		settlements = 3;
 		soldiers = 0;
