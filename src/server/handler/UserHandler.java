@@ -89,12 +89,13 @@ public class UserHandler implements HttpHandler{
 		if(validUserHuh){
 			String response = "Success";
 			responseData = response.getBytes(Charset.forName("utf-8"));
-			ex.sendResponseHeaders(200, response.length());
 			//get player information and set Cookie
 			Player currentPlayer = GameModel.getPlayerByName(requestData.get("username"));
-			responseHeaders.add("catan.user", "{\"name\":\""+requestData.get("username")
+			responseHeaders.add("Set-Cookie", "catan.user={\"name\":\""+requestData.get("username")
 					+"\",\"password\":\""+requestData.get("password")
-					+"\",\"playerID\":"+currentPlayer.getUserID()+"}");
+					+"\",\"playerID\":"+currentPlayer.getUserID()+"}; "
+					+"path=/");
+			ex.sendResponseHeaders(200, response.length());
 		}
 		else{
 			String response = "Failure";
