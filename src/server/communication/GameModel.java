@@ -46,7 +46,7 @@ public class GameModel {
 	private int winner;
 	
 	private GameModel(){
-		this.bank = new ResourceCardList();
+		this.bank = new ResourceCardList("player");
 		this.biggestArmy = -1;
 		this.chat = new MessageList();
 		this.deck = new DevCardList("bank");
