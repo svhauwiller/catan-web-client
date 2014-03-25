@@ -181,6 +181,10 @@ public class GameModel {
 	private void _incrementRevision(){
 		this.revision++;
 	}
+	
+	private void _setTradeOffer(TradeOffer newTradeOffer){
+		this.tradeOffer = newTradeOffer;
+	}
 
 	/**
 	 * @param winner the winner to set
@@ -208,5 +212,7 @@ public class GameModel {
 	public static void setLongestRoad(int playerID){instance()._setLongestRoad(playerID);}
 	public static void addPlayer(Player newPlayer){instance()._addPlayer(newPlayer);}
 	public static void incrementRevision(){instance()._incrementRevision();}
+	public static void setTradeOffer(TradeOffer newTradeOffer){instance()._setTradeOffer(newTradeOffer);}
+	public static void removeTradeOffer(){instance()._setTradeOffer(null);}
 	public static void setWinner(int playerID){instance()._setWinner(playerID);}
 }
