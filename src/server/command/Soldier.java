@@ -13,7 +13,7 @@ public class Soldier implements CommandTemplate {
 		GameModel gmod = GameModel.getInstance();
 		int playerNum = Integer.parseInt(args[0]);
 		int vicNum = Integer.parseInt(args[1]);
-		gmod.getPlayer(playerNum).getOldDevCards().updateSoldier(-1);
+		GameModel.getPlayer(playerNum).getOldDevCards().updateSoldier(-1);
 		
 		//move the robber
 		Location moveLoc = new Location(false);
@@ -65,8 +65,6 @@ public class Soldier implements CommandTemplate {
 				}
 			}
 		}
-		
-		
 		return gmod;
 	}
 	public void undo(){}

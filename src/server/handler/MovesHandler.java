@@ -26,6 +26,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import server.command.*;
 import server.JSONDataParser;
+import server.communication.*;
 
 /**
  *
@@ -176,6 +177,7 @@ public class MovesHandler implements HttpHandler{
 			request.append((char) bytes);
 		}
 
+		
 		bufferedReqReader.close();
 		requestReader.close();
 		
@@ -190,6 +192,8 @@ public class MovesHandler implements HttpHandler{
 		
 		BuyDevCard bdcObject = new BuyDevCard();
 		bdcObject.execute(args);
+		CommandList.recordCommand(bdcObject);
+		
 		scan.close();
 
 		OutputStream responseStream = ex.getResponseBody();

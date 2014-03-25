@@ -34,7 +34,7 @@ public class RoadBuilding implements CommandTemplate {
 		//gmod.getMap().updateEdgeOwner(spot2, playerNum);
 		
 		
-		return null;
+		return gmod;
 	}
 	public void undo(){}
 }
