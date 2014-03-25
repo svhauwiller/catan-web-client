@@ -47,8 +47,8 @@ public class Map {
 		return chits;
 	}
 	
-	public void updateEdgeOwner(Location hexLoc, int direction, int ownerID){ // build road
-		hexGrid.updateEdgeOwner(hexLoc, direction, ownerID);
+	public void updateEdgeOwner(Location hexLoc, int ownerID){ // build road
+		hexGrid.updateEdgeOwner(hexLoc, hexLoc.getDirection(), ownerID);
 	}
 	
 	public void updateVertexOwner(Location hexLoc, int direction, int ownerID){ // build settlement or city
