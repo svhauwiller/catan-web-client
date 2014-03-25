@@ -159,6 +159,31 @@ public class GameModel {
 	private int _getWinner() {
 		return winner;
 	}
+
+	/**
+	 * @param biggestArmy the biggestArmy to set
+	 */
+	private void _setBiggestArmy(int biggestArmy) {
+		this.biggestArmy = biggestArmy;
+	}
+
+	/**
+	 * @param longestRoad the longestRoad to set
+	 */
+	private void _setLongestRoad(int longestRoad) {
+		this.longestRoad = longestRoad;
+	}
+	
+	private void _incrementRevision(){
+		this.revision++;
+	}
+
+	/**
+	 * @param winner the winner to set
+	 */
+	private void _setWinner(int winner) {
+		this.winner = winner;
+	}
 	
 	public static GameModel getInstance(){return instance();}
 	public static GameModel reset(){return instance()._reset();}
@@ -175,7 +200,8 @@ public class GameModel {
 	public static TradeOffer getTradeOffer(){return instance()._getTradeOffer();}
 	public static TurnTracker getTurnTracker(){return instance()._getTurnTracker();}
 	public static int getWinner(){return instance()._getWinner();}
-
-	
-	
+	public static void setBiggestArmy(int playerID){instance()._setBiggestArmy(playerID);}
+	public static void setLongestRoad(int playerID){instance()._setLongestRoad(playerID);}
+	public static void incrementRevision(){instance()._incrementRevision();}
+	public static void setWinner(int playerID){instance()._setWinner(playerID);}
 }

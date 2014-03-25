@@ -49,7 +49,7 @@ public class GameList {
 	
 	
 	
-	public GameList getInstance() {return instance();}
+	//public GameList getInstance() {return instance();}
 
 	public static GameInfo addGame(String name) {return instance()._addGame(name);}
 	
