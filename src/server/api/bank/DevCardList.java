@@ -18,12 +18,23 @@ public class DevCardList {
 	private int roadBuilding;
 	private int monument;
 	
-	public DevCardList(){
-		this.yearOfPlenty = 2;
-		this.monopoly = 2;
-		this.soldier = 14;
-		this.roadBuilding = 2;
-		this.monument = 5;
+	public DevCardList(String type){
+		switch(type){
+			case "player":
+				this.yearOfPlenty = 0;
+				this.monopoly = 0;
+				this.soldier = 0;
+				this.roadBuilding = 0;
+				this.monument = 0;
+				break;
+			case "bank":
+				this.yearOfPlenty = 2;
+				this.monopoly = 2;
+				this.soldier = 14;
+				this.roadBuilding = 2;
+				this.monument = 5;
+				break;
+		}
 	}
 	
 	public int getYearOfPlenty(){

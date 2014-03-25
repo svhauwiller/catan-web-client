@@ -18,12 +18,23 @@ public class ResourceCardList {
 	private int wheat;
 	private int ore;
 	
-	public ResourceCardList(){
-		this.brick = 23;
-		this.wood = 21;
-		this.sheep = 20;
-		this.wheat = 22;
-		this.ore = 22;
+	public ResourceCardList(String type){
+		switch(type){
+			case "bank":
+				this.brick = 23;
+				this.wood = 21;
+				this.sheep = 20;
+				this.wheat = 22;
+				this.ore = 22;
+				break;
+			case "player":
+				this.brick = 0;
+				this.wood = 0;
+				this.sheep = 0;
+				this.wheat = 0;
+				this.ore = 0;
+				break;
+		}
 	}
 
 	/////////////////////////////////////////////////GETTERS AND SETTERS//////////////////////////////////////////////////////////////
