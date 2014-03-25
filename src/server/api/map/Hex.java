@@ -48,7 +48,7 @@ public class Hex {
 	private int indexEdgeOf(String element){
 		int index = -1;
 		for(int i = 0; i < edges.size(); i++){
-			if(element.equals(edges.get(i))){
+			if(element.equals(edLookup[i])){
 				index = i;
 			}
 		}
@@ -58,7 +58,7 @@ public class Hex {
 	private int indexVertexOf(String element){
 		int index = -1;
 		for(int i = 0; i < edges.size(); i++){
-			if(element.equals(vertexes.get(i))){
+			if(element.equals(vdLookup[i])){
 				index = i;
 			}
 		}

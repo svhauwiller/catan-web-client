@@ -464,7 +464,7 @@ public class MovesHandler implements HttpHandler{
 		bufferedReqReader.close();
 		requestReader.close();
 		
-		System.out.println(request.toString());
+		//System.out.println(request.toString());
 
 		JSONObject obj = new JSONObject(request.toString());
 		String[] args = new String[5];
@@ -475,15 +475,19 @@ public class MovesHandler implements HttpHandler{
 		args[3] = subObject.optString("direction");
 		args[4] = obj.optString("free");
 
+System.out.println("parsed");
+
 		BuildRoad buildRoadObj = new BuildRoad();
 		buildRoadObj.execute(args);
+System.out.println("executed");
 		CommandList.recordCommand(buildRoadObj);
-
+System.out.println("recorded");
 		GameModel response = GameModel.getInstance();
 		OutputStream responseStream = ex.getResponseBody();
 		ex.sendResponseHeaders(200, xStream.toXML(response).length());
 		xStream.toXML(response, responseStream);
 		responseStream.close();
+System.out.println("response sent");
 	}
 
 	private void buildSettlement(HttpExchange ex, XStream xStream) throws IOException{
