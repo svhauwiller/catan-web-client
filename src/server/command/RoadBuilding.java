@@ -13,9 +13,8 @@ public class RoadBuilding implements CommandTemplate {
 	//args[5] = spot 2 y
 	//args[6] = spot 2 direction
 	public GameModel execute(String[] args){
-		GameModel gmod = GameModel.getInstance();
 		int playerNum = Integer.parseInt(args[0]);
-		gmod.getPlayer(playerNum).getOldDevCards().updateRoadBuilding(-1);
+		GameModel.getPlayer(playerNum).getOldDevCards().updateRoadBuilding(-1);
 
 		//set the locations
 		Location spot1 = new Location(true);
@@ -30,11 +29,11 @@ public class RoadBuilding implements CommandTemplate {
 		spot2.setDirection(args[6]);
 
 		//build both roads
-		//gmod.getMap().updateEdgeOwner(spot1, playerNum);
-		//gmod.getMap().updateEdgeOwner(spot2, playerNum);
+		//GameModel.getMap().updateEdgeOwner(spot1, playerNum);
+		//GameModel.getMap().updateEdgeOwner(spot2, playerNum);
 		
 		
-		return gmod;
+		return GameModel;
 	}
 	public void undo(){}
 }
