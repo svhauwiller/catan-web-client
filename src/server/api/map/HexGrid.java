@@ -43,11 +43,14 @@ public class HexGrid {
 	}
 	
 	public void updateEdgeOwner(Location hexLoc, int ownerID){
-		hexes.get(hexLoc.getX()).get(hexLoc.getY()).updateEdgeOwner(hexLoc.getDirection(), ownerID);
+		System.out.println("HexGrid - updateEdgeOwner?" + hexLoc.getDirection() + " :: " + ownerID);
+		int offsetX = 0;
+		int offsetY = 0;
+		hexes.get(hexLoc.getX() + offsets.get(hexLoc.getX()+3)).get(hexLoc.getY() + offsets.get(hexLoc.getX()+3)).updateEdgeOwner(hexLoc.getDirection(), ownerID);
 	}
 	
 	public void updateVertexOwner(Location hexLoc, int ownerID){
-		hexes.get(hexLoc.getX()).get(hexLoc.getY()).updateVertexOwner(hexLoc.getDirection(), ownerID);
+		hexes.get(hexLoc.getX() + offsets.get(hexLoc.getX()+3)).get(hexLoc.getY() + offsets.get(hexLoc.getX()+3)).updateVertexOwner(hexLoc.getDirection(), ownerID);
 	}
 }
 

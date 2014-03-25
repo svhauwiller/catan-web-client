@@ -14,9 +14,9 @@ public class BuildRoad implements CommandTemplate{
 	private String locationDirection = "";
 	private boolean free = false;
 
-public BuildRoad(){
+	/*public BuildRoad(){
 
-}
+	}*/
 	
 	/* args[0]-> playerIndex
 	 * args[1]-> roadLocation:x
@@ -38,7 +38,7 @@ public BuildRoad(){
 		hexLoc.setX(Integer.parseInt(args[1]));
 		hexLoc.setY(Integer.parseInt(args[2]));
 		hexLoc.setDirection(args[3]);
-		GameModel.getInstance().getMap().updateEdgeOwner(hexLoc, Integer.parseInt(args[0]));
+		GameModel.getMap().updateEdgeOwner(hexLoc, Integer.parseInt(args[0]));
 System.out.println("here??");
 		return null;
 	}
