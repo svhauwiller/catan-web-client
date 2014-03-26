@@ -216,18 +216,12 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void useYearOfPlenty(HttpExchange ex, XStream xStream) throws IOException{
-		Scanner scan = new Scanner(getRequestString(ex.getRequestBody()));
-		System.out.println(scan.next());
-		System.out.println(scan.next());
-		System.out.println(scan.next());
-		System.out.println(scan.next());
+		
 		String[] args = new String[3];
-		args[0]=scan.next().toString();
-		scan.next();
-		args[1] = scan.next().toString();
-		scan.next();
-		args[2] = scan.next().toString();
-		scan.close();
+		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
+		args[0] = obj.optString("playerIndex");
+		args[1] = obj.optString("resource1");
+		args[2] = obj.optString("resource2");
 		
 		YearOfPlenty yopObject = new YearOfPlenty();
 		yopObject.execute(args);
@@ -247,31 +241,18 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void useRoadBuilding(HttpExchange ex, XStream xStream) throws IOException{
-		Scanner scan = new Scanner(getRequestString(ex.getRequestBody()));
 		String[] args = new String[7];
-		System.out.println(scan.next());
-		System.out.println(scan.next());
-		System.out.println(scan.next());
-		System.out.println(scan.next());
-		args[0] = scan.next().toString();
-		scan.next();
-		scan.next();
-		scan.next();
-		args[1] = scan.next().toString();
-		System.out.println(scan.next());
-		args[2] = scan.next().toString();
-		System.out.println(scan.next());
-		args[3] = scan.next().toString();
-		scan.next();
-		scan.next();
-		scan.next();
-		scan.next();
-		args[4] = scan.next().toString();
-		scan.next();
-		args[5] = scan.next().toString();
-		scan.next();
-		args[6] = scan.next().toString();
-		scan.close();
+		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
+		args[0] = obj.optString("playerIndex");
+		JSONObject subObject = obj.getJSONObject("spot1");
+		args[1] = subObject.optString("x");
+		args[2] = subObject.optString("y");
+		args[3] = subObject.optString("direction");
+		subObject = obj.getJSONObject("spot2");
+		args[4] = subObject.optString("x");
+		args[5] = subObject.optString("y");
+		args[6] = subObject.optString("direction");
+		
 
 		RoadBuilding rbObject = new RoadBuilding();
 		rbObject.execute(args);
@@ -291,22 +272,14 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void useSoldier(HttpExchange ex, XStream xStream) throws IOException{
-		Scanner scan = new Scanner(getRequestString(ex.getRequestBody()));
 		String[] args = new String[4];
-		scan.next();
-		scan.next();
-		scan.next();
-		scan.next();
-		args[0] = scan.next();
-		scan.next();
-		args[1] = scan.next();
-		scan.next();
-		scan.next();
-		scan.next();
-		args[2] = scan.next();
-		scan.next();
-		args[3] = scan.next();
-		scan.close();
+		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
+		args[0] = obj.optString("playerIndex");
+		args[1] = obj.optString("victimIndex");
+		JSONObject subObject = obj.getJSONObject("location");
+		args[2] = subObject.optString("x");
+		args[3] = subObject.optSTring("y");
+		
 
 		Soldier sObject = new Soldier();
 		sObject.execute(args);
@@ -326,16 +299,11 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void useMonopoly(HttpExchange ex, XStream xStream) throws IOException{
-		Scanner scan = new Scanner(getRequestString(ex.getRequestBody()));
 		String[] args = new String[2];
-		scan.next();
-		scan.next();
-		scan.next();
-		scan.next();
-		args[1] = scan.next();
-		scan.next();
-		args[0] = scan.next();
-		scan.close();
+		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
+		args[0] = obj.optString("playerIndex");
+		args[1] = obj.optSTring("resource");
+
 		
 		Monopoly mObject = new Monopoly();
 		mObject.execute(args);
@@ -355,15 +323,9 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void useMonument(HttpExchange ex, XStream xStream) throws IOException{
-		Scanner scan = new Scanner(getRequestString(ex.getRequestBody()));
 		String[] args = new String[1];
-	
-		scan.next();
-		scan.next();
-		scan.next();
-		scan.next();
-		args[0] = scan.next();
-		scan.close();
+		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
+		args[0] = obj.optString("playerIndex");
 	
 		Monument monObject = new Monument();
 		monObject.execute(args);
