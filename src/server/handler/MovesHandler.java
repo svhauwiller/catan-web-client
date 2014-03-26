@@ -140,7 +140,7 @@ public class MovesHandler implements HttpHandler{
 		args[0] = obj.optString("playerIndex");
 		args[1] = obj.optString("content");
 
-		System.out.printn(getRequestString(ex.getRequestBody()));
+		System.out.println(getRequestString(ex.getRequestBody()));
 
 		UpdateChatLog updateChatLogObj = new UpdateChatLog();
 		updateChatLogObj.execute(args);
