@@ -278,7 +278,7 @@ public class MovesHandler implements HttpHandler{
 		args[1] = obj.optString("victimIndex");
 		JSONObject subObject = obj.getJSONObject("location");
 		args[2] = subObject.optString("x");
-		args[3] = subObject.optSTring("y");
+		args[3] = subObject.optString("y");
 		
 
 		Soldier sObject = new Soldier();
@@ -302,7 +302,7 @@ public class MovesHandler implements HttpHandler{
 		String[] args = new String[2];
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
 		args[0] = obj.optString("playerIndex");
-		args[1] = obj.optSTring("resource");
+		args[1] = obj.optString("resource");
 
 		
 		Monopoly mObject = new Monopoly();
