@@ -140,6 +140,8 @@ public class MovesHandler implements HttpHandler{
 		args[0] = obj.optString("playerIndex");
 		args[1] = obj.optString("content");
 
+		System.out.printn(getRequestString(ex.getRequestBody()));
+
 		UpdateChatLog updateChatLogObj = new UpdateChatLog();
 		updateChatLogObj.execute(args);
 		CommandList.recordCommand(updateChatLogObj);
@@ -410,7 +412,6 @@ public class MovesHandler implements HttpHandler{
 		args[3] = subObject.optString("sheep");
 		args[4] = subObject.optString("wheat");
 		args[5] = subObject.optString("wood");
-
 
 		DiscardCards discardCardsObj = new DiscardCards();
 		discardCardsObj.execute(args);
