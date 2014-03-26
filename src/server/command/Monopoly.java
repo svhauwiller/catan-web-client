@@ -69,41 +69,41 @@ public class Monopoly implements CommandTemplate {
 				if(resource.compareTo("wheat")==0){
 					int current = GameModel.getPlayer(i).getResourceCardList().getWheat();
 					totalGained += current;
-					GameModel.getPlayer(i).getResourceCardList().updateWheat(-1*current);
+					GameModel.getPlayer(i).getResourceCardList().updateWheat(current);
 				}
 				else if(resource.compareTo("ore")==0){
 					int current = GameModel.getPlayer(i).getResourceCardList().getOre();
 					totalGained += current;
-					GameModel.getPlayer(i).getResourceCardList().updateOre(-1*current);
+					GameModel.getPlayer(i).getResourceCardList().updateOre(current);
 				}
 				else if(resource.compareTo("wood")==0){
 					int current = GameModel.getPlayer(i).getResourceCardList().getWood();
 					totalGained += current;
-					GameModel.getPlayer(i).getResourceCardList().updateWood(-1*current);
+					GameModel.getPlayer(i).getResourceCardList().updateWood(current);
 				}
 				else if(resource.compareTo("sheep")==0){
 					int current = GameModel.getPlayer(i).getResourceCardList().getSheep();
 					totalGained += current;
-					GameModel.getPlayer(i).getResourceCardList().updateSheep(-1*current);
+					GameModel.getPlayer(i).getResourceCardList().updateSheep(current);
 				}
 				else if(resource.compareTo("brick")==0){
 					int current = GameModel.getPlayer(i).getResourceCardList().getBrick();
 					totalGained += current;
-					GameModel.getPlayer(i).getResourceCardList().updateBrick(-1*current);
+					GameModel.getPlayer(i).getResourceCardList().updateBrick(current);
 				}
 			}
 		}
 
 		//add the resources to current player
 		if(resource.compareTo("wheat")==0)
-				GameModel.getPlayer(playerIndex).getResourceCardList().updateWheat(totalGained);
+				GameModel.getPlayer(playerIndex).getResourceCardList().updateWheat(-totalGained);
 		else if(resource.compareTo("ore")==0)
-				GameModel.getPlayer(playerIndex).getResourceCardList().updateOre(totalGained);
+				GameModel.getPlayer(playerIndex).getResourceCardList().updateOre(-totalGained);
 		else if(resource.compareTo("sheep")==0)
-				GameModel.getPlayer(playerIndex).getResourceCardList().updateSheep(totalGained);
+				GameModel.getPlayer(playerIndex).getResourceCardList().updateSheep(-totalGained);
 		else if(resource.compareTo("wood")==0)
-				GameModel.getPlayer(playerIndex).getResourceCardList().updateWood(totalGained);
+				GameModel.getPlayer(playerIndex).getResourceCardList().updateWood(-totalGained);
 		else if(resource.compareTo("brick")==0)
-				GameModel.getPlayer(playerIndex).getResourceCardList().updateBrick(totalGained);
+				GameModel.getPlayer(playerIndex).getResourceCardList().updateBrick(-totalGained);
 	}
 }
