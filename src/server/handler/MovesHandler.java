@@ -151,9 +151,10 @@ public class MovesHandler implements HttpHandler{
 
 	private void udpateFromRoll(HttpExchange ex, XStream xStream) throws IOException{
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
-		String[] args = new String[5];
-		args[0] = obj.optString("playerIndex");
-		args[1] = obj.optString("number");
+		String[] args = new String[3];
+		args[0] = obj.optString("type");
+		args[1] = obj.optString("playerIndex");
+		args[2] = obj.optString("number");
 
 		RollNumber rollNumberObj = new RollNumber();
 		rollNumberObj.execute(args);
@@ -165,11 +166,12 @@ public class MovesHandler implements HttpHandler{
 	private void robPlayer(HttpExchange ex, XStream xStream) throws IOException{
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
 		String[] args = new String[5];
-		args[0] = obj.optString("playerIndex");
-		args[1] = obj.optString("victimIndex");
+		args[0] = obj.optString("type");
+		args[1] = obj.optString("playerIndex");
+		args[2] = obj.optString("victimIndex");
 		JSONObject subObject = obj.getJSONObject("location");
-		args[2] = subObject.optString("x");
-		args[3] = subObject.optString("y");
+		args[3] = subObject.optString("x");
+		args[4] = subObject.optString("y");
 
 		//BuildRoad buildRoadObj = new BuildRoad();
 		//buildRoadObj.execute(args);
@@ -286,13 +288,14 @@ public class MovesHandler implements HttpHandler{
 
 	private void buildRoad(HttpExchange ex, XStream xStream) throws IOException{
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
-		String[] args = new String[5];
-		args[0] = obj.optString("playerIndex");
+		String[] args = new String[6];
+		args[0] = obj.optString("type");
+		args[1] = obj.optString("playerIndex");
 		JSONObject subObject = obj.getJSONObject("roadLocation");
-		args[1] = subObject.optString("x");
-		args[2] = subObject.optString("y");
-		args[3] = subObject.optString("direction");
-		args[4] = obj.optString("free");
+		args[2] = subObject.optString("x");
+		args[3] = subObject.optString("y");
+		args[4] = subObject.optString("direction");
+		args[5] = obj.optString("free");
 
 		BuildRoad buildRoadObj = new BuildRoad();
 		buildRoadObj.execute(args);
@@ -303,17 +306,18 @@ public class MovesHandler implements HttpHandler{
 
 	private void buildSettlement(HttpExchange ex, XStream xStream) throws IOException{
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
-		String[] args = new String[5];
-		args[0] = obj.optString("playerIndex");
+		String[] args = new String[6];
+		args[0] = obj.optString("type");
+		args[1] = obj.optString("playerIndex");
 		JSONObject subObject = obj.getJSONObject("vertexLocation");
-		args[1] = subObject.optString("x");
-		args[2] = subObject.optString("y");
-		args[3] = subObject.optString("direction");
-		args[4] = obj.optString("free");
+		args[2] = subObject.optString("x");
+		args[3] = subObject.optString("y");
+		args[4] = subObject.optString("direction");
+		args[5] = obj.optString("free");
 
-		//BuildRoad buildRoadObj = new BuildRoad();
-		//buildRoadObj.execute(args);
-		//CommandList.recordCommand(buildRoadObj);
+		BuildSettlement buildSettlementObj = new BuildSettlement();
+		buildSettlementObj.execute(args);
+		CommandList.recordCommand(buildSettlementObj);
 		GameModel response = GameModel.getInstance();
 		sendResponseObject(ex, xStream, response);
 	}
@@ -328,9 +332,9 @@ public class MovesHandler implements HttpHandler{
 		args[3] = subObject.optString("direction");
 		args[4] = obj.optString("free");
 
-		//BuildRoad buildRoadObj = new BuildRoad();
-		//buildRoadObj.execute(args);
-		//CommandList.recordCommand(buildRoadObj);
+		BuildCity buildCityObj = new BuildCity();
+		buildCityObj.execute(args);
+		CommandList.recordCommand(buildCityObj);
 		GameModel response = GameModel.getInstance();
 		sendResponseObject(ex, xStream, response);
 	}

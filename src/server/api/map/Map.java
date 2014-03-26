@@ -33,7 +33,7 @@ public class Map {
 	}
 
 	private HashMap<Integer, ArrayList<Location>> initNumbers() {
-		HashMap<Integer, ArrayList<Location>> chits = new HashMap<>();
+		HashMap<Integer, ArrayList<Location>> chits = new HashMap<>(); // TODO: convert this HashMap to an ArrayList and just leave 0, 1, and 7 empty
 		chits.put(2, new ArrayList<Location>());
 		chits.put(3, new ArrayList<Location>());
 		chits.put(4, new ArrayList<Location>());

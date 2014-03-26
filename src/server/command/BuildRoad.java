@@ -8,43 +8,57 @@ import java.util.*;
 import server.api.map.*;
 
 public class BuildRoad implements CommandTemplate{
+	private String type = "";
 	private int playerIndex = -1;
 	private int locationX = -1;
 	private int locationY = -1;
 	private String locationDirection = "";
 	private boolean free = false;
 
-	/*public BuildRoad(){
-
-	}*/
-	
-	/* args[0]-> playerIndex
-	 * args[1]-> roadLocation:x
-	 * args[2]-> roadLocation:y
-	 * args[3]-> roadLocation:direction
-	 * args[4]-> free
+	/* args[0]-> type
+	 * args[1]-> playerIndex
+	 * args[2]-> roadLocation:x
+	 * args[3]-> roadLocation:y
+	 * args[4]-> roadLocation:direction
+	 * args[5]-> free
 	 */
 	@Override
 	public GameModel execute(String[] args){
-
-		int playerNum = Integer.parseInt(args[0]);
+		type = args[0];
+		playerIndex = Integer.parseInt(args[1]);
+		locationX = Integer.parseInt(args[2]);
+		locationY = Integer.parseInt(args[3]);
+		locationDirection = args[4];
+		free = Boolean.parseBoolean(args[5]);
 		//GameModel gmod = GameModel.getInstance();
 
-		// update bank - add resources
+		// update bank - add resources - building a road requires one brick and one lumber
+		GameModel.getBank().updateBrick(1);
+		GameModel.getBank().updateWood(1);
+
 		// update player - subtract resources
+		//// GameModel.getPlayer();
+
 		// update map - change ownerID of a given edge
-		//public void updateEdgeOwner(Location hexLoc, int ownerID)
 		Location hexLoc = new Location(true);
-		hexLoc.setX(Integer.parseInt(args[1]));
-		hexLoc.setY(Integer.parseInt(args[2]));
-		hexLoc.setDirection(args[3]);
-		GameModel.getMap().updateEdgeOwner(hexLoc, Integer.parseInt(args[0]));
-System.out.println("here??");
+		hexLoc.setX(locationX);
+		hexLoc.setY(locationY);
+		hexLoc.setDirection(locationDirection);
+		GameModel.getMap().updateEdgeOwner(hexLoc, playerIndex);
 		return null;
 	}
 
 	@Override
 	public void undo(){
-		
+		Location hexLoc = new Location(true);
+		hexLoc.setX(locationX);
+		hexLoc.setY(locationY);
+		hexLoc.setDirection(locationDirection);
+		GameModel.getMap().updateEdgeOwner(hexLoc, -1);
+
+		//// GameModel.getPlayer();
+
+		GameModel.getBank().updateBrick(-1);
+		GameModel.getBank().updateWood(-1);	
 	}
 }

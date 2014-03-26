@@ -24,6 +24,14 @@ public class Vertex {
 		else if(value.getOwnerID() == ownerID && value.getWorth() == 1){ // if the owner already owns the vertex and it is a settlement
 			value.setWorth(2); // then turn it into a city
 		}
+		else if(ownerID == -1){ // mostly for undo
+			if(value.getWorth() == 2){ // if the vertex currently holds a city, turn in into a settlement
+				value.setWorth(1);
+			}
+			else if(value.getWorth() == 1){ // if the vertex currently holds a settlement, set the owner to no one
+				value.setOwnerID(-1);
+			}
+		}
 		else{
 			// Scream and shout or something
 		}
