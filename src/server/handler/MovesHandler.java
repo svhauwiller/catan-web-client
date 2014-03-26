@@ -135,12 +135,13 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void updateChatLog(HttpExchange ex, XStream xStream) throws IOException{
-		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
+		String inputString = getRequestString(ex.getRequestBody());
+		JSONObject obj = new JSONObject(inputString);
 		String[] args = new String[2];
 		args[0] = obj.optString("playerIndex");
 		args[1] = obj.optString("content");
-
-		System.out.println(getRequestString(ex.getRequestBody()));
+		
+		System.out.println(inputString);
 
 		UpdateChatLog updateChatLogObj = new UpdateChatLog();
 		updateChatLogObj.execute(args);
@@ -148,21 +149,6 @@ public class MovesHandler implements HttpHandler{
 
 		GameModel response = GameModel.getInstance();
 		sendResponseObject(ex, xStream, response);
-
-
-
-		// OutputStream responseStream = ex.getResponseBody();
-		// File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
-		// byte [] bytearray  = new byte [(int)jsonFile.length()];
-		// FileInputStream fis = new FileInputStream(jsonFile);
-		// BufferedInputStream bis = new BufferedInputStream(fis);
-		// bis.read(bytearray, 0, bytearray.length);
-		// //GameModel response = new GameModel();
-
-		// //OutputStream responseStream = ex.getResponseBody();
-		// ex.sendResponseHeaders(200, jsonFile.length());
-		// responseStream.write(bytearray,0,bytearray.length);
-		// responseStream.close();
 	}
 
 	private void udpateFromRoll(HttpExchange ex, XStream xStream) throws IOException{

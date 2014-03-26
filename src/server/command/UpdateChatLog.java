@@ -18,16 +18,18 @@ public class UpdateChatLog implements CommandTemplate{
 		content = args[1];
 
 		source = GameModel.getPlayer(playerIndex).getName();
+		
+		//System.out.println("Monkey 3");
 
 		MessageLine messageLine = new MessageLine(content, source);
 
-		System.out.println("executing 11");
+		//System.out.println("executing 11");
 
 		MessageList chatList = GameModel.getChat();
 
 		chatList.getLines().add(messageLine);
 
-		System.out.println("updated the chatList");
+		//System.out.println("updated the chatList");
 
 		return null;
 	}
