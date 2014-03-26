@@ -13,8 +13,10 @@ import org.junit.Test;
 import server.ServerException;
 import server.communication.*;
 import server.api.player.Player;
+import server.api.utils.*;
 import server.command.*;
 import server.api.player.Player.PlayerColor;
+import java.util.ArrayList;
 
 public class UpdateChatLogTest{
 	@Before
@@ -27,18 +29,16 @@ public class UpdateChatLogTest{
 		
 		UpdateChatLog updateChatLogObj = new UpdateChatLog();
 
-		//System.out.println("C = " + GameModel.getPlayer(0).getResourceCardList().getBrick());
-
-		//assertEquals(GameModel.getPlayer(0).getResourceCardList().getBrick(), 0);
-		//assertEquals(GameModel.getBank().getBrick(), 23);
-
 		String[] args = new String[]{"0", "Kill me!"};
 		updateChatLogObj.execute(args);
 
-		System.out.println("Brick = " + GameModel.getPlayer(0).getResourceCardList().getBrick());
+		ArrayList<MessageLine> messages = GameModel.getChat().getLines();
+
+		MessageLine lastLine = messages.get(messages.size() - 1);
 		
-		//assertEquals(GameModel.getPlayer(0).getResourceCardList().getBrick(), -1);
-		assertEquals(GameModel.getBank().getBrick(), 24);
+		System.out.println(lastLine.getMessage());
+
+		assertEquals(lastLine.getMessage(), "Kill me!");
 	}
 	
 

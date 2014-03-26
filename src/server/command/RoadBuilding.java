@@ -12,20 +12,27 @@ public class RoadBuilding implements CommandTemplate {
 	//args[4] = spot 2 x
 	//args[5] = spot 2 y
 	//args[6] = spot 2 direction
+	private String type = "Road_Building";
+	private int playerIndex = -1;
+	private Location spot1;
+	private Location spot2;
 	public GameModel execute(String[] args){
-		int playerNum = Integer.parseInt(args[0]);
-		GameModel.getPlayer(playerNum).getOldDevCards().updateRoadBuilding(-1);
+		playerIndex = Integer.parseInt(args[0]);
+		//if(GameModel.getPlayer(playerIndex.getOldDevCards().update
+		GameModel.getPlayer(playerIndex).getOldDevCards().updateRoadBuilding(-1);
 
 		//set the locations
-		Location spot1 = new Location(Integer.parseInt(args[1]), Integer.parseInt(args[2]), true);
-		Location spot2 = new Location(Integer.parseInt(args[4]), Integer.parseInt(args[5]), true);
-	
+		spot1 = new Location(Integer.parseInt(args[1]), Integer.parseInt(args[2]), true);
+		spot2 = new Location(Integer.parseInt(args[4]), Integer.parseInt(args[5]), true);
 		spot1.setDirection(args[3]);
 		spot2.setDirection(args[6]);
 
 		//build both roads
-		//GameModel.getMap().updateEdgeOwner(spot1, playerNum);
-		//GameModel.getMap().updateEdgeOwner(spot2, playerNum);
+		GameModel.getMap().updateEdgeOwner(spot1, playerIndex);
+		GameModel.getMap().updateEdgeOwner(spot2, playerIndex);
+		
+		//take away roads from the player
+		GameModel.getPlayer(playerIndex).updateRoads(-2);
 		
 		
 		return null;

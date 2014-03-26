@@ -135,12 +135,13 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void updateChatLog(HttpExchange ex, XStream xStream) throws IOException{
-		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
+		String inputString = getRequestString(ex.getRequestBody());
+		JSONObject obj = new JSONObject(inputString);
 		String[] args = new String[2];
 		args[0] = obj.optString("playerIndex");
 		args[1] = obj.optString("content");
-
-		System.out.println(getRequestString(ex.getRequestBody()));
+		
+		System.out.println(inputString);
 
 		UpdateChatLog updateChatLogObj = new UpdateChatLog();
 		updateChatLogObj.execute(args);
@@ -148,21 +149,6 @@ public class MovesHandler implements HttpHandler{
 
 		GameModel response = GameModel.getInstance();
 		sendResponseObject(ex, xStream, response);
-
-
-
-		// OutputStream responseStream = ex.getResponseBody();
-		// File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
-		// byte [] bytearray  = new byte [(int)jsonFile.length()];
-		// FileInputStream fis = new FileInputStream(jsonFile);
-		// BufferedInputStream bis = new BufferedInputStream(fis);
-		// bis.read(bytearray, 0, bytearray.length);
-		// //GameModel response = new GameModel();
-
-		// //OutputStream responseStream = ex.getResponseBody();
-		// ex.sendResponseHeaders(200, jsonFile.length());
-		// responseStream.write(bytearray,0,bytearray.length);
-		// responseStream.close();
 	}
 
 	private void udpateFromRoll(HttpExchange ex, XStream xStream) throws IOException{
@@ -355,34 +341,44 @@ public class MovesHandler implements HttpHandler{
 		sendResponseObject(ex, xStream, response);
 	}
 
-	private void sendTradeOffer(HttpExchange ex, XStream xStream) throws IOException{
-		OutputStream responseStream = ex.getResponseBody();
-		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
-		byte [] bytearray  = new byte [(int)jsonFile.length()];
-		FileInputStream fis = new FileInputStream(jsonFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		bis.read(bytearray, 0, bytearray.length);
-		//GameModel response = new GameModel();
+private void sendTradeOffer(HttpExchange ex, XStream xStream) throws IOException{
+		String[] args = new String[7];
+		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
+		args[0] = obj.optString("playerIndex");
+		JSONObject subObject = obj.getJSONObject("offer");
+		args[1] = subObject.optString("brick");
+		args[2] = subObject.optString("ore");
+		args[3] = subObject.optString("sheep");
+		args[4] = subObject.optString("wheat");
+		args[5] = subObject.optString("wood");
+		args[6] = obj.optString("receiver"); 
+		SendTradeOffer sto = new SendTradeOffer();
+		sto.execute(args);
+		
+		CommandList.recordCommand(sto);
+		
+		GameModel response = GameModel.getInstance();
+		sendResponseObject(ex, xStream, response);
+		
+		
+		/*
 
-		//OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, jsonFile.length());
-		responseStream.write(bytearray,0,bytearray.length);
-		responseStream.close();
+		*/
 	}
 
 	private void sendTradeResponse(HttpExchange ex, XStream xStream) throws IOException{
-		OutputStream responseStream = ex.getResponseBody();
-		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
-		byte [] bytearray  = new byte [(int)jsonFile.length()];
-		FileInputStream fis = new FileInputStream(jsonFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		bis.read(bytearray, 0, bytearray.length);
-		//GameModel response = new GameModel();
+		String[] args = new String[2];
+		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
+		args[0] = obj.optString("playerIndex");
+		args[1] = obj.optString("willAccept");
 
-		//OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, jsonFile.length());
-		responseStream.write(bytearray,0,bytearray.length);
-		responseStream.close();
+		SendTradeOffer sto = new SendTradeOffer();
+		sto.execute(args);
+		
+		CommandList.recordCommand(sto);
+		
+		GameModel response = GameModel.getInstance();
+		sendResponseObject(ex, xStream, response);
 	}
 
 	private void tradeWithBank(HttpExchange ex, XStream xStream) throws IOException{
