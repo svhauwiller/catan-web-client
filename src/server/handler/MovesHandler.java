@@ -154,14 +154,11 @@ public class MovesHandler implements HttpHandler{
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
 		String[] args = new String[5];
 		args[0] = obj.optString("playerIndex");
-		args[1] = obj.optString("victimIndex");
-		JSONObject subObject = obj.getJSONObject("location");
-		args[2] = subObject.optString("x");
-		args[3] = subObject.optString("y");
+		args[1] = obj.optString("number");
 
-		//BuildRoad buildRoadObj = new BuildRoad();
-		//buildRoadObj.execute(args);
-		//CommandList.recordCommand(buildRoadObj);
+		RollNumber rollNumberObj = new RollNumber();
+		rollNumberObj.execute(args);
+		CommandList.recordCommand(rollNumberObj);
 		GameModel response = GameModel.getInstance();
 		sendResponseObject(ex, xStream, response);
 	}
