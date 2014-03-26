@@ -27,6 +27,8 @@ import java.net.CookieManager;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
+import server.CookieDataParser;
 import server.FormDataParser;
 import server.JSONObject;
 import server.ServerException;
@@ -88,6 +90,14 @@ public class AllGamesHandler implements HttpHandler {
 		return request.toString();
 	}
 	
+	private void sendResponseString(HttpExchange ex, XStream xStream, String response) throws IOException{
+		OutputStream responseStream = ex.getResponseBody();
+		byte[] responseData = response.getBytes(Charset.forName("utf-8"));
+		ex.sendResponseHeaders(200, response.length());
+		responseStream.write(responseData);
+		responseStream.close();
+	}
+	
 	private void sendResponseObject(HttpExchange ex, XStream xStream, Object response) throws IOException{
 		OutputStream responseStream = ex.getResponseBody();
 		ex.sendResponseHeaders(200, xStream.toXML(response).length());
@@ -112,18 +122,22 @@ public class AllGamesHandler implements HttpHandler {
 	private void joinGame(HttpExchange ex, XStream xStream) throws IOException {
 		HashMap<String, String> parsedRequest = FormDataParser.parse(getRequestString(ex.getRequestBody()));
 		
-		String currentCookies = ex.getRequestHeaders().get("Cookie").get(0);
-		
+		List<String> currentCookies = ex.getRequestHeaders().get("Cookie");
+		String currentUserData = null;
 		HashMap<String, String> parsedCookies = new HashMap<>();
-		String[] dataElems = currentCookies.split(";");
-		for (String dataElem : dataElems) {
-			String[] keyValPair = dataElem.split("=");
-			parsedCookies.put(keyValPair[0].trim(), keyValPair[1].trim());
+		
+		if(currentCookies != null){
+			parsedCookies = CookieDataParser.parse(currentCookies.get(0));
+		}
+		
+		if(parsedCookies.get("catan.user") == null){
+			String response = "You must login first.";
+			sendResponseString(ex, xStream, response);
+			return;
 		}
 		
 		JSONObject obj = new JSONObject(parsedCookies.get("catan.user"));
 		
-		OutputStream responseStream = ex.getResponseBody();
 		String response = "";
 		
 		try{
@@ -136,10 +150,7 @@ public class AllGamesHandler implements HttpHandler {
 		} catch (Exception e){
 			response = e.getMessage();
 		} finally {
-			byte[] responseData = response.getBytes(Charset.forName("utf-8"));
-			ex.sendResponseHeaders(200, response.length());
-			responseStream.write(responseData);
-			responseStream.close();
+			sendResponseString(ex, xStream, response);
 		}
 		
 	}

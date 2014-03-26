@@ -82,6 +82,7 @@ public class MaritimeTrade implements CommandTemplate {
 				System.out.println("Invalid output resource");
 		}
 		
+		GameModel.incrementRevision();
 		
 		return null;
 	}

@@ -20,6 +20,9 @@ import java.io.OutputStream;
 import java.io.Writer;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import server.CookieDataParser;
 import server.command.CommandTemplate;
 import server.communication.CommandList;
 import server.communication.GameInfo;
@@ -68,6 +71,14 @@ public class CurrentGameHandler implements HttpHandler{
 		}
     }
 	
+	private void sendResponseString(HttpExchange ex, XStream xStream, String response) throws IOException{
+		OutputStream responseStream = ex.getResponseBody();
+		byte[] responseData = response.getBytes(Charset.forName("utf-8"));
+		ex.sendResponseHeaders(200, response.length());
+		responseStream.write(responseData);
+		responseStream.close();
+	}
+	
 	private void sendResponseObject(HttpExchange ex, XStream xStream, Object response) throws IOException{
 		OutputStream responseStream = ex.getResponseBody();
 		ex.sendResponseHeaders(200, xStream.toXML(response).length());
@@ -76,27 +87,62 @@ public class CurrentGameHandler implements HttpHandler{
 	}
 
 	private void getGameModel(HttpExchange ex, XStream xStream) throws IOException{
+		List<String> currentCookies = ex.getRequestHeaders().get("Cookie");
+		String currentGame = null;
+		
+		if(currentCookies != null){
+			currentGame = CookieDataParser.parse(currentCookies.get(0)).get("catan.game");
+		}
+		
+		if(currentGame == null){
+			String response = "You must join a game first.";
+			sendResponseString(ex, xStream, response);
+			return;
+		}
+		
 		GameModel response = GameModel.getInstance();
 		sendResponseObject(ex, xStream, response);
 	}
 
 	private void resetCurrentGame(HttpExchange ex, XStream xStream) throws IOException{
+		List<String> currentCookies = ex.getRequestHeaders().get("Cookie");
+		String currentGame = null;
+		
+		if(currentCookies != null){
+			currentGame = CookieDataParser.parse(currentCookies.get(0)).get("catan.game");
+		}
+		
+		if(currentGame == null){
+			String response = "You must join a game first.";
+			sendResponseString(ex, xStream, response);
+			return;
+		}
+		
 		GameModel response = GameModel.reset();
 		sendResponseObject(ex, xStream, response);
 	}
 
 	private void getGameCommands(HttpExchange ex, XStream xStream) throws IOException{
+		List<String> currentCookies = ex.getRequestHeaders().get("Cookie");
+		String currentGame = null;
+		
+		if(currentCookies != null){
+			currentGame = CookieDataParser.parse(currentCookies.get(0)).get("catan.game");
+		}
+		
+		if(currentGame == null){
+			String response = "You must join a game first.";
+			sendResponseString(ex, xStream, response);
+			return;
+		}
+		
 		ArrayList<CommandTemplate> response = CommandList.getExecutedCommands();
 		sendResponseObject(ex, xStream, response);
 	}
 
 	private void addAItoGame(HttpExchange ex, XStream xStream) throws IOException {
-		OutputStream responseStream = ex.getResponseBody();
 		String response = "AI not supported in this version";
-		byte[] responseData = response.getBytes(Charset.forName("utf-8"));
-		ex.sendResponseHeaders(200, response.length());
-		responseStream.write(responseData);
-		responseStream.close();
+		sendResponseString(ex, xStream, response);
 	}
 
 	private void listAIinGame(HttpExchange ex, XStream xStream) throws IOException{
