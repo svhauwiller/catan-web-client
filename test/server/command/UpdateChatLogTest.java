@@ -29,14 +29,14 @@ public class UpdateChatLogTest{
 		
 		UpdateChatLog updateChatLogObj = new UpdateChatLog();
 
-		String[] args = new String[]{"0", "Kill me!"};
+		String[] args = new String[]{"sendChat","0", "Kill me!"};
 		updateChatLogObj.execute(args);
 
 		ArrayList<MessageLine> messages = GameModel.getChat().getLines();
 
 		MessageLine lastLine = messages.get(messages.size() - 1);
 		
-		System.out.println(lastLine.getMessage());
+		//System.out.println(lastLine.getMessage());
 
 		assertEquals(lastLine.getMessage(), "Kill me!");
 	}

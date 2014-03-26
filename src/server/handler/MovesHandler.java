@@ -137,9 +137,10 @@ public class MovesHandler implements HttpHandler{
 	private void updateChatLog(HttpExchange ex, XStream xStream) throws IOException{
 		String inputString = getRequestString(ex.getRequestBody());
 		JSONObject obj = new JSONObject(inputString);
-		String[] args = new String[2];
-		args[0] = obj.optString("playerIndex");
-		args[1] = obj.optString("content");
+		String[] args = new String[3];
+		args[0] = obj.optString("type");
+		args[1] = obj.optString("playerIndex");
+		args[2] = obj.optString("content");
 		
 		System.out.println(inputString);
 
@@ -400,14 +401,15 @@ private void sendTradeOffer(HttpExchange ex, XStream xStream) throws IOException
 
 	private void discardCards(HttpExchange ex, XStream xStream) throws IOException{
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
-		String[] args = new String[6];
-		args[0] = obj.optString("playerIndex");
+		String[] args = new String[7];
+		args[0] = obj.optString("type");
+		args[1] = obj.optString("playerIndex");
 		JSONObject subObject = obj.getJSONObject("discardedCards");
-		args[1] = subObject.optString("brick");
-		args[2] = subObject.optString("ore");
-		args[3] = subObject.optString("sheep");
-		args[4] = subObject.optString("wheat");
-		args[5] = subObject.optString("wood");
+		args[2] = subObject.optString("brick");
+		args[3] = subObject.optString("ore");
+		args[4] = subObject.optString("sheep");
+		args[5] = subObject.optString("wheat");
+		args[6] = subObject.optString("wood");
 
 		DiscardCards discardCardsObj = new DiscardCards();
 		discardCardsObj.execute(args);

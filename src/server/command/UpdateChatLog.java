@@ -6,6 +6,7 @@ import server.api.utils.*;
 
 
 public class UpdateChatLog implements CommandTemplate{
+	private String type = null;
 	private int playerIndex = -1;
 	private String content = null;
 	private String source = null;
@@ -14,8 +15,9 @@ public class UpdateChatLog implements CommandTemplate{
 	@Override
 	public GameModel execute(String[] args){
 
-		playerIndex = Integer.parseInt(args[0]);
-		content = args[1];
+		type = args[0];
+		playerIndex = Integer.parseInt(args[1]);
+		content = args[2];
 
 		source = GameModel.getPlayer(playerIndex).getName();
 		
@@ -30,7 +32,8 @@ public class UpdateChatLog implements CommandTemplate{
 		chatList.getLines().add(messageLine);
 
 		//System.out.println("updated the chatList");
-
+		
+		GameModel.incrementRevision();
 		return null;
 	}
 	@Override
