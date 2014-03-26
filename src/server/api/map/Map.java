@@ -54,6 +54,15 @@ public class Map {
 	public void updateVertexOwner(Location hexLoc, int ownerID){ // build settlement or city
 		hexGrid.updateVertexOwner(hexLoc, ownerID);
 	}
+
+	public ArrayList<Integer> getPlayersAtHex(int rolledNumber){
+		ArrayList<Integer> playersAtHex = new ArrayList<Integer>();
+		ArrayList<Location> locations = numbers.get(rolledNumber);
+		for (int i = 0; i < locations.size(); i++){
+			//hexGrid.getPlayersAtHex();
+		}
+		return playersAtHex;
+	}
 	
 	public void moveRobber(Location hexLoc){
 		robber.setX(hexLoc.getX());

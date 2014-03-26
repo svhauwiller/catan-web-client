@@ -44,6 +44,16 @@ public class Hex {
 		vertexes.get(indexVertexOf(direction)).setOwner(ownerID);
 		//vertexes.get(direction).setOwner(ownerID);
 	}
+
+	public ArrayList<Integer> getPlayers(){
+		ArrayList<Integer> playerIDs = new ArrayList<Integer>();
+		for(int i = 0; i < 6; i++){
+			if(vertexes.get(i).getOwner() != -1){
+				playerIDs.add(vertexes.get(i).getOwner());
+			}
+		}
+		return playerIDs;
+	}
 	
 	private int indexEdgeOf(String element){
 		int index = -1;

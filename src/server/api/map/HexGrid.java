@@ -49,5 +49,9 @@ public class HexGrid {
 	public void updateVertexOwner(Location hexLoc, int ownerID){
 		hexes.get(hexLoc.getX() + offsets.get(hexLoc.getX()+3)).get(hexLoc.getY() + offsets.get(hexLoc.getX()+3)).updateVertexOwner(hexLoc.getDirection(), ownerID);
 	}
+
+	public ArrayList<Integer> getPlayersAtHex(Location hexLoc){
+		return hexes.get(hexLoc.getX() + offsets.get(hexLoc.getX()+3)).get(hexLoc.getY() + offsets.get(hexLoc.getX()+3)).getPlayers();
+	}
 }
 

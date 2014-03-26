@@ -36,5 +36,9 @@ public class Vertex {
 			// Scream and shout or something
 		}
 	}
+
+	public int getOwner(){
+		return value.getOwnerID();
+	}
 }
 
