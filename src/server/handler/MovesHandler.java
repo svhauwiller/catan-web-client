@@ -201,18 +201,8 @@ public class MovesHandler implements HttpHandler{
 		bdcObject.execute(args);
 		CommandList.recordCommand(bdcObject);
 
-		OutputStream responseStream = ex.getResponseBody();
-		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
-		byte [] bytearray  = new byte [(int)jsonFile.length()];
-		FileInputStream fis = new FileInputStream(jsonFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		bis.read(bytearray, 0, bytearray.length);
-		//GameModel response = new GameModel();
-
-		//OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, jsonFile.length());
-		responseStream.write(bytearray,0,bytearray.length);
-		responseStream.close();
+		GameModel response = GameModel.getInstance();
+		sendResponseObject(ex, xStream, response);
 	}
 
 	private void useYearOfPlenty(HttpExchange ex, XStream xStream) throws IOException{
@@ -226,18 +216,8 @@ public class MovesHandler implements HttpHandler{
 		YearOfPlenty yopObject = new YearOfPlenty();
 		yopObject.execute(args);
 
-		OutputStream responseStream = ex.getResponseBody();
-		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
-		byte [] bytearray  = new byte [(int)jsonFile.length()];
-		FileInputStream fis = new FileInputStream(jsonFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		bis.read(bytearray, 0, bytearray.length);
-		//GameModel response = new GameModel();
-
-		//OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, jsonFile.length());
-		responseStream.write(bytearray,0,bytearray.length);
-		responseStream.close();
+		GameModel response = GameModel.getInstance();
+		sendResponseObject(ex, xStream, response);
 	}
 
 	private void useRoadBuilding(HttpExchange ex, XStream xStream) throws IOException{
@@ -257,18 +237,8 @@ public class MovesHandler implements HttpHandler{
 		RoadBuilding rbObject = new RoadBuilding();
 		rbObject.execute(args);
 
-		OutputStream responseStream = ex.getResponseBody();
-		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
-		byte [] bytearray  = new byte [(int)jsonFile.length()];
-		FileInputStream fis = new FileInputStream(jsonFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		bis.read(bytearray, 0, bytearray.length);
-		//GameModel response = new GameModel();
-
-		//OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, jsonFile.length());
-		responseStream.write(bytearray,0,bytearray.length);
-		responseStream.close();
+		GameModel response = GameModel.getInstance();
+		sendResponseObject(ex, xStream, response);
 	}
 
 	private void useSoldier(HttpExchange ex, XStream xStream) throws IOException{
@@ -284,18 +254,8 @@ public class MovesHandler implements HttpHandler{
 		Soldier sObject = new Soldier();
 		sObject.execute(args);
 
-		OutputStream responseStream = ex.getResponseBody();
-		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
-		byte [] bytearray  = new byte [(int)jsonFile.length()];
-		FileInputStream fis = new FileInputStream(jsonFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		bis.read(bytearray, 0, bytearray.length);
-		//GameModel response = new GameModel();
-
-		//OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, jsonFile.length());
-		responseStream.write(bytearray,0,bytearray.length);
-		responseStream.close();
+		GameModel response = GameModel.getInstance();
+		sendResponseObject(ex, xStream, response);
 	}
 
 	private void useMonopoly(HttpExchange ex, XStream xStream) throws IOException{
@@ -308,18 +268,8 @@ public class MovesHandler implements HttpHandler{
 		Monopoly mObject = new Monopoly();
 		mObject.execute(args);
 
-		OutputStream responseStream = ex.getResponseBody();
-		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
-		byte [] bytearray  = new byte [(int)jsonFile.length()];
-		FileInputStream fis = new FileInputStream(jsonFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		bis.read(bytearray, 0, bytearray.length);
-		//GameModel response = new GameModel();
-
-		//OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, jsonFile.length());
-		responseStream.write(bytearray,0,bytearray.length);
-		responseStream.close();
+		GameModel response = GameModel.getInstance();
+		sendResponseObject(ex, xStream, response);
 	}
 
 	private void useMonument(HttpExchange ex, XStream xStream) throws IOException{
@@ -330,18 +280,8 @@ public class MovesHandler implements HttpHandler{
 		Monument monObject = new Monument();
 		monObject.execute(args);
 
-		OutputStream responseStream = ex.getResponseBody();
-		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
-		byte [] bytearray  = new byte [(int)jsonFile.length()];
-		FileInputStream fis = new FileInputStream(jsonFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		bis.read(bytearray, 0, bytearray.length);
-		//GameModel response = new GameModel();
-
-		//OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, jsonFile.length());
-		responseStream.write(bytearray,0,bytearray.length);
-		responseStream.close();
+		GameModel response = GameModel.getInstance();
+		sendResponseObject(ex, xStream, response);
 	}
 
 	private void buildRoad(HttpExchange ex, XStream xStream) throws IOException{
