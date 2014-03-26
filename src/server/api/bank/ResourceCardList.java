@@ -39,7 +39,7 @@ public class ResourceCardList {
 		}
 	}
 
-	/////////////////////////////////////////////////GETTERS AND SETTERS//////////////////////////////////////////////////////////////
+/////////////////////////////////////////////////GETTERS AND SETTERS//////////////////////////////////////////////////////////////
 	public int getBrick(){
 		return brick;
 	}
@@ -70,6 +70,10 @@ public class ResourceCardList {
 	
 	public void setOre(int amount){
 		ore = amount;
+	}
+	
+	public void setWheat(int amount){
+		wheat = amount;
 	}
 
 	public int getWheat(){

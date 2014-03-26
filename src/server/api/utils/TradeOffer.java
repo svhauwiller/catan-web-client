@@ -6,34 +6,44 @@
 
 package server.api.utils;
 
+import server.api.bank.ResourceCardList;
+
 /**
  *
  * @author Wesley
  */
 public class TradeOffer {
-	private String sender;
-	private String receiver;
-	//private ResourceList theResourceList;
+	private int sender;
+	private int receiver;
+	private ResourceCardList theResourceList;
 	//TODO: check TA code to see what is returned by their server on a tradeRequest
 	public TradeOffer()
 	{
-		setSender(null);
-		setReceiver(null);
+		setSender(-1);
+		setReceiver(-1);
 	}
 
-	public String getSender() {
+	public ResourceCardList getTheResourceList() {
+		return theResourceList;
+	}
+
+	public void setTheResourceList(ResourceCardList theResourceList) {
+		this.theResourceList = theResourceList;
+	}
+
+	public int getSender() {
 		return sender;
 	}
 
-	public void setSender(String sender) {
+	public void setSender(int sender) {
 		this.sender = sender;
 	}
 
-	public String getReceiver() {
+	public int getReceiver() {
 		return receiver;
 	}
 
-	public void setReceiver(String receiver) {
+	public void setReceiver(int receiver) {
 		this.receiver = receiver;
 	}
 }
