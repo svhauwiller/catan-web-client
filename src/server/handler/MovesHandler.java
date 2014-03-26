@@ -136,7 +136,7 @@ public class MovesHandler implements HttpHandler{
 
 	private void updateChatLog(HttpExchange ex, XStream xStream) throws IOException{
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
-		String[] args = new String[6];
+		String[] args = new String[2];
 		args[0] = obj.optString("playerIndex");
 		args[1] = obj.optString("content");
 
