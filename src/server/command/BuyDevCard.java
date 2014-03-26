@@ -27,12 +27,13 @@ public class BuyDevCard implements CommandTemplate{
 		
 		//retrieve the dev card
 		Random rand = new Random();
-		x = rand.nextInt(5);
-		System.out.println("x is " + x);
+		
 		//it could be that the random number is already done and that the args is which dev card to give.
 		// that would simplify things but in the case that random happens here, we already have it done
 		boolean taken = false;
-		while(!taken){
+		while(!taken && GameModel.getDeck().getTotal() !=0){
+			x = rand.nextInt(5);
+			System.out.println("x is " + x);
 			if(x == 0){
 				//be yearofPlenty
 				if(GameModel.getDeck().getYearOfPlenty()!=0){
