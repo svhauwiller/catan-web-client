@@ -6,6 +6,7 @@
 
 package server.command;
 
+import server.api.utils.MessageLine;
 import server.communication.GameModel;
 
 /**
@@ -15,19 +16,25 @@ import server.communication.GameModel;
 public class FinishTurn implements CommandTemplate {
 	
 	private String type;
-	private int playerID;
+	private int playerIndex;
 	private String lastStatus;
 
 	@Override
 	public GameModel execute(String[] args) {
 		type = args[0];
-		playerID = Integer.parseInt(args[1]);
+		playerIndex = Integer.parseInt(args[1]);
 		lastStatus = GameModel.getTurnTracker().getStatus();
 		
 		int currentTurn = GameModel.getTurnTracker().getCurrentTurn();
 		GameModel.getTurnTracker().setCurrentTurn((currentTurn + 1) % 4);
 		GameModel.getTurnTracker().setStatus("Rolling");
+		
 		GameModel.incrementRevision();
+		
+		MessageLine logMsg = new MessageLine();
+		logMsg.setSource(GameModel.getPlayer(playerIndex).getName());
+		logMsg.setMessage(GameModel.getPlayer(playerIndex).getName() + "'s turn has ended.");
+		GameModel.getLog().addLine(logMsg);
 		
 		return null;
 	}

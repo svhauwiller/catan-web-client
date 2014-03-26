@@ -41,9 +41,7 @@ public class BuildCity implements CommandTemplate{
 		//// GameModel.getPlayer();
 
 		// update map - change ownerID of a given edge
-		Location hexLoc = new Location(true);
-		hexLoc.setX(vertexX);
-		hexLoc.setY(vertexY);
+		Location hexLoc = new Location(vertexX, vertexY, true);
 		hexLoc.setDirection(vertexDirection);
 		GameModel.getMap().updateVertexOwner(hexLoc, playerIndex);
 		return null;
@@ -51,9 +49,7 @@ public class BuildCity implements CommandTemplate{
 	
 	@Override
 	public void undo(){
-		Location hexLoc = new Location(true);
-		hexLoc.setX(vertexX);
-		hexLoc.setY(vertexY);
+		Location hexLoc = new Location(vertexX, vertexY, true);
 		hexLoc.setDirection(vertexDirection);
 		GameModel.getMap().updateVertexOwner(hexLoc, -1);
 

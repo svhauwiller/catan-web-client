@@ -15,9 +15,9 @@ public class Location {
 	private int y;
 	private String direction;
 	
-	public Location(boolean hasDirection){
-		x = 0;
-		y = 0;
+	public Location(int x, int y, boolean hasDirection){
+		this.x = x;
+		this.y = y;
 		if(hasDirection){
 			direction = "NW";
 		}

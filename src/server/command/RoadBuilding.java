@@ -17,15 +17,10 @@ public class RoadBuilding implements CommandTemplate {
 		GameModel.getPlayer(playerNum).getOldDevCards().updateRoadBuilding(-1);
 
 		//set the locations
-		Location spot1 = new Location(true);
-		Location spot2 = new Location(true);
+		Location spot1 = new Location(Integer.parseInt(args[1]), Integer.parseInt(args[2]), true);
+		Location spot2 = new Location(Integer.parseInt(args[4]), Integer.parseInt(args[5]), true);
 	
-		spot1.setX(Integer.parseInt(args[1]));
-		spot1.setY(Integer.parseInt(args[2]));
 		spot1.setDirection(args[3]);
-		
-		spot2.setX(Integer.parseInt(args[4]));
-		spot2.setY(Integer.parseInt(args[5]));
 		spot2.setDirection(args[6]);
 
 		//build both roads

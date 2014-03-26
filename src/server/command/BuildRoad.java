@@ -40,9 +40,7 @@ public class BuildRoad implements CommandTemplate{
 		//// GameModel.getPlayer();
 
 		// update map - change ownerID of a given edge
-		Location hexLoc = new Location(true);
-		hexLoc.setX(locationX);
-		hexLoc.setY(locationY);
+		Location hexLoc = new Location(locationX, locationY, true);
 		hexLoc.setDirection(locationDirection);
 		GameModel.getMap().updateEdgeOwner(hexLoc, playerIndex);
 		return null;
@@ -50,9 +48,7 @@ public class BuildRoad implements CommandTemplate{
 
 	@Override
 	public void undo(){
-		Location hexLoc = new Location(true);
-		hexLoc.setX(locationX);
-		hexLoc.setY(locationY);
+		Location hexLoc = new Location(locationX, locationY, true);
 		hexLoc.setDirection(locationDirection);
 		GameModel.getMap().updateEdgeOwner(hexLoc, -1);
 

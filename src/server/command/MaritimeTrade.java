@@ -7,6 +7,7 @@
 package server.command;
 
 import server.api.bank.ResourceCardList;
+import server.api.utils.MessageLine;
 import server.communication.GameModel;
 
 /**
@@ -83,6 +84,11 @@ public class MaritimeTrade implements CommandTemplate {
 		}
 		
 		GameModel.incrementRevision();
+		
+		MessageLine logMsg = new MessageLine();
+		logMsg.setSource(GameModel.getPlayer(playerIndex).getName());
+		logMsg.setMessage(GameModel.getPlayer(playerIndex).getName() + "'s turn has ended.");
+		GameModel.getLog().addLine(logMsg);
 		
 		return null;
 	}

@@ -26,7 +26,7 @@ public class Hex {
 		edges = new ArrayList<>();
 		isLand = true;
 		landType = "ore";
-		location = new Location(false);
+		location = new Location(0, 0, false);
 		vertexes = new ArrayList<>();
 		
 		for(int i = 0; i < 6; i++){

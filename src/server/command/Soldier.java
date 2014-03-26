@@ -16,9 +16,7 @@ public class Soldier implements CommandTemplate {
 		GameModel.getPlayer(playerNum).getOldDevCards().updateSoldier(-1);
 		
 		//move the robber
-		Location moveLoc = new Location(false);
-		moveLoc.setX(Integer.parseInt(args[2]));
-		moveLoc.setY(Integer.parseInt(args[3]));
+		Location moveLoc = new Location(Integer.parseInt(args[2]), Integer.parseInt(args[3]), false);
 		GameModel.getMap().moveRobber(moveLoc);
 
 		//steal!!!!!

@@ -15,7 +15,7 @@ import java.util.HashMap;
  */
 public class Map {
 	private HexGrid hexGrid;
-	private HashMap<Integer, ArrayList<Location> > numbers;
+	private ArrayList< ArrayList<Location> > numbers;
 	private ArrayList<Port> ports;
 	private int radius;
 	private Location robber;
@@ -25,25 +25,36 @@ public class Map {
 		numbers = initNumbers();
 		ports = new ArrayList<>();
 		radius = 4;
-		robber = new Location(false);
+		robber = new Location(0, 0, false);
 		
 		for(int i = 0; i < 9; i++){
 			ports.add(new Port());
 		}
 	}
 
-	private HashMap<Integer, ArrayList<Location>> initNumbers() {
-		HashMap<Integer, ArrayList<Location>> chits = new HashMap<>(); // TODO: convert this HashMap to an ArrayList and just leave 0, 1, and 7 empty
-		chits.put(2, new ArrayList<Location>());
-		chits.put(3, new ArrayList<Location>());
-		chits.put(4, new ArrayList<Location>());
-		chits.put(5, new ArrayList<Location>());
-		chits.put(6, new ArrayList<Location>());
-		chits.put(8, new ArrayList<Location>());
-		chits.put(9, new ArrayList<Location>());
-		chits.put(10, new ArrayList<Location>());
-		chits.put(11, new ArrayList<Location>());
-		chits.put(12, new ArrayList<Location>());
+	private ArrayList< ArrayList<Location> > initNumbers() {
+		ArrayList< ArrayList<Location> > chits = new ArrayList<>(); // TODO: convert this HashMap to an ArrayList and just leave 0, 1, and 7 empty
+		for(int i = 0; i < 13; i++){
+			chits.add(new ArrayList<Location>());
+		}
+		chits.get(2).add(new Location(-2, 1, false));
+		chits.get(3).add(new Location(-1, 2, false));
+		chits.get(3).add(new Location(0, -1, false));
+		chits.get(4).add(new Location(1, -2, false));
+		chits.get(4).add(new Location(0, 1, false));
+		chits.get(5).add(new Location(1, 0, false));
+		chits.get(5).add(new Location(-2, 0, false));
+		chits.get(6).add(new Location(2, 0, false));
+		chits.get(6).add(new Location(-2, 2, false));
+		chits.get(8).add(new Location(0, 2, false));
+		chits.get(8).add(new Location(-1, -1, false));
+		chits.get(9).add(new Location(-1, 1, false));
+		chits.get(9).add(new Location(1, -1, false));
+		chits.get(10).add(new Location(1, 1, false));
+		chits.get(10).add(new Location(-1, 0, false));
+		chits.get(11).add(new Location(2, -2, false));
+		chits.get(11).add(new Location(0, 0, false));
+		chits.get(12).add(new Location(2, -1, false));
 		return chits;
 	}
 	
