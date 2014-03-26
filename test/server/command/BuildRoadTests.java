@@ -4,29 +4,28 @@
  * and open the template in the editor.
  */
 
-package server.communication;
+package server.command;
 
 import org.junit.After;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import server.ServerException;
-import server.api.player.Player.PlayerColor;
+
 
 /**
  *
  * @author Jonathan
  */
 public class BuildRoadTests {
-	/*@Before
+	@Before
 	public void setup(){
-		GameList.getGameList().clear();
+		//GameList.getGameList().clear();
 	}
     
 	@After
 	public void teardown(){}
     
-	@Test
+	/*@Test
 	public void addGameTest(){
        		assertTrue(GameList.getGameList().isEmpty());
 		
@@ -65,5 +64,12 @@ public class BuildRoadTests {
 		GameList.addPlayerToGame(new PlayerInfo(PlayerColor.puce, 3, "Mark"), 0);
 		GameList.addPlayerToGame(new PlayerInfo(PlayerColor.brown, 4, "James"), 0);
 	}*/
+
+	@Test
+	public void buildRoadTest(){
+System.out.println("Hello World");
+String name = "Sam";
+		assertTrue(name == "Sam");
+	}
 	
 }

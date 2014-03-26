@@ -151,33 +151,35 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void udpateFromRoll(HttpExchange ex, XStream xStream) throws IOException{
-		OutputStream responseStream = ex.getResponseBody();
-		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
-		byte [] bytearray  = new byte [(int)jsonFile.length()];
-		FileInputStream fis = new FileInputStream(jsonFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		bis.read(bytearray, 0, bytearray.length);
-		//GameModel response = new GameModel();
+		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
+		String[] args = new String[5];
+		args[0] = obj.optString("playerIndex");
+		args[1] = obj.optString("victimIndex");
+		JSONObject subObject = obj.getJSONObject("location");
+		args[2] = subObject.optString("x");
+		args[3] = subObject.optString("y");
 
-		//OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, jsonFile.length());
-		responseStream.write(bytearray,0,bytearray.length);
-		responseStream.close();
+		//BuildRoad buildRoadObj = new BuildRoad();
+		//buildRoadObj.execute(args);
+		//CommandList.recordCommand(buildRoadObj);
+		GameModel response = GameModel.getInstance();
+		sendResponseObject(ex, xStream, response);
 	}
 
 	private void robPlayer(HttpExchange ex, XStream xStream) throws IOException{
-		OutputStream responseStream = ex.getResponseBody();
-		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
-		byte [] bytearray  = new byte [(int)jsonFile.length()];
-		FileInputStream fis = new FileInputStream(jsonFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		bis.read(bytearray, 0, bytearray.length);
-		//GameModel response = new GameModel();
+		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
+		String[] args = new String[5];
+		args[0] = obj.optString("playerIndex");
+		args[1] = obj.optString("victimIndex");
+		JSONObject subObject = obj.getJSONObject("location");
+		args[2] = subObject.optString("x");
+		args[3] = subObject.optString("y");
 
-		//OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, jsonFile.length());
-		responseStream.write(bytearray,0,bytearray.length);
-		responseStream.close();
+		//BuildRoad buildRoadObj = new BuildRoad();
+		//buildRoadObj.execute(args);
+		//CommandList.recordCommand(buildRoadObj);
+		GameModel response = GameModel.getInstance();
+		sendResponseObject(ex, xStream, response);
 	}
 
 	private void finishTurn(HttpExchange ex, XStream xStream) throws IOException{
@@ -399,46 +401,45 @@ public class MovesHandler implements HttpHandler{
 		args[3] = subObject.optString("direction");
 		args[4] = obj.optString("free");
 
-System.out.println("parsed");
-
 		BuildRoad buildRoadObj = new BuildRoad();
 		buildRoadObj.execute(args);
-System.out.println("executed");
 		CommandList.recordCommand(buildRoadObj);
-System.out.println("recorded");
 		GameModel response = GameModel.getInstance();
 		sendResponseObject(ex, xStream, response);
-System.out.println("response sent");
 	}
 
 	private void buildSettlement(HttpExchange ex, XStream xStream) throws IOException{
-		OutputStream responseStream = ex.getResponseBody();
-		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
-		byte [] bytearray  = new byte [(int)jsonFile.length()];
-		FileInputStream fis = new FileInputStream(jsonFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		bis.read(bytearray, 0, bytearray.length);
-		//GameModel response = new GameModel();
+		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
+		String[] args = new String[5];
+		args[0] = obj.optString("playerIndex");
+		JSONObject subObject = obj.getJSONObject("vertexLocation");
+		args[1] = subObject.optString("x");
+		args[2] = subObject.optString("y");
+		args[3] = subObject.optString("direction");
+		args[4] = obj.optString("free");
 
-		//OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, jsonFile.length());
-		responseStream.write(bytearray,0,bytearray.length);
-		responseStream.close();
+		//BuildRoad buildRoadObj = new BuildRoad();
+		//buildRoadObj.execute(args);
+		//CommandList.recordCommand(buildRoadObj);
+		GameModel response = GameModel.getInstance();
+		sendResponseObject(ex, xStream, response);
 	}
 
 	private void buildCity(HttpExchange ex, XStream xStream) throws IOException{
-		OutputStream responseStream = ex.getResponseBody();
-		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");
-		byte [] bytearray  = new byte [(int)jsonFile.length()];
-		FileInputStream fis = new FileInputStream(jsonFile);
-		BufferedInputStream bis = new BufferedInputStream(fis);
-		bis.read(bytearray, 0, bytearray.length);
-		//GameModel response = new GameModel();
+		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
+		String[] args = new String[5];
+		args[0] = obj.optString("playerIndex");
+		JSONObject subObject = obj.getJSONObject("vertexLocation");
+		args[1] = subObject.optString("x");
+		args[2] = subObject.optString("y");
+		args[3] = subObject.optString("direction");
+		args[4] = obj.optString("free");
 
-		//OutputStream responseStream = ex.getResponseBody();
-		ex.sendResponseHeaders(200, jsonFile.length());
-		responseStream.write(bytearray,0,bytearray.length);
-		responseStream.close();
+		//BuildRoad buildRoadObj = new BuildRoad();
+		//buildRoadObj.execute(args);
+		//CommandList.recordCommand(buildRoadObj);
+		GameModel response = GameModel.getInstance();
+		sendResponseObject(ex, xStream, response);
 	}
 
 	private void sendTradeOffer(HttpExchange ex, XStream xStream) throws IOException{
