@@ -5,6 +5,7 @@ import java.util.*;
 
 public class BuyDevCard implements CommandTemplate{
 
+	private String type = "buyDevCard";
 	private int x= -1;
 	private int playerNum=-1;
 	//args[0] = Playerid
