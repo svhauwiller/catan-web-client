@@ -25,5 +25,9 @@ public class MessageList {
 
 	public void setLines(ArrayList<MessageLine> lines) {
 		this.lines = lines;
-	}	
+	}
+	
+	public void addLine(MessageLine line){
+		this.lines.add(line);
+	}
 }
