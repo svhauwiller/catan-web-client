@@ -28,7 +28,6 @@ import java.util.Scanner;
 import java.util.Arrays;
 import java.util.HashMap;
 import server.command.*;
-import server.JSONDataParser;
 import server.communication.*;
 import server.JSONArray;
 import server.JSONObject;
@@ -194,18 +193,13 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void getNewDevCard(HttpExchange ex, XStream xStream) throws IOException{
-		Scanner scan = new Scanner(getRequestString(ex.getRequestBody()));
-		System.out.println(scan.next());
-		System.out.println(scan.next());
-		System.out.println(scan.next());
-		System.out.println(scan.next());
-		String[] args = new String[]{scan.next().toString()};
 		
+		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
+		String[] args = new String[1];
+		args[0] = obj.optString("playerIndex");
 		BuyDevCard bdcObject = new BuyDevCard();
 		bdcObject.execute(args);
 		CommandList.recordCommand(bdcObject);
-		
-		scan.close();
 
 		OutputStream responseStream = ex.getResponseBody();
 		File jsonFile = new File (serverRoot + File.separator + "js" + File.separator + "api" + File.separator + "game_model.json");

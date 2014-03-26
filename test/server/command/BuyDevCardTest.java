@@ -17,6 +17,7 @@ import server.command.*;
 import server.api.player.Player.PlayerColor;
 
 public class BuyDevCardTest{
+	public BuyDevCard bdcObject = new BuyDevCard();
 	@Before
 	public void setup(){
 		GameModel.addPlayer(new Player(0, new PlayerInfo(PlayerColor.orange, 0, "Sam")));
@@ -26,13 +27,24 @@ public class BuyDevCardTest{
 	public void executeTest(){
 		
 		//assertEquals(GameModel.getPlayer(1).getOldDevCards(),0);
-		BuyDevCard bdcObject = new BuyDevCard();
 		
 		String[] args = new String[]{"0"};
 		bdcObject.execute(args);
 		System.out.println("Hello dane");
 		assertEquals(GameModel.getPlayer(0).getOldDevCards().getTotal() + GameModel.getPlayer(0).getNewDevCards().getTotal(), 1);
 	}
+
+	@Test
+	public void undoTest(){
+		String[] args = new String[]{"0"};
+		bdcObject.execute(args);
+		System.out.println("Hello dane");
+		assertEquals(GameModel.getPlayer(0).getOldDevCards().getTotal() + GameModel.getPlayer(0).getNewDevCards().getTotal(), 1);
+		bdcObject.undo();
+		assertEquals(GameModel.getPlayer(0).getOldDevCards().getTotal() + GameModel.getPlayer(0).getNewDevCards().getTotal(), 0);	
+	}
+	
+	
 	
 
 
