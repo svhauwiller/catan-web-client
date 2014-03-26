@@ -38,7 +38,8 @@ public class BuildCity implements CommandTemplate{
 		GameModel.getBank().updateOre(3);
 
 		// update player - subtract resources
-		//// GameModel.getPlayer();
+		GameModel.getPlayer(playerIndex).getResourceCardList().updateWheat(-2);
+		GameModel.getPlayer(playerIndex).getResourceCardList().updateOre(-3);
 
 		// update map - change ownerID of a given edge
 		Location hexLoc = new Location(vertexX, vertexY, true);
@@ -53,7 +54,8 @@ public class BuildCity implements CommandTemplate{
 		hexLoc.setDirection(vertexDirection);
 		GameModel.getMap().updateVertexOwner(hexLoc, -1);
 
-		//// GameModel.getPlayer();
+		GameModel.getPlayer(playerIndex).getResourceCardList().updateWheat(2);
+		GameModel.getPlayer(playerIndex).getResourceCardList().updateOre(3);
 
 		GameModel.getBank().updateWheat(-2);
 		GameModel.getBank().updateOre(-3);

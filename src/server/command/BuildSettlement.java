@@ -40,7 +40,10 @@ public class BuildSettlement implements CommandTemplate{
 		GameModel.getBank().updateWheat(1);
 
 		// update player - subtract resources
-		//// GameModel.getPlayer();
+		GameModel.getPlayer(playerIndex).getResourceCardList().updateBrick(-1);
+		GameModel.getPlayer(playerIndex).getResourceCardList().updateWood(-1);
+		GameModel.getPlayer(playerIndex).getResourceCardList().updateSheep(-1);
+		GameModel.getPlayer(playerIndex).getResourceCardList().updateWheat(-1);
 
 		// update map - change ownerID of a given edge
 		Location hexLoc = new Location(vertexX, vertexY, true);
@@ -55,7 +58,10 @@ public class BuildSettlement implements CommandTemplate{
 		hexLoc.setDirection(vertexDirection);
 		GameModel.getMap().updateVertexOwner(hexLoc, -1);
 
-		//// GameModel.getPlayer();
+		GameModel.getPlayer(playerIndex).getResourceCardList().updateBrick(1);
+		GameModel.getPlayer(playerIndex).getResourceCardList().updateWood(1);
+		GameModel.getPlayer(playerIndex).getResourceCardList().updateSheep(1);
+		GameModel.getPlayer(playerIndex).getResourceCardList().updateWheat(1);
 
 		GameModel.getBank().updateBrick(-1);
 		GameModel.getBank().updateWood(-1);
