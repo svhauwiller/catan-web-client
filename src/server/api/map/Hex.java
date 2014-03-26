@@ -35,6 +35,10 @@ public class Hex {
 		}
 	}
 	
+	public String getLandType(){
+		return landType;
+	}
+	
 	public void updateEdgeOwner(String direction, int ownerID){
 		edges.get(indexEdgeOf(direction)).setOwner(ownerID);
 		//edges.get(direction).setOwner(ownerID);

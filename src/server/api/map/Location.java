@@ -46,5 +46,14 @@ public class Location {
 	public void setDirection(String newDirection){
 		direction = newDirection;
 	}
+
+	public boolean equals(Location otherLoc){
+		if(this.x == otherLoc.getX() && this.y == otherLoc.getY() && this.direction.equals(otherLoc.getDirection())){
+			return true;
+		}
+		else{
+			return false;
+		}
+	}
 }
 

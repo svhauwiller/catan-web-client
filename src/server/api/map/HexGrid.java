@@ -53,5 +53,8 @@ public class HexGrid {
 	public ArrayList<Integer> getPlayersAtHex(Location hexLoc){
 		return hexes.get(hexLoc.getX() + offsets.get(hexLoc.getX()+3)).get(hexLoc.getY() + offsets.get(hexLoc.getX()+3)).getPlayers();
 	}
+	public String getLandTypeAtHex(Location hexLoc){
+		return hexes.get(hexLoc.getX() + offsets.get(hexLoc.getX()+3)).get(hexLoc.getY() + offsets.get(hexLoc.getX()+3)).getLandType();
+	}
 }
 

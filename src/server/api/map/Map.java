@@ -66,13 +66,21 @@ public class Map {
 		hexGrid.updateVertexOwner(hexLoc, ownerID);
 	}
 
-	public ArrayList<Integer> getPlayersAtHex(int rolledNumber){
-		ArrayList<Integer> playersAtHex = new ArrayList<Integer>();
+	public ArrayList<Location> getLocationsOfNumber(int rolledNumber){
 		ArrayList<Location> locations = numbers.get(rolledNumber);
-		for (int i = 0; i < locations.size(); i++){
-			//hexGrid.getPlayersAtHex();
+		return locations;
+	}
+
+	public ArrayList<Integer> getPlayersAtHex(Location hexLoc){
+		ArrayList<Integer> playersAtHex = new ArrayList<Integer>();
+		if(!robber.equals(hexLoc)){
+			playersAtHex = hexGrid.getPlayersAtHex(hexLoc);	
 		}
 		return playersAtHex;
+	}
+
+	public String getLandTypeAtHex(Location hexLoc){
+		return hexGrid.getLandTypeAtHex(hexLoc);
 	}
 	
 	public void moveRobber(Location hexLoc){

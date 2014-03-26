@@ -1,6 +1,7 @@
 package server.command;
 
 import server.communication.GameModel;
+import server.api.map.Location;
 import java.util.*;
 
 public class RollNumber implements CommandTemplate{
@@ -17,15 +18,39 @@ public class RollNumber implements CommandTemplate{
 		playerIndex = Integer.parseInt(args[1]);
 		number = Integer.parseInt(args[2]);
 		if(number == 7){
-			GameModel.getTurnTracker().setStatus("Discard");
+			GameModel.getTurnTracker().setStatus("Discarding");
 			// move the robber
 			// steal
 		}
 		else{
 			// get the hexLocation of the chit
-			// get the players on the hexLocation
-			ArrayList<Integer> players = GameModel.getMap().getPlayersAtHex(number);
-			// distribute resources
+			ArrayList<Location> locations = GameModel.getMap().getLocationsOfNumber(number);
+			for(int i = 0; i < locations.size(); i++){
+				// get the players on the hexLocation
+				ArrayList<Integer> players = GameModel.getMap().getPlayersAtHex(locations.get(i));
+				// distribute resources
+				String landType = GameModel.getMap().getLandTypeAtHex(locations.get(i));
+				for(int j = 0; j < players.size(); j++){
+					switch(landType){
+						case "brick":
+							GameModel.getPlayer(players.get(j)).getResourceCardList().updateBrick(1);
+							break;
+						case "ore":
+							GameModel.getPlayer(players.get(j)).getResourceCardList().updateOre(1);
+							break;
+						case "lumber":
+							GameModel.getPlayer(players.get(j)).getResourceCardList().updateWood(1);
+							break;
+						case "wool":
+							GameModel.getPlayer(players.get(j)).getResourceCardList().updateSheep(1);
+							break;
+						case "grain":
+							GameModel.getPlayer(players.get(j)).getResourceCardList().updateWheat(1);
+							break;
+					}
+				}
+			}
+			
 		}
 		
 		// idk
