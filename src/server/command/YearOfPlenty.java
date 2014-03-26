@@ -50,7 +50,27 @@ public class YearOfPlenty implements CommandTemplate {
 
     public void undo(){
 		GameModel.getPlayer(playerIndex).getOldDevCards().updateYearOfPlenty(1);
-		
+		if(resource1.compareTo("wheat")==0)
+				GameModel.getBank().updateWheat(1);
+		else if(resource1.compareTo("ore")==0)
+				GameModel.getBank().updateOre(1);
+		else if(resource1.compareTo("sheep")==0)
+				GameModel.getBank().updateSheep(1);
+		else if(resource1.compareTo("wood")==0)
+				GameModel.getBank().updateWood(1);
+		else if(resource1.compareTo("brick")==0)
+				GameModel.getBank().updateBrick(1);
+
+		if(resource2.compareTo("wheat")==0)
+				GameModel.getBank().updateWheat(1);
+		else if(resource2.compareTo("ore")==0)
+				GameModel.getBank().updateOre(1);
+		else if(resource2.compareTo("sheep")==0)
+				GameModel.getBank().updateSheep(1);
+		else if(resource2.compareTo("wood")==0)
+				GameModel.getBank().updateWood(1);
+		else if(resource2.compareTo("brick")==0)
+				GameModel.getBank().updateBrick(1);
 		//take resources away from gamemodel bank
 		// for(int i=1; i<3;i++){
 			// if(args[i].compareTo("wheat")==0)
