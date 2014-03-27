@@ -6,8 +6,10 @@
 
 package server.communication;
 
+import server.ProductionModule;
 import server.api.utils.TradeOffer;
 import server.api.utils.TurnTracker;
+import server.api.utils.iUserLogin;
 import server.api.player.Player;
 import server.api.player.Player.PlayerColor;
 import server.api.utils.MessageList;
@@ -16,6 +18,10 @@ import server.api.bank.ResourceCardList;
 import server.api.bank.DevCardList;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+
+import com.google.inject.Guice;
+import com.google.inject.Injector;
 
 /**
  *
@@ -40,6 +46,7 @@ public class GameModel {
 	private int longestRoad;
 	private Map map;
 	private ArrayList<Player> players;
+    private iUserLogin validUsers;
 	private int revision;
 	private TradeOffer tradeOffer;
 	private TurnTracker turnTracker;
@@ -55,6 +62,7 @@ public class GameModel {
 		this.longestRoad = -1;
 		this.map = new Map();
 		this.players = new ArrayList<Player>();
+		this.validUsers = guiceUser();
 		this.revision = 0;
 		this.tradeOffer = null;
 		this.turnTracker = new TurnTracker();
@@ -65,7 +73,23 @@ public class GameModel {
 		CommandList.undoAll();
 		return instance;
 	}
-
+	/**
+	 * 
+	 * @return the guiced user to use
+	 */
+	private iUserLogin guiceUser()
+	{
+        Injector injector = Guice.createInjector(new ProductionModule());
+        iUserLogin theUser = injector.getInstance(iUserLogin.class);
+        return theUser;
+	}
+	/**
+	 * 
+	 * @return the object containing valid users
+	 */
+	private iUserLogin _getValidUsers() {
+		return validUsers;
+	}
 	/**
 	 * @return the bank
 	 */
@@ -196,6 +220,7 @@ public class GameModel {
 	
 	public static GameModel getInstance(){return instance();}
 	public static GameModel reset(){return instance()._reset();}
+	public static iUserLogin getValidUsers(){return instance()._getValidUsers();}
 	public static ResourceCardList getBank(){return instance()._getBank();}
 	public static int getBiggestArmy(){return instance()._getBiggestArmy();}
 	public static MessageList getChat(){return instance()._getChat();}
