@@ -22,5 +22,5 @@ public interface iUserLogin {
 
 	public boolean validateUserLogin(HashMap<String,String>userInfo);
 	
-	public void registerUser(HashMap<String,String>userInfo);
+	public boolean registerUser(HashMap<String,String>userInfo);
 }

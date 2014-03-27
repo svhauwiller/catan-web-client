@@ -1,14 +1,10 @@
 package server.handler;
 
-import com.google.inject.Guice;
-import com.google.inject.Injector;
 import com.sun.net.httpserver.Headers;
 import com.sun.net.httpserver.HttpExchange;
 import com.sun.net.httpserver.HttpHandler;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
-import com.thoughtworks.xstream.io.xml.DomDriver;
-import com.thoughtworks.xstream.io.json.JettisonMappedXmlDriver;
 import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
 import com.thoughtworks.xstream.io.json.JsonWriter;
 
@@ -17,17 +13,10 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
-import java.io.PrintStream;
-import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.nio.charset.Charset;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
-
 import server.FormDataParser;
-import server.ProductionModule;
-import server.ServerException;
 import server.api.player.Player;
 import server.api.utils.*;
 import server.communication.GameModel;
@@ -55,12 +44,10 @@ public class UserHandler implements HttpHandler{
 			}
 		});
         
-        //Google Guice here; put specific iUserLogin class name below
-        				System.out.println("Pre-juice");
-        Injector injector = Guice.createInjector(new ProductionModule());
-        				System.out.println("Mid-juice");
-        iUserLogin theUser = injector.getInstance(iUserLogin.class);
-        				System.out.println("Post-juice");
+//        //Google Guice here; put specific iUserLogin class name below
+//        Injector injector = Guice.createInjector(new ProductionModule());
+//        iUserLogin theUser = injector.getInstance(iUserLogin.class);
+        iUserLogin theUser = GameModel.getValidUsers();
 		String methodName = ex.getRequestURI().getPath().substring(6);
 		switch(methodName){
 			case "login":
@@ -79,16 +66,15 @@ public class UserHandler implements HttpHandler{
 		HashMap<String, String> requestData = new HashMap<>();
 		requestData = FormDataParser.parse(request);
 		byte[]responseData = null;
-		
-		System.out.println("Original: " + request.toString());
+		String response = null;
+
 
 		boolean validUserHuh = theUser.validateUserLogin(requestData);
 		OutputStream responseStream = ex.getResponseBody();
 		Headers responseHeaders = ex.getResponseHeaders();
 
 		if(validUserHuh){
-			String response = "Success";
-			responseData = response.getBytes(Charset.forName("utf-8"));
+			response = "Success";
 			//get player information and set Cookie
 			Player currentPlayer = GameModel.getPlayerByName(requestData.get("username"));
 			responseHeaders.add("Set-Cookie", "catan.user={\"name\":\""+requestData.get("username")
@@ -98,9 +84,10 @@ public class UserHandler implements HttpHandler{
 			ex.sendResponseHeaders(200, response.length());
 		}
 		else{
-			String response = "Failure";
-			responseData = response.getBytes(Charset.forName("utf-8"));
+			response = "Failure";
+			ex.sendResponseHeaders(400, response.length());
 		}
+		responseData = response.getBytes(Charset.forName("utf-8"));
 		responseStream.write(responseData);
 		responseStream.close();
 	}
@@ -108,16 +95,19 @@ public class UserHandler implements HttpHandler{
 	private void registerUser(HttpExchange ex, XStream xStream, iUserLogin theUser) throws IOException {
 		String request = exchangeToString(ex.getRequestBody());
 		HashMap<String, String> requestData = new HashMap<>();
-		System.out.println("Pre-parse");
 		requestData = FormDataParser.parse(request);
-		System.out.println("UserHandler pre-call");
-		theUser.registerUser(requestData); 
-		
+		boolean successHuh = theUser.registerUser(requestData); 
+		String response = null;
 		OutputStream responseStream = ex.getResponseBody();
-
-		String response = "Success";
+		if(successHuh){
+			response = "Success";
+			ex.sendResponseHeaders(200, response.length());	
+		}
+		else{
+			response = "Failure";
+			ex.sendResponseHeaders(400, response.length()); 
+		}
 		byte[] responseData = response.getBytes(Charset.forName("utf-8"));
-		ex.sendResponseHeaders(200, response.length());
 		responseStream.write(responseData);
 		responseStream.close();
 	}

@@ -41,9 +41,13 @@ public class fakeUser implements iUserLogin{
 		return validUsers.get(userInfo.get("username")).equals(userInfo.get("password"));
 	}
 	
-	public void registerUser(HashMap<String,String>userInfo) {
-		
+	public boolean registerUser(HashMap<String,String>userInfo) {
+		if(validUsers.containsKey(userInfo.get("username"))){
 		validUsers.put(userInfo.get("username"), userInfo.get("password"));
+		return true;
+		}
+		return false;
+		
 	}
 }
 

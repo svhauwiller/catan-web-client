@@ -9,6 +9,8 @@ package server.api.utils;
 //package server.api.utils;
 
 import java.util.HashMap;
+import java.util.Map;
+
 import com.google.inject.Inject;
 
 /**
@@ -38,12 +40,31 @@ public class UserLogin implements iUserLogin{
 		this.validUsers = validUsers;
 	}
 	public boolean validateUserLogin(HashMap<String,String>userInfo) {
-		
+		/*
+	    System.out.println("VALIDATE USER");
+		printMap();
+		 */
 		return validUsers.get(userInfo.get("username")).equals(userInfo.get("password"));
 	}
 	
-	public void registerUser(HashMap<String,String>userInfo) {
-		
+	public boolean registerUser(HashMap<String,String>userInfo) {
+		if(!validUsers.containsKey(userInfo.get("username"))){
 		validUsers.put(userInfo.get("username"), userInfo.get("password"));
+		/*
+	    System.out.println("REGISTER USER");
+		printMap();
+		*/
+		return true;
+		}
+		return false;
+		
+	}
+	public void printMap()
+	{
+		for (Map.Entry<String, String> entry : validUsers.entrySet()) {
+		    String key = entry.getKey();
+		    Object value = entry.getValue();
+		    System.out.println(key+"     "+value);
+		}
 	}
 }
