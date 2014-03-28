@@ -31,6 +31,14 @@ public class FinishTurn implements CommandTemplate {
 		
 		GameModel.incrementRevision();
 		
+		//take all New dev cards and make them old dev cards
+		if(GameModel.getPlayer(playerIndex).getNewDevCards().getTotal() !=0){
+			GameModel.getPlayer(PlayerIndex).getOldDevCards().updateYearOfPlenty(GameModel.getPlayer(PlayerIndex).getNewDevCards().getYearOfPlenty());
+			GameModel.getPlayer(PlayerIndex).getOldDevCards().updateMonopoly(GameModel.getPlayer(PlayerIndex).getNewDevCards().getMonopoly());
+			GameModel.getPlayer(PlayerIndex).getOldDevCards().updateRoadBuilding(GameModel.getPlayer(PlayerIndex).getNewDevCards().getRoadBuilding());
+			GameModel.getPlayer(PlayerIndex).getOldDevCards().updateSoldier(GameModel.getPlayer(PlayerIndex).getNewDevCards().getSoldier());
+		}
+		
 		MessageLine logMsg = new MessageLine();
 		logMsg.setSource(GameModel.getPlayer(playerIndex).getName());
 		logMsg.setMessage(GameModel.getPlayer(playerIndex).getName() + "'s turn has ended.");
