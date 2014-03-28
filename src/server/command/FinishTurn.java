@@ -33,10 +33,10 @@ public class FinishTurn implements CommandTemplate {
 		
 		//take all New dev cards and make them old dev cards
 		if(GameModel.getPlayer(playerIndex).getNewDevCards().getTotal() !=0){
-			GameModel.getPlayer(PlayerIndex).getOldDevCards().updateYearOfPlenty(GameModel.getPlayer(PlayerIndex).getNewDevCards().getYearOfPlenty());
-			GameModel.getPlayer(PlayerIndex).getOldDevCards().updateMonopoly(GameModel.getPlayer(PlayerIndex).getNewDevCards().getMonopoly());
-			GameModel.getPlayer(PlayerIndex).getOldDevCards().updateRoadBuilding(GameModel.getPlayer(PlayerIndex).getNewDevCards().getRoadBuilding());
-			GameModel.getPlayer(PlayerIndex).getOldDevCards().updateSoldier(GameModel.getPlayer(PlayerIndex).getNewDevCards().getSoldier());
+			GameModel.getPlayer(playerIndex).getOldDevCards().updateYearOfPlenty(GameModel.getPlayer(playerIndex).getNewDevCards().getYearOfPlenty());
+			GameModel.getPlayer(playerIndex).getOldDevCards().updateMonopoly(GameModel.getPlayer(playerIndex).getNewDevCards().getMonopoly());
+			GameModel.getPlayer(playerIndex).getOldDevCards().updateRoadBuilding(GameModel.getPlayer(playerIndex).getNewDevCards().getRoadBuilding());
+			GameModel.getPlayer(playerIndex).getOldDevCards().updateSoldier(GameModel.getPlayer(playerIndex).getNewDevCards().getSoldier());
 		}
 		
 		MessageLine logMsg = new MessageLine();
