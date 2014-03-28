@@ -99,8 +99,17 @@ public class UserHandler implements HttpHandler{
 		boolean successHuh = theUser.registerUser(requestData); 
 		String response = null;
 		OutputStream responseStream = ex.getResponseBody();
+		Headers responseHeaders = ex.getResponseHeaders();		
+		
 		if(successHuh){
+			System.out.println("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
+			Player currentPlayer = GameModel.getPlayerByName(requestData.get("username"));
 			response = "Success";
+
+			responseHeaders.add("Set-Cookie", "catan.user={\"name\":\""+requestData.get("username")
+					+"\",\"password\":\""+requestData.get("password")
+					+"\",\"playerID\":"+currentPlayer.getUserID()+"}; "
+					+"path=/");
 			ex.sendResponseHeaders(200, response.length());	
 		}
 		else{
@@ -111,6 +120,7 @@ public class UserHandler implements HttpHandler{
 		responseStream.write(responseData);
 		responseStream.close();
 	}
+	
 	private String exchangeToString(InputStream requestBody) throws IOException{
 		InputStreamReader requestReader = new InputStreamReader(requestBody,"utf-8");
 		BufferedReader bufferedReqReader = new BufferedReader(requestReader);
