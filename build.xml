@@ -58,6 +58,14 @@
  		</fileset>
  	</path>
 
+ 	<path id="guice-classpath">
+ 		<fileset dir="${javalib.dir}">
+ 			<include name="guice-3.0.jar" />
+ 			<include name="aopalliance.jar" />
+ 			<include name="javax.inject.jar" />
+ 		</fileset>
+ 	</path>
+
  	<taskdef classpathref="cobertura-classpath" resource="tasks.properties"/>
 
 	<!-- TARGETS -->
@@ -123,6 +131,7 @@
  			</classpath>
  			<classpath refid="junit-classpath" />
  			<classpath refid="cobertura-classpath" />
+ 			<classpath refid="guice-classpath" />
  		</javac>
  	</target>
 
@@ -140,6 +149,7 @@
  			</classpath>
  			<classpath refid="cobertura-classpath" />
  			<classpath refid="junit-classpath" />
+ 			<classpath refid="guice-classpath" />
  
  			<formatter type="plain"/>
  
