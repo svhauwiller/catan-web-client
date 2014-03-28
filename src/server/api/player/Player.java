@@ -67,7 +67,7 @@ public class Player {
 	}
 
 	public int getVictoryPoints(){
-		return victoryPoints
+		return victoryPoints;
 	}
 	
 	public int getUserID(){
