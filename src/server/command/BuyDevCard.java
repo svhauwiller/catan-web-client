@@ -71,7 +71,7 @@ public class BuyDevCard implements CommandTemplate{
 				//be monument
 				if(GameModel.getDeck().getMonument()!=0){
 					taken = true;
-					GameModel.getPlayer(playerNum).getNewDevCards().updateMonument(1);
+					GameModel.getPlayer(playerNum).getOldDevCards().updateMonument(1);
 					GameModel.getDeck().updateMonument(-1);
 				}
 			}
