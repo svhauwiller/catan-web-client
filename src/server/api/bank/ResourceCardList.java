@@ -22,11 +22,11 @@ public class ResourceCardList {
 		switch(type){
 			case "bank":
 				System.out.println("Player in resourcecardList");
-				this.brick = 23;
-				this.wood = 21;
-				this.sheep = 20;
-				this.wheat = 22;
-				this.ore = 22;
+				this.brick = 16;
+				this.wood = 16;
+				this.sheep = 16;
+				this.wheat = 16;
+				this.ore = 16;
 				break;
 			case "player":
 				System.out.println("Player in resourcecardList");

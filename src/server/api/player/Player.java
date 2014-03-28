@@ -65,6 +65,10 @@ public class Player {
 	public String getName(){
 		return name;
 	}
+
+	public int getVictoryPoints(){
+		return victoryPoints;
+	}
 	
 	public int getUserID(){
 		return playerID;
