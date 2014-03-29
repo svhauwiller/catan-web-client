@@ -20,11 +20,17 @@ import com.google.inject.Inject;
  * @author Wesley
  */
 public class fakeUser implements iUserLogin{
+
 	private HashMap<PlayerInfo, String> validUsers;
 	private static int playerID = 0;
+
 	@Inject
 	public fakeUser(){
 		validUsers = new HashMap<>();
+		validUsers.put(new PlayerInfo(null, addID(), "Sam"), "sam");
+		validUsers.put(new PlayerInfo(null, addID(), "Brooke"), "brooke");
+		validUsers.put(new PlayerInfo(null, addID(), "Pete"), "pete");
+		validUsers.put(new PlayerInfo(null, addID(), "Mark"), "mark");
 	}
 	private int addID(){
 		playerID++;

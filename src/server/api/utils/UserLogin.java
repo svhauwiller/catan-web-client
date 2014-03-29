@@ -27,10 +27,7 @@ public class UserLogin implements iUserLogin{
 	@Inject
 	public UserLogin(){
 		validUsers = new HashMap<>();
-		validUsers.put(new PlayerInfo(null, addID(), "Sam"), "sam");
-		validUsers.put(new PlayerInfo(null, addID(), "Brooke"), "brooke");
-		validUsers.put(new PlayerInfo(null, addID(), "Pete"), "pete");
-		validUsers.put(new PlayerInfo(null, addID(), "Mark"), "mark");
+
 
 
 	}
