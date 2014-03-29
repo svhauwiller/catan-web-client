@@ -1,7 +1,9 @@
 package server.command;
 
 import server.communication.GameModel;
+import server.api.map.Location;
 import java.util.*;
+
 
 public class RobPlayer implements CommandTemplate{
 	private String type = "";
@@ -22,7 +24,7 @@ public class RobPlayer implements CommandTemplate{
 		}
 
 		type = args[0];
-		playerNum = Integer.parseInt(args[1]);
+		playerIndex = Integer.parseInt(args[1]);
 		victimIndex = Integer.parseInt(args[2]);
 		location.setX(Integer.parseInt(args[3])); // location set to a new location
 		location.setY(Integer.parseInt(args[4]));
@@ -97,7 +99,7 @@ public class RobPlayer implements CommandTemplate{
 
 	private boolean allResourcesChecked(boolean[] resourcesToCheck){
 		//boolean thereIsAFalse = false;
-		for(int i = 0; i < resourcesToCheck.size(); i++){
+		for(int i = 0; i < resourcesToCheck.length; i++){
 			if(resourcesToCheck[i] == false){
 				return false;
 			}
