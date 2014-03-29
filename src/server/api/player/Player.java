@@ -50,7 +50,7 @@ public class Player {
 		oldDevCards = new DevCardList("player");
 		orderNumber = orderNumberIn;
 		playedDevCard = false;
-		playerID = 0;
+		playerID = playerInfoIn.getId();
 		resources = new ResourceCardList("player");
 		roads = 13;
 		settlements = 3;
