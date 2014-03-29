@@ -69,9 +69,7 @@ public class UserLogin implements iUserLogin{
 			}
 		}
 		validUsers.put(new PlayerInfo(null, addID(), userInfo.get("username")), userInfo.get("password")); 
-    	System.out.println("**************REGISTER USER***************");
 		printMap();
-		System.out.println("__________________________________________");
 		return true;
 		
 	}

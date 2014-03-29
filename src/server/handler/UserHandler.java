@@ -7,7 +7,7 @@ import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.HierarchicalStreamWriter;
 import com.thoughtworks.xstream.io.json.JsonHierarchicalStreamDriver;
 import com.thoughtworks.xstream.io.json.JsonWriter;
-
+import java.net.URLEncoder;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
@@ -44,9 +44,6 @@ public class UserHandler implements HttpHandler{
 			}
 		});
         
-//        //Google Guice here; put specific iUserLogin class name below
-//        Injector injector = Guice.createInjector(new ProductionModule());
-//        iUserLogin theUser = injector.getInstance(iUserLogin.class);
         iUserLogin theUser = GameModel.getValidUsers();
 		String methodName = ex.getRequestURI().getPath().substring(6);
 		switch(methodName){
@@ -77,10 +74,12 @@ public class UserHandler implements HttpHandler{
 			response = "Success";
 			//get player information and set Cookie
 			Player currentPlayer = GameModel.getPlayerByName(requestData.get("username"));
-			responseHeaders.add("Set-Cookie", "catan.user={\"name\":\""+requestData.get("username")
+
+			String encodedURL = URLEncoder.encode("{\"name\":\""+requestData.get("username")
 					+"\",\"password\":\""+requestData.get("password")
-					+"\",\"playerID\":"+currentPlayer.getUserID()+"}; "
-					+"path=/");
+					+"\",\"playerID\":"+currentPlayer.getUserID()+"}","utf-8");
+			
+			responseHeaders.add("Set-Cookie", "catan.user="+encodedURL+"; path=/");
 			ex.sendResponseHeaders(200, response.length());
 		}
 		else{
@@ -102,14 +101,14 @@ public class UserHandler implements HttpHandler{
 		Headers responseHeaders = ex.getResponseHeaders();		
 		
 		if(successHuh){
-			System.out.println("mmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm");
 			Player currentPlayer = GameModel.getPlayerByName(requestData.get("username"));
 			response = "Success";
-
-			responseHeaders.add("Set-Cookie", "catan.user={\"name\":\""+requestData.get("username")
+			String encodedURL = URLEncoder.encode("{\"name\":\""+requestData.get("username")
 					+"\",\"password\":\""+requestData.get("password")
 					+"\",\"playerID\":"+currentPlayer.getUserID()+"}; "
-					+"path=/");
+					,"utf-8");
+			
+			responseHeaders.add("Set-Cookie","catan.user="+encodedURL+"; path=/" );
 			ex.sendResponseHeaders(200, response.length());	
 		}
 		else{
