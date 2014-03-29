@@ -16,7 +16,7 @@ public class TurnTracker {
 	
 	public TurnTracker(){
 		setCurrentTurn(0);
-		setStatus("Rolling");
+		setStatus("FirstRound");
 	}
 
 	public int getCurrentTurn() {

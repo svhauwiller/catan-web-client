@@ -33,11 +33,45 @@ public class HexGrid {
 		offsets.add(0);
 		offsets.add(0);
 		offsets.add(0);
-		
+
+		setLandTypes();
+	}
+
+	private void setLandTypes(){
+		ArrayList<String> landTypes = new ArrayList<>();
+		landTypes.add(""); // desert
+		landTypes.add("Brick");
+		landTypes.add("Wood");
+		landTypes.add("Brick");
+		landTypes.add("Wood");
+		landTypes.add("Ore");
+		landTypes.add("Sheep");
+		landTypes.add("Ore");
+		landTypes.add("Sheep");
+		landTypes.add("Wheat");
+		landTypes.add("Brick");
+		landTypes.add("Wheat");
+		landTypes.add("Wheat");
+		landTypes.add("Sheep");
+		landTypes.add("Wood");
+		landTypes.add("Sheep");
+		landTypes.add("Wood");
+		landTypes.add("Ore");
+		landTypes.add("Wheat");
+		int count = 0;
 		for(int i = 0; i < 7; i++){
 			hexes.add(new ArrayList<Hex>());
 			for(int j = 0; j < 7; j++){
-				hexes.get(i).add(new Hex());
+				Hex hexToAdd = new Hex();
+				if(j == 0 || i == 0 || i == 6 || (i == 1 && j >= 4) || (i == 2 && j >= 5) || (i == 3 && j >= 6) || (i == 4 && j >= 5) || (i == 5 && j >= 4)){
+					hexToAdd.setIsLand(false);
+				}
+				else{
+					hexToAdd.setLandType(landTypes.get(count));
+					count++;
+				}
+				hexes.get(i).add(hexToAdd);
+
 			}
 		}
 	}

@@ -16,6 +16,7 @@ public class Port {
 	private int ratio;
 	private Location validVertex1;
 	private Location validVertex2;
+	private String inputResource;
 	
 	public Port(){
 		location = new Location(0, 0, false);
@@ -23,5 +24,41 @@ public class Port {
 		ratio = 3;
 		validVertex1 = new Location(0, 0, true);
 		validVertex2 = new Location(0, 0, true);
+		inputResource = "Wood";
+	}
+
+	public void setLocation(int x, int y){
+		location.setX(x);
+		location.setY(y);
+	}
+
+	public void setLocation(int x, int y, String direction){
+		location.setX(x);
+		location.setY(y);
+		location.setDirection(direction);
+	}
+
+	public void setOrientation(String newO){
+		orientation = newO;
+	}
+
+	public void setRatio(int newRatio){
+		ratio = newRatio;
+	}
+
+	public void setValidVertex1(int x, int y, String direction){
+		validVertex1.setX(x);
+		validVertex1.setY(y);
+		validVertex1.setDirection(direction);
+	}
+
+	public void setValidVertex2(int x, int y, String direction){
+		validVertex2.setX(x);
+		validVertex2.setY(y);
+		validVertex2.setDirection(direction);
+	}
+
+	public void setInputResource(String newResource){
+		inputResource = newResource;
 	}
 }

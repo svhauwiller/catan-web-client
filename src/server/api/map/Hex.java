@@ -15,7 +15,7 @@ import java.util.ArrayList;
 public class Hex {
 	private ArrayList<Edge> edges;
 	private boolean isLand;
-	private String landType;
+	private String landtype;
 	private Location location;
 	private ArrayList<Vertex> vertexes;
 	
@@ -25,7 +25,7 @@ public class Hex {
 	public Hex(){
 		edges = new ArrayList<>();
 		isLand = true;
-		landType = "ore";
+		landtype = "Ore"; // Sheep, Brick, Ore, Wheat, Wood
 		location = new Location(0, 0, false);
 		vertexes = new ArrayList<>();
 		
@@ -36,7 +36,15 @@ public class Hex {
 	}
 	
 	public String getLandType(){
-		return landType;
+		return landtype;
+	}
+
+	public void setLandType(String newLandType){
+		landtype = newLandType;
+	}
+
+	public void setIsLand(boolean isILand){
+		isLand = isILand;
 	}
 	
 	public void updateEdgeOwner(String direction, int ownerID){
