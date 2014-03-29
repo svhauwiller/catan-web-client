@@ -31,7 +31,6 @@ public class BuildCity implements CommandTemplate{
 		vertexY = Integer.parseInt(args[3]);
 		vertexDirection = args[4];
 		free = Boolean.parseBoolean(args[5]);
-		//GameModel gmod = GameModel.getInstance();
 
 		// update bank - add resources - building a road requires one brick, one lumber, one wool, and one grain
 		GameModel.getBank().updateWheat(2);
@@ -40,6 +39,7 @@ public class BuildCity implements CommandTemplate{
 		// update player - subtract resources
 		GameModel.getPlayer(playerIndex).getResourceCardList().updateWheat(-2);
 		GameModel.getPlayer(playerIndex).getResourceCardList().updateOre(-3);
+		GameModel.getPlayer(playerIndex).updateCities(-1);
 
 		// update map - change ownerID of a given edge
 		Location hexLoc = new Location(vertexX, vertexY, true);
@@ -49,13 +49,14 @@ public class BuildCity implements CommandTemplate{
 	}
 	
 	@Override
-	public void undo(){
+	public void undo(){ // should probably save previous location
 		Location hexLoc = new Location(vertexX, vertexY, true);
 		hexLoc.setDirection(vertexDirection);
 		GameModel.getMap().updateVertexOwner(hexLoc, -1);
 
 		GameModel.getPlayer(playerIndex).getResourceCardList().updateWheat(2);
 		GameModel.getPlayer(playerIndex).getResourceCardList().updateOre(3);
+		GameModel.getPlayer(playerIndex).updateCities(1);
 
 		GameModel.getBank().updateWheat(-2);
 		GameModel.getBank().updateOre(-3);

@@ -47,7 +47,7 @@ catan.setup.Controller = (function(){
 				var turnTracker = this.ClientModel.turnTracker;
 				console.log(turnTracker.theStatus + ":" + turnTracker.currentTurn);
 				if(turnTracker.theStatus == "FirstRound" || turnTracker.theStatus == "SecondRound"){
-					
+					console.log("IS THIS EQUAL??? " + this.ClientModel.orderNumbers[turnTracker.currentTurn] + " == " + this.ClientModel.playerID);
 					if(this.ClientModel.orderNumbers[turnTracker.currentTurn] == this.ClientModel.playerID ){
 
 						this.setupMove();

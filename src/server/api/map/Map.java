@@ -173,5 +173,9 @@ public class Map {
 		robber.setX(hexLoc.getX());
 		robber.setY(hexLoc.getY());
 	}
+
+	public Location getRobberLocation(){
+		return robber;
+	}
 }
 
