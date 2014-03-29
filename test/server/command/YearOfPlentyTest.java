@@ -22,38 +22,84 @@ public class YearOfPlentyTest{
 	@Before
 	public void setup(){
 		GameModel.addPlayer(new Player(0, new PlayerInfo(PlayerColor.orange, 0, "Sam")));
-		GameModel.getPlayer(0).getOldDevCards().updateYearOfPlenty(1);
-		args[0] = "0";
-		args[1] = "wood";
-		args[2] = "sheep";
+		GameModel.getPlayer(0).getOldDevCards().setYearOfPlenty(1);
+		GameModel.getPlayer(0).getResourceCardList().setWood(0);
+		GameModel.getPlayer(0).getResourceCardList().setOre(0);
+		GameModel.getPlayer(0).getResourceCardList().setWheat(0);
+		GameModel.getPlayer(0).getResourceCardList().setSheep(0);
+		GameModel.getPlayer(0).getResourceCardList().setBrick(0);
+
+
 	}
 
 	@Test
 	public void executeTest(){
 		
-		//assertEquals(GameModel.getPlayer(1).getOldDevCards(),0);
-		
-		
-		
-
+		args[0] = "0";
+		args[1] = "wood";
+		args[2] = "sheep";
 		yopObject.execute(args);
-		assertEquals(GameModel.getPlayer(0).getOldDevCards().getTotal() + GameModel.getPlayer(0).getNewDevCards().getTotal(), 1);
 		assertEquals(GameModel.getPlayer(0).getOldDevCards().getYearOfPlenty(), 0);
 		assertEquals(GameModel.getPlayer(0).getResourceCardList().getWood(), 1);
 		assertEquals(GameModel.getPlayer(0).getResourceCardList().getSheep(), 1);
 		assertEquals(GameModel.getBank().getWood(), 15);
-		assertEquals(GameModel.getBank().getWood(), 15);
+		assertEquals(GameModel.getBank().getSheep(), 15);
+
+		args[1] = "ore";
+		args[2] = "brick";
+		GameModel.getPlayer(0).getOldDevCards().setYearOfPlenty(1);
+		yopObject.execute(args);
+		assertEquals(GameModel.getPlayer(0).getOldDevCards().getYearOfPlenty(), 0);
+		assertEquals(GameModel.getPlayer(0).getResourceCardList().getOre(), 1);
+		assertEquals(GameModel.getPlayer(0).getResourceCardList().getBrick(), 1);
+		assertEquals(GameModel.getBank().getOre(), 15);
+		assertEquals(GameModel.getBank().getBrick(), 15);
+
+		args[1] = "wheat";
+		args[2] = "wheat";
+		GameModel.getPlayer(0).getOldDevCards().setYearOfPlenty(1);
+		yopObject.execute(args);
+		assertEquals(GameModel.getPlayer(0).getOldDevCards().getYearOfPlenty(), 0);
+		assertEquals(GameModel.getPlayer(0).getResourceCardList().getWheat(), 2);
+		assertEquals(GameModel.getBank().getWheat(), 14);
 	}
 
-	// @Test
-	// public void undoTest(){
-		// String[] args = new String[]{"0"};
-		// bdcObject.execute(args);
-		// System.out.println("Hello dane");
-		// assertEquals(GameModel.getPlayer(0).getOldDevCards().getTotal() + GameModel.getPlayer(0).getNewDevCards().getTotal(), 1);
-		// bdcObject.undo();
-		// assertEquals(GameModel.getPlayer(0).getOldDevCards().getTotal() + GameModel.getPlayer(0).getNewDevCards().getTotal(), 0);	
-	// }
+	@Test
+	public void undoTest(){
+		args[0] = "0";
+		args[1] = "wood";
+		args[2] = "sheep";
+		System.out.println("BEFORE " + GameModel.getPlayer(0).getResourceCardList().getWood());
+		yopObject.execute(args);
+		System.out.println("AFTER " + GameModel.getPlayer(0).getResourceCardList().getWood());
+		yopObject.undo();
+		System.out.println("AFTER AFTER THAT " + GameModel.getPlayer(0).getResourceCardList().getWood());
+		assertEquals(GameModel.getPlayer(0).getOldDevCards().getYearOfPlenty(), 1);
+		assertEquals(GameModel.getPlayer(0).getResourceCardList().getWood(), 0);
+		assertEquals(GameModel.getPlayer(0).getResourceCardList().getSheep(), 0);
+		assertEquals(GameModel.getBank().getWood(), 16);
+		assertEquals(GameModel.getBank().getSheep(), 16);
+
+		args[1] = "ore";
+		args[2] = "brick";
+		GameModel.getPlayer(0).getOldDevCards().setYearOfPlenty(1);
+		yopObject.execute(args);
+		yopObject.undo();
+		assertEquals(GameModel.getPlayer(0).getOldDevCards().getYearOfPlenty(), 1);
+		assertEquals(GameModel.getPlayer(0).getResourceCardList().getOre(), 0);
+		assertEquals(GameModel.getPlayer(0).getResourceCardList().getBrick(), 0);
+		assertEquals(GameModel.getBank().getOre(), 16);
+		assertEquals(GameModel.getBank().getBrick(), 16);
+
+		args[1] = "wheat";
+		args[2] = "wheat";
+		GameModel.getPlayer(0).getOldDevCards().setYearOfPlenty(1);
+		yopObject.execute(args);
+		yopObject.undo();
+		assertEquals(GameModel.getPlayer(0).getOldDevCards().getYearOfPlenty(), 1);
+		assertEquals(GameModel.getPlayer(0).getResourceCardList().getWheat(), 0);
+		assertEquals(GameModel.getBank().getWheat(), 16);
+	}
 	
 	
 	

@@ -22,24 +22,26 @@ public class BuyDevCardTest{
 	public void setup(){
 		GameModel.addPlayer(new Player(0, new PlayerInfo(PlayerColor.orange, 0, "Sam")));
 	}
+	@After
+    public void teardown(){}
 
 	@Test
 	public void executeTest(){
 		
 		//assertEquals(GameModel.getPlayer(1).getOldDevCards(),0);
-		
-		String[] args = new String[]{"0"};
-		bdcObject.execute(args);
-		System.out.println("Hello dane");
-		assertEquals(GameModel.getPlayer(0).getOldDevCards().getTotal() + GameModel.getPlayer(0).getNewDevCards().getTotal(), 1);
+		for(int i=0; i<25; i++){
+			String[] args = new String[]{"0"};
+			bdcObject.execute(args);
+			System.out.println("Hello dane");
+			assertEquals(GameModel.getPlayer(0).getOldDevCards().getTotal() + GameModel.getPlayer(0).getNewDevCards().getTotal(), 1);
+			bdcObject.undo();
+		}
 	}
 
 	@Test
 	public void undoTest(){
 		String[] args = new String[]{"0"};
 		bdcObject.execute(args);
-		System.out.println("Hello dane");
-		assertEquals(GameModel.getPlayer(0).getOldDevCards().getTotal() + GameModel.getPlayer(0).getNewDevCards().getTotal(), 1);
 		bdcObject.undo();
 		assertEquals(GameModel.getPlayer(0).getOldDevCards().getTotal() + GameModel.getPlayer(0).getNewDevCards().getTotal(), 0);	
 	}

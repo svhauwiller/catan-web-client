@@ -70,8 +70,20 @@ public class Player {
 		return victoryPoints;
 	}
 	
+	public void setVictoryPoints(int amount){
+		victoryPoints = amount;
+	}
+
+	public void setMonuments(int amount){
+		monuments = amount;
+	}
+	
 	public int getUserID(){
 		return playerID;
+	}
+		
+	public int getMonuments(){
+		return monuments;
 	}
         
         public DevCardList getOldDevCards(){

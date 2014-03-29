@@ -21,8 +21,13 @@ public class MonumentTest{
 	@Before
 	public void setup(){
 		GameModel.addPlayer(new Player(0, new PlayerInfo(PlayerColor.orange, 0, "Sam")));
-		GameModel.getPlayer(0).getOldDevCards().updateMonument(1);
+		GameModel.getPlayer(0).getOldDevCards().setMonument(1);
+		GameModel.getPlayer(0).setVictoryPoints(2);
+		GameModel.getPlayer(0).setMonuments(0);
 	}
+
+	@After
+    public void teardown(){}
 
 	@Test
 	public void executeTest(){
@@ -31,19 +36,20 @@ public class MonumentTest{
 		
 		String[] args = new String[]{"0"};
 		monObject.execute(args);
-		assertEquals(GameModel.getPlayer(0).getOldDevCards().getTotal(), 0);
-		assertEquals(GameModel.getPlayer(0).getVictoryPoints(), 1);
+		assertEquals(GameModel.getPlayer(0).getOldDevCards().getMonument(), 0);
+		assertEquals(GameModel.getPlayer(0).getVictoryPoints(), 3);
+		assertEquals(GameModel.getPlayer(0).getMonuments(),1);
 	}
 
-	// @Test
-	// public void undoTest(){
-		// String[] args = new String[]{"0"};
-		// bdcObject.execute(args);
-		// System.out.println("Hello dane");
-		// assertEquals(GameModel.getPlayer(0).getOldDevCards().getTotal() + GameModel.getPlayer(0).getNewDevCards().getTotal(), 1);
-		// bdcObject.undo();
-		// assertEquals(GameModel.getPlayer(0).getOldDevCards().getTotal() + GameModel.getPlayer(0).getNewDevCards().getTotal(), 0);	
-	// }
+	@Test
+	public void undoTest(){
+		String[] args = new String[]{"0"};
+		monObject.execute(args);
+		monObject.undo();
+		assertEquals(GameModel.getPlayer(0).getOldDevCards().getMonument(), 1);
+		assertEquals(GameModel.getPlayer(0).getVictoryPoints(), 2);
+		assertEquals(GameModel.getPlayer(0).getMonuments(),0);	
+	}
 	
 	
 	
