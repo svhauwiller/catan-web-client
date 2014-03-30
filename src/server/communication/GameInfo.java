@@ -60,7 +60,7 @@ public class GameInfo{
 					throw new ServerException("Another player in this game is playing as this color.");
 				} else {
 					this.players.set(i, player);
-					Player playerData = new Player(i - 1, player);
+					Player playerData = new Player(i, player);
 					GameModel.addPlayer(playerData);
 					return;
 				}
