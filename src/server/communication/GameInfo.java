@@ -25,13 +25,20 @@ public class GameInfo{
 		this.id = id;
 		this.players = new ArrayList<>();
 		this.title = title;
+		
+		for(int i = 0; i < MAX_PLAYERS; i++){
+			this.players.add(new PlayerInfo());
+		}
 	}
 	
 	private boolean colorIsUnique(PlayerInfo testingPlayer){
 		for (PlayerInfo gamePlayer : players) {
-			if(!gamePlayer.getName().equals(testingPlayer.getName()) && 
-				gamePlayer.getColor().equals(testingPlayer.getColor())){
-				return false;
+			String playerName = gamePlayer.getName();
+			if(playerName != null){
+				if(!gamePlayer.getName().equals(testingPlayer.getName()) && 
+					gamePlayer.getColor().equals(testingPlayer.getColor())){
+					return false;
+				}
 			}
 		}
 		return true;
@@ -46,21 +53,23 @@ public class GameInfo{
 	}
 	
 	public void addPlayer(PlayerInfo player) throws ServerException{
-		if(players.size() >= MAX_PLAYERS){
-			throw new ServerException("Game is full.");
-		} else if (!colorIsUnique(player)){
-			throw new ServerException("Another player in this game is playing as this color.");
-		} else {
-			for (int i = 0; i < players.size(); i++) {
-				if(players.get(i).getName().equals(player.getName())){
-					players.get(i).setColor(player.getColor());
-					GameModel.getPlayer(i).setColor(player.getColor());
+		for(int i = 0; i < MAX_PLAYERS; i++){
+			String playerName = this.players.get(i).getName();
+			if(playerName == null){
+				if (!colorIsUnique(player)){
+					throw new ServerException("Another player in this game is playing as this color.");
+				} else {
+					this.players.set(i, player);
+					Player playerData = new Player(i - 1, player);
+					GameModel.addPlayer(playerData);
 					return;
 				}
+			} else if(playerName.equals(player.getName())) {
+				this.players.get(i).setColor(player.getColor());
+				GameModel.getPlayer(i).setColor(player.getColor());
+				return;
 			}
-			players.add(player);
-			Player playerData = new Player(players.size() - 1, player);
-			GameModel.addPlayer(playerData);
 		}
+		throw new ServerException("Game is full.");
 	}
 }

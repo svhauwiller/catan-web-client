@@ -24,6 +24,7 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.Writer;
 import java.net.CookieManager;
+import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -147,9 +148,13 @@ public class AllGamesHandler implements HttpHandler {
 			
 			Headers responseHeaders = ex.getResponseHeaders();
 			responseHeaders.add("Set-Cookie", "catan.game=" + parsedRequest.get("id") + "; path=/");
+			sendResponseString(ex, xStream, response);
 		} catch (Exception e){
-			response = e.getMessage();
-		} finally {
+			if(e.getMessage() != null){
+				response = e.getMessage();
+			} else {
+				response = "An error occured while attempting to join the game.";
+			}
 			sendResponseString(ex, xStream, response);
 		}
 		

@@ -6,6 +6,7 @@
 
 package server;
 
+import java.net.URLDecoder;
 import java.util.HashMap;
 
 /**
@@ -18,7 +19,11 @@ public class CookieDataParser {
 		String[] dataElems = cookieString.split(";");
 		for (String dataElem : dataElems) {
 			String[] keyValPair = dataElem.split("=");
-			parsedCookies.put(keyValPair[0].trim(), keyValPair[1].trim());
+			try{
+				parsedCookies.put(keyValPair[0].trim(), URLDecoder.decode(keyValPair[1], "UTF-8").trim());
+			} catch(Exception e){
+				System.out.println(e.getMessage());
+			}
 		}
 		return parsedCookies;
 	}

@@ -16,8 +16,10 @@ import server.api.player.Player.PlayerColor;
  */
 public class PlayerInfo {
 	private PlayerColor color;
-	private int id;
+	private Integer id;
 	private String name;
+	
+	public PlayerInfo(){}
 	
 	public PlayerInfo(PlayerColor color, int id, String name){
 		this.color = color;
