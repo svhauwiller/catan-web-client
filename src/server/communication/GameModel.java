@@ -72,7 +72,7 @@ public class GameModel {
 
 	
 	private GameModel _reset() {
-		CommandList.undoAll();
+		instance = new GameModel();
 		return instance;
 	}
 	/**

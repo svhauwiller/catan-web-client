@@ -53,6 +53,32 @@ public class GameListTests {
 		assertEquals(GameList.getGameList().get(0).getPlayers().get(0).getId(), 0);
 	}
 	
+	@Test
+	public void changeColorTest() throws ServerException{
+		assertTrue(GameList.getGameList().isEmpty());
+		GameList.addGame("NewGame");
+		GameInfo game = GameList.getGameList().get(0);
+		String playerName = game.getPlayers().get(0).getName();
+		assertNull(playerName);
+		
+		GameList.addPlayerToGame(new PlayerInfo(PlayerColor.orange, 0, "Sam"), 0);
+		GameList.addPlayerToGame(new PlayerInfo(PlayerColor.red, 0, "Sam"), 0);
+		
+		assertEquals(GameList.getGameList().get(0).getPlayers().get(0).getColor(), PlayerColor.red);
+	}
+	
+	@Test(expected=ServerException.class)
+	public void sameColorTest() throws ServerException{
+		assertTrue(GameList.getGameList().isEmpty());
+		GameList.addGame("NewGame");
+		GameInfo game = GameList.getGameList().get(0);
+		String playerName = game.getPlayers().get(0).getName();
+		assertNull(playerName);
+		
+		GameList.addPlayerToGame(new PlayerInfo(PlayerColor.orange, 0, "Sam"), 0);
+		GameList.addPlayerToGame(new PlayerInfo(PlayerColor.orange, 1, "Brooke"), 0);
+	}
+	
 	@Test(expected=ServerException.class)
 	public void tooManyPlayersTest() throws ServerException{
 		assertTrue(GameList.getGameList().isEmpty());
