@@ -34,10 +34,10 @@ public class HexGrid {
 		offsets.add(0);
 		offsets.add(0);
 
-		setLandTypes();
+		setHexes();
 	}
 
-	private void setLandTypes(){
+	private void setHexes(){
 		ArrayList<String> landTypes = new ArrayList<>();
 		landTypes.add(""); // desert
 		landTypes.add("Brick");
@@ -58,22 +58,76 @@ public class HexGrid {
 		landTypes.add("Wood");
 		landTypes.add("Ore");
 		landTypes.add("Wheat");
-		int count = 0;
+
+		ArrayList<Location> hexLocations = new ArrayList<Location>();
+		hexLocations.add(new Location(0, -3, false));
+		hexLocations.add(new Location(1, -3, false));
+		hexLocations.add(new Location(2, -3, false));
+		hexLocations.add(new Location(3, -3, false));
+		hexLocations.add(new Location(-1, -2, false));
+		hexLocations.add(new Location(0, -2, false));
+		hexLocations.add(new Location(1, -2, false));
+		hexLocations.add(new Location(2, -2, false));
+		hexLocations.add(new Location(3, -2, false));
+		hexLocations.add(new Location(-2, -1, false));
+		hexLocations.add(new Location(-1, -1, false));
+		hexLocations.add(new Location(0, -1, false));
+		hexLocations.add(new Location(1, -1, false));
+		hexLocations.add(new Location(2, -1, false));
+		hexLocations.add(new Location(3, -1, false));
+		hexLocations.add(new Location(-3, 0, false));
+		hexLocations.add(new Location(-2, 0, false));
+		hexLocations.add(new Location(-1, 0, false));
+		hexLocations.add(new Location(0, 0, false));
+		hexLocations.add(new Location(1, 0, false));
+		hexLocations.add(new Location(2, 0, false));
+		hexLocations.add(new Location(3, 0, false));
+		hexLocations.add(new Location(-3, 1, false));
+		hexLocations.add(new Location(-2, 1, false));
+		hexLocations.add(new Location(-1, 1, false));
+		hexLocations.add(new Location(0, 1, false));
+		hexLocations.add(new Location(1, 1, false));
+		hexLocations.add(new Location(2, 1, false));
+		hexLocations.add(new Location(-3, 2, false));
+		hexLocations.add(new Location(-2, 2, false));
+		hexLocations.add(new Location(-1, 2, false));
+		hexLocations.add(new Location(0, 2, false));
+		hexLocations.add(new Location(1, 2, false));
+		hexLocations.add(new Location(-3, 3, false));
+		hexLocations.add(new Location(-2, 3, false));
+		hexLocations.add(new Location(-1, 3, false));
+		hexLocations.add(new Location(0, 3, false));
+	
+		int typecount = 0;
+		int locCount = 0;
 		for(int i = 0; i < 7; i++){
 			hexes.add(new ArrayList<Hex>());
 			for(int j = 0; j < 7; j++){
 				Hex hexToAdd = new Hex();
+				//System.out.println(locCount);
+				if(onBoard(i, j)){
+					hexToAdd.setLocation(hexLocations.get(locCount));
+					locCount++;
+				}
 				if(j == 0 || i == 0 || i == 6 || (i == 1 && j >= 4) || (i == 2 && j >= 5) || (i == 3 && j >= 6) || (i == 4 && j >= 5) || (i == 5 && j >= 4)){
 					hexToAdd.setIsLand(false);
 				}
 				else{
-					hexToAdd.setLandType(landTypes.get(count));
-					count++;
+					hexToAdd.setLandType(landTypes.get(typecount));
+					typecount++;
 				}
 				hexes.get(i).add(hexToAdd);
 
+				
 			}
 		}
+	}
+
+	private boolean onBoard(int i, int j){
+		if((i == 6 && j <= 3) || (i == 5 && j <= 4) || (i == 4 && j <= 5) || (i == 3 && j <= 6) || (i == 2 && j <= 5) || (i == 1 && j <= 4) || (i == 0 && j <= 3)){
+			return true;
+		}
+		return false;
 	}
 	
 	public void updateEdgeOwner(Location hexLoc, int ownerID){

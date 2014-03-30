@@ -175,10 +175,11 @@ public class MovesHandler implements HttpHandler{
 		JSONObject subObject = obj.getJSONObject("location");
 		args[3] = subObject.optString("x");
 		args[4] = subObject.optString("y");
-
-		//BuildRoad buildRoadObj = new BuildRoad();
-		//buildRoadObj.execute(args);
-		//CommandList.recordCommand(buildRoadObj);
+		
+		RobPlayer robPlayerObj = new RobPlayer();
+		robPlayerObj.execute(args);
+		//System.out.println("yeah");
+		CommandList.recordCommand(robPlayerObj);
 		GameModel response = GameModel.getInstance();
 		sendResponseObject(ex, xStream, response);
 	}
@@ -299,7 +300,6 @@ public class MovesHandler implements HttpHandler{
 		args[3] = subObject.optString("y");
 		args[4] = subObject.optString("direction");
 		args[5] = obj.optString("free");
-
 		BuildRoad buildRoadObj = new BuildRoad();
 		buildRoadObj.execute(args);
 		CommandList.recordCommand(buildRoadObj);
