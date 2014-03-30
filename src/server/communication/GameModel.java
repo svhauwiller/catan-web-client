@@ -19,6 +19,7 @@ import server.api.bank.DevCardList;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Map.Entry;
 
 import com.google.inject.Guice;
 import com.google.inject.Injector;
@@ -46,7 +47,7 @@ public class GameModel {
 	private int longestRoad;
 	private Map map;
 	private ArrayList<Player> players;
-    private iUserLogin validUsers;
+	private iUserLogin validUsers;
 	private int revision;
 	private TradeOffer tradeOffer;
 	private TurnTracker turnTracker;
@@ -68,6 +69,7 @@ public class GameModel {
 		this.turnTracker = new TurnTracker();
 		this.winner = -1;
 	}
+
 	
 	private GameModel _reset() {
 		CommandList.undoAll();
@@ -148,13 +150,23 @@ public class GameModel {
 	
 	private Player _getPlayerByName(String playerName)
 	{
-		for(Player p : players)
+		HashMap<PlayerInfo, String>x = new HashMap<>();
+		x = validUsers.getValidUsers();
+		
+		for (Entry<PlayerInfo, String> entry2:x.entrySet()) {
+		    String name = entry2.getKey().getName();
+		    int playerIDNumber = entry2.getKey().getId();
+		    Object value = entry2.getValue();
+		    System.out.println(name+"  "+playerIDNumber+"  "+value);
+		}
+		    
+		for(Entry<PlayerInfo, String> entry:x.entrySet())
 		{
-			if(playerName.equalsIgnoreCase(p.getName())){
-				return p;
+			if(entry.getKey().getName().equalsIgnoreCase(playerName)){
+				return new Player(-10, new PlayerInfo(null,entry.getKey().getId(),"Player Found!"));
 			}
 		}
-		return new Player(-10, new PlayerInfo(PlayerColor.blue,100,"FAIL"));
+		return new Player(-10, new PlayerInfo(null,100,"PlayerNotFound"));
 	}
 
 	/**

@@ -83,7 +83,7 @@ public class BuyDevCard implements CommandTemplate{
 	public void undo(){
 		//This is mostly sudo code and will need to be changed in accordance with the actual methods that have yet to be made
 		//And because im not 100% sure what the args are
-
+		System.out.println("X IS ********** " + x);
 		//put the resources back in the bank
 		//This isn't possible because bank is private;
 		GameModel.getBank().updateOre(-1);

@@ -50,7 +50,7 @@ public class Player {
 		oldDevCards = new DevCardList("player");
 		orderNumber = orderNumberIn;
 		playedDevCard = false;
-		playerID = 0;
+		playerID = playerInfoIn.getId();
 		resources = new ResourceCardList("player");
 		roads = 13;
 		settlements = 3;
@@ -70,8 +70,20 @@ public class Player {
 		return victoryPoints;
 	}
 	
+	public void setVictoryPoints(int amount){
+		victoryPoints = amount;
+	}
+
+	public void setMonuments(int amount){
+		monuments = amount;
+	}
+	
 	public int getUserID(){
 		return playerID;
+	}
+		
+	public int getMonuments(){
+		return monuments;
 	}
         
         public DevCardList getOldDevCards(){

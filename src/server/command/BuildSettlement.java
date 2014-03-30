@@ -44,6 +44,7 @@ public class BuildSettlement implements CommandTemplate{
 		GameModel.getPlayer(playerIndex).getResourceCardList().updateWood(-1);
 		GameModel.getPlayer(playerIndex).getResourceCardList().updateSheep(-1);
 		GameModel.getPlayer(playerIndex).getResourceCardList().updateWheat(-1);
+		GameModel.getPlayer(playerIndex).updateSettlements(-1);
 
 		// update map - change ownerID of a given edge
 		Location hexLoc = new Location(vertexX, vertexY, true);
@@ -53,7 +54,7 @@ public class BuildSettlement implements CommandTemplate{
 	}
 	
 	@Override
-	public void undo(){
+	public void undo(){ // should probably save previous location
 		Location hexLoc = new Location(vertexX, vertexY, true);
 		hexLoc.setDirection(vertexDirection);
 		GameModel.getMap().updateVertexOwner(hexLoc, -1);
@@ -62,6 +63,7 @@ public class BuildSettlement implements CommandTemplate{
 		GameModel.getPlayer(playerIndex).getResourceCardList().updateWood(1);
 		GameModel.getPlayer(playerIndex).getResourceCardList().updateSheep(1);
 		GameModel.getPlayer(playerIndex).getResourceCardList().updateWheat(1);
+		GameModel.getPlayer(playerIndex).updateSettlements(1);
 
 		GameModel.getBank().updateBrick(-1);
 		GameModel.getBank().updateWood(-1);

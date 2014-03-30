@@ -10,15 +10,17 @@ package server.api.utils;
 
 import java.util.HashMap;
 
+import server.communication.PlayerInfo;
+
 /**
  *
  * @author Wesley
  */
 public interface iUserLogin {
 	
-	public HashMap<String, String> getValidUsers();
+	public HashMap<PlayerInfo, String> getValidUsers();
 
-	public void setValidUsers(HashMap<String, String> validUsers);
+	public void setValidUsers(HashMap<PlayerInfo, String> validUsers);
 
 	public boolean validateUserLogin(HashMap<String,String>userInfo);
 	

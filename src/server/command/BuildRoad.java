@@ -39,6 +39,7 @@ public class BuildRoad implements CommandTemplate{
 		// update player - subtract resources
 		GameModel.getPlayer(playerIndex).getResourceCardList().updateBrick(-1);
 		GameModel.getPlayer(playerIndex).getResourceCardList().updateWood(-1);
+		GameModel.getPlayer(playerIndex).updateRoads(-1);
 
 		// update map - change ownerID of a given edge
 		Location hexLoc = new Location(locationX, locationY, true);
@@ -48,13 +49,14 @@ public class BuildRoad implements CommandTemplate{
 	}
 
 	@Override
-	public void undo(){
+	public void undo(){ // should probably save previous location
 		Location hexLoc = new Location(locationX, locationY, true);
 		hexLoc.setDirection(locationDirection);
 		GameModel.getMap().updateEdgeOwner(hexLoc, -1);
 
 		GameModel.getPlayer(playerIndex).getResourceCardList().updateBrick(-1);
 		GameModel.getPlayer(playerIndex).getResourceCardList().updateWood(-1);
+		GameModel.getPlayer(playerIndex).updateRoads(1);
 
 		GameModel.getBank().updateBrick(-1);
 		GameModel.getBank().updateWood(-1);	
