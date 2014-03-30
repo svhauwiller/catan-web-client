@@ -26,13 +26,17 @@ public class Hex {
 		edges = new ArrayList<>();
 		isLand = true;
 		landtype = "Ore"; // Sheep, Brick, Ore, Wheat, Wood
-		location = new Location(0, 0, false);
+		location = new Location(-5, -5, false);
 		vertexes = new ArrayList<>();
 		
 		for(int i = 0; i < 6; i++){
 			edges.add(new Edge());
 			vertexes.add(new Vertex());
 		}
+	}
+
+	public void setLocation(Location newLoc){
+		location.set(newLoc);
 	}
 	
 	public String getLandType(){

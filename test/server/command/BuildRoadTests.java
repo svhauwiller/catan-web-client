@@ -10,7 +10,13 @@ import org.junit.After;
 import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-
+import server.ServerException;
+import server.communication.*;
+import server.api.player.Player;
+import server.api.utils.*;
+import server.command.*;
+import server.api.player.Player.PlayerColor;
+import java.util.ArrayList;
 
 /**
  *
@@ -20,56 +26,38 @@ public class BuildRoadTests {
 	@Before
 	public void setup(){
 		//GameList.getGameList().clear();
+		GameModel.addPlayer(new Player(0, new PlayerInfo(PlayerColor.orange, 0, "Sam")));
 	}
     
 	@After
 	public void teardown(){}
-    
-	/*@Test
-	public void addGameTest(){
-       		assertTrue(GameList.getGameList().isEmpty());
-		
-		GameList.addGame("NewGame");
-		
-		assertFalse(GameList.getGameList().isEmpty());
-		assertEquals(GameList.getGameList().get(0).getTitle(), "NewGame");
-		
-	}
-	
-	@Test
-	public void joinGameTest() throws ServerException{
-		assertTrue(GameList.getGameList().isEmpty());
-		GameList.addGame("NewGame");
-		GameInfo game = GameList.getGameList().get(0);
-		assertTrue(game.getPlayers().isEmpty());
-		
-		GameList.addPlayerToGame(new PlayerInfo(PlayerColor.orange, 0, "Sam"), 0);
-		
-		assertFalse(GameList.getGameList().get(0).getPlayers().isEmpty());
-		assertEquals(GameList.getGameList().get(0).getPlayers().get(0).getName(), "Sam");
-		assertEquals(GameList.getGameList().get(0).getPlayers().get(0).getColor(), PlayerColor.orange);
-		assertEquals(GameList.getGameList().get(0).getPlayers().get(0).getId(), 0);
-	}
-	
-	@Test(expected=ServerException.class)
-	public void tooManyPlayersTest() throws ServerException{
-		assertTrue(GameList.getGameList().isEmpty());
-		GameList.addGame("NewGame");
-		GameInfo game = GameList.getGameList().get(0);
-		assertTrue(game.getPlayers().isEmpty());
-		
-		GameList.addPlayerToGame(new PlayerInfo(PlayerColor.orange, 0, "Sam"), 0);
-		GameList.addPlayerToGame(new PlayerInfo(PlayerColor.blue, 1, "Brooke"), 0);
-		GameList.addPlayerToGame(new PlayerInfo(PlayerColor.red, 2, "Pete"), 0);
-		GameList.addPlayerToGame(new PlayerInfo(PlayerColor.puce, 3, "Mark"), 0);
-		GameList.addPlayerToGame(new PlayerInfo(PlayerColor.brown, 4, "James"), 0);
-	}*/
 
 	@Test
 	public void buildRoadTest(){
-System.out.println("Hello World");
-String name = "Sam";
-		assertTrue(name == "Sam");
+
+		BuildRoad buildRoadObj = new BuildRoad();
+
+		/* args[0]-> type
+		 * args[1]-> playerIndex
+		 * args[2]-> roadLocation:x
+		 * args[3]-> roadLocation:y
+		 * args[4]-> roadLocation:direction
+		 * args[5]-> free
+		 */
+
+		String[] args = new String[]{"buildRoad","0", "1", "1", "N", "false"};
+		buildRoadObj.execute(args);
+
+		int numOfRoads = GameModel.getPlayer(0).getRoads();
+
+		System.out.println("numOfRoads: " + numOfRoads);
+		
+		//System.out.println(lastLine.getMessage());
+
+		assertEquals(12, numOfRoads);
+
+		//String name = "Sam";
+		//assertTrue(name == "Sam");
 	}
 	
 }

@@ -38,6 +38,15 @@ public class Location {
 	public void setY(int newY){
 		y = newY;
 	}
+
+	public boolean hasDirection(){
+		if(direction == null){
+			return false;
+		}
+		else{
+			return true;
+		}
+	}
 	
 	public String getDirection(){
 		return direction;
@@ -53,6 +62,14 @@ public class Location {
 		}
 		else{
 			return false;
+		}
+	}
+
+	public void set(Location loc){
+		this.x = loc.getX();
+		this.y = loc.getY();
+		if(loc.hasDirection()){
+			this.direction = loc.getDirection();
 		}
 	}
 }

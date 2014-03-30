@@ -19,19 +19,24 @@ public class RobPlayer implements CommandTemplate{
 		args[3] = subObject.optString("x");
 		args[4] = subObject.optString("y");*/
 	public GameModel execute(String[] args){
+		//System.out.println("5");
 		if(location != null){
 			previousRobberLocation = new Location(location.getX(), location.getY(), false);
 		}
-
+		//System.out.println("6: " + args[0] + ", " + args[1] + ", " + args[2] + ", " + args[3] + ", " + args[4]);
 		type = args[0];
 		playerIndex = Integer.parseInt(args[1]);
+		//System.out.println("71");
 		victimIndex = Integer.parseInt(args[2]);
+		//System.out.println("72");
 		location.setX(Integer.parseInt(args[3])); // location set to a new location
+		//System.out.println("73");
 		location.setY(Integer.parseInt(args[4]));
-
+//System.out.println("74");
 		// update map - change hexlocation of robber
+//System.out.println("(" + location.getX() + "," + location.getY() + ")");
 		GameModel.getMap().moveRobber(location);
-
+//System.out.println("8");
 		// update players - subtract resources from one player and add resources to another player
 		Random rand = new Random();
 		
@@ -94,7 +99,7 @@ public class RobPlayer implements CommandTemplate{
 				}
 			}
 		}
-	return null;
+		return null;
 	}
 
 	private boolean allResourcesChecked(boolean[] resourcesToCheck){

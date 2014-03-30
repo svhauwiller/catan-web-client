@@ -10,6 +10,8 @@ public class Soldier implements CommandTemplate {
 	private int playerIndex = -1;
 	private int victimIndex = -1;
 	private Location location;
+	private Location original;
+	private int x =-1;
 	//args[0] = current player id
 	//args[1] = victim player id
 	//args[2] = x location
@@ -21,6 +23,7 @@ public class Soldier implements CommandTemplate {
 		GameModel.getPlayer(playerIndex).getOldDevCards().updateSoldier(-1);
 		
 		//move the robber
+		original = GameModel.getMap().getRobberLocation();
 		location = new Location(Integer.parseInt(args[2]), Integer.parseInt(args[3]), false);
 		GameModel.getMap().moveRobber(location);
 
@@ -30,7 +33,7 @@ public class Soldier implements CommandTemplate {
 		boolean taken = false;
 
 		while(!taken){
-			int x = rand.nextInt(5);
+			x = rand.nextInt(5);
 			if(x == 0){
 				//be wheat
 				if(GameModel.getPlayer(victimIndex).getResourceCardList().getWheat()!=0){
@@ -72,5 +75,28 @@ public class Soldier implements CommandTemplate {
 	}
 	
 	@Override
-	public void undo(){}
+	public void undo(){
+		GameModel.getMap().moveRobber(original);
+		GameModel.getPlayer(playerIndex).getOldDevCards().updateSoldier(1);
+			if(x == 0){
+				GameModel.getPlayer(victimIndex).getResourceCardList().updateWheat(1);
+				GameModel.getPlayer(playerIndex).getResourceCardList().updateWheat(-1);
+			}
+			else if(x == 1){
+				GameModel.getPlayer(victimIndex).getResourceCardList().updateOre(1);
+				GameModel.getPlayer(playerIndex).getResourceCardList().updateOre(-1);
+			}
+			else if(x==2){
+				GameModel.getPlayer(victimIndex).getResourceCardList().updateWood(1);
+				GameModel.getPlayer(playerIndex).getResourceCardList().updateWood(-1);
+			}
+			else if(x==3){
+				GameModel.getPlayer(victimIndex).getResourceCardList().updateSheep(1);
+				GameModel.getPlayer(playerIndex).getResourceCardList().updateSheep(-1);
+			}
+			else if(x==4){
+				GameModel.getPlayer(victimIndex).getResourceCardList().updateBrick(1);
+				GameModel.getPlayer(playerIndex).getResourceCardList().updateBrick(-1);
+			}
+	}
 }

@@ -101,5 +101,9 @@ public class ResourceCardList {
 	public void updateWheat(int amount){
 		wheat+=amount;
 	}
+	
+	public int getTotal(){
+		return brick+wood+wheat+ore+sheep;
+	}
 }
 

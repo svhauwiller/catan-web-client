@@ -170,6 +170,7 @@ public class Map {
 	}
 	
 	public void moveRobber(Location hexLoc){
+		System.out.println("moving robber");
 		robber.setX(hexLoc.getX());
 		robber.setY(hexLoc.getY());
 	}
