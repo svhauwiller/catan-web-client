@@ -105,7 +105,7 @@ public class UserHandler implements HttpHandler{
 			response = "Success";
 			String encodedURL = URLEncoder.encode("{\"name\":\""+requestData.get("username")
 					+"\",\"password\":\""+requestData.get("password")
-					+"\",\"playerID\":"+currentPlayer.getUserID()+"}; "
+					+"\",\"playerID\":"+currentPlayer.getUserID()+"}"
 					,"utf-8");
 			
 			responseHeaders.add("Set-Cookie","catan.user="+encodedURL+"; path=/" );
