@@ -1,5 +1,6 @@
 package server.communication;
 
+import java.util.HashMap;
 import org.junit.After;
 import static org.junit.Assert.*;
 import org.junit.Before;
@@ -12,6 +13,7 @@ import server.api.map.Map;
 import server.api.utils.MessageList;
 import server.api.utils.TradeOffer;
 import server.api.utils.TurnTracker;
+import server.api.utils.iUserLogin;
 
 /*
  * To change this license header, choose License Headers in Project Properties.
@@ -63,7 +65,7 @@ public class GameModelTests {
 		assertEquals(GameModel.getRevision(), 1);
 		assertEquals(GameModel.getPlayer(0).getClass(), Player.class);
 		assertEquals(GameModel.getTradeOffer().getClass(), TradeOffer.class);
-		assertEquals(GameModel.getPlayerByName("Sam").getName(), "Sam");
+		assertEquals(GameModel.getPlayer(0).getName(), "Sam");
 		
 		GameModel.removeTradeOffer();
 		

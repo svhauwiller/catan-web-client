@@ -31,7 +31,7 @@ public class DiscardCardsTest{
 		//System.out.println("Bank's Brick = " + GameModel.getBank().getBrick());
 
 		assertEquals(GameModel.getPlayer(0).getResourceCardList().getBrick(), 0);
-		assertEquals(GameModel.getBank().getBrick(), 23);
+		assertEquals(GameModel.getBank().getBrick(), 16);
 
 		String[] args = new String[]{"discardCards","0", "-1", "0", "0", "0", "-1"};
 		discardCardsobj.execute(args);
@@ -40,7 +40,7 @@ public class DiscardCardsTest{
 		//System.out.println("Bank's Brick = " + GameModel.getBank().getBrick());
 		
 		assertEquals(GameModel.getPlayer(0).getResourceCardList().getBrick(), -1);
-		assertEquals(GameModel.getBank().getBrick(), 24);
+		assertEquals(GameModel.getBank().getBrick(), 17);
 	}
 	
 

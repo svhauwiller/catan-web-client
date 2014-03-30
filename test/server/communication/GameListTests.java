@@ -42,7 +42,8 @@ public class GameListTests {
 		assertTrue(GameList.getGameList().isEmpty());
 		GameList.addGame("NewGame");
 		GameInfo game = GameList.getGameList().get(0);
-		assertTrue(game.getPlayers().isEmpty());
+		String playerName = game.getPlayers().get(0).getName();
+		assertNull(playerName);
 		
 		GameList.addPlayerToGame(new PlayerInfo(PlayerColor.orange, 0, "Sam"), 0);
 		
@@ -57,7 +58,8 @@ public class GameListTests {
 		assertTrue(GameList.getGameList().isEmpty());
 		GameList.addGame("NewGame");
 		GameInfo game = GameList.getGameList().get(0);
-		assertTrue(game.getPlayers().isEmpty());
+		String playerName = game.getPlayers().get(0).getName();
+		assertNull(playerName);
 		
 		GameList.addPlayerToGame(new PlayerInfo(PlayerColor.orange, 0, "Sam"), 0);
 		GameList.addPlayerToGame(new PlayerInfo(PlayerColor.blue, 1, "Brooke"), 0);
