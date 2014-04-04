@@ -27,6 +27,7 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.Arrays;
 import java.util.HashMap;
+import server.CookieDataParser;
 import server.command.*;
 import server.communication.*;
 import server.JSONArray;
@@ -125,6 +126,17 @@ public class MovesHandler implements HttpHandler{
 		requestReader.close();
 		
 		return request.toString();
+	}
+	
+	private String getGameIdFromCookies(HttpExchange ex){
+		List<String> currentCookies = ex.getRequestHeaders().get("Cookie");
+		HashMap<String, String> parsedCookies = new HashMap<>();
+		
+		if(currentCookies != null){
+			parsedCookies = CookieDataParser.parse(currentCookies.get(0));
+		}
+		
+		return parsedCookies.get("catan.game");
 	}
 	
 	private void sendResponseObject(HttpExchange ex, XStream xStream, Object response) throws IOException{

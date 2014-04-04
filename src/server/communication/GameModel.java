@@ -30,15 +30,6 @@ import com.google.inject.Injector;
  */
 public class GameModel {
 	
-	private static GameModel instance;
-	
-	private static GameModel instance(){
-		if(instance == null){
-			instance = new GameModel();
-		}
-		return instance;
-	}
-	
 	private ResourceCardList bank;
 	private int biggestArmy;
 	private MessageList chat;
@@ -53,7 +44,7 @@ public class GameModel {
 	private TurnTracker turnTracker;
 	private int winner;
 	
-	private GameModel(){
+	public GameModel(){
 		System.out.println("gameModel constructor");
 		this.bank = new ResourceCardList("bank");
 		this.biggestArmy = -1;
@@ -71,15 +62,14 @@ public class GameModel {
 	}
 
 	
-	private GameModel _reset() {
-		instance = new GameModel();
-		return instance;
+	public GameModel reset() {
+		return this;
 	}
 	/**
 	 * 
 	 * @return the guiced user to use
 	 */
-	private iUserLogin guiceUser()
+	public iUserLogin guiceUser()
 	{
         Injector injector = Guice.createInjector(new ProductionModule());
         iUserLogin theUser = injector.getInstance(iUserLogin.class);
@@ -89,66 +79,66 @@ public class GameModel {
 	 * 
 	 * @return the object containing valid users
 	 */
-	private iUserLogin _getValidUsers() {
+	public iUserLogin getValidUsers() {
 		return validUsers;
 	}
 	/**
 	 * @return the bank
 	 */
-	private ResourceCardList _getBank() {
+	public ResourceCardList getBank() {
 		return bank;
 	}
 
 	/**
 	 * @return the biggestArmy
 	 */
-	private int _getBiggestArmy() {
+	public int getBiggestArmy() {
 		return biggestArmy;
 	}
 
 	/**
 	 * @return the chat
 	 */
-	private MessageList _getChat() {
+	public MessageList getChat() {
 		return chat;
 	}
 
 	/**
 	 * @return the deck
 	 */
-	private DevCardList _getDeck() {
+	public DevCardList getDeck() {
 		return deck;
 	}
 
 	/**
 	 * @return the log
 	 */
-	private MessageList _getLog() {
+	public MessageList getLog() {
 		return log;
 	}
 
 	/**
 	 * @return the longestRoad
 	 */
-	private int _getLongestRoad() {
+	public int getLongestRoad() {
 		return longestRoad;
 	}
 
 	/**
 	 * @return the map
 	 */
-	private Map _getMap() {
+	public Map getMap() {
 		return map;
 	}
 
 	/**
 	 * @return the players
 	 */
-	private Player _getPlayer(int playerNumber) {
+	public Player getPlayer(int playerNumber) {
 		return players.get(playerNumber);
 	}
 	
-	private Player _getPlayerByName(String playerName)
+	public Player getPlayerByName(String playerName)
 	{
 		HashMap<PlayerInfo, String>x = new HashMap<>();
 		x = validUsers.getValidUsers();
@@ -172,85 +162,62 @@ public class GameModel {
 	/**
 	 * @return the revision
 	 */
-	private int _getRevision() {
+	public int getRevision() {
 		return revision;
 	}
 
 	/**
 	 * @return the tradeOffer
 	 */
-	private TradeOffer _getTradeOffer() {
+	public TradeOffer getTradeOffer() {
 		return tradeOffer;
 	}
 
 	/**
 	 * @return the turnTracker
 	 */
-	private TurnTracker _getTurnTracker() {
+	public TurnTracker getTurnTracker() {
 		return turnTracker;
 	}
 
 	/**
 	 * @return the winner
 	 */
-	private int _getWinner() {
+	public int getWinner() {
 		return winner;
 	}
 
 	/**
 	 * @param biggestArmy the biggestArmy to set
 	 */
-	private void _setBiggestArmy(int biggestArmy) {
+	public void setBiggestArmy(int biggestArmy) {
 		this.biggestArmy = biggestArmy;
 	}
 
 	/**
 	 * @param longestRoad the longestRoad to set
 	 */
-	private void _setLongestRoad(int longestRoad) {
+	public void setLongestRoad(int longestRoad) {
 		this.longestRoad = longestRoad;
 	}
 	
-	private void _addPlayer(Player newPlayer){
+	public void addPlayer(Player newPlayer){
 		this.players.add(newPlayer);
 	}
 	
-	private void _incrementRevision(){
+	public void incrementRevision(){
 		this.revision++;
 	}
 	
-	private void _setTradeOffer(TradeOffer newTradeOffer){
+	public void setTradeOffer(TradeOffer newTradeOffer){
 		this.tradeOffer = newTradeOffer;
 	}
 
 	/**
 	 * @param winner the winner to set
 	 */
-	private void _setWinner(int winner) {
+	public void setWinner(int winner) {
 		this.winner = winner;
 	}
 	
-	public static GameModel getInstance(){return instance();}
-	public static GameModel reset(){return instance()._reset();}
-	public static iUserLogin getValidUsers(){return instance()._getValidUsers();}
-	public static ResourceCardList getBank(){return instance()._getBank();}
-	public static int getBiggestArmy(){return instance()._getBiggestArmy();}
-	public static MessageList getChat(){return instance()._getChat();}
-	public static DevCardList getDeck(){return instance()._getDeck();}
-	public static MessageList getLog(){return instance()._getLog();}
-	public static int getLongestRoad(){return instance()._getLongestRoad();}
-	public static Map getMap(){return instance()._getMap();}
-	public static Player getPlayer(int playerNumber){return instance()._getPlayer(playerNumber);}
-	public static Player getPlayerByName(String playerName){return instance()._getPlayerByName(playerName);}
-	public static int getRevision(){return instance()._getRevision();}
-	public static TradeOffer getTradeOffer(){return instance()._getTradeOffer();}
-	public static TurnTracker getTurnTracker(){return instance()._getTurnTracker();}
-	public static int getWinner(){return instance()._getWinner();}
-	public static void setBiggestArmy(int playerID){instance()._setBiggestArmy(playerID);}
-	public static void setLongestRoad(int playerID){instance()._setLongestRoad(playerID);}
-	public static void addPlayer(Player newPlayer){instance()._addPlayer(newPlayer);}
-	public static void incrementRevision(){instance()._incrementRevision();}
-	public static void setTradeOffer(TradeOffer newTradeOffer){instance()._setTradeOffer(newTradeOffer);}
-	public static void removeTradeOffer(){instance()._setTradeOffer(null);}
-	public static void setWinner(int playerID){instance()._setWinner(playerID);}
 }
