@@ -52,8 +52,10 @@ public class Player {
 		playedDevCard = false;
 		playerID = playerInfoIn.getId();
 		resources = new ResourceCardList("player");
-		roads = 13;
-		settlements = 3;
+		//roads = 13;
+		//settlements = 3;
+		roads = 15;
+		settlements = 5;
 		soldiers = 0;
 		victoryPoints = 2;
 	}

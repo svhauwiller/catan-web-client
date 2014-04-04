@@ -26,8 +26,28 @@ public class FinishTurn implements CommandTemplate {
 		lastStatus = GameModel.getTurnTracker().getStatus();
 		
 		int currentTurn = GameModel.getTurnTracker().getCurrentTurn();
-		GameModel.getTurnTracker().setCurrentTurn((currentTurn + 1) % 4);
-		GameModel.getTurnTracker().setStatus("Rolling");
+		if(GameModel.getTurnTracker().getStatus().equals("FirstRound")){
+			// turnTracker is initialized to playerID = 0 and status = "FirstRound"
+			if(GameModel.getTurnTracker().getCurrentTurn() == 3){
+				GameModel.getTurnTracker().setStatus("SecondRound");
+			}
+			else{
+				GameModel.getTurnTracker().setCurrentTurn((currentTurn + 1) % 4);
+			}
+		}
+		else if(GameModel.getTurnTracker().getStatus().equals("SecondRound")){
+			if(GameModel.getTurnTracker().getCurrentTurn() == 0){
+				GameModel.getTurnTracker().setStatus("Rolling");
+			}
+			else{
+				GameModel.getTurnTracker().setCurrentTurn((currentTurn - 1) % 4);
+			}
+		}
+		else {
+			// status should be Rolling now
+			GameModel.getTurnTracker().setCurrentTurn((currentTurn + 1) % 4);
+			GameModel.getTurnTracker().setStatus("Rolling");
+		}
 		
 		GameModel.incrementRevision();
 		
