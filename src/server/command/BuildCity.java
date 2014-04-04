@@ -2,6 +2,7 @@ package server.command;
 
 import server.JSONObject;
 import server.communication.GameModel;
+import server.communication.GameModelList;
 
 import java.util.*;
 
@@ -14,6 +15,9 @@ public class BuildCity implements CommandTemplate{
 	private int vertexY = -1;
 	private String vertexDirection = "";
 	private boolean free = false;
+	private int gameID = -10;
+	
+
 
 	/* args[0]-> type
 	 * args[1]-> playerIndex
@@ -31,20 +35,21 @@ public class BuildCity implements CommandTemplate{
 		vertexY = Integer.parseInt(args[3]);
 		vertexDirection = args[4];
 		free = Boolean.parseBoolean(args[5]);
+		gameID = Integer.parseInt(args[6]);
 
 		// update bank - add resources - building a road requires one brick, one lumber, one wool, and one grain
-		GameModel.getBank().updateWheat(2);
-		GameModel.getBank().updateOre(3);
+		GameModelList.get(gameID).getBank().updateWheat(2);
+		GameModelList.get(gameID).getBank().updateOre(3);
 
 		// update player - subtract resources
-		GameModel.getPlayer(playerIndex).getResourceCardList().updateWheat(-2);
-		GameModel.getPlayer(playerIndex).getResourceCardList().updateOre(-3);
-		GameModel.getPlayer(playerIndex).updateCities(-1);
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWheat(-2);
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateOre(-3);
+		GameModelList.get(gameID).getPlayer(playerIndex).updateCities(-1);
 
 		// update map - change ownerID of a given edge
 		Location hexLoc = new Location(vertexX, vertexY, true);
 		hexLoc.setDirection(vertexDirection);
-		GameModel.getMap().updateVertexOwner(hexLoc, playerIndex);
+		GameModelList.get(gameID).getMap().updateVertexOwner(hexLoc, playerIndex);
 		return null;
 	}
 	
@@ -52,13 +57,13 @@ public class BuildCity implements CommandTemplate{
 	public void undo(){ // should probably save previous location
 		Location hexLoc = new Location(vertexX, vertexY, true);
 		hexLoc.setDirection(vertexDirection);
-		GameModel.getMap().updateVertexOwner(hexLoc, -1);
+		GameModelList.get(gameID).getMap().updateVertexOwner(hexLoc, -1);
 
-		GameModel.getPlayer(playerIndex).getResourceCardList().updateWheat(2);
-		GameModel.getPlayer(playerIndex).getResourceCardList().updateOre(3);
-		GameModel.getPlayer(playerIndex).updateCities(1);
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWheat(2);
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateOre(3);
+		GameModelList.get(gameID).getPlayer(playerIndex).updateCities(1);
 
-		GameModel.getBank().updateWheat(-2);
-		GameModel.getBank().updateOre(-3);
+		GameModelList.get(gameID).getBank().updateWheat(-2);
+		GameModelList.get(gameID).getBank().updateOre(-3);
 	}
 }

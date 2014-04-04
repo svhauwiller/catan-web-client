@@ -8,6 +8,7 @@ package server.command;
 
 import server.api.utils.MessageLine;
 import server.communication.GameModel;
+import server.communication.GameModelList;
 
 /**
  *
@@ -18,60 +19,64 @@ public class FinishTurn implements CommandTemplate {
 	private String type;
 	private int playerIndex;
 	private String lastStatus;
+	private int gameID;
+	
+
 
 	@Override
 	public GameModel execute(String[] args) {
 		type = args[0];
 		playerIndex = Integer.parseInt(args[1]);
-		lastStatus = GameModel.getTurnTracker().getStatus();
+		gameID = Integer.parseInt(args[2]);
+		lastStatus = GameModelList.get(gameID).getTurnTracker().getStatus();
 		
-		int currentTurn = GameModel.getTurnTracker().getCurrentTurn();
-		if(GameModel.getTurnTracker().getStatus().equals("FirstRound")){
+		int currentTurn = GameModelList.get(gameID).getTurnTracker().getCurrentTurn();
+		if(GameModelList.get(gameID).getTurnTracker().getStatus().equals("FirstRound")){
 			// turnTracker is initialized to playerID = 0 and status = "FirstRound"
-			if(GameModel.getTurnTracker().getCurrentTurn() == 3){
-				GameModel.getTurnTracker().setStatus("SecondRound");
+			if(GameModelList.get(gameID).getTurnTracker().getCurrentTurn() == 3){
+				GameModelList.get(gameID).getTurnTracker().setStatus("SecondRound");
 			}
 			else{
-				GameModel.getTurnTracker().setCurrentTurn((currentTurn + 1) % 4);
+				GameModelList.get(gameID).getTurnTracker().setCurrentTurn((currentTurn + 1) % 4);
 			}
 		}
-		else if(GameModel.getTurnTracker().getStatus().equals("SecondRound")){
-			if(GameModel.getTurnTracker().getCurrentTurn() == 0){
-				GameModel.getTurnTracker().setStatus("Rolling");
+		else if(GameModelList.get(gameID).getTurnTracker().getStatus().equals("SecondRound")){
+			if(GameModelList.get(gameID).getTurnTracker().getCurrentTurn() == 0){
+				GameModelList.get(gameID).getTurnTracker().setStatus("Rolling");
 			}
 			else{
-				GameModel.getTurnTracker().setCurrentTurn((currentTurn - 1) % 4);
+				GameModelList.get(gameID).getTurnTracker().setCurrentTurn((currentTurn - 1) % 4);
 			}
 		}
 		else {
 			// status should be Rolling now
-			GameModel.getTurnTracker().setCurrentTurn((currentTurn + 1) % 4);
-			GameModel.getTurnTracker().setStatus("Rolling");
+			GameModelList.get(gameID).getTurnTracker().setCurrentTurn((currentTurn + 1) % 4);
+			GameModelList.get(gameID).getTurnTracker().setStatus("Rolling");
 		}
 		
-		GameModel.incrementRevision();
+		GameModelList.get(gameID).incrementRevision();
 		
 		//take all New dev cards and make them old dev cards
-		if(GameModel.getPlayer(playerIndex).getNewDevCards().getTotal() !=0){
-			GameModel.getPlayer(playerIndex).getOldDevCards().updateYearOfPlenty(GameModel.getPlayer(playerIndex).getNewDevCards().getYearOfPlenty());
-			GameModel.getPlayer(playerIndex).getOldDevCards().updateMonopoly(GameModel.getPlayer(playerIndex).getNewDevCards().getMonopoly());
-			GameModel.getPlayer(playerIndex).getOldDevCards().updateRoadBuilding(GameModel.getPlayer(playerIndex).getNewDevCards().getRoadBuilding());
-			GameModel.getPlayer(playerIndex).getOldDevCards().updateSoldier(GameModel.getPlayer(playerIndex).getNewDevCards().getSoldier());
+		if(GameModelList.get(gameID).getPlayer(playerIndex).getNewDevCards().getTotal() !=0){
+			GameModelList.get(gameID).getPlayer(playerIndex).getOldDevCards().updateYearOfPlenty(GameModelList.get(gameID).getPlayer(playerIndex).getNewDevCards().getYearOfPlenty());
+			GameModelList.get(gameID).getPlayer(playerIndex).getOldDevCards().updateMonopoly(GameModelList.get(gameID).getPlayer(playerIndex).getNewDevCards().getMonopoly());
+			GameModelList.get(gameID).getPlayer(playerIndex).getOldDevCards().updateRoadBuilding(GameModelList.get(gameID).getPlayer(playerIndex).getNewDevCards().getRoadBuilding());
+			GameModelList.get(gameID).getPlayer(playerIndex).getOldDevCards().updateSoldier(GameModelList.get(gameID).getPlayer(playerIndex).getNewDevCards().getSoldier());
 		}
 		
 		MessageLine logMsg = new MessageLine();
-		logMsg.setSource(GameModel.getPlayer(playerIndex).getName());
-		logMsg.setMessage(GameModel.getPlayer(playerIndex).getName() + "'s turn has ended.");
-		GameModel.getLog().addLine(logMsg);
+		logMsg.setSource(GameModelList.get(gameID).getPlayer(playerIndex).getName());
+		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + "'s turn has ended.");
+		GameModelList.get(gameID).getLog().addLine(logMsg);
 		
 		return null;
 	}
 
 	@Override
 	public void undo() {
-		int currentTurn = GameModel.getTurnTracker().getCurrentTurn();
-		GameModel.getTurnTracker().setCurrentTurn((currentTurn - 1) % 4);
-		GameModel.getTurnTracker().setStatus(lastStatus);
+		int currentTurn = GameModelList.get(gameID).getTurnTracker().getCurrentTurn();
+		GameModelList.get(gameID).getTurnTracker().setCurrentTurn((currentTurn - 1) % 4);
+		GameModelList.get(gameID).getTurnTracker().setStatus(lastStatus);
 	}
 	
 }

@@ -9,6 +9,7 @@ package server.command;
 import server.api.bank.ResourceCardList;
 import server.api.utils.MessageLine;
 import server.communication.GameModel;
+import server.communication.GameModelList;
 
 /**
  *
@@ -21,6 +22,9 @@ public class MaritimeTrade implements CommandTemplate {
 	private int ratio;
 	private String inputResource;
 	private String outputResource;
+	private int gameID;
+	
+
 
 	@Override
 	public GameModel execute(String[] args) {
@@ -29,9 +33,10 @@ public class MaritimeTrade implements CommandTemplate {
 		ratio = Integer.parseInt(args[2]);
 		inputResource = args[3];
 		outputResource = args[4];
+		gameID = Integer.parseInt(args[5]);
 		
-		ResourceCardList playerResources = GameModel.getPlayer(playerIndex).getResourceCardList();
-		ResourceCardList bankResources = GameModel.getBank();
+		ResourceCardList playerResources = GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList();
+		ResourceCardList bankResources = GameModelList.get(gameID).getBank();
 		
 		switch(inputResource){
 			case "wheat":
@@ -83,20 +88,20 @@ public class MaritimeTrade implements CommandTemplate {
 				System.out.println("Invalid output resource");
 		}
 		
-		GameModel.incrementRevision();
+		GameModelList.get(gameID).incrementRevision();
 		
 		MessageLine logMsg = new MessageLine();
-		logMsg.setSource(GameModel.getPlayer(playerIndex).getName());
-		logMsg.setMessage(GameModel.getPlayer(playerIndex).getName() + "'s turn has ended.");
-		GameModel.getLog().addLine(logMsg);
+		logMsg.setSource(GameModelList.get(gameID).getPlayer(playerIndex).getName());
+		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + "'s turn has ended.");
+		GameModelList.get(gameID).getLog().addLine(logMsg);
 		
 		return null;
 	}
 
 	@Override
 	public void undo() {
-		ResourceCardList playerResources = GameModel.getPlayer(playerIndex).getResourceCardList();
-		ResourceCardList bankResources = GameModel.getBank();
+		ResourceCardList playerResources = GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList();
+		ResourceCardList bankResources = GameModelList.get(gameID).getBank();
 		
 		switch(inputResource){
 			case "wheat":

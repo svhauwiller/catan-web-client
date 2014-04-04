@@ -3,6 +3,7 @@ package server.command;
 import server.api.bank.ResourceCardList;
 import server.api.player.Player;
 import server.communication.GameModel;
+import server.communication.GameModelList;
 
 public class SendTradeResponse implements CommandTemplate{
 		private int playerIndex;
@@ -10,13 +11,18 @@ public class SendTradeResponse implements CommandTemplate{
 		private int sender;
 		private int receiver;
 		private ResourceCardList rcl;
+		private int gameID;
+		
+
+		
 	@Override
 	public GameModel execute(String[] args) {
 		playerIndex = Integer.parseInt(args[0]);
 		willAccept = args[1];
-		sender = GameModel.getTradeOffer().getSender();
-		receiver = GameModel.getTradeOffer().getReceiver();
-		rcl = GameModel.getTradeOffer().getTheResourceList();
+		gameID = Integer.parseInt(args[2]); 
+		sender = GameModelList.get(gameID).getTradeOffer().getSender();
+		receiver = GameModelList.get(gameID).getTradeOffer().getReceiver();
+		rcl = GameModelList.get(gameID).getTradeOffer().getTheResourceList();
 		
 		if(willAccept.equalsIgnoreCase("false")){
 			//you suck, just trade
@@ -26,13 +32,13 @@ public class SendTradeResponse implements CommandTemplate{
 		}
 		clearList();
 		
-		GameModel.incrementRevision();
+		GameModelList.get(gameID).incrementRevision();
 		return null;
 	}
 	
 	private void update(){
-		Player theSender = GameModel.getPlayer(sender);
-		Player theReceiver = GameModel.getPlayer(receiver);
+		Player theSender = GameModelList.get(gameID).getPlayer(sender);
+		Player theReceiver = GameModelList.get(gameID).getPlayer(receiver);
 		//update Brick
 		if(rcl.getBrick()!=0){
 			theSender.getResourceCardList().updateBrick(rcl.getBrick()*(-1));
@@ -61,8 +67,8 @@ public class SendTradeResponse implements CommandTemplate{
 	}
 	
 	private void clearList(){
-		GameModel.getTradeOffer().setReceiver(-1);
-		GameModel.getTradeOffer().setSender(-1); 
+		GameModelList.get(gameID).getTradeOffer().setReceiver(-1);
+		GameModelList.get(gameID).getTradeOffer().setSender(-1); 
 	}
 	
 

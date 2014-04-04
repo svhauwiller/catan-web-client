@@ -1,6 +1,7 @@
 package server.command;
 
 import server.communication.GameModel;
+import server.communication.GameModelList;
 import server.api.bank.ResourceCardList;
 import server.api.utils.MessageLine;
 
@@ -12,6 +13,9 @@ public class DiscardCards implements CommandTemplate{
 	private int sheep = -1;
 	private int wheat = -1;
 	private int wood = -1;
+	private int gameID = -10;
+	
+
 
 
 	@Override
@@ -24,16 +28,17 @@ public class DiscardCards implements CommandTemplate{
 		sheep = Integer.parseInt(args[4]);
 		wheat = Integer.parseInt(args[5]);
 		wood = Integer.parseInt(args[6]);
+		gameID = Integer.parseInt(args[7]);
 
-		GameModel.getBank().updateBrick(-brick);
-		GameModel.getBank().updateOre(-ore);
-		GameModel.getBank().updateSheep(-sheep);
-		GameModel.getBank().updateWheat(-wheat);
-		GameModel.getBank().updateWood(-wood);
+		GameModelList.get(gameID).getBank().updateBrick(-brick);
+		GameModelList.get(gameID).getBank().updateOre(-ore);
+		GameModelList.get(gameID).getBank().updateSheep(-sheep);
+		GameModelList.get(gameID).getBank().updateWheat(-wheat);
+		GameModelList.get(gameID).getBank().updateWood(-wood);
 
 		//System.out.println("executing 3");
 
-		ResourceCardList playersHand = GameModel.getPlayer(playerIndex).getResourceCardList();
+		ResourceCardList playersHand = GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList();
 
 		//System.out.println("executing 4");
 
@@ -48,11 +53,11 @@ public class DiscardCards implements CommandTemplate{
 
 
 		MessageLine logMsg = new MessageLine();
-		logMsg.setSource(GameModel.getPlayer(playerIndex).getName());
-		logMsg.setMessage(GameModel.getPlayer(playerIndex).getName() + " discarded some cards.");
-		GameModel.getLog().addLine(logMsg);
+		logMsg.setSource(GameModelList.get(gameID).getPlayer(playerIndex).getName());
+		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + " discarded some cards.");
+		GameModelList.get(gameID).getLog().addLine(logMsg);
 
-		GameModel.incrementRevision();
+		GameModelList.get(gameID).incrementRevision();
 		return null;
 	}
 	@Override

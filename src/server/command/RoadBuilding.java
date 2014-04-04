@@ -1,7 +1,10 @@
 package server.command;
 
 import server.communication.GameModel;
+import server.communication.GameModelList;
+
 import java.util.*;
+
 import server.api.map.Location;
 
 public class RoadBuilding implements CommandTemplate {
@@ -16,23 +19,28 @@ public class RoadBuilding implements CommandTemplate {
 	private int playerIndex = -1;
 	private Location spot1;
 	private Location spot2;
+	private int gameID = -10;
+	
+
+	
 	public GameModel execute(String[] args){
 		playerIndex = Integer.parseInt(args[0]);
 		//if(GameModel.getPlayer(playerIndex.getOldDevCards().update
-		GameModel.getPlayer(playerIndex).getOldDevCards().updateRoadBuilding(-1);
+		GameModelList.get(gameID).getPlayer(playerIndex).getOldDevCards().updateRoadBuilding(-1);
 
 		//set the locations
 		spot1 = new Location(Integer.parseInt(args[1]), Integer.parseInt(args[2]), true);
 		spot2 = new Location(Integer.parseInt(args[4]), Integer.parseInt(args[5]), true);
 		spot1.setDirection(args[3]);
 		spot2.setDirection(args[6]);
+		gameID = Integer.parseInt(args[7]);
 
 		//build both roads
-		GameModel.getMap().updateEdgeOwner(spot1, playerIndex);
-		GameModel.getMap().updateEdgeOwner(spot2, playerIndex);
+		GameModelList.get(gameID).getMap().updateEdgeOwner(spot1, playerIndex);
+		GameModelList.get(gameID).getMap().updateEdgeOwner(spot2, playerIndex);
 		
 		//take away roads from the player
-		GameModel.getPlayer(playerIndex).updateRoads(-2);
+		GameModelList.get(gameID).getPlayer(playerIndex).updateRoads(-2);
 		
 		
 		return null;

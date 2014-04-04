@@ -1,7 +1,10 @@
 package server.command;
 
 import server.communication.GameModel;
+import server.communication.GameModelList;
+
 import java.util.*;
+
 import server.api.map.Location;
 
 public class Soldier implements CommandTemplate {
@@ -12,20 +15,26 @@ public class Soldier implements CommandTemplate {
 	private Location location;
 	private Location original;
 	private int x =-1;
+	private int gameID = -10;
 	//args[0] = current player id
 	//args[1] = victim player id
 	//args[2] = x location
 	//args[3] = y location
+	
+	
+
 	@Override
 	public GameModel execute(String[] args){
 		playerIndex = Integer.parseInt(args[0]);
 		victimIndex = Integer.parseInt(args[1]);
-		GameModel.getPlayer(playerIndex).getOldDevCards().updateSoldier(-1);
+		gameID = Integer.parseInt(args[4]);
+		
+		GameModelList.get(gameID).getPlayer(playerIndex).getOldDevCards().updateSoldier(-1);
 		
 		//move the robber
-		original = GameModel.getMap().getRobberLocation();
+		original = GameModelList.get(gameID).getMap().getRobberLocation();
 		location = new Location(Integer.parseInt(args[2]), Integer.parseInt(args[3]), false);
-		GameModel.getMap().moveRobber(location);
+		GameModelList.get(gameID).getMap().moveRobber(location);
 
 		//steal!!!!!
 		Random rand = new Random();
@@ -36,38 +45,38 @@ public class Soldier implements CommandTemplate {
 			x = rand.nextInt(5);
 			if(x == 0){
 				//be wheat
-				if(GameModel.getPlayer(victimIndex).getResourceCardList().getWheat()!=0){
+				if(GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().getWheat()!=0){
 					taken = true;
-					GameModel.getPlayer(victimIndex).getResourceCardList().updateWheat(-1);
-					GameModel.getPlayer(playerIndex).getResourceCardList().updateWheat(1);
+					GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateWheat(-1);
+					GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWheat(1);
 				}
 			}
 			else if(x == 1){
-				if(GameModel.getPlayer(victimIndex).getResourceCardList().getOre()!=0){
+				if(GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().getOre()!=0){
 					taken = true;
-					GameModel.getPlayer(victimIndex).getResourceCardList().updateOre(-1);
-					GameModel.getPlayer(playerIndex).getResourceCardList().updateOre(1);
+					GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateOre(-1);
+					GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateOre(1);
 				}
 			}
 			else if(x==2){
-				if(GameModel.getPlayer(victimIndex).getResourceCardList().getWood()!=0){
+				if(GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().getWood()!=0){
 					taken = true;
-					GameModel.getPlayer(victimIndex).getResourceCardList().updateWood(-1);
-					GameModel.getPlayer(playerIndex).getResourceCardList().updateWood(1);
+					GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateWood(-1);
+					GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(1);
 				}
 			}
 			else if(x==3){
-				if(GameModel.getPlayer(victimIndex).getResourceCardList().getSheep()!=0){
+				if(GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().getSheep()!=0){
 					taken = true;
-					GameModel.getPlayer(victimIndex).getResourceCardList().updateSheep(-1);
-					GameModel.getPlayer(playerIndex).getResourceCardList().updateSheep(1);
+					GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateSheep(-1);
+					GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateSheep(1);
 				}
 			}
 			else if(x==4){
-				if(GameModel.getPlayer(victimIndex).getResourceCardList().getBrick()!=0){
+				if(GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().getBrick()!=0){
 					taken = true;
-					GameModel.getPlayer(victimIndex).getResourceCardList().updateBrick(-1);
-					GameModel.getPlayer(playerIndex).getResourceCardList().updateBrick(1);
+					GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateBrick(-1);
+					GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(1);
 				}
 			}
 		}
@@ -76,27 +85,27 @@ public class Soldier implements CommandTemplate {
 	
 	@Override
 	public void undo(){
-		GameModel.getMap().moveRobber(original);
-		GameModel.getPlayer(playerIndex).getOldDevCards().updateSoldier(1);
+		GameModelList.get(gameID).getMap().moveRobber(original);
+		GameModelList.get(gameID).getPlayer(playerIndex).getOldDevCards().updateSoldier(1);
 			if(x == 0){
-				GameModel.getPlayer(victimIndex).getResourceCardList().updateWheat(1);
-				GameModel.getPlayer(playerIndex).getResourceCardList().updateWheat(-1);
+				GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateWheat(1);
+				GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWheat(-1);
 			}
 			else if(x == 1){
-				GameModel.getPlayer(victimIndex).getResourceCardList().updateOre(1);
-				GameModel.getPlayer(playerIndex).getResourceCardList().updateOre(-1);
+				GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateOre(1);
+				GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateOre(-1);
 			}
 			else if(x==2){
-				GameModel.getPlayer(victimIndex).getResourceCardList().updateWood(1);
-				GameModel.getPlayer(playerIndex).getResourceCardList().updateWood(-1);
+				GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateWood(1);
+				GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(-1);
 			}
 			else if(x==3){
-				GameModel.getPlayer(victimIndex).getResourceCardList().updateSheep(1);
-				GameModel.getPlayer(playerIndex).getResourceCardList().updateSheep(-1);
+				GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateSheep(1);
+				GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateSheep(-1);
 			}
 			else if(x==4){
-				GameModel.getPlayer(victimIndex).getResourceCardList().updateBrick(1);
-				GameModel.getPlayer(playerIndex).getResourceCardList().updateBrick(-1);
+				GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateBrick(1);
+				GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(-1);
 			}
 	}
 }

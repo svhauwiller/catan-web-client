@@ -1,6 +1,7 @@
 package server.command;
 
 import server.communication.GameModel;
+import server.communication.GameModelList;
 import server.api.utils.*;
 
 
@@ -10,7 +11,7 @@ public class UpdateChatLog implements CommandTemplate{
 	private int playerIndex = -1;
 	private String content = null;
 	private String source = null;
-
+	private int gameID = -10;
 
 	@Override
 	public GameModel execute(String[] args){
@@ -18,8 +19,9 @@ public class UpdateChatLog implements CommandTemplate{
 		type = args[0];
 		playerIndex = Integer.parseInt(args[1]);
 		content = args[2];
+		gameID = Integer.parseInt(args[3]);
 
-		source = GameModel.getPlayer(playerIndex).getName();
+		source = GameModelList.get(gameID).getPlayer(playerIndex).getName();
 		
 		//System.out.println("Monkey 3");
 
@@ -27,13 +29,13 @@ public class UpdateChatLog implements CommandTemplate{
 
 		//System.out.println("executing 11");
 
-		MessageList chatList = GameModel.getChat();
+		MessageList chatList = GameModelList.get(gameID).getChat();
 
 		chatList.getLines().add(messageLine);
 
 		//System.out.println("updated the chatList");
 		
-		GameModel.incrementRevision();
+		GameModelList.get(gameID).incrementRevision();
 		return null;
 	}
 	@Override

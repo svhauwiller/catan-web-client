@@ -2,6 +2,7 @@ package server.command;
 
 import server.JSONObject;
 import server.communication.GameModel;
+import server.communication.GameModelList;
 
 import java.util.*;
 
@@ -14,6 +15,9 @@ public class BuildRoad implements CommandTemplate{
 	private int locationY = -1;
 	private String locationDirection = "";
 	private boolean free = false;
+	private int gameID = -10;
+	
+
 
 	/* args[0]-> type
 	 * args[1]-> playerIndex
@@ -30,21 +34,22 @@ public class BuildRoad implements CommandTemplate{
 		locationY = Integer.parseInt(args[3]);
 		locationDirection = args[4];
 		free = Boolean.parseBoolean(args[5]);
+		gameID = Integer.parseInt(args[6]);
 		//GameModel gmod = GameModel.getInstance();
 
 		// update bank - add resources - building a road requires one brick and one lumber
-		GameModel.getBank().updateBrick(1);
-		GameModel.getBank().updateWood(1);
+		GameModelList.get(gameID).getBank().updateBrick(1);
+		GameModelList.get(gameID).getBank().updateWood(1);
 
 		// update player - subtract resources
-		GameModel.getPlayer(playerIndex).getResourceCardList().updateBrick(-1);
-		GameModel.getPlayer(playerIndex).getResourceCardList().updateWood(-1);
-		GameModel.getPlayer(playerIndex).updateRoads(-1);
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(-1);
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(-1);
+		GameModelList.get(gameID).getPlayer(playerIndex).updateRoads(-1);
 
 		// update map - change ownerID of a given edge
 		Location hexLoc = new Location(locationX, locationY, true);
 		hexLoc.setDirection(locationDirection);
-		GameModel.getMap().updateEdgeOwner(hexLoc, playerIndex);
+		GameModelList.get(gameID).getMap().updateEdgeOwner(hexLoc, playerIndex);
 		return null;
 	}
 
@@ -52,13 +57,13 @@ public class BuildRoad implements CommandTemplate{
 	public void undo(){ // should probably save previous location
 		Location hexLoc = new Location(locationX, locationY, true);
 		hexLoc.setDirection(locationDirection);
-		GameModel.getMap().updateEdgeOwner(hexLoc, -1);
+		GameModelList.get(gameID).getMap().updateEdgeOwner(hexLoc, -1);
 
-		GameModel.getPlayer(playerIndex).getResourceCardList().updateBrick(-1);
-		GameModel.getPlayer(playerIndex).getResourceCardList().updateWood(-1);
-		GameModel.getPlayer(playerIndex).updateRoads(1);
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(-1);
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(-1);
+		GameModelList.get(gameID).getPlayer(playerIndex).updateRoads(1);
 
-		GameModel.getBank().updateBrick(-1);
-		GameModel.getBank().updateWood(-1);	
+		GameModelList.get(gameID).getBank().updateBrick(-1);
+		GameModelList.get(gameID).getBank().updateWood(-1);	
 	}
 }

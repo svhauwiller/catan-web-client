@@ -1,6 +1,7 @@
 package server.command;
 
 import server.communication.GameModel;
+import server.communication.GameModelList;
 
 public class SendTradeOffer implements CommandTemplate{
 	private int playerIndex;
@@ -10,6 +11,10 @@ public class SendTradeOffer implements CommandTemplate{
 	private int wheat;
 	private int wood;
 	private int receiver;
+	private int gameID;
+	
+
+	
 	@Override
 	public GameModel execute(String[] args) {
 			playerIndex = Integer.parseInt(args[0]);
@@ -19,17 +24,18 @@ public class SendTradeOffer implements CommandTemplate{
 			wheat = Integer.parseInt(args[4]);
 			wood = Integer.parseInt(args[5]);
 			receiver = Integer.parseInt(args[6]);
+			gameID = Integer.parseInt(args[7]);
 			
-			GameModel.getTradeOffer().setSender(playerIndex);
-			GameModel.getTradeOffer().setReceiver(receiver);
-			GameModel.getTradeOffer().getTheResourceList().setBrick(brick); 
-			GameModel.getTradeOffer().getTheResourceList().setOre(ore);
-			GameModel.getTradeOffer().getTheResourceList().setSheep(sheep);
-			GameModel.getTradeOffer().getTheResourceList().setWheat(wheat);
-			GameModel.getTradeOffer().getTheResourceList().setWood(wood);
+			GameModelList.get(gameID).getTradeOffer().setSender(playerIndex);
+			GameModelList.get(gameID).getTradeOffer().setReceiver(receiver);
+			GameModelList.get(gameID).getTradeOffer().getTheResourceList().setBrick(brick); 
+			GameModelList.get(gameID).getTradeOffer().getTheResourceList().setOre(ore);
+			GameModelList.get(gameID).getTradeOffer().getTheResourceList().setSheep(sheep);
+			GameModelList.get(gameID).getTradeOffer().getTheResourceList().setWheat(wheat);
+			GameModelList.get(gameID).getTradeOffer().getTheResourceList().setWood(wood);
 			
 
-		GameModel.incrementRevision();
+			GameModelList.get(gameID).incrementRevision();
 		return null;
 	}
 

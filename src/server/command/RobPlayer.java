@@ -1,7 +1,9 @@
 package server.command;
 
 import server.communication.GameModel;
+import server.communication.GameModelList;
 import server.api.map.Location;
+
 import java.util.*;
 
 
@@ -12,6 +14,10 @@ public class RobPlayer implements CommandTemplate{
 	private Location location;
 	private String resourceToSteal = "";
 	private Location previousRobberLocation;
+	private int gameID = -10;
+	
+
+	
 	/*  args[0] = obj.optString("type");
 		args[1] = obj.optString("playerIndex");
 		args[2] = obj.optString("victimIndex");
@@ -32,9 +38,10 @@ public class RobPlayer implements CommandTemplate{
 		victimIndex = Integer.parseInt(args[2]);
 		location.setX(Integer.parseInt(args[3])); // location set to a new location
 		location.setY(Integer.parseInt(args[4]));
+		gameID = Integer.parseInt(args[5]);
 
 		// update map - change hexlocation of robber
-		GameModel.getMap().moveRobber(location);
+		GameModelList.get(gameID).getMap().moveRobber(location);
 
 		// update players - subtract resources from one player and add resources to another player
 		Random rand = new Random();
@@ -54,46 +61,46 @@ public class RobPlayer implements CommandTemplate{
 			}
 			else if(x == 0){
 				resourcesChecked[0] = true;
-				if(GameModel.getPlayer(victimIndex).getResourceCardList().getWheat() > 0){
+				if(GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().getWheat() > 0){
 					taken = true;
-					GameModel.getPlayer(victimIndex).getResourceCardList().updateWheat(-1);
-					GameModel.getPlayer(playerIndex).getResourceCardList().updateWheat(1);
+					GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateWheat(-1);
+					GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWheat(1);
 					resourceToSteal = "Wheat";
 				}
 			}
 			else if(x == 1){
 				resourcesChecked[1] = true;
-				if(GameModel.getPlayer(victimIndex).getResourceCardList().getOre() > 0){
+				if(GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().getOre() > 0){
 					taken = true;
-					GameModel.getPlayer(victimIndex).getResourceCardList().updateOre(-1);
-					GameModel.getPlayer(playerIndex).getResourceCardList().updateOre(1);
+					GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateOre(-1);
+					GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateOre(1);
 					resourceToSteal = "Ore";
 				}
 			}
 			else if(x==2){
 				resourcesChecked[2] = true;
-				if(GameModel.getPlayer(victimIndex).getResourceCardList().getWood() > 0){
+				if(GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().getWood() > 0){
 					taken = true;
-					GameModel.getPlayer(victimIndex).getResourceCardList().updateWood(-1);
-					GameModel.getPlayer(playerIndex).getResourceCardList().updateWood(1);
+					GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateWood(-1);
+					GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(1);
 					resourceToSteal = "Wood";
 				}
 			}
 			else if(x==3){
 				resourcesChecked[3] = true;
-				if(GameModel.getPlayer(victimIndex).getResourceCardList().getSheep() > 0){
+				if(GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().getSheep() > 0){
 					taken = true;
-					GameModel.getPlayer(victimIndex).getResourceCardList().updateSheep(-1);
-					GameModel.getPlayer(playerIndex).getResourceCardList().updateSheep(1);
+					GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateSheep(-1);
+					GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateSheep(1);
 					resourceToSteal = "Sheep";
 				}
 			}
 			else if(x==4){
 				resourcesChecked[4] = true;
-				if(GameModel.getPlayer(victimIndex).getResourceCardList().getBrick() > 0){
+				if(GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().getBrick() > 0){
 					taken = true;
-					GameModel.getPlayer(victimIndex).getResourceCardList().updateBrick(-1);
-					GameModel.getPlayer(playerIndex).getResourceCardList().updateBrick(1);
+					GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateBrick(-1);
+					GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(1);
 					resourceToSteal = "Brick";
 				}
 			}

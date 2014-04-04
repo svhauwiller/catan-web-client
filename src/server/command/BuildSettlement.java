@@ -2,6 +2,7 @@ package server.command;
 
 import server.JSONObject;
 import server.communication.GameModel;
+import server.communication.GameModelList;
 
 import java.util.*;
 
@@ -14,6 +15,9 @@ public class BuildSettlement implements CommandTemplate{
 	private int vertexY = -1;
 	private String vertexDirection = "";
 	private boolean free = false;
+	private int gameID = -10;
+	
+
 
 	/* args[0]-> type
 	 * args[1]-> playerIndex
@@ -31,25 +35,26 @@ public class BuildSettlement implements CommandTemplate{
 		vertexY = Integer.parseInt(args[3]);
 		vertexDirection = args[4];
 		free = Boolean.parseBoolean(args[5]);
+		gameID = Integer.parseInt(args[6]);
 		//GameModel gmod = GameModel.getInstance();
 
 		// update bank - add resources - building a road requires one brick, one lumber, one wool, and one grain
-		GameModel.getBank().updateBrick(1);
-		GameModel.getBank().updateWood(1);
-		GameModel.getBank().updateSheep(1);
-		GameModel.getBank().updateWheat(1);
+		GameModelList.get(gameID).getBank().updateBrick(1);
+		GameModelList.get(gameID).getBank().updateWood(1);
+		GameModelList.get(gameID).getBank().updateSheep(1);
+		GameModelList.get(gameID).getBank().updateWheat(1);
 
 		// update player - subtract resources
-		GameModel.getPlayer(playerIndex).getResourceCardList().updateBrick(-1);
-		GameModel.getPlayer(playerIndex).getResourceCardList().updateWood(-1);
-		GameModel.getPlayer(playerIndex).getResourceCardList().updateSheep(-1);
-		GameModel.getPlayer(playerIndex).getResourceCardList().updateWheat(-1);
-		GameModel.getPlayer(playerIndex).updateSettlements(-1);
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(-1);
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(-1);
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateSheep(-1);
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWheat(-1);
+		GameModelList.get(gameID).getPlayer(playerIndex).updateSettlements(-1);
 
 		// update map - change ownerID of a given edge
 		Location hexLoc = new Location(vertexX, vertexY, true);
 		hexLoc.setDirection(vertexDirection);
-		GameModel.getMap().updateVertexOwner(hexLoc, playerIndex);
+		GameModelList.get(gameID).getMap().updateVertexOwner(hexLoc, playerIndex);
 		return null;
 	}
 	
@@ -57,17 +62,17 @@ public class BuildSettlement implements CommandTemplate{
 	public void undo(){ // should probably save previous location
 		Location hexLoc = new Location(vertexX, vertexY, true);
 		hexLoc.setDirection(vertexDirection);
-		GameModel.getMap().updateVertexOwner(hexLoc, -1);
+		GameModelList.get(gameID).getMap().updateVertexOwner(hexLoc, -1);
 
-		GameModel.getPlayer(playerIndex).getResourceCardList().updateBrick(1);
-		GameModel.getPlayer(playerIndex).getResourceCardList().updateWood(1);
-		GameModel.getPlayer(playerIndex).getResourceCardList().updateSheep(1);
-		GameModel.getPlayer(playerIndex).getResourceCardList().updateWheat(1);
-		GameModel.getPlayer(playerIndex).updateSettlements(1);
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(1);
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(1);
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateSheep(1);
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWheat(1);
+		GameModelList.get(gameID).getPlayer(playerIndex).updateSettlements(1);
 
-		GameModel.getBank().updateBrick(-1);
-		GameModel.getBank().updateWood(-1);
-		GameModel.getBank().updateSheep(-1);
-		GameModel.getBank().updateWheat(-1);
+		GameModelList.get(gameID).getBank().updateBrick(-1);
+		GameModelList.get(gameID).getBank().updateWood(-1);
+		GameModelList.get(gameID).getBank().updateSheep(-1);
+		GameModelList.get(gameID).getBank().updateWheat(-1);
 	}
 }
