@@ -113,8 +113,10 @@ catan.models.Player = (function playerNameSpace(){
 		{
 			this.MAX_GAME_POINTS = 10;
 			this.cities = 4;
-			this.settlements = 3;// after initial placement
-			this.roads = 13;// after initial placement
+			//this.settlements = 3;// after initial placement
+			//this.roads = 13;// after initial placement
+			this.settlements = 5;
+			this.roads = 15;
 			this.soldiers = 0;
 			this.color = "";
 			this.discarded = false;
