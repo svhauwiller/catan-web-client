@@ -32,10 +32,15 @@ public class GameModelList {
 		return gameModelList.get(index);
 	}
 	
+	private void _set(int index, GameModel theModel){
+		gameModelList.set(index, theModel);
+	}
+	
 	private void _add(GameModel newGameModel){
 		gameModelList.add(newGameModel);
 	}
 	
 	public static GameModel get(int index){return instance()._get(index);}
+	public static void set(int index, GameModel theModel){instance()._set(index, theModel);}
 	public static void add(GameModel newGameModel){instance()._add(newGameModel);}
 }
