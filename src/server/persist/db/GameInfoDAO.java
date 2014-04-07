@@ -7,6 +7,7 @@
 package server.persist.db;
 
 import java.sql.Connection;
+
 import server.communication.GameModel;
 import server.persist.GameInfoAO;
 
@@ -19,11 +20,6 @@ public class GameInfoDAO implements GameInfoAO {
 
 	GameInfoDAO(DatabaseConnection dbconn) {
 		this.conn = dbconn.getConnection();
-	}
-
-	@Override
-	public void add(int gameID, String gameTitle, GameModel initModel) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
 	@Override
@@ -49,6 +45,12 @@ public class GameInfoDAO implements GameInfoAO {
 	@Override
 	public void update(String type, GameModel model, int gameID) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public void add(String gameTitle, GameModel initModel) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		
 	}
 	
 }

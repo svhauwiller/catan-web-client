@@ -16,11 +16,6 @@ import server.persist.GameInfoAO;
 public class GameInfoXMLAO implements GameInfoAO {
 
 	@Override
-	public void add(int gameID, String gameTitle, GameModel initModel) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
 	public int getID(String gameTitle) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
@@ -43,6 +38,12 @@ public class GameInfoXMLAO implements GameInfoAO {
 	@Override
 	public void update(String type, GameModel model, int gameID) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public void add(String gameTitle, GameModel initModel) {
+		// TODO Auto-generated method stub
+		
 	}
 	
 }

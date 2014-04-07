@@ -7,6 +7,7 @@
 package server.persist.db;
 
 import java.sql.Connection;
+
 import server.persist.UsersAO;
 
 /**
@@ -33,5 +34,11 @@ public class UsersDAO implements UsersAO{
 	@Override
 	public int getID(String username) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
+	@Override
+	public String getPassword(String username) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

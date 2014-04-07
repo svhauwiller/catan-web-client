@@ -13,7 +13,7 @@ import server.communication.GameModel;
  * @author Wesley
  */
 public interface GameInfoAO {
-	public void add(int gameID, String gameTitle, GameModel initModel);
+	public void add(String gameTitle, GameModel initModel);
 	public int getID(String gameTitle);
 	public GameModel getInit(int gameID);
 	public GameModel getCurr(int gameID);
