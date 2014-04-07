@@ -17,7 +17,6 @@ public class DatabaseRefresher {
 	private static String parent;
 
 	public static void main(String args[]) {
-		String fileName = args[0];
 
 		boolean finished = true;
 
@@ -28,7 +27,7 @@ public class DatabaseRefresher {
 
 			dbconn.startTransaction();
 
-			dropTables(fileName, dbconn);
+			dropTables(dbconn);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -40,7 +39,7 @@ public class DatabaseRefresher {
 		dbconn.endTransaction(finished);
 	}
 
-	private static void dropTables(String fileName, DatabaseConnection dbconn)
+	private static void dropTables(DatabaseConnection dbconn)
 			throws Exception {
 
 		Statement stmt = dbconn.getConnection().createStatement();

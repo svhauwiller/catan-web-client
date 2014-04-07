@@ -57,9 +57,10 @@ public class DatabaseConnection {
 	 * @param password
 	 * @return The User object containing null or a valid user
 	 */
-//	protected User Verify(String user_name, String password) {
+
+//	public User Verify(String username, String password) {
 //
-//		User userVerify = new User(user_name, password);
+//		User userVerify = new User(username, password);
 //
 //		User userOut = null;
 //		try {
