@@ -61,12 +61,12 @@ public class GameInfo{
 				} else {
 					this.players.set(i, player);
 					Player playerData = new Player(i, player);
-					GameModel.addPlayer(playerData);
+					GameModelList.get(this.id).addPlayer(playerData);
 					return;
 				}
 			} else if(playerName.equals(player.getName())) {
 				this.players.get(i).setColor(player.getColor());
-				GameModel.getPlayer(i).setColor(player.getColor());
+				GameModelList.get(this.id).getPlayer(i).setColor(player.getColor());
 				return;
 			}
 		}

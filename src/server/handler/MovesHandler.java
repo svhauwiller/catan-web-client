@@ -147,12 +147,14 @@ public class MovesHandler implements HttpHandler{
 	}
 
 	private void updateChatLog(HttpExchange ex, XStream xStream) throws IOException{
+		String currentGameID = getGameIdFromCookies(ex);
 		String inputString = getRequestString(ex.getRequestBody());
 		JSONObject obj = new JSONObject(inputString);
-		String[] args = new String[3];
+		String[] args = new String[4];
 		args[0] = obj.optString("type");
 		args[1] = obj.optString("playerIndex");
 		args[2] = obj.optString("content");
+		args[3] = currentGameID;
 		
 		System.out.println(inputString);
 
@@ -160,86 +162,95 @@ public class MovesHandler implements HttpHandler{
 		updateChatLogObj.execute(args);
 		CommandList.recordCommand(updateChatLogObj);
 
-		GameModel response = GameModel.getInstance();
+		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
 	}
 
 	private void udpateFromRoll(HttpExchange ex, XStream xStream) throws IOException{
+		String currentGameID = getGameIdFromCookies(ex);
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
-		String[] args = new String[3];
+		String[] args = new String[4];
 		args[0] = obj.optString("type");
 		args[1] = obj.optString("playerIndex");
 		args[2] = obj.optString("number");
+		args[3] = currentGameID;
 
 		RollNumber rollNumberObj = new RollNumber();
 		rollNumberObj.execute(args);
 		CommandList.recordCommand(rollNumberObj);
-		GameModel response = GameModel.getInstance();
+		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
 	}
 
 	private void robPlayer(HttpExchange ex, XStream xStream) throws IOException{
+		String currentGameID = getGameIdFromCookies(ex);
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
-		String[] args = new String[5];
+		String[] args = new String[6];
 		args[0] = obj.optString("type");
 		args[1] = obj.optString("playerIndex");
 		args[2] = obj.optString("victimIndex");
 		JSONObject subObject = obj.getJSONObject("location");
 		args[3] = subObject.optString("x");
 		args[4] = subObject.optString("y");
+		args[5] = currentGameID;
 		
 		RobPlayer robPlayerObj = new RobPlayer();
 		robPlayerObj.execute(args);
 		//System.out.println("yeah");
 		CommandList.recordCommand(robPlayerObj);
-		GameModel response = GameModel.getInstance();
+		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
 	}
 
 	private void finishTurn(HttpExchange ex, XStream xStream) throws IOException{
+		String currentGameID = getGameIdFromCookies(ex);
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
-		String[] args = new String[2];
+		String[] args = new String[3];
 		args[0] = obj.optString("type");
 		args[1] = obj.optString("playerIndex");
+		args[2] = currentGameID;
 		
 		FinishTurn finishTurnAction = new FinishTurn();
 		finishTurnAction.execute(args);
 		CommandList.recordCommand(finishTurnAction);
 		
-		GameModel response = GameModel.getInstance();
+		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
 	}
 
 	private void getNewDevCard(HttpExchange ex, XStream xStream) throws IOException{
-		
+		String currentGameID = getGameIdFromCookies(ex);
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
-		String[] args = new String[1];
+		String[] args = new String[2];
 		args[0] = obj.optString("playerIndex");
+		args[1] = currentGameID;
 		BuyDevCard bdcObject = new BuyDevCard();
 		bdcObject.execute(args);
 		CommandList.recordCommand(bdcObject);
 
-		GameModel response = GameModel.getInstance();
+		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
 	}
 
 	private void useYearOfPlenty(HttpExchange ex, XStream xStream) throws IOException{
-		
-		String[] args = new String[3];
+		String currentGameID = getGameIdFromCookies(ex);
+		String[] args = new String[4];
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
 		args[0] = obj.optString("playerIndex");
 		args[1] = obj.optString("resource1");
 		args[2] = obj.optString("resource2");
+		args[3] = currentGameID;
 		
 		YearOfPlenty yopObject = new YearOfPlenty();
 		yopObject.execute(args);
 
-		GameModel response = GameModel.getInstance();
+		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
 	}
 
 	private void useRoadBuilding(HttpExchange ex, XStream xStream) throws IOException{
-		String[] args = new String[7];
+		String currentGameID = getGameIdFromCookies(ex);
+		String[] args = new String[8];
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
 		args[0] = obj.optString("playerIndex");
 		JSONObject subObject = obj.getJSONObject("spot1");
@@ -250,61 +261,67 @@ public class MovesHandler implements HttpHandler{
 		args[4] = subObject.optString("x");
 		args[5] = subObject.optString("y");
 		args[6] = subObject.optString("direction");
+		args[7] = currentGameID;
 		
 
 		RoadBuilding rbObject = new RoadBuilding();
 		rbObject.execute(args);
 
-		GameModel response = GameModel.getInstance();
+		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
 	}
 
 	private void useSoldier(HttpExchange ex, XStream xStream) throws IOException{
-		String[] args = new String[4];
+		String currentGameID = getGameIdFromCookies(ex);
+		String[] args = new String[5];
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
 		args[0] = obj.optString("playerIndex");
 		args[1] = obj.optString("victimIndex");
 		JSONObject subObject = obj.getJSONObject("location");
 		args[2] = subObject.optString("x");
 		args[3] = subObject.optString("y");
-		
+		args[4] = currentGameID;
 
 		Soldier sObject = new Soldier();
 		sObject.execute(args);
 
-		GameModel response = GameModel.getInstance();
+		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
 	}
 
 	private void useMonopoly(HttpExchange ex, XStream xStream) throws IOException{
-		String[] args = new String[2];
+		String currentGameID = getGameIdFromCookies(ex);
+		String[] args = new String[3];
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
 		args[0] = obj.optString("playerIndex");
 		args[1] = obj.optString("resource");
-
+		args[2] = currentGameID;
 		
 		Monopoly mObject = new Monopoly();
 		mObject.execute(args);
 
-		GameModel response = GameModel.getInstance();
+		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
 	}
 
 	private void useMonument(HttpExchange ex, XStream xStream) throws IOException{
-		String[] args = new String[1];
+		String currentGameID = getGameIdFromCookies(ex);
+		String[] args = new String[2];
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
 		args[0] = obj.optString("playerIndex");
+		args[1] = currentGameID;
 	
 		Monument monObject = new Monument();
 		monObject.execute(args);
 
-		GameModel response = GameModel.getInstance();
+		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
 	}
 
 	private void buildRoad(HttpExchange ex, XStream xStream) throws IOException{
+		String currentGameID = getGameIdFromCookies(ex);
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
-		String[] args = new String[6];
+		String[] args = new String[7];
 		args[0] = obj.optString("type");
 		args[1] = obj.optString("playerIndex");
 		JSONObject subObject = obj.getJSONObject("roadLocation");
@@ -312,16 +329,18 @@ public class MovesHandler implements HttpHandler{
 		args[3] = subObject.optString("y");
 		args[4] = subObject.optString("direction");
 		args[5] = obj.optString("free");
+		args[6] = currentGameID;
 		BuildRoad buildRoadObj = new BuildRoad();
 		buildRoadObj.execute(args);
 		CommandList.recordCommand(buildRoadObj);
-		GameModel response = GameModel.getInstance();
+		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
 	}
 
 	private void buildSettlement(HttpExchange ex, XStream xStream) throws IOException{
+		String currentGameID = getGameIdFromCookies(ex);
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
-		String[] args = new String[6];
+		String[] args = new String[7];
 		args[0] = obj.optString("type");
 		args[1] = obj.optString("playerIndex");
 		JSONObject subObject = obj.getJSONObject("vertexLocation");
@@ -329,33 +348,37 @@ public class MovesHandler implements HttpHandler{
 		args[3] = subObject.optString("y");
 		args[4] = subObject.optString("direction");
 		args[5] = obj.optString("free");
+		args[6] = currentGameID;
 
 		BuildSettlement buildSettlementObj = new BuildSettlement();
 		buildSettlementObj.execute(args);
 		CommandList.recordCommand(buildSettlementObj);
-		GameModel response = GameModel.getInstance();
+		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
 	}
 
 	private void buildCity(HttpExchange ex, XStream xStream) throws IOException{
+		String currentGameID = getGameIdFromCookies(ex);
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
-		String[] args = new String[5];
+		String[] args = new String[6];
 		args[0] = obj.optString("playerIndex");
 		JSONObject subObject = obj.getJSONObject("vertexLocation");
 		args[1] = subObject.optString("x");
 		args[2] = subObject.optString("y");
 		args[3] = subObject.optString("direction");
 		args[4] = obj.optString("free");
+		args[5] = currentGameID;
 
 		BuildCity buildCityObj = new BuildCity();
 		buildCityObj.execute(args);
 		CommandList.recordCommand(buildCityObj);
-		GameModel response = GameModel.getInstance();
+		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
 	}
 
 private void sendTradeOffer(HttpExchange ex, XStream xStream) throws IOException{
-		String[] args = new String[7];
+		String currentGameID = getGameIdFromCookies(ex);
+		String[] args = new String[8];
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
 		args[0] = obj.optString("playerIndex");
 		JSONObject subObject = obj.getJSONObject("offer");
@@ -365,12 +388,13 @@ private void sendTradeOffer(HttpExchange ex, XStream xStream) throws IOException
 		args[4] = subObject.optString("wheat");
 		args[5] = subObject.optString("wood");
 		args[6] = obj.optString("receiver"); 
+		args[7] = currentGameID;
 		SendTradeOffer sto = new SendTradeOffer();
 		sto.execute(args);
 		
 		CommandList.recordCommand(sto);
 		
-		GameModel response = GameModel.getInstance();
+		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
 		
 		
@@ -380,40 +404,45 @@ private void sendTradeOffer(HttpExchange ex, XStream xStream) throws IOException
 	}
 
 	private void sendTradeResponse(HttpExchange ex, XStream xStream) throws IOException{
-		String[] args = new String[2];
+		String currentGameID = getGameIdFromCookies(ex);
+		String[] args = new String[3];
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
 		args[0] = obj.optString("playerIndex");
 		args[1] = obj.optString("willAccept");
+		args[2] = currentGameID;
 
 		SendTradeOffer sto = new SendTradeOffer();
 		sto.execute(args);
 		
 		CommandList.recordCommand(sto);
 		
-		GameModel response = GameModel.getInstance();
+		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
 	}
 
 	private void tradeWithBank(HttpExchange ex, XStream xStream) throws IOException{
+		String currentGameID = getGameIdFromCookies(ex);
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
-		String[] args = new String[5];
+		String[] args = new String[6];
 		args[0] = obj.optString("type");
 		args[1] = obj.optString("playerIndex");
 		args[2] = obj.optString("ratio");
 		args[3] = obj.optString("inputResource").toLowerCase();
 		args[4] = obj.optString("outputResource").toLowerCase();
+		args[5] = currentGameID;
 		
 		MaritimeTrade maritimeTradeAction = new MaritimeTrade();
 		maritimeTradeAction.execute(args);
 		CommandList.recordCommand(maritimeTradeAction);
 		
-		GameModel response = GameModel.getInstance();
+		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
 	}
 
 	private void discardCards(HttpExchange ex, XStream xStream) throws IOException{
+		String currentGameID = getGameIdFromCookies(ex);
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
-		String[] args = new String[7];
+		String[] args = new String[8];
 		args[0] = obj.optString("type");
 		args[1] = obj.optString("playerIndex");
 		JSONObject subObject = obj.getJSONObject("discardedCards");
@@ -422,12 +451,13 @@ private void sendTradeOffer(HttpExchange ex, XStream xStream) throws IOException
 		args[4] = subObject.optString("sheep");
 		args[5] = subObject.optString("wheat");
 		args[6] = subObject.optString("wood");
+		args[7] = currentGameID;
 
 		DiscardCards discardCardsObj = new DiscardCards();
 		discardCardsObj.execute(args);
 		CommandList.recordCommand(discardCardsObj);
 
-		GameModel response = GameModel.getInstance();
+		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
 	}
     

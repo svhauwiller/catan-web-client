@@ -36,6 +36,8 @@ import server.ServerException;
 import server.api.player.Player.PlayerColor;
 import server.communication.GameInfo;
 import server.communication.GameList;
+import server.communication.GameModel;
+import server.communication.GameModelList;
 import server.communication.PlayerInfo;
 
 /**
@@ -116,6 +118,7 @@ public class AllGamesHandler implements HttpHandler {
 		HashMap<String, String> parsedRequest = FormDataParser.parse(getRequestString(ex.getRequestBody()));
 		
 		GameInfo response = GameList.addGame(parsedRequest.get("name"));
+		GameModelList.add(new GameModel());
 		
 		sendResponseObject(ex, xStream, response);
 	}

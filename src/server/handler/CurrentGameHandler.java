@@ -27,6 +27,7 @@ import server.command.CommandTemplate;
 import server.communication.CommandList;
 import server.communication.GameInfo;
 import server.communication.GameModel;
+import server.communication.GameModelList;
 
 /**
  *
@@ -71,6 +72,17 @@ public class CurrentGameHandler implements HttpHandler{
 		}
     }
 	
+	private String getGameIdFromCookies(HttpExchange ex){
+		List<String> currentCookies = ex.getRequestHeaders().get("Cookie");
+		HashMap<String, String> parsedCookies = new HashMap<>();
+		
+		if(currentCookies != null){
+			parsedCookies = CookieDataParser.parse(currentCookies.get(0));
+		}
+		
+		return parsedCookies.get("catan.game");
+	}
+	
 	private void sendResponseString(HttpExchange ex, XStream xStream, String response) throws IOException{
 		OutputStream responseStream = ex.getResponseBody();
 		byte[] responseData = response.getBytes(Charset.forName("utf-8"));
@@ -87,12 +99,7 @@ public class CurrentGameHandler implements HttpHandler{
 	}
 
 	private void getGameModel(HttpExchange ex, XStream xStream) throws IOException{
-		List<String> currentCookies = ex.getRequestHeaders().get("Cookie");
-		String currentGame = null;
-		
-		if(currentCookies != null){
-			currentGame = CookieDataParser.parse(currentCookies.get(0)).get("catan.game");
-		}
+		String currentGame = getGameIdFromCookies(ex);
 		
 		if(currentGame == null){
 			String response = "You must join a game first.";
@@ -100,17 +107,12 @@ public class CurrentGameHandler implements HttpHandler{
 			return;
 		}
 		
-		GameModel response = GameModel.getInstance();
+		GameModel response = GameModelList.get(Integer.parseInt(currentGame));
 		sendResponseObject(ex, xStream, response);
 	}
 
 	private void resetCurrentGame(HttpExchange ex, XStream xStream) throws IOException{
-		List<String> currentCookies = ex.getRequestHeaders().get("Cookie");
-		String currentGame = null;
-		
-		if(currentCookies != null){
-			currentGame = CookieDataParser.parse(currentCookies.get(0)).get("catan.game");
-		}
+		String currentGame = getGameIdFromCookies(ex);
 		
 		if(currentGame == null){
 			String response = "You must join a game first.";
@@ -118,17 +120,12 @@ public class CurrentGameHandler implements HttpHandler{
 			return;
 		}
 		
-		GameModel response = GameModel.reset();
+		GameModel response = GameModelList.get(Integer.parseInt(currentGame)).reset();
 		sendResponseObject(ex, xStream, response);
 	}
 
 	private void getGameCommands(HttpExchange ex, XStream xStream) throws IOException{
-		List<String> currentCookies = ex.getRequestHeaders().get("Cookie");
-		String currentGame = null;
-		
-		if(currentCookies != null){
-			currentGame = CookieDataParser.parse(currentCookies.get(0)).get("catan.game");
-		}
+		String currentGame = getGameIdFromCookies(ex);
 		
 		if(currentGame == null){
 			String response = "You must join a game first.";

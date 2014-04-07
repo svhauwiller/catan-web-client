@@ -38,7 +38,6 @@ public class GameModel {
 	private int longestRoad;
 	private Map map;
 	private ArrayList<Player> players;
-	private iUserLogin validUsers;
 	private int revision;
 	private TradeOffer tradeOffer;
 	private TurnTracker turnTracker;
@@ -54,7 +53,6 @@ public class GameModel {
 		this.longestRoad = -1;
 		this.map = new Map();
 		this.players = new ArrayList<Player>();
-		this.validUsers = guiceUser();
 		this.revision = 0;
 		this.tradeOffer = null;
 		this.turnTracker = new TurnTracker();
@@ -65,23 +63,7 @@ public class GameModel {
 	public GameModel reset() {
 		return this;
 	}
-	/**
-	 * 
-	 * @return the guiced user to use
-	 */
-	public iUserLogin guiceUser()
-	{
-        Injector injector = Guice.createInjector(new ProductionModule());
-        iUserLogin theUser = injector.getInstance(iUserLogin.class);
-        return theUser;
-	}
-	/**
-	 * 
-	 * @return the object containing valid users
-	 */
-	public iUserLogin getValidUsers() {
-		return validUsers;
-	}
+	
 	/**
 	 * @return the bank
 	 */
@@ -136,27 +118,6 @@ public class GameModel {
 	 */
 	public Player getPlayer(int playerNumber) {
 		return players.get(playerNumber);
-	}
-	
-	public Player getPlayerByName(String playerName)
-	{
-		HashMap<PlayerInfo, String>x = new HashMap<>();
-		x = validUsers.getValidUsers();
-		
-		for (Entry<PlayerInfo, String> entry2:x.entrySet()) {
-		    String name = entry2.getKey().getName();
-		    int playerIDNumber = entry2.getKey().getId();
-		    Object value = entry2.getValue();
-		    System.out.println(name+"  "+playerIDNumber+"  "+value);
-		}
-		    
-		for(Entry<PlayerInfo, String> entry:x.entrySet())
-		{
-			if(entry.getKey().getName().equalsIgnoreCase(playerName)){
-				return new Player(-10, new PlayerInfo(null,entry.getKey().getId(),"Player Found!"));
-			}
-		}
-		return new Player(-10, new PlayerInfo(null,100,"PlayerNotFound"));
 	}
 
 	/**

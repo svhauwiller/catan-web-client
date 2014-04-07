@@ -1,17 +1,20 @@
 /**
  * 
  */
-package server.access;
+package server.persist.db;
 
+import server.command.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import server.ServerException;
 
 /**
  * @author zapdash
  * 
  */
 public class DatabaseConnection {
+	private Connection connection;
 
 	/**
 	 * Starts the Database's processes to connect to the SQL database
@@ -36,7 +39,7 @@ public class DatabaseConnection {
 	protected GameAndUserJoinDAO gameAndUserJoinDAO;
 
 
-	public Database() {
+	public DatabaseConnection() {
 		usersDAO = new UsersDAO(this);
 		gameInfoDAO = new GameInfoDAO(this);
 		commandListDAO = new CommandListDAO(this);
@@ -54,20 +57,20 @@ public class DatabaseConnection {
 	 * @param password
 	 * @return The User object containing null or a valid user
 	 */
-	protected User Verify(String user_name, String password) {
-
-		User userVerify = new User(user_name, password);
-
-		User userOut = null;
-		try {
-			userOut = userAccess.GetUser(userVerify);
-		} catch (SQLException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-
-		return userOut;
-	}
+//	protected User Verify(String user_name, String password) {
+//
+//		User userVerify = new User(user_name, password);
+//
+//		User userOut = null;
+//		try {
+//			userOut = userAccess.GetUser(userVerify);
+//		} catch (SQLException e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//
+//		return userOut;
+//	}
 
 	/**
 	 * creates a new connection to the SQL database

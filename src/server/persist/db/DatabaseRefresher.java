@@ -1,8 +1,9 @@
 /**
  * 
  */
-package server.access;
+package server.persist.db;
 
+import server.command.*;
 import java.io.*;
 import java.sql.*;
 
@@ -20,14 +21,14 @@ public class DatabaseRefresher {
 
 		boolean finished = true;
 
-		Database db = new Database();
+		DatabaseConnection dbconn = new DatabaseConnection();
 
 		try {
-			Database.initialize();
+			DatabaseConnection.initialize();
 
-			db.startTransaction();
+			dbconn.startTransaction();
 
-			dropTables(fileName, db);
+			dropTables(fileName, dbconn);
 
 		} catch (Exception e) {
 			// TODO Auto-generated catch block
@@ -36,13 +37,13 @@ public class DatabaseRefresher {
 			finished = false;
 		}
 
-		db.endTransaction(finished);
+		dbconn.endTransaction(finished);
 	}
 
-	private static void dropTables(String fileName, Database db)
+	private static void dropTables(String fileName, DatabaseConnection dbconn)
 			throws Exception {
 
-		Statement stmt = db.connection.createStatement();
+		Statement stmt = dbconn.getConnection().createStatement();
 
 		stmt.execute("drop table if exists users;");
 		stmt.execute("drop table if exists commandlist;");

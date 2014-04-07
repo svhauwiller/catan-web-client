@@ -19,7 +19,7 @@ import java.util.HashMap;
 import server.FormDataParser;
 import server.api.player.Player;
 import server.api.utils.*;
-import server.communication.GameModel;
+import server.communication.ValidUsers;
 
 
 
@@ -44,7 +44,7 @@ public class UserHandler implements HttpHandler{
 			}
 		});
         
-        iUserLogin theUser = GameModel.getValidUsers();
+        iUserLogin theUser = ValidUsers.getValidUsers();
 		String methodName = ex.getRequestURI().getPath().substring(6);
 		switch(methodName){
 			case "login":
@@ -73,7 +73,7 @@ public class UserHandler implements HttpHandler{
 		if(validUserHuh){
 			response = "Success";
 			//get player information and set Cookie
-			Player currentPlayer = GameModel.getPlayerByName(requestData.get("username"));
+			Player currentPlayer = ValidUsers.getPlayerByName(requestData.get("username"));
 
 			String encodedURL = URLEncoder.encode("{\"name\":\""+requestData.get("username")
 					+"\",\"password\":\""+requestData.get("password")
@@ -101,7 +101,7 @@ public class UserHandler implements HttpHandler{
 		Headers responseHeaders = ex.getResponseHeaders();		
 		
 		if(successHuh){
-			Player currentPlayer = GameModel.getPlayerByName(requestData.get("username"));
+			Player currentPlayer = ValidUsers.getPlayerByName(requestData.get("username"));
 			response = "Success";
 			String encodedURL = URLEncoder.encode("{\"name\":\""+requestData.get("username")
 					+"\",\"password\":\""+requestData.get("password")
