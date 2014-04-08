@@ -22,4 +22,46 @@ public class GameAndUserJoinPM {
 		this.gameID = gameID;
 		this.color = color;
 	}
+
+	/**
+	 * @return the playerID
+	 */
+	public int getPlayerID() {
+		return playerID;
+	}
+
+	/**
+	 * @param playerID the playerID to set
+	 */
+	public void setPlayerID(int playerID) {
+		this.playerID = playerID;
+	}
+
+	/**
+	 * @return the gameID
+	 */
+	public int getGameID() {
+		return gameID;
+	}
+
+	/**
+	 * @param gameID the gameID to set
+	 */
+	public void setGameID(int gameID) {
+		this.gameID = gameID;
+	}
+
+	/**
+	 * @return the color
+	 */
+	public PlayerColor getColor() {
+		return color;
+	}
+
+	/**
+	 * @param color the color to set
+	 */
+	public void setColor(PlayerColor color) {
+		this.color = color;
+	}
 }

@@ -24,4 +24,60 @@ public class GameInfoPM {
 		this.initModel = initModel;
 		this.currModel = currModel;
 	}
+
+	/**
+	 * @return the gameID
+	 */
+	public int getGameID() {
+		return gameID;
+	}
+
+	/**
+	 * @param gameID the gameID to set
+	 */
+	public void setGameID(int gameID) {
+		this.gameID = gameID;
+	}
+
+	/**
+	 * @return the gameTitle
+	 */
+	public String getGameTitle() {
+		return gameTitle;
+	}
+
+	/**
+	 * @param gameTitle the gameTitle to set
+	 */
+	public void setGameTitle(String gameTitle) {
+		this.gameTitle = gameTitle;
+	}
+
+	/**
+	 * @return the initModel
+	 */
+	public GameModel getInitModel() {
+		return initModel;
+	}
+
+	/**
+	 * @param initModel the initModel to set
+	 */
+	public void setInitModel(GameModel initModel) {
+		this.initModel = initModel;
+	}
+
+	/**
+	 * @return the currModel
+	 */
+	public GameModel getCurrModel() {
+		return currModel;
+	}
+
+	/**
+	 * @param currModel the currModel to set
+	 */
+	public void setCurrModel(GameModel currModel) {
+		this.currModel = currModel;
+	}
 }

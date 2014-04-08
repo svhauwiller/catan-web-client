@@ -35,10 +35,5 @@ public class GameAndUserJoinDAO implements GameAndUserJoinAO {
 	public void add(int playerID, int gameID, Player.PlayerColor color) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
-
-	@Override
-	public void remove(int playerID, int gameID) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
 	
 }

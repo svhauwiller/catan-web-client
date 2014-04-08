@@ -10,21 +10,57 @@ import java.util.ArrayList;
 
 import server.command.CommandTemplate;
 import server.persist.CommandListAO;
+import server.persist.xml.model.CommandListXMLmodel;
 
 /**
  *
  * @author Wesley
  */
 public class CommandListXMLAO implements CommandListAO{
+	
+	private FileIO fileio;
+	
+	public CommandListXMLAO(){
+		fileio = new FileIO();
+	}
 
 	@Override
 	public void add(int gameID, CommandTemplate cmd) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		Object xmlData = fileio.loadModel(FileIO.CMD_LIST_FILENAME);
+		CommandListXMLmodel cmdListModel = null;
+		
+		if(xmlData == null){
+			cmdListModel = new CommandListXMLmodel();
+		} else {
+			cmdListModel = (CommandListXMLmodel) xmlData;
+		}
+		
+		while(cmdListModel.size() < gameID){
+			cmdListModel.addNewList(new ArrayList<CommandTemplate>());
+		}
+		
+		cmdListModel.addCommand(gameID, cmd);
+		
+		fileio.saveModel(FileIO.CMD_LIST_FILENAME, cmdListModel);
 	}
 
 	@Override
 	public ArrayList<CommandTemplate> getFromIndex(int gameID, int pos) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		Object xmlData = fileio.loadModel(FileIO.CMD_LIST_FILENAME);
+		
+		if(xmlData == null){
+			return null;
+		}
+		
+		CommandListXMLmodel cmdListModel = (CommandListXMLmodel) xmlData;
+		
+		if(cmdListModel.size() < gameID){
+			return null;
+		}
+		
+		ArrayList<CommandTemplate> cmdList = cmdListModel.getList(gameID);
+		
+		return (ArrayList<CommandTemplate>) cmdList.subList(pos, cmdList.size());
 	}
 
 	

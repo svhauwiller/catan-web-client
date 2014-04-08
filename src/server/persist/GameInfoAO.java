@@ -17,6 +17,5 @@ public interface GameInfoAO {
 	public int getID(String gameTitle);
 	public GameModel getInit(int gameID);
 	public GameModel getCurr(int gameID);
-	public void remove(int gameID);
 	public void update(String type, GameModel model, int gameID);
 }

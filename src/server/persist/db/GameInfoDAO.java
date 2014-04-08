@@ -38,11 +38,6 @@ public class GameInfoDAO implements GameInfoAO {
 	}
 
 	@Override
-	public void remove(int gameID) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
-	}
-
-	@Override
 	public void update(String type, GameModel model, int gameID) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
