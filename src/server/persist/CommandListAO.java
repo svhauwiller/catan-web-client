@@ -6,6 +6,8 @@
 
 package server.persist;
 
+import java.util.ArrayList;
+
 import server.command.CommandTemplate;
 
 /**
@@ -14,5 +16,5 @@ import server.command.CommandTemplate;
  */
 public interface CommandListAO {
 	public void add(int gameID, CommandTemplate cmd);
-	public CommandTemplate getFromIndex(int gameID, int pos);
+	public ArrayList<CommandTemplate> getFromIndex(int gameID, int pos);
 }

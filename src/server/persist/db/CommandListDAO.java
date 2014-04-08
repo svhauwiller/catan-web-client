@@ -7,6 +7,8 @@
 package server.persist.db;
 
 import java.sql.Connection;
+import java.util.ArrayList;
+
 import server.command.CommandTemplate;
 import server.persist.CommandListAO;
 
@@ -26,8 +28,11 @@ public class CommandListDAO implements CommandListAO{
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
+	/**
+	 * gets the list of commands from the position (pos) to the end of the list
+	 */
 	@Override
-	public CommandTemplate getFromIndex(int gameID, int pos) {
+	public ArrayList<CommandTemplate> getFromIndex(int gameID, int pos) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
