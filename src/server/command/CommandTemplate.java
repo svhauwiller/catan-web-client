@@ -13,4 +13,6 @@ import server.communication.GameModel;
 public interface CommandTemplate {
     public GameModel execute(String[] args);
     public void undo();
+	public void redo();
+	public void persist();
 }

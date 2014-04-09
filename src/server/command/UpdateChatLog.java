@@ -38,6 +38,12 @@ public class UpdateChatLog implements CommandTemplate{
 		GameModelList.get(gameID).incrementRevision();
 		return null;
 	}
+
+	@Override
+	public void persist(){}
+	@Override
+	public void redo(){}
+
 	@Override
 	public void undo(){
 		

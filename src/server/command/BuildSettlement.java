@@ -57,7 +57,11 @@ public class BuildSettlement implements CommandTemplate{
 		GameModelList.get(gameID).getMap().updateVertexOwner(hexLoc, playerIndex);
 		return null;
 	}
-	
+	@Override
+	public void persist(){}
+	@Override
+	public void redo(){}
+
 	@Override
 	public void undo(){ // should probably save previous location
 		Location hexLoc = new Location(vertexX, vertexY, true);

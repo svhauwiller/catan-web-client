@@ -64,6 +64,11 @@ public class RollNumber implements CommandTemplate{
 		return null;
 	}
 	
+	@Override
+	public void persist(){}
+	@Override
+	public void redo(){}
+
 	public void undo(){
 		
 	}

@@ -40,6 +40,11 @@ public class SendTradeOffer implements CommandTemplate{
 	}
 
 	@Override
+	public void persist(){}
+	@Override
+	public void redo(){}
+
+	@Override
 	public void undo() {
 
 		

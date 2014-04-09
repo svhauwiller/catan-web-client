@@ -2,7 +2,7 @@ package server.command;
 
 import server.communication.GameModel;
 import server.communication.GameModelList;
-
+import server.persist.*;
 import java.util.*;
 
 public class Monopoly implements CommandTemplate {
@@ -10,6 +10,7 @@ public class Monopoly implements CommandTemplate {
 	private String resource = "";
 	private int[] current = new int[4];
 	private int gameID = -10;
+	private String type = "";
 	
 
 	
@@ -20,6 +21,7 @@ public class Monopoly implements CommandTemplate {
 		playerIndex = Integer.parseInt(args[0]);
 		resource = args[1];
 		gameID = Integer.parseInt(args[2]);
+		type = args[3];
 		//take away dev card from player
 		GameModelList.get(gameID).getPlayer(playerIndex).getOldDevCards().updateMonopoly(-1);
 		
@@ -68,7 +70,12 @@ public class Monopoly implements CommandTemplate {
 			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(totalGained);
 		return null;
 	}
-	
+	@Override
+	public void persist(){
+		StorageFacade.instance.addCommand(gameID, this);
+	}
+	@Override
+	public void redo(){}
 	@Override
 	public void undo(){
 		GameModelList.get(gameID).getPlayer(playerIndex).getOldDevCards().updateMonopoly(1);

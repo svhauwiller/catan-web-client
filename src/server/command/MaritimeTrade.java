@@ -99,6 +99,11 @@ public class MaritimeTrade implements CommandTemplate {
 	}
 
 	@Override
+	public void persist(){}
+	@Override
+	public void redo(){}
+
+	@Override
 	public void undo() {
 		ResourceCardList playerResources = GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList();
 		ResourceCardList bankResources = GameModelList.get(gameID).getBank();

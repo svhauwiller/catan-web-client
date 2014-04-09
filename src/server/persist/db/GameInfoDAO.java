@@ -16,10 +16,10 @@ import server.persist.GameInfoAO;
  * @author Wesley
  */
 public class GameInfoDAO implements GameInfoAO {
-	private Connection conn;
+	private DatabaseConnection dbconn ;
 
 	GameInfoDAO(DatabaseConnection dbconn) {
-		this.conn = dbconn.getConnection();
+		this.dbconn = dbconn;
 	}
 
 	@Override

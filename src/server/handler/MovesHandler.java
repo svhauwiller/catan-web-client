@@ -221,9 +221,10 @@ public class MovesHandler implements HttpHandler{
 	private void getNewDevCard(HttpExchange ex, XStream xStream) throws IOException{
 		String currentGameID = getGameIdFromCookies(ex);
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
-		String[] args = new String[2];
+		String[] args = new String[3];
 		args[0] = obj.optString("playerIndex");
 		args[1] = currentGameID;
+		args[2] = obj.optString("type");
 		BuyDevCard bdcObject = new BuyDevCard();
 		bdcObject.execute(args);
 		CommandList.recordCommand(bdcObject);
@@ -234,12 +235,13 @@ public class MovesHandler implements HttpHandler{
 
 	private void useYearOfPlenty(HttpExchange ex, XStream xStream) throws IOException{
 		String currentGameID = getGameIdFromCookies(ex);
-		String[] args = new String[4];
+		String[] args = new String[5];
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
 		args[0] = obj.optString("playerIndex");
 		args[1] = obj.optString("resource1");
 		args[2] = obj.optString("resource2");
 		args[3] = currentGameID;
+		args[4] = obj.optString("type");
 		
 		YearOfPlenty yopObject = new YearOfPlenty();
 		yopObject.execute(args);
@@ -250,7 +252,7 @@ public class MovesHandler implements HttpHandler{
 
 	private void useRoadBuilding(HttpExchange ex, XStream xStream) throws IOException{
 		String currentGameID = getGameIdFromCookies(ex);
-		String[] args = new String[8];
+		String[] args = new String[9];
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
 		args[0] = obj.optString("playerIndex");
 		JSONObject subObject = obj.getJSONObject("spot1");
@@ -262,6 +264,7 @@ public class MovesHandler implements HttpHandler{
 		args[5] = subObject.optString("y");
 		args[6] = subObject.optString("direction");
 		args[7] = currentGameID;
+		args[8] = obj.optString("type");
 		
 
 		RoadBuilding rbObject = new RoadBuilding();
@@ -273,7 +276,7 @@ public class MovesHandler implements HttpHandler{
 
 	private void useSoldier(HttpExchange ex, XStream xStream) throws IOException{
 		String currentGameID = getGameIdFromCookies(ex);
-		String[] args = new String[5];
+		String[] args = new String[6];
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
 		args[0] = obj.optString("playerIndex");
 		args[1] = obj.optString("victimIndex");
@@ -281,6 +284,7 @@ public class MovesHandler implements HttpHandler{
 		args[2] = subObject.optString("x");
 		args[3] = subObject.optString("y");
 		args[4] = currentGameID;
+		args[5] = obj.optString("type");
 
 		Soldier sObject = new Soldier();
 		sObject.execute(args);
@@ -291,11 +295,12 @@ public class MovesHandler implements HttpHandler{
 
 	private void useMonopoly(HttpExchange ex, XStream xStream) throws IOException{
 		String currentGameID = getGameIdFromCookies(ex);
-		String[] args = new String[3];
+		String[] args = new String[4];
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
 		args[0] = obj.optString("playerIndex");
 		args[1] = obj.optString("resource");
 		args[2] = currentGameID;
+		args[3] = obj.optString("type");
 		
 		Monopoly mObject = new Monopoly();
 		mObject.execute(args);
@@ -306,10 +311,11 @@ public class MovesHandler implements HttpHandler{
 
 	private void useMonument(HttpExchange ex, XStream xStream) throws IOException{
 		String currentGameID = getGameIdFromCookies(ex);
-		String[] args = new String[2];
+		String[] args = new String[3];
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
 		args[0] = obj.optString("playerIndex");
 		args[1] = currentGameID;
+		args[2] = obj.optString("type");
 	
 		Monument monObject = new Monument();
 		monObject.execute(args);

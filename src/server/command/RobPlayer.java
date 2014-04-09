@@ -117,7 +117,12 @@ public class RobPlayer implements CommandTemplate{
 		}
 		return true;
 	}
-	
+
+	@Override
+	public void persist(){}
+	@Override
+	public void redo(){}
+
 	public void undo(){
 		// move robber to previousRobberLocation
 		// move ont resourceToSteal from playerIndex to victimIndex

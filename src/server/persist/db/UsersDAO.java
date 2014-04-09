@@ -15,10 +15,10 @@ import server.persist.UsersAO;
  * @author Wesley
  */
 public class UsersDAO implements UsersAO{
-	private Connection conn;
+	private DatabaseConnection dbconn ;
 	
 	public UsersDAO(DatabaseConnection dbconn){
-		this.conn = dbconn.getConnection();
+		this.dbconn = dbconn;
 	}
 
 	@Override
