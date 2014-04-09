@@ -37,9 +37,17 @@ public class Server {
 		serverRoot = args[2];
 		
 		if(args[0].equals("file")){
-			//StorageFacade.setCommandList(new CommandListXMLAO());
+			StorageFacade.setCommandList(new CommandListXMLAO());
+			StorageFacade.setGameAndUser(new GameAndUserJoinXMLAO());
+			StorageFacade.setGameInfo(new GameInfoXMLAO());
+			StorageFacade.setUsers(new UsersXMLAO());
 		} else {
-			
+			DatabaseConnection.initialize();
+			DatabaseConnection dbconn = new DatabaseConnection();
+			StorageFacade.setCommandList(new CommandListDAO(dbconn));
+			StorageFacade.setGameAndUser(new GameAndUserJoinDAO(dbconn));
+			StorageFacade.setGameInfo(new GameInfoDAO(dbconn));
+			StorageFacade.setUsers(new UsersDAO(dbconn));
 		}
 		
 		if(args.length > 3){
