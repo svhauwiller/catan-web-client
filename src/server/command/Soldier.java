@@ -2,9 +2,8 @@ package server.command;
 
 import server.communication.GameModel;
 import server.communication.GameModelList;
-
+import server.persist.*;
 import java.util.*;
-
 import server.api.map.Location;
 
 public class Soldier implements CommandTemplate {
@@ -140,7 +139,9 @@ public class Soldier implements CommandTemplate {
 	}
 
 	@Override
-	public void persist(){}
+	public void persist(){
+		StorageFacade.instance.addCommand(gameID, this);
+	}
 
 	@Override
 	public void undo(){

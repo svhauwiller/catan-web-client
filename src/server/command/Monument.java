@@ -2,7 +2,7 @@ package server.command;
 
 import server.communication.GameModel;
 import server.communication.GameModelList;
-
+import server.persist.*;
 import java.util.*;
 
 public class Monument implements CommandTemplate {
@@ -21,7 +21,9 @@ public class Monument implements CommandTemplate {
 		return null;
 	}
 	@Override
-	public void persist(){}
+	public void persist(){
+		StorageFacade.instance.addCommand(gameID, this);
+	}
 	@Override
 	public void redo(){}
 	@Override
