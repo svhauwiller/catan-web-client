@@ -28,6 +28,12 @@ public class CommandListXMLmodel {
 		commands.get(gameID).add(cmd);
 	}
 	
+	public void resetList(int gameID){
+		if(commands.size() >= gameID){
+			commands.set(gameID, new ArrayList<CommandTemplate>());
+		}
+	}
+	
 	public int size(){
 		return commands.size();
 	}

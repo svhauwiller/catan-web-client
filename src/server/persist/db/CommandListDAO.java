@@ -36,6 +36,11 @@ public class CommandListDAO implements CommandListAO{
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
 
+	@Override
+	public void reset(int gameID) {
+		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+	}
+
 
 	
 }

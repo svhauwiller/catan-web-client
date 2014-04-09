@@ -35,10 +35,4 @@ public class UsersDAO implements UsersAO{
 	public int getID(String username) {
 		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
 	}
-
-	@Override
-	public String getPassword(String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 }

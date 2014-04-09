@@ -14,5 +14,4 @@ public interface UsersAO {
 	public void add(String username, String password);
 	public boolean validate(String username, String password);
 	public int getID(String username);
-	public String getPassword(String username);
 }

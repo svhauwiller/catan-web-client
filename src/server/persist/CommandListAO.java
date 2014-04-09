@@ -17,4 +17,5 @@ import server.command.CommandTemplate;
 public interface CommandListAO {
 	public void add(int gameID, CommandTemplate cmd);
 	public ArrayList<CommandTemplate> getFromIndex(int gameID, int pos);
+	public void reset(int gameID);
 }

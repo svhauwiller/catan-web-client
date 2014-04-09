@@ -63,6 +63,20 @@ public class CommandListXMLAO implements CommandListAO{
 		return (ArrayList<CommandTemplate>) cmdList.subList(pos, cmdList.size());
 	}
 
+	@Override
+	public void reset(int gameID) {
+		Object xmlData = fileio.loadModel(FileIO.CMD_LIST_FILENAME);
+		
+		if(xmlData == null){
+			return;
+		}
+		CommandListXMLmodel cmdListModel = (CommandListXMLmodel) xmlData;
+		
+		cmdListModel.resetList(gameID);
+		
+		fileio.saveModel(FileIO.CMD_LIST_FILENAME, cmdListModel);
+	}
+
 	
 	
 }

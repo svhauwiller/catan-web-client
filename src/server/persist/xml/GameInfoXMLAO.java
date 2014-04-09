@@ -115,5 +115,21 @@ public class GameInfoXMLAO implements GameInfoAO {
 		
 		fileio.saveModel(FileIO.GAME_INFO_FILENAME, gameInfoModel);
 	}
+
+	@Override
+	public void reset(int gameID) {
+		Object xmlData = fileio.loadModel(FileIO.GAME_INFO_FILENAME);
+		
+		if(xmlData == null){
+			return;
+		}
+		
+		GameInfoXMLmodel gameInfoModel = (GameInfoXMLmodel) xmlData;
+		
+		gameInfoModel.getGameModel(gameID).resetCurrModel();
+		gameInfoModel.getGameModel(gameID).setLastCommand(0);
+		
+		fileio.saveModel(FileIO.GAME_INFO_FILENAME, gameInfoModel);
+	}
 	
 }

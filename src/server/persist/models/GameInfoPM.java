@@ -17,6 +17,7 @@ public class GameInfoPM {
 	private String gameTitle;
 	private GameModel initModel;
 	private GameModel currModel;
+	private int lastCommand;
 	
 	public GameInfoPM (int gameID, String gameTitle, GameModel initModel, GameModel currModel){
 		this.gameID = gameID;
@@ -79,5 +80,23 @@ public class GameInfoPM {
 	 */
 	public void setCurrModel(GameModel currModel) {
 		this.currModel = currModel;
+	}
+	
+	public void resetCurrModel(){
+		this.currModel = this.initModel;
+	}
+
+	/**
+	 * @return the lastCommand
+	 */
+	public int getLastCommand() {
+		return lastCommand;
+	}
+
+	/**
+	 * @param lastCommand the lastCommand to set
+	 */
+	public void setLastCommand(int lastCommand) {
+		this.lastCommand = lastCommand;
 	}
 }

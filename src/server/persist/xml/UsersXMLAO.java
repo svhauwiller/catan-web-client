@@ -63,11 +63,5 @@ public class UsersXMLAO implements UsersAO {
 		
 		return usersModel.getUser(username).getPlayerID();
 	}
-
-	@Override
-	public String getPassword(String username) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 	
 }
