@@ -2,9 +2,8 @@ package server.command;
 
 import server.communication.GameModel;
 import server.communication.GameModelList;
-
+import server.persist.*;
 import java.util.*;
-
 import server.api.map.Location;
 
 public class RoadBuilding implements CommandTemplate {
@@ -46,7 +45,9 @@ public class RoadBuilding implements CommandTemplate {
 		return null;
 	}
 	@Override
-	public void persist(){}
+	public void persist(){
+		StorageFacade.instance.addCommand(gameID, this);
+	}
 	public void redo(){}
 	public void undo(){}
 }

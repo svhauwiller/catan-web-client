@@ -2,7 +2,7 @@ package server.command;
 
 import server.communication.GameModel;
 import server.communication.GameModelList;
-
+import server.persist.*;
 import java.util.*;
 
 public class BuyDevCard implements CommandTemplate{
@@ -11,8 +11,6 @@ public class BuyDevCard implements CommandTemplate{
 	private int x= -1;
 	private int playerNum=-1;
 	private int gameID = -10;
-	
-
 	
 	//args[0] = Playerid
 	@Override
@@ -152,7 +150,9 @@ public class BuyDevCard implements CommandTemplate{
 		}
 	}
 	@Override
-	public void persist(){}
+	public void persist(){
+		StorageFacade.instance.addCommand(gameID, this);
+	}
 	
 	@Override
 	public void undo(){
