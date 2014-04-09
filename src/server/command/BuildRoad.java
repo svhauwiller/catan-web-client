@@ -52,7 +52,10 @@ public class BuildRoad implements CommandTemplate{
 		GameModelList.get(gameID).getMap().updateEdgeOwner(hexLoc, playerIndex);
 		return null;
 	}
-
+	@Override
+	public void persist(){}
+	@Override
+	public void redo(){}
 	@Override
 	public void undo(){ // should probably save previous location
 		Location hexLoc = new Location(locationX, locationY, true);

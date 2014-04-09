@@ -20,8 +20,8 @@ public class RoadBuilding implements CommandTemplate {
 	private Location spot1;
 	private Location spot2;
 	private int gameID = -10;
-	private String type = "";
 	
+	@Override
 	public GameModel execute(String[] args){
 		playerIndex = Integer.parseInt(args[0]);
 		//if(GameModel.getPlayer(playerIndex.getOldDevCards().update
@@ -45,5 +45,8 @@ public class RoadBuilding implements CommandTemplate {
 		
 		return null;
 	}
+	@Override
+	public void persist(){}
+	public void redo(){}
 	public void undo(){}
 }

@@ -73,6 +73,11 @@ public class FinishTurn implements CommandTemplate {
 	}
 
 	@Override
+	public void persist(){}
+	@Override
+	public void redo(){}
+
+	@Override
 	public void undo() {
 		int currentTurn = GameModelList.get(gameID).getTurnTracker().getCurrentTurn();
 		GameModelList.get(gameID).getTurnTracker().setCurrentTurn((currentTurn - 1) % 4);

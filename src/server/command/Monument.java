@@ -9,7 +9,6 @@ public class Monument implements CommandTemplate {
 	private String type = "Monument";
 	private int playerIndex =-1;
 	private int gameID = -10;
-	private String type = "";
 	//args[0] = player id
 	public GameModel execute(String[] args){
 		playerIndex = Integer.parseInt(args[0]);
@@ -21,6 +20,11 @@ public class Monument implements CommandTemplate {
 		GameModelList.get(gameID).getPlayer(playerIndex).updateMonuments(1);
 		return null;
 	}
+	@Override
+	public void persist(){}
+	@Override
+	public void redo(){}
+	@Override
 	public void undo(){
 		GameModelList.get(gameID).getPlayer(playerIndex).updateVictoryPoints(-1);
 		GameModelList.get(gameID).getPlayer(playerIndex).getOldDevCards().updateMonument(1);

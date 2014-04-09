@@ -70,7 +70,10 @@ public class Monopoly implements CommandTemplate {
 			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(totalGained);
 		return null;
 	}
-	
+	@Override
+	public void persist(){}
+	@Override
+	public void redo(){}
 	@Override
 	public void undo(){
 		GameModelList.get(gameID).getPlayer(playerIndex).getOldDevCards().updateMonopoly(1);

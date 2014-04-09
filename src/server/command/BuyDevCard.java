@@ -11,7 +11,6 @@ public class BuyDevCard implements CommandTemplate{
 	private int x= -1;
 	private int playerNum=-1;
 	private int gameID = -10;
-	private String type = "";
 	
 
 	
@@ -152,6 +151,8 @@ public class BuyDevCard implements CommandTemplate{
 			}
 		}
 	}
+	@Override
+	public void persist(){}
 	
 	@Override
 	public void undo(){

@@ -16,7 +16,6 @@ public class Soldier implements CommandTemplate {
 	private Location original;
 	private int x =-1;
 	private int gameID = -10;
-	private String type = "";
 	//args[0] = current player id
 	//args[1] = victim player id
 	//args[2] = x location
@@ -139,6 +138,9 @@ public class Soldier implements CommandTemplate {
 			}
 		}
 	}
+
+	@Override
+	public void persist(){}
 
 	@Override
 	public void undo(){
