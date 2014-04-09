@@ -8,6 +8,8 @@
     <property name="port.arg" value="8081"/>
     <property name="web.arg" value="gameplay"/>
     <property name="requests.arg" value="ug"/>
+    <property name="persist" value="foo"/>
+    <property name="checkpoint" value="bar"/>
 
     <!-- Directory containing application source code -->
 	<property name="src.dir" location="src"/>
@@ -66,6 +68,12 @@
  		</fileset>
  	</path>
 
+ 	<path id="sqlite-classpath">
+ 		<fileset dir="${javalib.dir}">
+ 			<include name="sqlitejdbc-v056.jar" />
+ 		</fileset>
+ 	</path>
+
  	<taskdef classpathref="cobertura-classpath" resource="tasks.properties"/>
 
 	<!-- TARGETS -->
@@ -108,10 +116,20 @@
 			<classpath>
 				<path refid="all-classpath"/>
 			</classpath>
+			<arg value="${persist}"/>
+			<arg value="${checkpoint}"/>
 			<arg value="${web.arg}"/>
 			<assertions>
 				<enable/>
 			</assertions>
+		</java>
+	</target>
+
+	<target name="reset" depends="compile" description="Resets persistance data">
+		<java classname="server/persist/db.DatabaseRefresher" fork="yes">
+			<classpath>
+				<path refid="sqlite-classpath"/>
+			</classpath>
 		</java>
 	</target>
 

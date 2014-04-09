@@ -9,6 +9,9 @@ import com.sun.net.httpserver.HttpServer;
 import java.io.IOException;
 import java.net.InetSocketAddress;
 import server.handler.*;
+import server.persist.StorageFacade;
+import server.persist.db.*;
+import server.persist.xml.*;
 
 /**
  *
@@ -18,6 +21,7 @@ public class Server {
 	private static final int SERVER_PORT_NUMBER = 8081;
 	private static final int MAX_WAITING_CONNECTIONS = 0;
 	
+	public static int PERSIST_CHECKPOINT;
 	public static Injector CLASS_INJECTOR = null;
 	
 	private String serverRoot;
@@ -29,9 +33,16 @@ public class Server {
 
 	private void run(String[] args) throws ServerException {
 
-		serverRoot = args[0];
+		Server.PERSIST_CHECKPOINT = Integer.parseInt(args[1]);
+		serverRoot = args[2];
 		
-		if(args.length > 1){
+		if(args[0].equals("file")){
+			//StorageFacade.setCommandList(new CommandListXMLAO());
+		} else {
+			
+		}
+		
+		if(args.length > 3){
 			Server.CLASS_INJECTOR = Guice.createInjector(new TestingModule());
 		} else {
 			Server.CLASS_INJECTOR = Guice.createInjector(new ProductionModule());
