@@ -84,6 +84,8 @@ public class DatabaseConnection {
 
 		String dbName = "catan.sqlite";
 		String connectionURL = "jdbc:sqlite:" + dbName;
+                
+                System.out.println("  Connected to database at " + connectionURL);
 
 		connection = null;
 

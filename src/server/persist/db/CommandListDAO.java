@@ -17,10 +17,10 @@ import server.persist.CommandListAO;
  * @author Wesley
  */
 public class CommandListDAO implements CommandListAO{
-	private Connection conn;
+	private DatabaseConnection dbconn ;
 
 	CommandListDAO(DatabaseConnection dbconn) {
-		this.conn = dbconn.getConnection();
+		this.dbconn = dbconn;
 	}
 
 	@Override

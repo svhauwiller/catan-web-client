@@ -37,6 +37,8 @@ public class DatabaseRefresher {
 		}
 
 		dbconn.endTransaction(finished);
+                
+                System.out.println("Database has been refreshed!");
 	}
 
 	private static void dropTables(DatabaseConnection dbconn)

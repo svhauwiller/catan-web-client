@@ -15,10 +15,10 @@ import server.persist.GameAndUserJoinAO;
  * @author Wesley
  */
 public class GameAndUserJoinDAO implements GameAndUserJoinAO {
-	private Connection conn;
+	private DatabaseConnection dbconn ;
 
 	GameAndUserJoinDAO(DatabaseConnection dbconn) {
-		this.conn = dbconn.getConnection();
+		this.dbconn = dbconn;
 	}
 
 	@Override
