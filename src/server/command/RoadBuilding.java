@@ -20,8 +20,7 @@ public class RoadBuilding implements CommandTemplate {
 	private Location spot1;
 	private Location spot2;
 	private int gameID = -10;
-	
-
+	private String type = "";
 	
 	public GameModel execute(String[] args){
 		playerIndex = Integer.parseInt(args[0]);
@@ -34,6 +33,7 @@ public class RoadBuilding implements CommandTemplate {
 		spot1.setDirection(args[3]);
 		spot2.setDirection(args[6]);
 		gameID = Integer.parseInt(args[7]);
+		type = args[8];
 
 		//build both roads
 		GameModelList.get(gameID).getMap().updateEdgeOwner(spot1, playerIndex);

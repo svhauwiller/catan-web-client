@@ -11,6 +11,7 @@ public class YearOfPlenty implements CommandTemplate {
 	private String resource1 = "";
 	private String resource2 = "";
 	private int gameID = -10;
+	private String type = "";
 	//args[0] = playerId;
 	//args[1] = resource1;
 	//args[2] = resource2;
@@ -20,6 +21,7 @@ public class YearOfPlenty implements CommandTemplate {
 		resource1 = args[1];
 		resource2 = args[2];
 		gameID = Integer.parseInt(args[3]);
+		type = args[4];
 
 		//Take dev card away from current player
 		GameModelList.get(gameID).getPlayer(playerIndex).getOldDevCards().updateYearOfPlenty(-1);
