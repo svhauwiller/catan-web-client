@@ -18,7 +18,7 @@ import server.persist.GameInfoAO;
 public class GameInfoDAO implements GameInfoAO {
 	private DatabaseConnection dbconn ;
 
-	GameInfoDAO(DatabaseConnection dbconn) {
+	public GameInfoDAO(DatabaseConnection dbconn) {
 		this.dbconn = dbconn;
 	}
 

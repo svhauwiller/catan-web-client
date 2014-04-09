@@ -24,7 +24,7 @@ public class CommandListDAO implements CommandListAO {
 
     private DatabaseConnection dbconn;
 
-    CommandListDAO(DatabaseConnection dbconn) {
+    public CommandListDAO(DatabaseConnection dbconn) {
         this.dbconn = dbconn;
     }
 
