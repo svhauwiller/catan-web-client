@@ -87,6 +87,60 @@ public class Soldier implements CommandTemplate {
 	}
 	
 	@Override
+	public void redo(){
+		
+		
+		GameModelList.get(gameID).getPlayer(playerIndex).getOldDevCards().updateSoldier(-1);
+		
+		//move the robber
+		original = GameModelList.get(gameID).getMap().getRobberLocation();
+		GameModelList.get(gameID).getMap().moveRobber(location);
+
+		//steal!!!!!
+		
+		boolean taken = false;
+
+		while(!taken){
+			if(x == 0){
+				//be wheat
+				if(GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().getWheat()!=0){
+					taken = true;
+					GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateWheat(-1);
+					GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWheat(1);
+				}
+			}
+			else if(x == 1){
+				if(GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().getOre()!=0){
+					taken = true;
+					GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateOre(-1);
+					GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateOre(1);
+				}
+			}
+			else if(x==2){
+				if(GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().getWood()!=0){
+					taken = true;
+					GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateWood(-1);
+					GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(1);
+				}
+			}
+			else if(x==3){
+				if(GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().getSheep()!=0){
+					taken = true;
+					GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateSheep(-1);
+					GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateSheep(1);
+				}
+			}
+			else if(x==4){
+				if(GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().getBrick()!=0){
+					taken = true;
+					GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateBrick(-1);
+					GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(1);
+				}
+			}
+		}
+	}
+
+	@Override
 	public void undo(){
 		GameModelList.get(gameID).getMap().moveRobber(original);
 		GameModelList.get(gameID).getPlayer(playerIndex).getOldDevCards().updateSoldier(1);
