@@ -33,7 +33,7 @@ public class Server {
 
 	private void run(String[] args) throws ServerException {
 
-		Server.PERSIST_CHECKPOINT = Integer.parseInt(args[1]);
+		StorageFacade.PERSIST_NUMBER = Integer.parseInt(args[1]);
 		serverRoot = args[2];
 		
 		if(args[0].equals("file")){
