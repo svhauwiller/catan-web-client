@@ -65,11 +65,11 @@ public class DatabaseRefresher {
 				+ "playercolor text );");
 		stmt.execute("create table gameinfo( "
 				+ "gameid integer not null primary key autoincrement, "
-				+ "gametitle test not null, "
-				+ "intialmodel blob, "
-				+ "currentmodel integer not null, "
+				+ "gametitle text not null, "
+				+ "intialmodel blob not null "
+				+ "currentmodel blob not null, "
 				+ "lastcommand integer);");
-
+			
 		stmt.close();
 
 	}

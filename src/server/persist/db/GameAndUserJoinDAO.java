@@ -107,8 +107,7 @@ public class GameAndUserJoinDAO implements GameAndUserJoinAO {
 			pstmt = conn.prepareStatement(addsql);
 			pstmt.setInt(1, playerID);
 			pstmt.setInt(2, gameID);
-			pstmt.setString(3, color.toString());
-			//pstmt.setBlob(1, (Blob)GameModelList.get(1)); 
+			pstmt.setString(3, color.toString()); 
 			
 		}catch(SQLException e){e.printStackTrace();}
 		finally
@@ -123,4 +122,3 @@ public class GameAndUserJoinDAO implements GameAndUserJoinAO {
 	}
 	
 }
-

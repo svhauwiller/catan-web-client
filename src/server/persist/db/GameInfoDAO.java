@@ -21,7 +21,6 @@ import java.sql.Statement;
 import com.thoughtworks.xstream.XStream;
 import com.thoughtworks.xstream.io.xml.DomDriver;
 
-import server.api.player.Player;
 import server.communication.GameModel;
 import server.communication.GameModelList;
 import server.persist.GameInfoAO;
@@ -40,7 +39,30 @@ public class GameInfoDAO implements GameInfoAO {
 	//TODO
 	@Override
 	public int getID(String gameTitle) {
-		throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+		Connection conn = dbconn.getConnection();
+		XStream xstream = new XStream(new DomDriver());
+
+		Statement stmt = null;
+		ResultSet results = null;
+		int toReturn = -1;
+
+		try{
+			stmt = conn.createStatement();
+			results = stmt.executeQuery("SELECT * from gameinfo WHERE gametitle='"+gameTitle+"'");
+			if(results!=null){
+				toReturn=results.getInt(1);
+			}
+		}catch(SQLException e){e.printStackTrace();}
+		finally{
+			try{
+				if(stmt !=null)
+				{stmt.close();}
+				if(results !=null)
+				{results.close();}
+			}
+			catch(SQLException e){e.printStackTrace();}
+		}
+		return toReturn;
 	}
 
 	/**
@@ -71,8 +93,7 @@ public class GameInfoDAO implements GameInfoAO {
 		Connection conn = dbconn.getConnection();
 		Statement stmt = null;
 		XStream xstream = new XStream(new DomDriver());
-		try
-		{
+		try{
 		    String stringObject = xstream.toXML(model);
 		    byte[] byteArray = stringObject.getBytes();
 		    Blob theBlob = null;
@@ -80,14 +101,12 @@ public class GameInfoDAO implements GameInfoAO {
 			
 			stmt = conn.createStatement();
 			{stmt.executeUpdate("Update gameinfo SET"+type+"='"+theBlob+"' WHERE gameid='"+gameID+"'");
-			stmt.executeUpdate("Update gameinfo SET lastcommand='"+theBlob+"' WHERE gameid='"+gameID+"'");
+			stmt.executeUpdate("Update gameinfo SET lastcommand='"+commandNumber+"' WHERE gameid='"+gameID+"'");
 			}
 		}catch(SQLException e)
 		{e.printStackTrace();}
-		finally
-		{
-			try
-			{
+		finally{
+			try{
 				if(stmt !=null)
 				{stmt.close();}
 			}
@@ -107,8 +126,7 @@ public class GameInfoDAO implements GameInfoAO {
 		PreparedStatement pstmt = null;
 		XStream xstream = new XStream(new DomDriver());
 
-		try
-		{
+		try{
 //			ByteArrayOutputStream baos = new ByteArrayOutputStream();
 //		    ObjectOutputStream oos = new ObjectOutputStream(baos);
 //		    oos.writeObject(initModel);
@@ -134,10 +152,8 @@ public class GameInfoDAO implements GameInfoAO {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		finally
-		{
-			try
-			{
+		finally{
+			try{
 				if(pstmt !=null)
 				{pstmt.close();}
 			}
@@ -169,12 +185,10 @@ public class GameInfoDAO implements GameInfoAO {
 		ResultSet results = null;
 		GameModel toReturn = null;
 
-		try
-		{
+		try{
 			stmt = conn.createStatement();
 			results = stmt.executeQuery("SELECT * from gameinfo WHERE gameid='"+gameID+"'");
-			if(results!=null)
-			{
+			if(results!=null){
 				if(type.equals("current")){
 					theBlob=results.getBlob(4);
 				}
@@ -186,10 +200,8 @@ public class GameInfoDAO implements GameInfoAO {
 				
 			}
 		}catch(SQLException e){e.printStackTrace();}
-		finally
-		{
-			try
-			{
+		finally{
+			try{
 				if(stmt !=null)
 				{stmt.close();}
 				if(results !=null)
