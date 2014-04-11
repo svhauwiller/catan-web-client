@@ -36,39 +36,40 @@ public class GameModelTests {
     
     @Test
     public void gettersTest(){
-        assertEquals(GameModel.getBank().getClass(), ResourceCardList.class);
-		assertEquals(GameModel.getChat().getClass(), MessageList.class);
-		assertEquals(GameModel.getDeck().getClass(), DevCardList.class);
-		assertEquals(GameModel.getLog().getClass(), MessageList.class);
-		assertEquals(GameModel.getMap().getClass(), Map.class);
-		assertEquals(GameModel.getTurnTracker().getClass(), TurnTracker.class);
+		GameModelList.add(new GameModel());
+        assertEquals(GameModelList.get(0).getBank().getClass(), ResourceCardList.class);
+		assertEquals(GameModelList.get(0).getChat().getClass(), MessageList.class);
+		assertEquals(GameModelList.get(0).getDeck().getClass(), DevCardList.class);
+		assertEquals(GameModelList.get(0).getLog().getClass(), MessageList.class);
+		assertEquals(GameModelList.get(0).getMap().getClass(), Map.class);
+		assertEquals(GameModelList.get(0).getTurnTracker().getClass(), TurnTracker.class);
     }
 	
 	@Test
 	public void settersTest(){
-		assertEquals(GameModel.getBiggestArmy(), -1);
-		assertEquals(GameModel.getLongestRoad(), -1);
-		assertEquals(GameModel.getWinner(), -1);
-		assertEquals(GameModel.getRevision(), 0);
-		assertNull(GameModel.getTradeOffer());
+		assertEquals(GameModelList.get(0).getBiggestArmy(), -1);
+		assertEquals(GameModelList.get(0).getLongestRoad(), -1);
+		assertEquals(GameModelList.get(0).getWinner(), -1);
+		assertEquals(GameModelList.get(0).getRevision(), 0);
+		assertNull(GameModelList.get(0).getTradeOffer());
 		
-		GameModel.setBiggestArmy(1);
-		GameModel.setLongestRoad(2);
-		GameModel.setWinner(3);
-		GameModel.incrementRevision();
-		GameModel.setTradeOffer(new TradeOffer());
-		GameModel.addPlayer(new Player(0, new PlayerInfo(PlayerColor.orange, 10, "Sam")));
+		GameModelList.get(0).setBiggestArmy(1);
+		GameModelList.get(0).setLongestRoad(2);
+		GameModelList.get(0).setWinner(3);
+		GameModelList.get(0).incrementRevision();
+		GameModelList.get(0).setTradeOffer(new TradeOffer());
+		GameModelList.get(0).addPlayer(new Player(0, new PlayerInfo(PlayerColor.orange, 10, "Sam")));
 		
-		assertEquals(GameModel.getBiggestArmy(), 1);
-		assertEquals(GameModel.getLongestRoad(), 2);
-		assertEquals(GameModel.getWinner(), 3);
-		assertEquals(GameModel.getRevision(), 1);
-		assertEquals(GameModel.getPlayer(0).getClass(), Player.class);
-		assertEquals(GameModel.getTradeOffer().getClass(), TradeOffer.class);
-		assertEquals(GameModel.getPlayer(0).getName(), "Sam");
+		assertEquals(GameModelList.get(0).getBiggestArmy(), 1);
+		assertEquals(GameModelList.get(0).getLongestRoad(), 2);
+		assertEquals(GameModelList.get(0).getWinner(), 3);
+		assertEquals(GameModelList.get(0).getRevision(), 1);
+		assertEquals(GameModelList.get(0).getPlayer(0).getClass(), Player.class);
+		assertEquals(GameModelList.get(0).getTradeOffer().getClass(), TradeOffer.class);
+		assertEquals(GameModelList.get(0).getPlayer(0).getName(), "Sam");
 		
-		GameModel.removeTradeOffer();
+		GameModelList.get(0).removeTradeOffer();
 		
-		assertNull(GameModel.getTradeOffer());
+		assertNull(GameModelList.get(0).getTradeOffer());
 	}
 }

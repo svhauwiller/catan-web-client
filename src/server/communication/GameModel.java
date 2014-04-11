@@ -173,6 +173,10 @@ public class GameModel {
 	public void setTradeOffer(TradeOffer newTradeOffer){
 		this.tradeOffer = newTradeOffer;
 	}
+	
+	public void removeTradeOffer(){
+		this.tradeOffer = null;
+	}
 
 	/**
 	 * @param winner the winner to set
