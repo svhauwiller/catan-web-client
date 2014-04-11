@@ -29,39 +29,70 @@ public class UsersDAO implements UsersAO {
     @Override
     public void add(String username, String password) {
 
+        dbconn.startTransaction();
+        boolean commit = true;
 
+
+
+        System.out.println("adding a user to the database");
         PreparedStatement stmt = null;
 
         try {
+            System.out.println("Monkey butts ar go");
+
             String sql = "INSERT INTO users(username, password) values (?, ?)";
 
+            System.out.println(sql);
+
             stmt = dbconn.getConnection().prepareStatement(sql);
+
+
+            System.out.println("Monkey butts to the limit");
+
 
             stmt.setString(1, username);
             stmt.setString(2, password);
 
+
+
+            System.out.println("Monkey butts");
+
+
             if (stmt.executeUpdate() == 1) {
                 // OK
+
+                System.out.println("Added that sucker to the database");
+
             } else {
+                System.out.println("FAIOL to the database");
+
                 throw new SQLException();
+
+
             }
         } catch (SQLException ex) {
             ex.printStackTrace();
+            commit = false;
+
         } finally {
             if (stmt != null) {
                 try {
                     stmt.close();
                 } catch (SQLException ex) {
                     ex.printStackTrace();
+                    commit = false;
                 }
             }
         }
 
-        //	throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+        dbconn.endTransaction(commit);
     }
 
     @Override
     public boolean validate(String username, String password) {
+
+        dbconn.startTransaction();
+
 
         boolean result = false;
 
@@ -97,6 +128,9 @@ public class UsersDAO implements UsersAO {
 
         }
 
+        dbconn.endTransaction(false);
+
+
 
         return result;
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
@@ -104,6 +138,9 @@ public class UsersDAO implements UsersAO {
 
     @Override
     public int getID(String username) {
+
+        dbconn.startTransaction();
+
 
         int result = -1;
         PreparedStatement stmt = null;
@@ -137,6 +174,9 @@ public class UsersDAO implements UsersAO {
             }
 
         }
+
+
+        dbconn.endTransaction(false);
 
         return result;
         //throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.

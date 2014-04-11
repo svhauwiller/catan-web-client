@@ -49,6 +49,15 @@ public class DatabaseConnection {
 	}
 
 	public Connection getConnection() {
+            
+            if (connection == null){
+              System.out.println("the connection is null - was a transaction started?");
+
+            }else
+            {
+             System.out.println("connection is go mofo");
+
+            }
 		return connection;
 	}
 
@@ -78,7 +87,10 @@ public class DatabaseConnection {
 	 * 
 	 * @throws ServerException
 	 */
-	public void startTransaction() throws ServerException {
+	public void startTransaction() {
+            
+                System.out.println("Is this getting called? yes apparantly");
+
 
 		// TODO: Open a connection to the database and start a transaction
 

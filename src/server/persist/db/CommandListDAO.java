@@ -35,22 +35,24 @@ public class CommandListDAO implements CommandListAO {
 
     @Override
     public void add(int gameID, CommandTemplate cmd, String type) {
-        
+
+
+        dbconn.startTransaction();
 
         PreparedStatement stmt = null;
-		XStream xstream = new XStream(new DomDriver());
+        XStream xstream = new XStream(new DomDriver());
         try {
             String sql = "INSERT INTO commandlist(gameId, command) values (?, ?, ?)";
             stmt = dbconn.getConnection().prepareStatement(sql);
 
-		    String stringObject = xstream.toXML(cmd);
-		    byte[] byteArray = stringObject.getBytes();
-		    Blob theBlob = null;
-		    theBlob.setBytes(1, byteArray);
+            String stringObject = xstream.toXML(cmd);
+            byte[] byteArray = stringObject.getBytes();
+            Blob theBlob = null;
+            theBlob.setBytes(1, byteArray);
 
             stmt.setInt(1, gameID);
             stmt.setBlob(2, theBlob);
-			stmt.setString(3, type);
+            stmt.setString(3, type);
 
 
             if (stmt.executeUpdate() == 1) {
@@ -70,7 +72,10 @@ public class CommandListDAO implements CommandListAO {
             }
         }
 
-        
+
+        dbconn.endTransaction(true);
+
+
     }
 
     /**
@@ -78,120 +83,143 @@ public class CommandListDAO implements CommandListAO {
      */
     @Override
     public ArrayList<CommandTemplate> getFromIndex(int gameID, int pos) {
-		Connection conn = dbconn.getConnection();
-		Blob theBlob = null;
-		Statement stmt = null;
-		ResultSet results = null;
-		ArrayList<CommandTemplate> toReturn = new ArrayList<CommandTemplate>();
-		XStream xstream = new XStream(new DomDriver());
-		try{
-			stmt = conn.createStatement();
-			results = stmt.executeQuery("SELECT * from commandlist WHERE commandid > '"+pos+"'"+ "AND gameid='"+gameID+"'");
-			while(results.next()){
-				theBlob = results.getBlob(3);
-				InputStream blobStream = theBlob.getBinaryStream();
-				toReturn.add((CommandTemplate)xstream.fromXML(blobStream));
+
+        dbconn.startTransaction();
+
+
+        Connection conn = dbconn.getConnection();
+        Blob theBlob = null;
+        Statement stmt = null;
+        ResultSet results = null;
+        ArrayList<CommandTemplate> toReturn = new ArrayList<CommandTemplate>();
+        XStream xstream = new XStream(new DomDriver());
+        try {
+            stmt = conn.createStatement();
+            results = stmt.executeQuery("SELECT * from commandlist WHERE commandid > '" + pos + "'" + "AND gameid='" + gameID + "'");
+            while (results.next()) {
+                theBlob = results.getBlob(3);
+                InputStream blobStream = theBlob.getBinaryStream();
+                toReturn.add((CommandTemplate) xstream.fromXML(blobStream));
 //				toReturn.add(templateChooser(blobStream, type));				
-			}
-		}catch(SQLException e){e.printStackTrace();}
-		finally{
-			try{
-				if(stmt !=null)
-				{stmt.close();}
-				if(results !=null)
-				{results.close();}
-			}
-			catch(SQLException e){e.printStackTrace();}
-		}
-		return toReturn;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (results != null) {
+                    results.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        dbconn.endTransaction(false);
+
+        return toReturn;
     }
 
     @Override
     public void reset(int gameID) {
 
-		Connection conn = dbconn.getConnection();
-		Statement stmt = null;
-		try{
-			stmt = conn.createStatement();
-			stmt.executeUpdate("DELETE FROM gameinfo WHERE gameid='"+gameID+"'");
-			
-		}catch(SQLException e)
-		{e.printStackTrace();}
-		finally{
-			try{
-				if(stmt !=null)
-				{stmt.close();}
-			}
-			catch(SQLException e){}
-		}
+        dbconn.startTransaction();
+
+        boolean commit = true;
+
+
+        Connection conn = dbconn.getConnection();
+        Statement stmt = null;
+        try {
+            stmt = conn.createStatement();
+            stmt.executeUpdate("DELETE FROM gameinfo WHERE gameid='" + gameID + "'");
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+
+            commit = false;
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+            } catch (SQLException e) {
+
+                commit = false;
+            }
+        }
+
+
+        dbconn.endTransaction(commit);
+
     }
-    
-    
     /**
-     * 
+     *
      * @param blobStream
      * @param type
      * @return
      */
     /*
-    private CommandTemplate templateChooser(InputStream blobStream, String type){
-    	XStream xstream = new XStream(new DomDriver());
-    	switch(type){
-    	case "sendChat":
-    		return(UpdateChatLog)xstream.fromXML(blobStream);
+     private CommandTemplate templateChooser(InputStream blobStream, String type){
+     XStream xstream = new XStream(new DomDriver());
+     switch(type){
+     case "sendChat":
+     return(UpdateChatLog)xstream.fromXML(blobStream);
     		
-		case "rollNumber":
-			return(RollNumber)xstream.fromXML(blobStream);		
+     case "rollNumber":
+     return(RollNumber)xstream.fromXML(blobStream);		
 		   
-		case "robPlayer":
-			return(RobPlayer)xstream.fromXML(blobStream);
+     case "robPlayer":
+     return(RobPlayer)xstream.fromXML(blobStream);
 			
-		case "finishTurn":
-			return(FinishTurn)xstream.fromXML(blobStream);
+     case "finishTurn":
+     return(FinishTurn)xstream.fromXML(blobStream);
 			
-		case "buyDevCard":
-			return(BuyDevCard)xstream.fromXML(blobStream);
+     case "buyDevCard":
+     return(BuyDevCard)xstream.fromXML(blobStream);
 			
-		case "Year_of_Plenty":
-			return(YearOfPlenty)xstream.fromXML(blobStream);
+     case "Year_of_Plenty":
+     return(YearOfPlenty)xstream.fromXML(blobStream);
 			
-		case "Road_Building":
-			return(RoadBuilding)xstream.fromXML(blobStream);
+     case "Road_Building":
+     return(RoadBuilding)xstream.fromXML(blobStream);
 			
-		case "Soldier":
-			return(Soldier)xstream.fromXML(blobStream);
+     case "Soldier":
+     return(Soldier)xstream.fromXML(blobStream);
 			
-		case "Monopoly":
-			return(Monopoly)xstream.fromXML(blobStream);
+     case "Monopoly":
+     return(Monopoly)xstream.fromXML(blobStream);
 			
-		case "Monument":
-			return(Monument)xstream.fromXML(blobStream);
+     case "Monument":
+     return(Monument)xstream.fromXML(blobStream);
 			
-		case "buildRoad":
-			return(BuildRoad)xstream.fromXML(blobStream);
+     case "buildRoad":
+     return(BuildRoad)xstream.fromXML(blobStream);
 			
-		case "buildSettlement":
-			return(BuildSettlement)xstream.fromXML(blobStream);
+     case "buildSettlement":
+     return(BuildSettlement)xstream.fromXML(blobStream);
 			
-		case "buildCity":
-			return(BuildCity)xstream.fromXML(blobStream);
+     case "buildCity":
+     return(BuildCity)xstream.fromXML(blobStream);
 			
-		case "offerTrade":
-			return(SendTradeOffer)xstream.fromXML(blobStream);
+     case "offerTrade":
+     return(SendTradeOffer)xstream.fromXML(blobStream);
 			
-		case "acceptTrade":
-			return(SendTradeResponse)xstream.fromXML(blobStream);
+     case "acceptTrade":
+     return(SendTradeResponse)xstream.fromXML(blobStream);
 			
-		case "maritimeTrade":
-			return(MaritimeTrade)xstream.fromXML(blobStream);
+     case "maritimeTrade":
+     return(MaritimeTrade)xstream.fromXML(blobStream);
 			
-		case "discardCards":
-			return(DiscardCards)xstream.fromXML(blobStream);
-		default:
-			return null;
+     case "discardCards":
+     return(DiscardCards)xstream.fromXML(blobStream);
+     default:
+     return null;
     		
-    	}
+     }
     	
-    }
-    */
+     }
+     */
 }
