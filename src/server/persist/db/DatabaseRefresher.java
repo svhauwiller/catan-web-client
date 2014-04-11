@@ -67,7 +67,7 @@ public class DatabaseRefresher {
 		stmt.execute("create table gameinfo( "
 				+ "gameid integer not null primary key autoincrement, "
 				+ "gametitle text not null, "
-				+ "intialmodel blob not null "
+				+ "intialmodel blob not null, "
 				+ "currentmodel blob not null, "
 				+ "lastcommand integer);");
 			

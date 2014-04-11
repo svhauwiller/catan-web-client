@@ -126,9 +126,9 @@
 	</target>
 
 	<target name="reset" depends="compile" description="Resets persistance data">
-		<java classname="server/persist/db.DatabaseRefresher" fork="yes">
+		<java classname="server.persist.db.DatabaseRefresher" fork="yes">
 			<classpath>
-				<path refid="sqlite-classpath"/>
+				<path refid="all-classpath"/>
 			</classpath>
 		</java>
 	</target>
