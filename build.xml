@@ -33,6 +33,8 @@
  	<property name="coverage-reports.dir" location="coverage-reports"/>
  	<property name="coverage-data-file" location="${coverage-reports.dir}/cobertura.ser"/>
 
+ 	<property name="data.dir" location="data"/>
+
 
     <path id="lib-classpath">
 		<fileset dir="${javalib.dir}">
@@ -131,6 +133,7 @@
 				<path refid="all-classpath"/>
 			</classpath>
 		</java>
+		<delete dir="${data.dir}"/>
 	</target>
 
 	<target name="cb-instrument" depends="compile" description="instrument class files for code coverage analysis">
