@@ -89,7 +89,7 @@ public class GameInfoDAO implements GameInfoAO {
 	 * @param gameID
 	 */
 	@Override
-	public void update(String type, GameModel model, int gameID, int commandNumber) {
+	public void update(String type, GameModel model, int gameID) {
 		Connection conn = dbconn.getConnection();
 		Statement stmt = null;
 		XStream xstream = new XStream(new DomDriver());
