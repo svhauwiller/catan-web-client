@@ -19,7 +19,7 @@ import server.api.player.Player.PlayerColor;
 
 public class SoldierTest{
 	public Soldier sObject = new Soldier();
-	String[] args = new String[6];
+	String[] args = new String[]{"0","1","0","0","0","Soldier"};
 	Location original;
 	@Before
 	public void setup(){
@@ -47,12 +47,6 @@ public class SoldierTest{
 	public void executeTest(){
 		
 		for(int i=0; i<50; i++){
-			args[0] = "0";
-			args[1] = "1";
-			args[2] = "0";
-			args[3] = "0";
-			args[4] = "0";
-			args[5] = "Soldier";
 			Location location = new Location(Integer.parseInt(args[2]), Integer.parseInt(args[3]), false);
 			sObject.execute(args);
 			assertEquals(GameModelList.get(0).getPlayer(0).getOldDevCards().getSoldier(), 0);
@@ -66,11 +60,6 @@ public class SoldierTest{
 
 	@Test
 	public void undoTest(){
-
-		args[0] = "0";
-		args[1] = "1";
-		args[2] = "0";
-		args[3] = "0";
 		Location location = new Location(Integer.parseInt(args[2]), Integer.parseInt(args[3]), false);
 		original = GameModelList.get(0).getMap().getRobberLocation();
 		sObject.execute(args);

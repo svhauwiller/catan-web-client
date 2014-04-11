@@ -18,7 +18,7 @@ import server.api.player.Player.PlayerColor;
 
 public class YearOfPlentyTest{
 	public YearOfPlenty yopObject = new YearOfPlenty();
-	public String[] args = new String[5];
+	public String[] args = new String[]{"0","wood","sheep","0","Year_of_Plenty"};
 	@Before
 	public void setup(){
 		GameModelList.add(new GameModel());
@@ -35,12 +35,6 @@ public class YearOfPlentyTest{
 
 	@Test
 	public void executeTest(){
-		
-		args[0] = "0";
-		args[1] = "wood";
-		args[2] = "sheep";
-		args[3] = "0";
-		args[4] = "Year_of_Plenty";
 		yopObject.execute(args);
 		assertEquals(GameModelList.get(0).getPlayer(0).getOldDevCards().getYearOfPlenty(), 0);
 		assertEquals(GameModelList.get(0).getPlayer(0).getResourceCardList().getWood(), 1);
@@ -69,9 +63,6 @@ public class YearOfPlentyTest{
 
 	@Test
 	public void undoTest(){
-		args[0] = "0";
-		args[1] = "wood";
-		args[2] = "sheep";
 		System.out.println("BEFORE " + GameModelList.get(0).getPlayer(0).getResourceCardList().getWood());
 		yopObject.execute(args);
 		System.out.println("AFTER " + GameModelList.get(0).getPlayer(0).getResourceCardList().getWood());
