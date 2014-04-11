@@ -10,7 +10,8 @@ catan.map = catan.map || {};
 
 catan.map.Controller = (function catan_controller_namespace() {
 	
-    var EdgeLoc = catan.map.View.EdgeLoc;
+	var Controller = catan.core.BaseController;
+	var EdgeLoc = catan.map.View.EdgeLoc;
 	var VertexLoc = catan.map.View.VertexLoc;
 	var PortLoc = catan.map.View.PortLoc;
     
@@ -36,7 +37,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 		 * @param {RobberOverlay} robView - The robber overlay to be used when the robber is being placed.  This is undefined for the setup round.
 		 */
 		function MapController(view, modalView, model, robView){
-			catan.core.BaseController.call(this,view,model);
+			Controller.call(this,view,model);
 			this.setModalView(modalView);
 			this.setRobView(robView);
 			this.initFromModel();
@@ -130,7 +131,7 @@ catan.map.Controller = (function catan_controller_namespace() {
 						_this.getView().placeRoad(edge.location, playerColor);
 					}
 				});
-
+				
 				hex.vertexes.forEach(function(vert){
 					if(vert.isOccupied() && (vert.location.getDirection() === 0 || vert.location.getDirection() === 3)){
 						playerColor = playerData[orderNumbers[vert.getOwner()]].color;
