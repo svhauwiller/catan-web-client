@@ -14,6 +14,7 @@ import java.util.Map;
 import server.communication.PlayerInfo;
 
 import com.google.inject.Inject;
+import server.persist.StorageFacade;
 
 /**
  *
@@ -50,7 +51,7 @@ public class UserLogin implements iUserLogin{
 	    System.out.println("VALIDATE USER");
 		printMap();
 		 */
-		return playerInRegistryHuh((userInfo.get("username")),(userInfo.get("password")));
+		return StorageFacade.validateUser((userInfo.get("username")),(userInfo.get("password")));
 	}
 	
 	
@@ -66,6 +67,7 @@ public class UserLogin implements iUserLogin{
 			}
 		}
 		validUsers.put(new PlayerInfo(null, addID(), userInfo.get("username")), userInfo.get("password")); 
+		StorageFacade.addUser(userInfo.get("username"), userInfo.get("password"));
 		printMap();
 		return true;
 		

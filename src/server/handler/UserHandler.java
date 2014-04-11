@@ -67,8 +67,8 @@ public class UserHandler implements HttpHandler{
 		String response = null;
 
 
-		//boolean validUserHuh = theUser.validateUserLogin(requestData);
-		boolean validUserHuh = StorageFacade.validateUser(requestData.get("username"), requestData.get("password"));
+		boolean validUserHuh = theUser.validateUserLogin(requestData);
+		//boolean validUserHuh = StorageFacade.validateUser(requestData.get("username"), requestData.get("password"));
 		OutputStream responseStream = ex.getResponseBody();
 		Headers responseHeaders = ex.getResponseHeaders();
 
@@ -112,8 +112,6 @@ public class UserHandler implements HttpHandler{
 			
 			responseHeaders.add("Set-Cookie","catan.user="+encodedURL+"; path=/" );
 			ex.sendResponseHeaders(200, response.length());	
-			
-			StorageFacade.addUser(requestData.get("username"), requestData.get("password"));
 		}
 		else{
 			response = "Failure";
