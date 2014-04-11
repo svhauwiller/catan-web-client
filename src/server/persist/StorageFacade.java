@@ -86,8 +86,8 @@ public class StorageFacade {
 	 * @param theGameID
 	 * @param command
 	 */
-	private void _addCommand(int theGameID, CommandTemplate command){
-		localCommandList.add(theGameID, command);
+	private void _addCommand(int theGameID, CommandTemplate command, String type){
+		localCommandList.add(theGameID, command, type);
 		int numberOfCommands = CommandList.getExecutedCommands().size();
 		
 		if ((numberOfCommands % 50) == 0){
