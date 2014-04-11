@@ -19,23 +19,24 @@ import server.api.player.Player.PlayerColor;
 
 public class SoldierTest{
 	public Soldier sObject = new Soldier();
-	String[] args = new String[4];
+	String[] args = new String[6];
 	Location original;
 	@Before
 	public void setup(){
-		GameModel.addPlayer(new Player(0, new PlayerInfo(PlayerColor.orange, 0, "Sam")));
-		GameModel.addPlayer(new Player(1, new PlayerInfo(PlayerColor.red, 1, "Brooke")));
-		GameModel.getPlayer(0).getOldDevCards().setSoldier(1);
-		GameModel.getPlayer(0).getResourceCardList().setWood(0);
-		GameModel.getPlayer(0).getResourceCardList().setBrick(0);
-		GameModel.getPlayer(0).getResourceCardList().setWheat(0);
-		GameModel.getPlayer(0).getResourceCardList().setOre(0);
-		GameModel.getPlayer(0).getResourceCardList().setSheep(0);
-		GameModel.getPlayer(1).getResourceCardList().setWood(1);
-		GameModel.getPlayer(1).getResourceCardList().setBrick(1);
-		GameModel.getPlayer(1).getResourceCardList().setWheat(1);
-		GameModel.getPlayer(1).getResourceCardList().setOre(1);
-		GameModel.getPlayer(1).getResourceCardList().setSheep(1);
+		GameModelList.add(new GameModel());
+		GameModelList.get(0).addPlayer(new Player(0, new PlayerInfo(PlayerColor.orange, 0, "Sam")));
+		GameModelList.get(0).addPlayer(new Player(1, new PlayerInfo(PlayerColor.red, 1, "Brooke")));
+		GameModelList.get(0).getPlayer(0).getOldDevCards().setSoldier(1);
+		GameModelList.get(0).getPlayer(0).getResourceCardList().setWood(0);
+		GameModelList.get(0).getPlayer(0).getResourceCardList().setBrick(0);
+		GameModelList.get(0).getPlayer(0).getResourceCardList().setWheat(0);
+		GameModelList.get(0).getPlayer(0).getResourceCardList().setOre(0);
+		GameModelList.get(0).getPlayer(0).getResourceCardList().setSheep(0);
+		GameModelList.get(0).getPlayer(1).getResourceCardList().setWood(1);
+		GameModelList.get(0).getPlayer(1).getResourceCardList().setBrick(1);
+		GameModelList.get(0).getPlayer(1).getResourceCardList().setWheat(1);
+		GameModelList.get(0).getPlayer(1).getResourceCardList().setOre(1);
+		GameModelList.get(0).getPlayer(1).getResourceCardList().setSheep(1);
 		
 	}
 
@@ -50,13 +51,15 @@ public class SoldierTest{
 			args[1] = "1";
 			args[2] = "0";
 			args[3] = "0";
+			args[4] = "0";
+			args[5] = "Soldier";
 			Location location = new Location(Integer.parseInt(args[2]), Integer.parseInt(args[3]), false);
 			sObject.execute(args);
-			assertEquals(GameModel.getPlayer(0).getOldDevCards().getSoldier(), 0);
-			assertEquals(GameModel.getPlayer(0).getResourceCardList().getTotal(), 1);
-			assertEquals(GameModel.getPlayer(1).getResourceCardList().getTotal(), 4);
-			assertEquals(GameModel.getMap().getRobberLocation().getX(), location.getX());
-			assertEquals(GameModel.getMap().getRobberLocation().getY(), location.getY());
+			assertEquals(GameModelList.get(0).getPlayer(0).getOldDevCards().getSoldier(), 0);
+			assertEquals(GameModelList.get(0).getPlayer(0).getResourceCardList().getTotal(), 1);
+			assertEquals(GameModelList.get(0).getPlayer(1).getResourceCardList().getTotal(), 4);
+			assertEquals(GameModelList.get(0).getMap().getRobberLocation().getX(), location.getX());
+			assertEquals(GameModelList.get(0).getMap().getRobberLocation().getY(), location.getY());
 			sObject.undo();
 		}
 	}
@@ -69,12 +72,12 @@ public class SoldierTest{
 		args[2] = "0";
 		args[3] = "0";
 		Location location = new Location(Integer.parseInt(args[2]), Integer.parseInt(args[3]), false);
-		original = GameModel.getMap().getRobberLocation();
+		original = GameModelList.get(0).getMap().getRobberLocation();
 		sObject.execute(args);
 		sObject.undo();
-		assertEquals(GameModel.getPlayer(0).getOldDevCards().getSoldier(), 1);
-		assertEquals(GameModel.getPlayer(0).getResourceCardList().getTotal(), 0);
-		assertEquals(GameModel.getPlayer(1).getResourceCardList().getTotal(), 5);
-		assertEquals(GameModel.getMap().getRobberLocation(), original);		
+		assertEquals(GameModelList.get(0).getPlayer(0).getOldDevCards().getSoldier(), 1);
+		assertEquals(GameModelList.get(0).getPlayer(0).getResourceCardList().getTotal(), 0);
+		assertEquals(GameModelList.get(0).getPlayer(1).getResourceCardList().getTotal(), 5);
+		assertEquals(GameModelList.get(0).getMap().getRobberLocation(), original);		
 	}
 }

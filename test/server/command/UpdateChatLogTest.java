@@ -21,7 +21,8 @@ import java.util.ArrayList;
 public class UpdateChatLogTest{
 	@Before
 	public void setup(){
-		GameModel.addPlayer(new Player(0, new PlayerInfo(PlayerColor.orange, 0, "Sam")));
+		GameModelList.add(new GameModel());
+		GameModelList.get(0).addPlayer(new Player(0, new PlayerInfo(PlayerColor.orange, 0, "Sam")));
 	}
 
 	@Test
@@ -29,10 +30,10 @@ public class UpdateChatLogTest{
 		
 		UpdateChatLog updateChatLogObj = new UpdateChatLog();
 
-		String[] args = new String[]{"sendChat","0", "Kill me!"};
+		String[] args = new String[]{"sendChat","0", "Kill me!", "0"};
 		updateChatLogObj.execute(args);
 
-		ArrayList<MessageLine> messages = GameModel.getChat().getLines();
+		ArrayList<MessageLine> messages = GameModelList.get(0).getChat().getLines();
 
 		MessageLine lastLine = messages.get(messages.size() - 1);
 		

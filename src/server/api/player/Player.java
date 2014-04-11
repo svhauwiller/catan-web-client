@@ -99,6 +99,9 @@ public class Player {
 	public void updateRoads(int in) {
             roads += in;
         }
+	public int getRoads(){
+		return roads;
+	}
 	
 	public void updateCities(int in) {
             cities += in;

@@ -19,7 +19,8 @@ import server.api.player.Player.PlayerColor;
 public class DiscardCardsTest{
 	@Before
 	public void setup(){
-		GameModel.addPlayer(new Player(0, new PlayerInfo(PlayerColor.orange, 0, "Sam")));
+		GameModelList.add(new GameModel());
+		GameModelList.get(0).addPlayer(new Player(0, new PlayerInfo(PlayerColor.orange, 0, "Sam")));
 	}
 
 	@Test
@@ -27,20 +28,20 @@ public class DiscardCardsTest{
 		
 		DiscardCards discardCardsobj = new DiscardCards();
 
-		//System.out.println("Brick = " + GameModel.getPlayer(0).getResourceCardList().getBrick());
-		//System.out.println("Bank's Brick = " + GameModel.getBank().getBrick());
+		//System.out.println("Brick = " + GameModelList.get(0).getPlayer(0).getResourceCardList().getBrick());
+		//System.out.println("Bank's Brick = " + GameModelList.get(0).getBank().getBrick());
 
-		assertEquals(GameModel.getPlayer(0).getResourceCardList().getBrick(), 0);
-		assertEquals(GameModel.getBank().getBrick(), 16);
+		assertEquals(GameModelList.get(0).getPlayer(0).getResourceCardList().getBrick(), 0);
+		assertEquals(GameModelList.get(0).getBank().getBrick(), 16);
 
-		String[] args = new String[]{"discardCards","0", "-1", "0", "0", "0", "-1"};
+		String[] args = new String[]{"discardCards","0", "-1", "0", "0", "0", "-1", "0"};
 		discardCardsobj.execute(args);
 
-		//System.out.println("Brick = " + GameModel.getPlayer(0).getResourceCardList().getBrick());
-		//System.out.println("Bank's Brick = " + GameModel.getBank().getBrick());
+		//System.out.println("Brick = " + GameModelList.get(0).getPlayer(0).getResourceCardList().getBrick());
+		//System.out.println("Bank's Brick = " + GameModelList.get(0).getBank().getBrick());
 		
-		assertEquals(GameModel.getPlayer(0).getResourceCardList().getBrick(), -1);
-		assertEquals(GameModel.getBank().getBrick(), 17);
+		assertEquals(GameModelList.get(0).getPlayer(0).getResourceCardList().getBrick(), -1);
+		assertEquals(GameModelList.get(0).getBank().getBrick(), 17);
 	}
 	
 

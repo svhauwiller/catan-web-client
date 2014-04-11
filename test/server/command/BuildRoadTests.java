@@ -26,7 +26,8 @@ public class BuildRoadTests {
 	@Before
 	public void setup(){
 		//GameList.getGameList().clear();
-		GameModel.addPlayer(new Player(0, new PlayerInfo(PlayerColor.orange, 0, "Sam")));
+		GameModelList.add(new GameModel());
+		GameModelList.get(0).addPlayer(new Player(0, new PlayerInfo(PlayerColor.orange, 0, "Sam")));
 	}
     
 	@After
@@ -45,10 +46,10 @@ public class BuildRoadTests {
 		 * args[5]-> free
 		 */
 
-		String[] args = new String[]{"buildRoad","0", "1", "1", "N", "false"};
+		String[] args = new String[]{"buildRoad","0", "1", "1", "N", "false", "0"};
 		buildRoadObj.execute(args);
 
-		int numOfRoads = GameModel.getPlayer(0).getRoads();
+		int numOfRoads = GameModelList.get(0).getPlayer(0).getRoads();
 
 		System.out.println("numOfRoads: " + numOfRoads);
 		

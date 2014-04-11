@@ -20,10 +20,11 @@ public class MonumentTest{
 	public Monument monObject = new Monument();
 	@Before
 	public void setup(){
-		GameModel.addPlayer(new Player(0, new PlayerInfo(PlayerColor.orange, 0, "Sam")));
-		GameModel.getPlayer(0).getOldDevCards().setMonument(1);
-		GameModel.getPlayer(0).setVictoryPoints(2);
-		GameModel.getPlayer(0).setMonuments(0);
+		GameModelList.add(new GameModel());
+		GameModelList.get(0).addPlayer(new Player(0, new PlayerInfo(PlayerColor.orange, 0, "Sam")));
+		GameModelList.get(0).getPlayer(0).getOldDevCards().setMonument(1);
+		GameModelList.get(0).getPlayer(0).setVictoryPoints(2);
+		GameModelList.get(0).getPlayer(0).setMonuments(0);
 	}
 
 	@After
@@ -32,23 +33,23 @@ public class MonumentTest{
 	@Test
 	public void executeTest(){
 		
-		//assertEquals(GameModel.getPlayer(1).getOldDevCards(),0);
+		//assertEquals(GameModelList.get(0).getPlayer(1).getOldDevCards(),0);
 		
-		String[] args = new String[]{"0"};
+		String[] args = new String[]{"0", "0", "Monument"};
 		monObject.execute(args);
-		assertEquals(GameModel.getPlayer(0).getOldDevCards().getMonument(), 0);
-		assertEquals(GameModel.getPlayer(0).getVictoryPoints(), 3);
-		assertEquals(GameModel.getPlayer(0).getMonuments(),1);
+		assertEquals(GameModelList.get(0).getPlayer(0).getOldDevCards().getMonument(), 0);
+		assertEquals(GameModelList.get(0).getPlayer(0).getVictoryPoints(), 3);
+		assertEquals(GameModelList.get(0).getPlayer(0).getMonuments(),1);
 	}
 
 	@Test
 	public void undoTest(){
-		String[] args = new String[]{"0"};
+		String[] args = new String[]{"0", "0", "Monument"};
 		monObject.execute(args);
 		monObject.undo();
-		assertEquals(GameModel.getPlayer(0).getOldDevCards().getMonument(), 1);
-		assertEquals(GameModel.getPlayer(0).getVictoryPoints(), 2);
-		assertEquals(GameModel.getPlayer(0).getMonuments(),0);	
+		assertEquals(GameModelList.get(0).getPlayer(0).getOldDevCards().getMonument(), 1);
+		assertEquals(GameModelList.get(0).getPlayer(0).getVictoryPoints(), 2);
+		assertEquals(GameModelList.get(0).getPlayer(0).getMonuments(),0);	
 	}
 	
 	

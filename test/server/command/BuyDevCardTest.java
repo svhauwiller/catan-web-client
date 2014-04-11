@@ -20,7 +20,8 @@ public class BuyDevCardTest{
 	public BuyDevCard bdcObject = new BuyDevCard();
 	@Before
 	public void setup(){
-		GameModel.addPlayer(new Player(0, new PlayerInfo(PlayerColor.orange, 0, "Sam")));
+		GameModelList.add(new GameModel());
+		GameModelList.get(0).addPlayer(new Player(0, new PlayerInfo(PlayerColor.orange, 0, "Sam")));
 	}
 	@After
     public void teardown(){}
@@ -28,12 +29,14 @@ public class BuyDevCardTest{
 	@Test
 	public void executeTest(){
 		
-		//assertEquals(GameModel.getPlayer(1).getOldDevCards(),0);
+		//assertEquals(GameModelList.get(0).getPlayer(1).getOldDevCards(),0);
 		for(int i=0; i<25; i++){
-			String[] args = new String[]{"0"};
+			String[] args = new String[3];
+			args[0] = "0";
+			args[1] = "0";
+			args[2] = "buyDevCard";
 			bdcObject.execute(args);
-			System.out.println("Hello dane");
-			assertEquals(GameModel.getPlayer(0).getOldDevCards().getTotal() + GameModel.getPlayer(0).getNewDevCards().getTotal(), 1);
+			assertEquals(GameModelList.get(0).getPlayer(0).getOldDevCards().getTotal() + GameModelList.get(0).getPlayer(0).getNewDevCards().getTotal(), 1);
 			bdcObject.undo();
 		}
 	}
@@ -43,7 +46,7 @@ public class BuyDevCardTest{
 		String[] args = new String[]{"0"};
 		bdcObject.execute(args);
 		bdcObject.undo();
-		assertEquals(GameModel.getPlayer(0).getOldDevCards().getTotal() + GameModel.getPlayer(0).getNewDevCards().getTotal(), 0);	
+		assertEquals(GameModelList.get(0).getPlayer(0).getOldDevCards().getTotal() + GameModelList.get(0).getPlayer(0).getNewDevCards().getTotal(), 0);	
 	}
 	
 	
