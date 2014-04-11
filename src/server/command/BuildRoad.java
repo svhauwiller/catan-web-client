@@ -53,9 +53,25 @@ public class BuildRoad implements CommandTemplate{
 		return null;
 	}
 	@Override
-	public void persist(){}
+	public void persist(){
+		StorageFacade.addCommand(gameID, this, type);
+	}
 	@Override
-	public void redo(){}
+	public void redo(){
+		GameModelList.get(gameID).getBank().updateBrick(1);
+		GameModelList.get(gameID).getBank().updateWood(1);
+
+		// update player - subtract resources
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(-1);
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(-1);
+		GameModelList.get(gameID).getPlayer(playerIndex).updateRoads(-1);
+
+		// update map - change ownerID of a given edge
+		Location hexLoc = new Location(locationX, locationY, true);
+		hexLoc.setDirection(locationDirection);
+		GameModelList.get(gameID).getMap().updateEdgeOwner(hexLoc, playerIndex);
+
+	}
 	@Override
 	public void undo(){ // should probably save previous location
 		Location hexLoc = new Location(locationX, locationY, true);

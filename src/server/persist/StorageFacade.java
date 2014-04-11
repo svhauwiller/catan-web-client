@@ -138,7 +138,7 @@ public class StorageFacade {
 	public static boolean validateUser(String username, String password) { return instance()._validateUser(username, password); }
 	public static void addGame(String gameTitle, GameModel initModel) { instance()._addGame(gameTitle, initModel); }
 	public static void joinGame(int playerID, int gameID, PlayerColor color) { instance()._joinGame(playerID, gameID, color); }
-	public static void addCommand(int gameID, CommandTemplate cmd) { instance()._addCommand(gameID, cmd); }
+	public static void addCommand(int gameID, CommandTemplate cmd, String type) { instance()._addCommand(gameID, cmd, type); }
 	public static void persistGame(String type, int gameID) { instance()._persistGame(type, gameID); }
 	public static void restoreGameState(int gameID) { instance()._restoreGameState(gameID); }
 	public static void resetGame(int gameID) { instance()._resetGame(gameID); }
