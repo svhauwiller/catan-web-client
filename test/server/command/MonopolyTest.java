@@ -18,7 +18,7 @@ import server.api.player.Player.PlayerColor;
 
 public class MonopolyTest{
 	public Monopoly mObject = new Monopoly();
-	String[] args = new String[4];
+	String[] args = new String[]{"0","wood","0","Monopoly"};
 	@Before
 	public void setup(){
 		GameModelList.add(new GameModel());
@@ -58,8 +58,6 @@ public class MonopolyTest{
 		//assertEquals(GameModelList.get(0).getPlayer(1).getOldDevCards(),0);
 		args[0] = "0";
 		args[1] = "wood";
-		args[3] = "0";
-		args[4] = "Monopoly";
 		mObject.execute(args);
 		assertEquals(GameModelList.get(0).getPlayer(0).getOldDevCards().getMonopoly(), 0);
 		assertEquals(GameModelList.get(0).getPlayer(0).getResourceCardList().getWood(), 5);
