@@ -74,14 +74,19 @@ public class GameInfoDAO implements GameInfoAO {
 		return blobGrabber(gameID, "initial");
 	}
 
-	/**
-	 * @param gameID
-	 * @return the GameModel
-	 */
 	@Override
 	public GameModel getCurr(int gameID) {
 		return blobGrabber(gameID, "current");
 	}
+//	@Override
+//	public Blob getInit(int gameID) {
+//		return blobGrabber(gameID, "initial");
+//	}
+//
+//	@Override
+//	public Blob getCurr(int gameID) {
+//		return blobGrabber(gameID, "current");
+//	}
 
 	/**
 	 * @param type whether the initial gameModel or the current gameModel
@@ -92,6 +97,9 @@ public class GameInfoDAO implements GameInfoAO {
 	public void update(String type, GameModel model, int gameID) {
 		Connection conn = dbconn.getConnection();
 		Statement stmt = null;
+		Statement stmt2 = null;
+		ResultSet results = null;
+		int commandNumber = -1;
 		XStream xstream = new XStream(new DomDriver());
 		try{
 		    String stringObject = xstream.toXML(model);
@@ -100,8 +108,14 @@ public class GameInfoDAO implements GameInfoAO {
 		    theBlob.setBytes(1, byteArray);
 			
 			stmt = conn.createStatement();
+			stmt2 = conn.createStatement();
+			results = stmt2.executeQuery("SELECT * from gameinfo WHERE gameid='"+gameID+"'");
+			if(results!=null)
+			{
+				commandNumber=results.getInt(5);
+			}
 			{stmt.executeUpdate("Update gameinfo SET"+type+"='"+theBlob+"' WHERE gameid='"+gameID+"'");
-			stmt.executeUpdate("Update gameinfo SET lastcommand='"+commandNumber+"' WHERE gameid='"+gameID+"'");
+			stmt.executeUpdate("Update gameinfo SET lastcommand='"+(commandNumber+50)+"' WHERE gameid='"+gameID+"'");
 			}
 		}catch(SQLException e)
 		{e.printStackTrace();}
@@ -166,8 +180,32 @@ public class GameInfoDAO implements GameInfoAO {
 	 */
 	@Override
 	public void reset(int gameID) {
-		GameModel resetBlob = getInit(gameID);
-		GameModelList.set(gameID, resetBlob);
+//		Blob resetBlob = getInit(gameID);
+		GameModel theBlob = getInit(gameID);
+		XStream xstream = new XStream(new DomDriver());
+		Connection conn = dbconn.getConnection();
+		Statement stmt = null;
+		try{
+			
+		    String stringObject = xstream.toXML(theBlob);
+		    byte[] byteArray = stringObject.getBytes();
+		    Blob resetBlob = null;
+		    resetBlob.setBytes(1, byteArray);
+		    
+			stmt = conn.createStatement();
+			stmt.executeUpdate("Update gameinfo SET currentmodel='"+resetBlob+"' WHERE gameid='"+gameID+"'");
+			stmt.executeUpdate("Update gameinfo SET lastcommand='"+0+"' WHERE gameid='"+gameID+"'");
+			
+		}catch(SQLException e)
+		{e.printStackTrace();}
+		finally{
+			try{
+				if(stmt !=null)
+				{stmt.close();}
+			}
+			catch(SQLException e){}
+		}
+		
 	}
 	
 	/**
