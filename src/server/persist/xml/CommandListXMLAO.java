@@ -25,7 +25,7 @@ public class CommandListXMLAO implements CommandListAO{
 	}
 
 	@Override
-	public void add(int gameID, CommandTemplate cmd) {
+	public void add(int gameID, CommandTemplate cmd, String type) {
 		Object xmlData = fileio.loadModel(FileIO.CMD_LIST_FILENAME);
 		CommandListXMLmodel cmdListModel = null;
 		

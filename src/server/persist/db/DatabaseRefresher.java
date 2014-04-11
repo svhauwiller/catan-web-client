@@ -58,7 +58,8 @@ public class DatabaseRefresher {
 		stmt.execute("create table commandlist( "
 				+ "commandid integer not null primary key autoincrement, "
 				+ "gameid text not null, "
-				+ "command blob);");
+				+ "command blob, "
+				+ "type text);");
 		stmt.execute("create table gameanduserjoin( "
 				+ "playerid integer not null, "
 				+ "gameid interger not null, "

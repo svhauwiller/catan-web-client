@@ -34,13 +34,13 @@ public class CommandListDAO implements CommandListAO {
     }
 
     @Override
-    public void add(int gameID, CommandTemplate cmd) {
+    public void add(int gameID, CommandTemplate cmd, String type) {
         
 
         PreparedStatement stmt = null;
 		XStream xstream = new XStream(new DomDriver());
         try {
-            String sql = "INSERT INTO commandlist(gameId, command) values (?, ?)";
+            String sql = "INSERT INTO commandlist(gameId, command) values (?, ?, ?)";
             stmt = dbconn.getConnection().prepareStatement(sql);
 
 		    String stringObject = xstream.toXML(cmd);
@@ -49,7 +49,8 @@ public class CommandListDAO implements CommandListAO {
 		    theBlob.setBytes(1, byteArray);
 
             stmt.setInt(1, gameID);
-            stmt.setBlob(2, theBlob); 
+            stmt.setBlob(2, theBlob);
+			stmt.setString(3, type);
 
 
             if (stmt.executeUpdate() == 1) {
@@ -76,7 +77,7 @@ public class CommandListDAO implements CommandListAO {
      * gets the list of commands from the position (pos) to the end of the list
      */
     @Override
-    public ArrayList<CommandTemplate> getFromIndex(int gameID, int pos, String type) {
+    public ArrayList<CommandTemplate> getFromIndex(int gameID, int pos) {
 		Connection conn = dbconn.getConnection();
 		Blob theBlob = null;
 		Statement stmt = null;
