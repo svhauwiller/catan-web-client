@@ -91,7 +91,6 @@ public class BuyDevCard implements CommandTemplate{
 		//And because im not 100% sure what the args are
 
 		//put the resources back in the bank
-		//This isn't possible because bank is private;
 		GameModelList.get(gameID).getBank().updateOre(1);
 		GameModelList.get(gameID).getBank().updateWheat(1);
 		GameModelList.get(gameID).getBank().updateSheep(1);
@@ -151,7 +150,7 @@ public class BuyDevCard implements CommandTemplate{
 	}
 	@Override
 	public void persist(){
-		StorageFacade.instance.addCommand(gameID, this);
+		StorageFacade.addCommand(gameID, this);
 	}
 	
 	@Override

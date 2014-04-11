@@ -72,10 +72,57 @@ public class Monopoly implements CommandTemplate {
 	}
 	@Override
 	public void persist(){
-		StorageFacade.instance.addCommand(gameID, this);
+		StorageFacade.addCommand(gameID, this);
 	}
 	@Override
-	public void redo(){}
+	public void redo(){
+		//take away dev card from player
+		GameModelList.get(gameID).getPlayer(playerIndex).getOldDevCards().updateMonopoly(-1);
+		
+		//take resource away from players
+		int totalGained=0;
+		for(int i=0; i<4; i++){
+			if(i != playerIndex){
+				if(resource.equals("wheat")){
+					current[i] = GameModelList.get(gameID).getPlayer(i).getResourceCardList().getWheat();
+					totalGained += current[i];
+					GameModelList.get(gameID).getPlayer(i).getResourceCardList().updateWheat(-current[i]);
+				}
+				else if(resource.equals("ore")){
+					current[i] = GameModelList.get(gameID).getPlayer(i).getResourceCardList().getOre();
+					totalGained += current[i];
+					GameModelList.get(gameID).getPlayer(i).getResourceCardList().updateOre(-current[i]);
+				}
+				else if(resource.equals("wood")){
+					current[i] = GameModelList.get(gameID).getPlayer(i).getResourceCardList().getWood();
+					totalGained += current[i];
+					GameModelList.get(gameID).getPlayer(i).getResourceCardList().updateWood(-current[i]);
+				}
+				else if(resource.equals("sheep")){
+					current[i] = GameModelList.get(gameID).getPlayer(i).getResourceCardList().getSheep();
+					totalGained += current[i];
+					GameModelList.get(gameID).getPlayer(i).getResourceCardList().updateSheep(-current[i]);
+				}
+				else if(resource.equals("brick")){
+					current[i] = GameModelList.get(gameID).getPlayer(i).getResourceCardList().getBrick();
+					totalGained += current[i];
+					GameModelList.get(gameID).getPlayer(i).getResourceCardList().updateBrick(-current[i]);
+				}
+			}
+		}
+
+		//add the resources to current player
+		if(resource.equals("wheat"))
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWheat(totalGained);
+		else if(resource.equals("ore"))
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateOre(totalGained);
+		else if(resource.equals("sheep"))
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateSheep(totalGained);
+		else if(resource.equals("wood"))
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(totalGained);
+		else if(resource.equals("brick"))
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(totalGained);
+	}
 	@Override
 	public void undo(){
 		GameModelList.get(gameID).getPlayer(playerIndex).getOldDevCards().updateMonopoly(1);

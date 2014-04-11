@@ -3,6 +3,7 @@ package server.command;
 import server.communication.GameModel;
 import server.communication.GameModelList;
 import server.api.utils.*;
+import server.persist.*;
 
 
 
@@ -40,9 +41,21 @@ public class UpdateChatLog implements CommandTemplate{
 	}
 
 	@Override
-	public void persist(){}
+	public void persist(){
+	
+	}
 	@Override
-	public void redo(){}
+	public void redo(){
+		source = GameModelList.get(gameID).getPlayer(playerIndex).getName();
+
+		MessageLine messageLine = new MessageLine(content, source);
+
+		MessageList chatList = GameModelList.get(gameID).getChat();
+
+		chatList.getLines().add(messageLine);
+		
+		GameModelList.get(gameID).incrementRevision();
+	}
 
 	@Override
 	public void undo(){

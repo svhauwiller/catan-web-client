@@ -3,6 +3,7 @@ package server.command;
 import server.JSONObject;
 import server.communication.GameModel;
 import server.communication.GameModelList;
+import server.persist.*;
 
 import java.util.*;
 
@@ -55,7 +56,21 @@ public class BuildCity implements CommandTemplate{
 	@Override
 	public void persist(){}
 	@Override
-	public void redo(){}
+	public void redo(){
+		// update bank - add resources - building a road requires one brick, one lumber, one wool, and one grain
+		GameModelList.get(gameID).getBank().updateWheat(2);
+		GameModelList.get(gameID).getBank().updateOre(3);
+
+		// update player - subtract resources
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWheat(-2);
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateOre(-3);
+		GameModelList.get(gameID).getPlayer(playerIndex).updateCities(-1);
+
+		// update map - change ownerID of a given edge
+		Location hexLoc = new Location(vertexX, vertexY, true);
+		hexLoc.setDirection(vertexDirection);
+		GameModelList.get(gameID).getMap().updateVertexOwner(hexLoc, playerIndex);	
+	}
 	
 	@Override
 	public void undo(){ // should probably save previous location

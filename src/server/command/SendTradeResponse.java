@@ -4,6 +4,7 @@ import server.api.bank.ResourceCardList;
 import server.api.player.Player;
 import server.communication.GameModel;
 import server.communication.GameModelList;
+import server.persist.*;
 
 public class SendTradeResponse implements CommandTemplate{
 		private int playerIndex;
@@ -74,7 +75,20 @@ public class SendTradeResponse implements CommandTemplate{
 	@Override
 	public void persist(){}
 	@Override
-	public void redo(){}
+	public void redo(){
+		sender = GameModelList.get(gameID).getTradeOffer().getSender();
+		receiver = GameModelList.get(gameID).getTradeOffer().getReceiver();
+		rcl = GameModelList.get(gameID).getTradeOffer().getTheResourceList();
+		
+		if(willAccept.equalsIgnoreCase("false")){
+			//you suck, just trade
+		}
+		else{
+			update();
+		}
+		clearList();
+		GameModelList.get(gameID).incrementRevision();	
+	}
 
 	@Override
 	public void undo() {

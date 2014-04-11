@@ -46,8 +46,17 @@ public class RoadBuilding implements CommandTemplate {
 	}
 	@Override
 	public void persist(){
-		StorageFacade.instance.addCommand(gameID, this);
+		StorageFacade.addCommand(gameID, this);
 	}
-	public void redo(){}
+	public void redo(){
+		GameModelList.get(gameID).getPlayer(playerIndex).getOldDevCards().updateRoadBuilding(-1);
+
+		//build both roads
+		GameModelList.get(gameID).getMap().updateEdgeOwner(spot1, playerIndex);
+		GameModelList.get(gameID).getMap().updateEdgeOwner(spot2, playerIndex);
+		
+		//take away roads from the player
+		GameModelList.get(gameID).getPlayer(playerIndex).updateRoads(-2);
+	}
 	public void undo(){}
 }

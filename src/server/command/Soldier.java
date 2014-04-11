@@ -140,7 +140,7 @@ public class Soldier implements CommandTemplate {
 
 	@Override
 	public void persist(){
-		StorageFacade.instance.addCommand(gameID, this);
+		StorageFacade.addCommand(gameID, this);
 	}
 
 	@Override

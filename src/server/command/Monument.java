@@ -22,10 +22,14 @@ public class Monument implements CommandTemplate {
 	}
 	@Override
 	public void persist(){
-		StorageFacade.instance.addCommand(gameID, this);
+		StorageFacade.addCommand(gameID, this);
 	}
 	@Override
-	public void redo(){}
+	public void redo(){
+		GameModelList.get(gameID).getPlayer(playerIndex).updateVictoryPoints(1);
+		GameModelList.get(gameID).getPlayer(playerIndex).getOldDevCards().updateMonument(-1);
+		GameModelList.get(gameID).getPlayer(playerIndex).updateMonuments(1);
+	}
 	@Override
 	public void undo(){
 		GameModelList.get(gameID).getPlayer(playerIndex).updateVictoryPoints(-1);

@@ -57,10 +57,57 @@ public class YearOfPlenty implements CommandTemplate {
 	}
 	@Override
 	public void persist(){
-		StorageFacade.instance.addCommand(gameID, this);
+		StorageFacade.addCommand(gameID, this);
 	}
 	@Override
-	public void redo(){}
+	public void redo(){
+GameModelList.get(gameID).getPlayer(playerIndex).getOldDevCards().updateYearOfPlenty(-1);
+		if(resource1.equals("wheat"))
+			GameModelList.get(gameID).getBank().updateWheat(-1);
+		else if(resource1.equals("ore"))
+			GameModelList.get(gameID).getBank().updateOre(-1);
+		else if(resource1.equals("sheep"))
+			GameModelList.get(gameID).getBank().updateSheep(-1);
+		else if(resource1.equals("wood")){
+			GameModelList.get(gameID).getBank().updateWood(-1);
+		}
+		else if(resource1.equals("brick"))
+			GameModelList.get(gameID).getBank().updateBrick(-1);
+
+		if(resource2.equals("wheat"))
+			GameModelList.get(gameID).getBank().updateWheat(-1);
+		else if(resource2.equals("ore"))
+			GameModelList.get(gameID).getBank().updateOre(-1);
+		else if(resource2.equals("sheep"))
+			GameModelList.get(gameID).getBank().updateSheep(-1);
+		else if(resource2.equals("wood"))
+			GameModelList.get(gameID).getBank().updateWood(-1);
+		else if(resource2.equals("brick"))
+			GameModelList.get(gameID).getBank().updateBrick(-1);
+
+		if(resource1.equals("wheat"))
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWheat(1);
+		else if(resource1.equals("ore"))
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateOre(1);
+		else if(resource1.equals("sheep"))
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateSheep(1);
+		else if(resource1.equals("wood"))
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(1);
+		else if(resource1.equals("brick"))
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(1);
+
+		if(resource2.equals("wheat"))
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWheat(1);
+		else if(resource2.equals("ore"))
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateOre(1);
+		else if(resource2.equals("sheep"))
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateSheep(1);
+		else if(resource2.equals("wood"))
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(1);
+		else if(resource2.equals("brick"))
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(1);
+
+	}
 	@Override
     public void undo(){
 		GameModelList.get(gameID).getPlayer(playerIndex).getOldDevCards().updateYearOfPlenty(1);
