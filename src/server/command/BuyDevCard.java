@@ -150,7 +150,7 @@ public class BuyDevCard implements CommandTemplate{
 	}
 	@Override
 	public void persist(){
-		StorageFacade.addCommand(gameID, this);
+		StorageFacade.addCommand(gameID, this, type);
 	}
 	
 	@Override

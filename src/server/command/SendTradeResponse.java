@@ -13,6 +13,7 @@ public class SendTradeResponse implements CommandTemplate{
 		private int receiver;
 		private ResourceCardList rcl;
 		private int gameID;
+		private String type = "";
 		
 
 		
@@ -21,6 +22,7 @@ public class SendTradeResponse implements CommandTemplate{
 		playerIndex = Integer.parseInt(args[0]);
 		willAccept = args[1];
 		gameID = Integer.parseInt(args[2]); 
+		type = args[3];
 		sender = GameModelList.get(gameID).getTradeOffer().getSender();
 		receiver = GameModelList.get(gameID).getTradeOffer().getReceiver();
 		rcl = GameModelList.get(gameID).getTradeOffer().getTheResourceList();
@@ -73,7 +75,9 @@ public class SendTradeResponse implements CommandTemplate{
 	}
 	
 	@Override
-	public void persist(){}
+	public void persist(){
+		StorageFacade.addCommand(gameID, this, type);
+	}
 	@Override
 	public void redo(){
 		sender = GameModelList.get(gameID).getTradeOffer().getSender();

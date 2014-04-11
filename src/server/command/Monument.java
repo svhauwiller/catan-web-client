@@ -22,7 +22,7 @@ public class Monument implements CommandTemplate {
 	}
 	@Override
 	public void persist(){
-		StorageFacade.addCommand(gameID, this);
+		StorageFacade.addCommand(gameID, this, type);
 	}
 	@Override
 	public void redo(){

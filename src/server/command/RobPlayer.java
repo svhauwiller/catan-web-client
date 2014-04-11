@@ -3,7 +3,7 @@ package server.command;
 import server.communication.GameModel;
 import server.communication.GameModelList;
 import server.api.map.Location;
-
+import server.persist.*;
 import java.util.*;
 
 
@@ -15,6 +15,7 @@ public class RobPlayer implements CommandTemplate{
 	private String resourceToSteal = "";
 	private Location previousRobberLocation;
 	private int gameID = -10;
+	private int x = -1;
 	
 
 	
@@ -55,7 +56,7 @@ public class RobPlayer implements CommandTemplate{
 		resourcesChecked[4] = false;
 
 		while(!taken){
-			int x = rand.nextInt(5);
+			x = rand.nextInt(5);
 			if(allResourcesChecked(resourcesChecked)){
 				taken = true;
 			}
@@ -119,9 +120,81 @@ public class RobPlayer implements CommandTemplate{
 	}
 
 	@Override
-	public void persist(){}
+	public void persist(){
+		StorageFacade.addCommand(gameID, this, type);
+	}
 	@Override
-	public void redo(){}
+	public void redo(){
+		if(location != null){
+			previousRobberLocation = new Location(location.getX(), location.getY(), false);
+		}
+		if(location == null){
+			location = new Location(0, 0, false);
+		}
+		// update map - change hexlocation of robber
+		GameModelList.get(gameID).getMap().moveRobber(location);
+
+		// update players - subtract resources from one player and add resources to another player
+		
+		boolean taken = false;
+		boolean[] resourcesChecked = new boolean[5];
+		resourcesChecked[0] = false;
+		resourcesChecked[1] = false;
+		resourcesChecked[2] = false;
+		resourcesChecked[3] = false;
+		resourcesChecked[4] = false;
+
+		while(!taken){
+			if(allResourcesChecked(resourcesChecked)){
+				taken = true;
+			}
+			else if(x == 0){
+				resourcesChecked[0] = true;
+				if(GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().getWheat() > 0){
+					taken = true;
+					GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateWheat(-1);
+					GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWheat(1);
+					resourceToSteal = "Wheat";
+				}
+			}
+			else if(x == 1){
+				resourcesChecked[1] = true;
+				if(GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().getOre() > 0){
+					taken = true;
+					GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateOre(-1);
+					GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateOre(1);
+					resourceToSteal = "Ore";
+				}
+			}
+			else if(x==2){
+				resourcesChecked[2] = true;
+				if(GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().getWood() > 0){
+					taken = true;
+					GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateWood(-1);
+					GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(1);
+					resourceToSteal = "Wood";
+				}
+			}
+			else if(x==3){
+				resourcesChecked[3] = true;
+				if(GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().getSheep() > 0){
+					taken = true;
+					GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateSheep(-1);
+					GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateSheep(1);
+					resourceToSteal = "Sheep";
+				}
+			}
+			else if(x==4){
+				resourcesChecked[4] = true;
+				if(GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().getBrick() > 0){
+					taken = true;
+					GameModelList.get(gameID).getPlayer(victimIndex).getResourceCardList().updateBrick(-1);
+					GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(1);
+					resourceToSteal = "Brick";
+				}
+			}
+		}
+	}
 
 	public void undo(){
 		// move robber to previousRobberLocation

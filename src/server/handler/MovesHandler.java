@@ -384,7 +384,7 @@ public class MovesHandler implements HttpHandler{
 
 private void sendTradeOffer(HttpExchange ex, XStream xStream) throws IOException{
 		String currentGameID = getGameIdFromCookies(ex);
-		String[] args = new String[8];
+		String[] args = new String[9];
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
 		args[0] = obj.optString("playerIndex");
 		JSONObject subObject = obj.getJSONObject("offer");
@@ -395,6 +395,7 @@ private void sendTradeOffer(HttpExchange ex, XStream xStream) throws IOException
 		args[5] = subObject.optString("wood");
 		args[6] = obj.optString("receiver"); 
 		args[7] = currentGameID;
+		args[8] = obj.optString("type");
 		SendTradeOffer sto = new SendTradeOffer();
 		sto.execute(args);
 		
@@ -411,11 +412,12 @@ private void sendTradeOffer(HttpExchange ex, XStream xStream) throws IOException
 
 	private void sendTradeResponse(HttpExchange ex, XStream xStream) throws IOException{
 		String currentGameID = getGameIdFromCookies(ex);
-		String[] args = new String[3];
+		String[] args = new String[4];
 		JSONObject obj = new JSONObject(getRequestString(ex.getRequestBody()));
 		args[0] = obj.optString("playerIndex");
 		args[1] = obj.optString("willAccept");
 		args[2] = currentGameID;
+		args[3] = obj.optString("type");
 
 		SendTradeOffer sto = new SendTradeOffer();
 		sto.execute(args);

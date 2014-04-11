@@ -3,7 +3,7 @@ package server.command;
 import server.JSONObject;
 import server.communication.GameModel;
 import server.communication.GameModelList;
-
+import server.persist.*;
 import java.util.*;
 
 import server.api.map.*;
@@ -58,9 +58,29 @@ public class BuildSettlement implements CommandTemplate{
 		return null;
 	}
 	@Override
-	public void persist(){}
+	public void persist(){
+		StorageFacade.addCommand(gameID, this, type);
+	}
 	@Override
-	public void redo(){}
+	public void redo(){
+		// update bank - add resources - building a road requires one brick, one lumber, one wool, and one grain
+		GameModelList.get(gameID).getBank().updateBrick(1);
+		GameModelList.get(gameID).getBank().updateWood(1);
+		GameModelList.get(gameID).getBank().updateSheep(1);
+		GameModelList.get(gameID).getBank().updateWheat(1);
+
+		// update player - subtract resources
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(-1);
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(-1);
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateSheep(-1);
+		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWheat(-1);
+		GameModelList.get(gameID).getPlayer(playerIndex).updateSettlements(-1);
+
+		// update map - change ownerID of a given edge
+		Location hexLoc = new Location(vertexX, vertexY, true);
+		hexLoc.setDirection(vertexDirection);
+
+	}
 
 	@Override
 	public void undo(){ // should probably save previous location

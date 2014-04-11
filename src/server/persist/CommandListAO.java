@@ -15,7 +15,7 @@ import server.command.CommandTemplate;
  * @author Wesley
  */
 public interface CommandListAO {
-	public void add(int gameID, CommandTemplate cmd);
+	public void add(int gameID, CommandTemplate cmd, String type);
 	public ArrayList<CommandTemplate> getFromIndex(int gameID, int pos);
 	public void reset(int gameID);
 }

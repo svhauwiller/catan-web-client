@@ -57,11 +57,11 @@ public class YearOfPlenty implements CommandTemplate {
 	}
 	@Override
 	public void persist(){
-		StorageFacade.addCommand(gameID, this);
+		StorageFacade.addCommand(gameID, this, type);
 	}
 	@Override
 	public void redo(){
-GameModelList.get(gameID).getPlayer(playerIndex).getOldDevCards().updateYearOfPlenty(-1);
+		GameModelList.get(gameID).getPlayer(playerIndex).getOldDevCards().updateYearOfPlenty(-1);
 		if(resource1.equals("wheat"))
 			GameModelList.get(gameID).getBank().updateWheat(-1);
 		else if(resource1.equals("ore"))
