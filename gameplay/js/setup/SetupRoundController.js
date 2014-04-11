@@ -23,7 +23,7 @@ catan.setup.Controller = (function(){
 		var SetupRoundController = function (clientModel, mapController){
 			this.mapController = mapController;
 			this.isMoving = false;
-			Controller.call(this,undefined,clientModel);
+			Controller.call(this,this.mapController.getView(),clientModel);
 			//console.log(clientModel);
 			//console.log(mapController);
 			this.numSettlements = 5;
@@ -39,24 +39,22 @@ catan.setup.Controller = (function(){
 		@return void
 		*/
 		SetupRoundController.prototype.updateFromModel = function(){
-			console.log("Update Setup");
-			console.log(this.mapController.overlayOpen);
-
+			//console.log("Update Setup");
+			//console.log(this.mapController.overlayOpen);
 			
 			if(this.mapController.overlayOpen == false){
 				var turnTracker = this.ClientModel.turnTracker;
-				console.log(turnTracker.theStatus + ":" + turnTracker.currentTurn);
-				if(turnTracker.theStatus == "FirstRound" || turnTracker.theStatus == "SecondRound"){
-					console.log("IS THIS EQUAL??? " + this.ClientModel.orderNumbers[turnTracker.currentTurn] + " == " + this.ClientModel.playerID);
-					if(this.ClientModel.orderNumbers[turnTracker.currentTurn] == this.ClientModel.playerID ){
-
+				//console.log("Setup Player Turn is: " + turnTracker.theStatus + ":" + turnTracker.currentTurn);
+				if(this.ClientModel.orderNumbers[turnTracker.currentTurn] == this.ClientModel.playerID ){
+					if(turnTracker.theStatus == "FirstRound" || turnTracker.theStatus == "SecondRound"){
 						this.setupMove();
 					}
-				}
-				//if(turnTracker.theStatus == "Rolling"){ // when we get to the Rolling status, it's time to start
-				else {
-					this.ClientModel.state.setState("Regular");
-					window.location.pathname = "/catan.html";
+					//if(turnTracker.theStatus == "Rolling"){ // when we get to the Rolling status, it's time to start
+					else {
+						//console.log("SETUP COMPLETE. BEGIN CATAN...");
+						this.ClientModel.state.setState("Regular");
+						window.location.pathname = "/catan.html";
+					}
 				}
 			}
 		};
@@ -67,25 +65,24 @@ catan.setup.Controller = (function(){
 		@return void
 		*/
 		SetupRoundController.prototype.setupMove = function(){
-
-			console.log("Road: " + this.numRoads + " == " + this.ClientModel.players[this.ClientModel.playerID].roads);
-			console.log("Settlements: " + this.numSettlements + " == " + this.ClientModel.players[this.ClientModel.playerID].settlements);
+			//console.log("Road: " + this.numRoads + " == " + this.ClientModel.players[this.ClientModel.playerID].roads);
+			//console.log("Settlements: " + this.numSettlements + " == " + this.ClientModel.players[this.ClientModel.playerID].settlements);
 						
 			if(this.numSettlements == this.ClientModel.players[this.ClientModel.playerID].settlements){
-				console.log("startMove settlement");
+				//console.log("startMove settlement");
 				this.mapController.startMove("Settlement", true, true);
 			}
 			else if(this.numRoads == this.ClientModel.players[this.ClientModel.playerID].roads){
-				console.log("startMove road");
+				//console.log("startMove road");
 				this.mapController.startMove("Road", true, true);
 			}
 			else{
-				console.log("finishTurn");
+				//console.log("finishTurn");
 				this.numSettlements = this.ClientModel.players[this.ClientModel.playerID].settlements;
 				this.numRoads = this.ClientModel.players[this.ClientModel.playerID].roads;
-				console.log(this);
+				//console.log(this);
 				this.ClientModel.finishTurn();
-				console.log(this.mapController);
+				//console.log(this.mapController);
 			}
 
 		};
