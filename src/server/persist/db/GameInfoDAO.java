@@ -42,6 +42,8 @@ public class GameInfoDAO implements GameInfoAO {
 
         dbconn.startTransaction();
 
+
+
         Connection conn = dbconn.getConnection();
         XStream xstream = new XStream(new DomDriver());
 
@@ -314,4 +316,90 @@ public class GameInfoDAO implements GameInfoAO {
         return toReturn;
 
     }
+    
+    
+     /**
+     * @param gameID
+     * @return the lastCommand
+     */
+    @Override
+    public int getLastCommand(int gameID) {
+
+       dbconn.startTransaction();
+
+        Connection conn = dbconn.getConnection();
+        XStream xstream = new XStream(new DomDriver());
+
+        Statement stmt = null;
+        ResultSet results = null;
+        int toReturn = -1;
+
+        try {
+            stmt = conn.createStatement();
+            results = stmt.executeQuery("SELECT lastcommand from gameinfo WHERE gameid='" + gameID + "'");
+            if (results != null) {
+                toReturn = results.getInt(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (results != null) {
+                    results.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        dbconn.endTransaction(false);
+
+        return toReturn;
+    }
+    
+         /**
+     * @param gameID
+     * @return the GameName
+     */
+    @Override
+    public String getName(int gameID) {
+
+       dbconn.startTransaction();
+
+        Connection conn = dbconn.getConnection();
+        XStream xstream = new XStream(new DomDriver());
+
+        Statement stmt = null;
+        ResultSet results = null;
+        String toReturn = "Unfound";
+
+        try {
+            stmt = conn.createStatement();
+            results = stmt.executeQuery("SELECT gametitle from gameinfo WHERE gameid='" + gameID + "'");
+            if (results != null) {
+                toReturn = results.getString(1);
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                if (stmt != null) {
+                    stmt.close();
+                }
+                if (results != null) {
+                    results.close();
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+        }
+
+        dbconn.endTransaction(false);
+
+        return toReturn;
+    }
+    
 }
