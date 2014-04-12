@@ -42,8 +42,6 @@ public class GameInfoDAO implements GameInfoAO {
 
         dbconn.startTransaction();
 
-
-
         Connection conn = dbconn.getConnection();
         XStream xstream = new XStream(new DomDriver());
 

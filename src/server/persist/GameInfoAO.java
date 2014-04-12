@@ -19,4 +19,5 @@ public interface GameInfoAO {
 	public GameModel getCurr(int gameID);
 	public void update(String type, GameModel model, int gameID);
 	public void reset(int gameID);
+        public int getLastCommand(int gameID);
 }
