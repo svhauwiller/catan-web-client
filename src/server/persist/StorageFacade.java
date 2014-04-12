@@ -1,12 +1,16 @@
 package server.persist;
 
 import java.util.ArrayList;
+import server.ServerException;
+import server.api.player.Player;
 
 import server.api.player.Player.PlayerColor;
 import server.command.CommandTemplate;
 import server.communication.CommandList;
+import server.communication.GameList;
 import server.communication.GameModel;
 import server.communication.GameModelList;
+import server.communication.PlayerInfo;
 
 public class StorageFacade {
 		public static int PERSIST_NUMBER = 50;
@@ -113,13 +117,38 @@ public class StorageFacade {
 	 * 
 	 * @param theGameID
 	 */
-	private void _restoreGameState(int theGameID){
-		GameModelList.set(theGameID, gameInfo.getCurr(theGameID));
+	private void _restoreGameState(){
+		int gameID = 0;
+		GameModel currModel = gameInfo.getCurr(gameID);
+		while(currModel != null){
+			String gameTitle = gameInfo.getName(gameID);
+			GameList.addGame(gameTitle);
+			
+			GameModelList.add(currModel);
+			int lastCmd = gameInfo.getLastCommand(gameID);
 		
-		ArrayList<CommandTemplate>theCommands = localCommandList.getFromIndex(theGameID, 0);
-		for(CommandTemplate command: theCommands){
-			command.redo();
+			if(lastCmd > 0){
+				ArrayList<CommandTemplate>theCommands = localCommandList.getFromIndex(gameID, lastCmd);
+				for(CommandTemplate command: theCommands){
+					command.redo();
+				}
+			}
+			
+			for(int i = 0; i < 4; i++){
+				Player currPlayer = GameModelList.get(gameID).getPlayer(i);
+				if(currPlayer != null){
+					PlayerInfo player = new PlayerInfo(currPlayer.getColor(), currPlayer.getUserID(), currPlayer.getName());
+					try{
+						GameList.addPlayerToGame(player, gameID);
+					} catch (ServerException ex){
+						System.out.println("Invalid Game ID when adding player to game");
+					}
+				}
+			} 
+			
+			currModel = gameInfo.getCurr(++gameID);
 		}
+		
 		
 	}
 	
@@ -145,7 +174,7 @@ public class StorageFacade {
 	public static void joinGame(int playerID, int gameID, PlayerColor color) { instance()._joinGame(playerID, gameID, color); }
 	public static void addCommand(int gameID, CommandTemplate cmd, String type) { instance()._addCommand(gameID, cmd, type); }
 	public static void persistGame(String type, int gameID) { instance()._persistGame(type, gameID); }
-	public static void restoreGameState(int gameID) { instance()._restoreGameState(gameID); }
+	public static void restoreGameState() { instance()._restoreGameState(); }
 	public static void resetGame(int gameID) { instance()._resetGame(gameID); }
 	
 }

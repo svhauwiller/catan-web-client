@@ -67,6 +67,10 @@ public class Player {
 	public String getName(){
 		return name;
 	}
+	
+	public PlayerColor getColor() {
+		return color;
+	}
 
 	public int getVictoryPoints(){
 		return victoryPoints;

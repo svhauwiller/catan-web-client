@@ -117,7 +117,11 @@ public class GameModel {
 	 * @return the players
 	 */
 	public Player getPlayer(int playerNumber) {
-		return players.get(playerNumber);
+		if(playerNumber < players.size()){
+			return players.get(playerNumber);
+		} else {
+			return null;
+		}
 	}
 
 	/**

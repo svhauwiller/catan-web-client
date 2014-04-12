@@ -52,7 +52,7 @@ public class GameInfoXMLAO implements GameInfoAO {
 		
 		GameInfoXMLmodel gameInfoModel = (GameInfoXMLmodel) xmlData; 
 		
-		if(gameInfoModel.size() < gameID){
+		if(gameInfoModel.size() <= gameID){
 			return null;
 		}
 		
@@ -69,7 +69,7 @@ public class GameInfoXMLAO implements GameInfoAO {
 		
 		GameInfoXMLmodel gameInfoModel = (GameInfoXMLmodel) xmlData; 
 		
-		if(gameInfoModel.size() < gameID){
+		if(gameInfoModel.size() <= gameID){
 			return null;
 		}
 		
@@ -87,7 +87,7 @@ public class GameInfoXMLAO implements GameInfoAO {
 			gameInfoModel = (GameInfoXMLmodel) xmlData; 
 		}
 		
-		if(gameInfoModel.size() < gameID){
+		if(gameInfoModel.size() <= gameID){
 			return;
 		}
 		
@@ -130,6 +130,40 @@ public class GameInfoXMLAO implements GameInfoAO {
 		gameInfoModel.getGameModel(gameID).setLastCommand(0);
 		
 		fileio.saveModel(FileIO.GAME_INFO_FILENAME, gameInfoModel);
+	}
+	
+	@Override
+	public String getName(int gameID){
+		Object xmlData = fileio.loadModel(FileIO.GAME_INFO_FILENAME);
+		
+		if(xmlData == null){
+			return null;
+		}
+		
+		GameInfoXMLmodel gameInfoModel = (GameInfoXMLmodel) xmlData; 
+		
+		if(gameInfoModel.size() <= gameID){
+			return null;
+		}
+		
+		return gameInfoModel.getGameModel(gameID).getGameTitle();
+	}
+
+	@Override
+	public int getLastCommand(int gameID) {
+		Object xmlData = fileio.loadModel(FileIO.GAME_INFO_FILENAME);
+		
+		if(xmlData == null){
+			return -1;
+		}
+		
+		GameInfoXMLmodel gameInfoModel = (GameInfoXMLmodel) xmlData; 
+		
+		if(gameInfoModel.size() <= gameID){
+			return -1;
+		}
+		
+		return gameInfoModel.getGameModel(gameID).getLastCommand();
 	}
 	
 }

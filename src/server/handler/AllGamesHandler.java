@@ -150,6 +150,7 @@ public class AllGamesHandler implements HttpHandler {
 			PlayerInfo player = new PlayerInfo(PlayerColor.valueOf(parsedRequest.get("color")), Integer.parseInt(obj.optString("playerID")), obj.optString("name"));
 			GameList.addPlayerToGame(player, Integer.parseInt(parsedRequest.get("id")));
 			StorageFacade.joinGame(Integer.parseInt(obj.optString("playerID")), Integer.parseInt(parsedRequest.get("id")), PlayerColor.valueOf(parsedRequest.get("color")));
+			StorageFacade.persistGame("current", Integer.parseInt(parsedRequest.get("id")));
 			response = "Success! You have joined the game.";
 			
 			Headers responseHeaders = ex.getResponseHeaders();

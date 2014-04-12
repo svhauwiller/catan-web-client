@@ -78,7 +78,7 @@ public class Server {
 	}
 	
 	private void restoreServerState() {
-		
+		StorageFacade.restoreGameState();
 	}
 
 	/**
