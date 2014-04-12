@@ -36,11 +36,12 @@ public class GameModelList {
 		gameModelList.set(index, theModel);
 	}
 	
-	private void _add(GameModel newGameModel){
+	private int _add(GameModel newGameModel){
 		gameModelList.add(newGameModel);
+		return gameModelList.size() - 1;
 	}
 	
 	public static GameModel get(int index){return instance()._get(index);}
 	public static void set(int index, GameModel theModel){instance()._set(index, theModel);}
-	public static void add(GameModel newGameModel){instance()._add(newGameModel);}
+	public static int add(GameModel newGameModel){return instance()._add(newGameModel);}
 }

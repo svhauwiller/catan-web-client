@@ -56,6 +56,7 @@ public class Server {
 			Server.CLASS_INJECTOR = Guice.createInjector(new ProductionModule());
 		}
 		
+		restoreServerState();
 		
 		try {
 			server = HttpServer.create(new InetSocketAddress(SERVER_PORT_NUMBER), MAX_WAITING_CONNECTIONS);
@@ -74,6 +75,10 @@ public class Server {
 		//server.createContext("/games/list", new TestHandler());
 
 		server.start();
+	}
+	
+	private void restoreServerState() {
+		
 	}
 
 	/**

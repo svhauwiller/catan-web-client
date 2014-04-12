@@ -13,6 +13,7 @@ import java.util.Map;
 import server.ProductionModule;
 import server.api.player.Player;
 import server.api.utils.iUserLogin;
+import server.persist.StorageFacade;
 
 /**
  *
@@ -44,27 +45,11 @@ public class ValidUsers {
 		return validUsers;
 	}
 	
-	private Player _getPlayerByName(String playerName)
+	private int _getPlayerByName(String username)
 	{
-		HashMap<PlayerInfo, String> x = new HashMap<>();
-		x = validUsers.getValidUsers();
-		
-		for (Map.Entry<PlayerInfo, String> entry2:x.entrySet()) {
-		    String name = entry2.getKey().getName();
-		    int playerIDNumber = entry2.getKey().getId();
-		    Object value = entry2.getValue();
-		    System.out.println(name+"  "+playerIDNumber+"  "+value);
-		}
-		    
-		for(Map.Entry<PlayerInfo, String> entry:x.entrySet())
-		{
-			if(entry.getKey().getName().equalsIgnoreCase(playerName)){
-				return new Player(-10, new PlayerInfo(null,entry.getKey().getId(),"Player Found!"));
-			}
-		}
-		return new Player(-10, new PlayerInfo(null,100,"PlayerNotFound"));
+		return StorageFacade.getUserID(username);
 	}
 	
 	public static iUserLogin getValidUsers() { return instance()._getValidUsers(); }
-	public static Player getPlayerByName(String playerName) { return instance()._getPlayerByName(playerName); }
+	public static int getPlayerByName(String username) { return instance()._getPlayerByName(username); }
 }

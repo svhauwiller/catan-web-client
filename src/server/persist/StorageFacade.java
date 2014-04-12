@@ -66,6 +66,10 @@ public class StorageFacade {
 		return users.validate(theUsername, thePassword);  
 	}
 	
+	private int _getUserID(String username){
+		return users.getID(username);
+	}
+	
 	private void _addGame(String theGameTitle, GameModel initialGame){
 		gameInfo.add(theGameTitle, initialGame);
 		
@@ -136,6 +140,7 @@ public class StorageFacade {
 	
 	public static void addUser(String username, String password) { instance()._addUser(username, password); }
 	public static boolean validateUser(String username, String password) { return instance()._validateUser(username, password); }
+	public static int getUserID(String username) { return instance()._getUserID(username); }
 	public static void addGame(String gameTitle, GameModel initModel) { instance()._addGame(gameTitle, initModel); }
 	public static void joinGame(int playerID, int gameID, PlayerColor color) { instance()._joinGame(playerID, gameID, color); }
 	public static void addCommand(int gameID, CommandTemplate cmd, String type) { instance()._addCommand(gameID, cmd, type); }

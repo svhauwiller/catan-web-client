@@ -39,6 +39,7 @@ import server.communication.GameList;
 import server.communication.GameModel;
 import server.communication.GameModelList;
 import server.communication.PlayerInfo;
+import server.persist.StorageFacade;
 
 /**
  *
@@ -118,7 +119,8 @@ public class AllGamesHandler implements HttpHandler {
 		HashMap<String, String> parsedRequest = FormDataParser.parse(getRequestString(ex.getRequestBody()));
 		
 		GameInfo response = GameList.addGame(parsedRequest.get("name"));
-		GameModelList.add(new GameModel());
+		int gameID = GameModelList.add(new GameModel());
+		StorageFacade.addGame(parsedRequest.get("name"), GameModelList.get(gameID));
 		
 		sendResponseObject(ex, xStream, response);
 	}
@@ -147,6 +149,7 @@ public class AllGamesHandler implements HttpHandler {
 		try{
 			PlayerInfo player = new PlayerInfo(PlayerColor.valueOf(parsedRequest.get("color")), Integer.parseInt(obj.optString("playerID")), obj.optString("name"));
 			GameList.addPlayerToGame(player, Integer.parseInt(parsedRequest.get("id")));
+			StorageFacade.joinGame(Integer.parseInt(obj.optString("playerID")), Integer.parseInt(parsedRequest.get("id")), PlayerColor.valueOf(parsedRequest.get("color")));
 			response = "Success! You have joined the game.";
 			
 			Headers responseHeaders = ex.getResponseHeaders();

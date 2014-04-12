@@ -75,11 +75,11 @@ public class UserHandler implements HttpHandler{
 		if(validUserHuh){
 			response = "Success";
 			//get player information and set Cookie
-			Player currentPlayer = ValidUsers.getPlayerByName(requestData.get("username"));
+			int playerID = ValidUsers.getPlayerByName(requestData.get("username"));
 
 			String encodedURL = URLEncoder.encode("{\"name\":\""+requestData.get("username")
 					+"\",\"password\":\""+requestData.get("password")
-					+"\",\"playerID\":"+currentPlayer.getUserID()+"}","utf-8");
+					+"\",\"playerID\":"+playerID+"}","utf-8");
 			
 			responseHeaders.add("Set-Cookie", "catan.user="+encodedURL+"; path=/");
 			ex.sendResponseHeaders(200, response.length());
@@ -103,11 +103,11 @@ public class UserHandler implements HttpHandler{
 		Headers responseHeaders = ex.getResponseHeaders();		
 		
 		if(successHuh){
-			Player currentPlayer = ValidUsers.getPlayerByName(requestData.get("username"));
+			int playerID = ValidUsers.getPlayerByName(requestData.get("username"));
 			response = "Success";
 			String encodedURL = URLEncoder.encode("{\"name\":\""+requestData.get("username")
 					+"\",\"password\":\""+requestData.get("password")
-					+"\",\"playerID\":"+currentPlayer.getUserID()+"}"
+					+"\",\"playerID\":"+playerID+"}"
 					,"utf-8");
 			
 			responseHeaders.add("Set-Cookie","catan.user="+encodedURL+"; path=/" );
