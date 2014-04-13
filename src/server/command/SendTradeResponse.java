@@ -2,6 +2,7 @@ package server.command;
 
 import server.api.bank.ResourceCardList;
 import server.api.player.Player;
+import server.api.utils.MessageLine;
 import server.communication.GameModel;
 import server.communication.GameModelList;
 import server.persist.*;
@@ -67,6 +68,12 @@ public class SendTradeResponse implements CommandTemplate{
 			theSender.getResourceCardList().updateWood(rcl.getWood()*(-1));
 			theReceiver.getResourceCardList().updateWood(rcl.getWood());
 		}
+		
+		// update log
+		MessageLine logMsg = new MessageLine();
+		logMsg.setSource(GameModelList.get(gameID).getPlayer(sender).getName());
+		logMsg.setMessage(GameModelList.get(gameID).getPlayer(sender).getName() + " traded with " + GameModelList.get(gameID).getPlayer(receiver).getName() + ".");
+		GameModelList.get(gameID).getLog().addLine(logMsg);
 	}
 	
 	private void clearList(){

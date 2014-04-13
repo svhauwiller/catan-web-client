@@ -5,6 +5,7 @@ import server.communication.GameModelList;
 import server.persist.*;
 
 import java.util.*;
+import server.api.utils.MessageLine;
 
 public class YearOfPlenty implements CommandTemplate {
 	private String type = "Year_of_Plenty";
@@ -53,6 +54,12 @@ public class YearOfPlenty implements CommandTemplate {
 			else if(args[i].equals("brick"))
 				GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(1);
 		}
+		
+		// update log
+		MessageLine logMsg = new MessageLine();
+		logMsg.setSource(GameModelList.get(gameID).getPlayer(playerIndex).getName());
+		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + " has played a Year of Plenty card.");
+		GameModelList.get(gameID).getLog().addLine(logMsg);
 		return null;
 	}
 	@Override
@@ -106,6 +113,12 @@ public class YearOfPlenty implements CommandTemplate {
 			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(1);
 		else if(resource2.equals("brick"))
 			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(1);
+		
+		// update log
+		MessageLine logMsg = new MessageLine();
+		logMsg.setSource(GameModelList.get(gameID).getPlayer(playerIndex).getName());
+		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + " has played a Year of Plenty card.");
+		GameModelList.get(gameID).getLog().addLine(logMsg);
 
 	}
 	@Override

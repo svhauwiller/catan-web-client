@@ -7,6 +7,7 @@ import server.persist.*;
 import java.util.*;
 
 import server.api.map.*;
+import server.api.utils.MessageLine;
 
 public class BuildSettlement implements CommandTemplate{
 	private String type = "";
@@ -55,6 +56,12 @@ public class BuildSettlement implements CommandTemplate{
 		Location hexLoc = new Location(vertexX, vertexY, true);
 		hexLoc.setDirection(vertexDirection);
 		GameModelList.get(gameID).getMap().updateVertexOwner(hexLoc, playerIndex);
+		
+		// update log
+		MessageLine logMsg = new MessageLine();
+		logMsg.setSource(GameModelList.get(gameID).getPlayer(playerIndex).getName());
+		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + " has built a settlement.");
+		GameModelList.get(gameID).getLog().addLine(logMsg);
 		return null;
 	}
 	@Override
@@ -79,6 +86,12 @@ public class BuildSettlement implements CommandTemplate{
 		// update map - change ownerID of a given edge
 		Location hexLoc = new Location(vertexX, vertexY, true);
 		hexLoc.setDirection(vertexDirection);
+		
+		// update log
+		MessageLine logMsg = new MessageLine();
+		logMsg.setSource(GameModelList.get(gameID).getPlayer(playerIndex).getName());
+		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + " has built a settlement.");
+		GameModelList.get(gameID).getLog().addLine(logMsg);
 
 	}
 

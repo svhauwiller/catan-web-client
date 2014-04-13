@@ -5,6 +5,7 @@ import server.communication.GameModelList;
 import server.api.map.Location;
 import server.persist.*;
 import java.util.*;
+import server.api.utils.MessageLine;
 
 public class RollNumber implements CommandTemplate{
 	private String type = "";
@@ -61,6 +62,14 @@ public class RollNumber implements CommandTemplate{
 		}
 		
 		// idk
+		
+		// update log
+		MessageLine logMsg = new MessageLine();
+		logMsg.setSource(GameModelList.get(gameID).getPlayer(playerIndex).getName());
+		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + " rolled a " + number + ".");
+		GameModelList.get(gameID).getLog().addLine(logMsg);
+		
+		
 		return null;
 	}
 	
@@ -104,7 +113,14 @@ public class RollNumber implements CommandTemplate{
 				}
 			}
 			
+			
 		}
+		
+		// update log
+		MessageLine logMsg = new MessageLine();
+		logMsg.setSource(GameModelList.get(gameID).getPlayer(playerIndex).getName());
+		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + " rolled a " + number + ".");
+		GameModelList.get(gameID).getLog().addLine(logMsg);
 		
 	}
 

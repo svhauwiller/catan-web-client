@@ -5,6 +5,7 @@ import server.communication.GameModelList;
 import server.persist.*;
 import java.util.*;
 import server.api.map.Location;
+import server.api.utils.MessageLine;
 
 public class RoadBuilding implements CommandTemplate {
 	//args[0] = player id
@@ -41,6 +42,11 @@ public class RoadBuilding implements CommandTemplate {
 		//take away roads from the player
 		GameModelList.get(gameID).getPlayer(playerIndex).updateRoads(-2);
 		
+		// update log
+		MessageLine logMsg = new MessageLine();
+		logMsg.setSource(GameModelList.get(gameID).getPlayer(playerIndex).getName());
+		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + " has played a Road Building card.");
+		GameModelList.get(gameID).getLog().addLine(logMsg);
 		
 		return null;
 	}
@@ -57,6 +63,12 @@ public class RoadBuilding implements CommandTemplate {
 		
 		//take away roads from the player
 		GameModelList.get(gameID).getPlayer(playerIndex).updateRoads(-2);
+		
+		// update log
+		MessageLine logMsg = new MessageLine();
+		logMsg.setSource(GameModelList.get(gameID).getPlayer(playerIndex).getName());
+		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + " has played a Road Building card.");
+		GameModelList.get(gameID).getLog().addLine(logMsg);
 	}
 	public void undo(){}
 }

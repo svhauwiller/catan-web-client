@@ -14,6 +14,7 @@ import server.communication.PlayerInfo;
 
 public class StorageFacade {
 		public static int PERSIST_NUMBER = 50;
+		
 		private CommandListAO localCommandList;
 		private GameAndUserJoinAO gameAndUser;
 		private GameInfoAO gameInfo;
@@ -162,6 +163,10 @@ public class StorageFacade {
 		gameInfo.reset(theGameID); 
 	}
 	
+	private ArrayList<CommandTemplate> _getExecutedCommands(int gameID) {
+		return localCommandList.getFromIndex(gameID, 0);
+	}
+	
 	public static void setCommandList(CommandListAO cmdList) { instance()._setCommandList(cmdList); }
 	public static void setGameAndUser(GameAndUserJoinAO gameAndUser) { instance()._setGameAndUser(gameAndUser); }
 	public static void setGameInfo(GameInfoAO gameInfo) { instance()._setGameInfo(gameInfo); }
@@ -176,5 +181,8 @@ public class StorageFacade {
 	public static void persistGame(String type, int gameID) { instance()._persistGame(type, gameID); }
 	public static void restoreGameState() { instance()._restoreGameState(); }
 	public static void resetGame(int gameID) { instance()._resetGame(gameID); }
+	public static ArrayList<CommandTemplate> getExecutedCommands(int gameID) { return instance()._getExecutedCommands(gameID); }
+
+	
 	
 }

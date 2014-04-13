@@ -93,7 +93,7 @@ public class MaritimeTrade implements CommandTemplate {
 		
 		MessageLine logMsg = new MessageLine();
 		logMsg.setSource(GameModelList.get(gameID).getPlayer(playerIndex).getName());
-		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + "'s turn has ended.");
+		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + " has completed a Maritime trade.");
 		GameModelList.get(gameID).getLog().addLine(logMsg);
 		
 		return null;
@@ -162,7 +162,7 @@ public class MaritimeTrade implements CommandTemplate {
 		
 		MessageLine logMsg = new MessageLine();
 		logMsg.setSource(GameModelList.get(gameID).getPlayer(playerIndex).getName());
-		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + "'s turn has ended.");
+		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + " has completed a Maritime trade.");
 		GameModelList.get(gameID).getLog().addLine(logMsg);
 	
 	

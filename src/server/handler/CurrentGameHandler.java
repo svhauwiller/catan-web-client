@@ -28,6 +28,7 @@ import server.communication.CommandList;
 import server.communication.GameInfo;
 import server.communication.GameModel;
 import server.communication.GameModelList;
+import server.persist.StorageFacade;
 
 /**
  *
@@ -120,7 +121,8 @@ public class CurrentGameHandler implements HttpHandler{
 			return;
 		}
 		
-		GameModel response = GameModelList.get(Integer.parseInt(currentGame)).reset();
+		StorageFacade.resetGame(Integer.parseInt(currentGame));
+		GameModel response = GameModelList.get(Integer.parseInt(currentGame));
 		sendResponseObject(ex, xStream, response);
 	}
 
@@ -133,7 +135,7 @@ public class CurrentGameHandler implements HttpHandler{
 			return;
 		}
 		
-		ArrayList<CommandTemplate> response = CommandList.getExecutedCommands();
+		ArrayList<CommandTemplate> response = StorageFacade.getExecutedCommands(Integer.parseInt(currentGame));
 		sendResponseObject(ex, xStream, response);
 	}
 

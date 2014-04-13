@@ -7,6 +7,7 @@ import server.persist.*;
 import java.util.*;
 
 import server.api.map.*;
+import server.api.utils.MessageLine;
 
 public class BuildRoad implements CommandTemplate{
 	private String type = "";
@@ -50,6 +51,12 @@ public class BuildRoad implements CommandTemplate{
 		Location hexLoc = new Location(locationX, locationY, true);
 		hexLoc.setDirection(locationDirection);
 		GameModelList.get(gameID).getMap().updateEdgeOwner(hexLoc, playerIndex);
+		
+		// update log
+		MessageLine logMsg = new MessageLine();
+		logMsg.setSource(GameModelList.get(gameID).getPlayer(playerIndex).getName());
+		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + " has built a road.");
+		GameModelList.get(gameID).getLog().addLine(logMsg);
 		return null;
 	}
 	@Override
@@ -71,6 +78,11 @@ public class BuildRoad implements CommandTemplate{
 		hexLoc.setDirection(locationDirection);
 		GameModelList.get(gameID).getMap().updateEdgeOwner(hexLoc, playerIndex);
 
+		// update log
+		MessageLine logMsg = new MessageLine();
+		logMsg.setSource(GameModelList.get(gameID).getPlayer(playerIndex).getName());
+		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + " has built a road.");
+		GameModelList.get(gameID).getLog().addLine(logMsg);
 	}
 	@Override
 	public void undo(){ // should probably save previous location

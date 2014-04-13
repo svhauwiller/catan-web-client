@@ -4,6 +4,7 @@ import server.communication.GameModel;
 import server.communication.GameModelList;
 import server.persist.*;
 import java.util.*;
+import server.api.utils.MessageLine;
 
 public class Monopoly implements CommandTemplate {
 	private int playerIndex = -1;
@@ -68,6 +69,13 @@ public class Monopoly implements CommandTemplate {
 			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(totalGained);
 		else if(resource.equals("brick"))
 			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(totalGained);
+		
+		// update log
+		MessageLine logMsg = new MessageLine();
+		logMsg.setSource(GameModelList.get(gameID).getPlayer(playerIndex).getName());
+		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + " has played a Monopoly card.");
+		GameModelList.get(gameID).getLog().addLine(logMsg);
+		
 		return null;
 	}
 	@Override
@@ -122,6 +130,12 @@ public class Monopoly implements CommandTemplate {
 			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(totalGained);
 		else if(resource.equals("brick"))
 			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(totalGained);
+		
+		// update log
+		MessageLine logMsg = new MessageLine();
+		logMsg.setSource(GameModelList.get(gameID).getPlayer(playerIndex).getName());
+		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + " has played a Monopoly card.");
+		GameModelList.get(gameID).getLog().addLine(logMsg);
 	}
 	@Override
 	public void undo(){

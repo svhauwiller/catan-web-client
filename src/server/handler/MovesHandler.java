@@ -160,6 +160,7 @@ public class MovesHandler implements HttpHandler{
 
 		UpdateChatLog updateChatLogObj = new UpdateChatLog();
 		updateChatLogObj.execute(args);
+		updateChatLogObj.persist();
 		CommandList.recordCommand(updateChatLogObj);
 
 		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
@@ -177,6 +178,7 @@ public class MovesHandler implements HttpHandler{
 
 		RollNumber rollNumberObj = new RollNumber();
 		rollNumberObj.execute(args);
+		rollNumberObj.persist();
 		CommandList.recordCommand(rollNumberObj);
 		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
@@ -196,6 +198,7 @@ public class MovesHandler implements HttpHandler{
 		
 		RobPlayer robPlayerObj = new RobPlayer();
 		robPlayerObj.execute(args);
+		robPlayerObj.persist();
 		//System.out.println("yeah");
 		CommandList.recordCommand(robPlayerObj);
 		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
@@ -212,6 +215,7 @@ public class MovesHandler implements HttpHandler{
 		
 		FinishTurn finishTurnAction = new FinishTurn();
 		finishTurnAction.execute(args);
+		finishTurnAction.persist();
 		CommandList.recordCommand(finishTurnAction);
 		
 		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
@@ -227,6 +231,7 @@ public class MovesHandler implements HttpHandler{
 		args[2] = obj.optString("type");
 		BuyDevCard bdcObject = new BuyDevCard();
 		bdcObject.execute(args);
+		bdcObject.persist();
 		CommandList.recordCommand(bdcObject);
 
 		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
@@ -245,6 +250,7 @@ public class MovesHandler implements HttpHandler{
 		
 		YearOfPlenty yopObject = new YearOfPlenty();
 		yopObject.execute(args);
+		yopObject.persist();
 
 		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
@@ -269,6 +275,7 @@ public class MovesHandler implements HttpHandler{
 
 		RoadBuilding rbObject = new RoadBuilding();
 		rbObject.execute(args);
+		rbObject.persist();
 
 		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
@@ -288,6 +295,7 @@ public class MovesHandler implements HttpHandler{
 
 		Soldier sObject = new Soldier();
 		sObject.execute(args);
+		sObject.persist();
 
 		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
@@ -304,6 +312,7 @@ public class MovesHandler implements HttpHandler{
 		
 		Monopoly mObject = new Monopoly();
 		mObject.execute(args);
+		mObject.persist();
 
 		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
@@ -319,6 +328,7 @@ public class MovesHandler implements HttpHandler{
 	
 		Monument monObject = new Monument();
 		monObject.execute(args);
+		monObject.persist();
 
 		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
@@ -338,6 +348,7 @@ public class MovesHandler implements HttpHandler{
 		args[6] = currentGameID;
 		BuildRoad buildRoadObj = new BuildRoad();
 		buildRoadObj.execute(args);
+		buildRoadObj.persist();
 		CommandList.recordCommand(buildRoadObj);
 		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
@@ -358,6 +369,7 @@ public class MovesHandler implements HttpHandler{
 
 		BuildSettlement buildSettlementObj = new BuildSettlement();
 		buildSettlementObj.execute(args);
+		buildSettlementObj.persist();
 		CommandList.recordCommand(buildSettlementObj);
 		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
@@ -377,6 +389,7 @@ public class MovesHandler implements HttpHandler{
 
 		BuildCity buildCityObj = new BuildCity();
 		buildCityObj.execute(args);
+		buildCityObj.persist();
 		CommandList.recordCommand(buildCityObj);
 		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
@@ -398,6 +411,7 @@ private void sendTradeOffer(HttpExchange ex, XStream xStream) throws IOException
 		args[8] = obj.optString("type");
 		SendTradeOffer sto = new SendTradeOffer();
 		sto.execute(args);
+		sto.persist();
 		
 		CommandList.recordCommand(sto);
 		
@@ -421,6 +435,7 @@ private void sendTradeOffer(HttpExchange ex, XStream xStream) throws IOException
 
 		SendTradeOffer sto = new SendTradeOffer();
 		sto.execute(args);
+		sto.persist();
 		
 		CommandList.recordCommand(sto);
 		
@@ -441,6 +456,7 @@ private void sendTradeOffer(HttpExchange ex, XStream xStream) throws IOException
 		
 		MaritimeTrade maritimeTradeAction = new MaritimeTrade();
 		maritimeTradeAction.execute(args);
+		maritimeTradeAction.persist();
 		CommandList.recordCommand(maritimeTradeAction);
 		
 		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
@@ -463,6 +479,7 @@ private void sendTradeOffer(HttpExchange ex, XStream xStream) throws IOException
 
 		DiscardCards discardCardsObj = new DiscardCards();
 		discardCardsObj.execute(args);
+		discardCardsObj.persist();
 		CommandList.recordCommand(discardCardsObj);
 
 		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));

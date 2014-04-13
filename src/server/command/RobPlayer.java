@@ -5,6 +5,7 @@ import server.communication.GameModelList;
 import server.api.map.Location;
 import server.persist.*;
 import java.util.*;
+import server.api.utils.MessageLine;
 
 
 public class RobPlayer implements CommandTemplate{
@@ -106,6 +107,13 @@ public class RobPlayer implements CommandTemplate{
 				}
 			}
 		}
+		
+		// update log
+		MessageLine logMsg = new MessageLine();
+		logMsg.setSource(GameModelList.get(gameID).getPlayer(playerIndex).getName());
+		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + " has robbed " + GameModelList.get(gameID).getPlayer(victimIndex).getName() + ".");
+		GameModelList.get(gameID).getLog().addLine(logMsg);
+		
 		return null;
 	}
 
@@ -194,6 +202,12 @@ public class RobPlayer implements CommandTemplate{
 				}
 			}
 		}
+		
+		// update log
+		MessageLine logMsg = new MessageLine();
+		logMsg.setSource(GameModelList.get(gameID).getPlayer(playerIndex).getName());
+		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + " has robbed " + GameModelList.get(gameID).getPlayer(victimIndex).getName() + ".");
+		GameModelList.get(gameID).getLog().addLine(logMsg);
 	}
 
 	public void undo(){

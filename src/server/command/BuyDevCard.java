@@ -4,6 +4,7 @@ import server.communication.GameModel;
 import server.communication.GameModelList;
 import server.persist.*;
 import java.util.*;
+import server.api.utils.MessageLine;
 
 public class BuyDevCard implements CommandTemplate{
 
@@ -82,6 +83,13 @@ public class BuyDevCard implements CommandTemplate{
 				}
 			}
 		}
+		
+		// update log
+		MessageLine logMsg = new MessageLine();
+		logMsg.setSource(GameModelList.get(gameID).getPlayer(playerNum).getName());
+		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerNum).getName() + " has bought a Development Card.");
+		GameModelList.get(gameID).getLog().addLine(logMsg);
+		
 		return null;
 	}
 	
@@ -147,6 +155,12 @@ public class BuyDevCard implements CommandTemplate{
 				}
 			}
 		}
+		
+		// update log
+		MessageLine logMsg = new MessageLine();
+		logMsg.setSource(GameModelList.get(gameID).getPlayer(playerNum).getName());
+		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerNum).getName() + " has bought a Development Card.");
+		GameModelList.get(gameID).getLog().addLine(logMsg);
 	}
 	@Override
 	public void persist(){
