@@ -35,7 +35,7 @@ public class CommandListXMLAO implements CommandListAO{
 			cmdListModel = (CommandListXMLmodel) xmlData;
 		}
 		
-		while(cmdListModel.size() < gameID){
+		while(cmdListModel.size() <= gameID){
 			cmdListModel.addNewList(new ArrayList<CommandTemplate>());
 		}
 		

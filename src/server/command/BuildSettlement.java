@@ -55,6 +55,7 @@ public class BuildSettlement implements CommandTemplate{
 		// update map - change ownerID of a given edge
 		Location hexLoc = new Location(vertexX, vertexY, true);
 		hexLoc.setDirection(vertexDirection);
+		System.out.println("BuildSettlement execute(gameID=" + gameID + "): hexLoc (" + hexLoc.getX() + "," + hexLoc.getY() + "), dir=" + hexLoc.getDirection() + " for playerIndex=" + playerIndex);
 		GameModelList.get(gameID).getMap().updateVertexOwner(hexLoc, playerIndex);
 		
 		// update log
@@ -66,7 +67,9 @@ public class BuildSettlement implements CommandTemplate{
 	}
 	@Override
 	public void persist(){
+		System.out.println("Attempting to persist - BuildSettlement");
 		StorageFacade.addCommand(gameID, this, type);
+		System.out.println("Persist Successful - BuildSettlement");
 	}
 	@Override
 	public void redo(){

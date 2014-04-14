@@ -50,6 +50,7 @@ public class BuildRoad implements CommandTemplate{
 		// update map - change ownerID of a given edge
 		Location hexLoc = new Location(locationX, locationY, true);
 		hexLoc.setDirection(locationDirection);
+		System.out.println("BuildRoad execute(gameID=" + gameID + "): hexLoc (" + hexLoc.getX() + "," + hexLoc.getY() + "), dir=" + hexLoc.getDirection() + " for playerIndex=" + playerIndex);
 		GameModelList.get(gameID).getMap().updateEdgeOwner(hexLoc, playerIndex);
 		
 		// update log

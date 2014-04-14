@@ -25,7 +25,7 @@ public class Hex {
 	public Hex(){
 		edges = new ArrayList<>();
 		isLand = true;
-		landtype = "Ore"; // Sheep, Brick, Ore, Wheat, Wood
+		landtype = ""; // Sheep, Brick, Ore, Wheat, Wood
 		location = new Location(-5, -5, false);
 		vertexes = new ArrayList<>();
 		
@@ -57,6 +57,8 @@ public class Hex {
 	}
 	
 	public void updateVertexOwner(String direction, int ownerID){
+		System.out.println("Passed to Hex");
+		System.out.println("indexVertexOf(direction) = " + indexVertexOf(direction) + "; ownerID = " + ownerID);
 		vertexes.get(indexVertexOf(direction)).setOwner(ownerID);
 		//vertexes.get(direction).setOwner(ownerID);
 	}

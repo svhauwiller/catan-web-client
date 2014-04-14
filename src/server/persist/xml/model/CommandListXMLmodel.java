@@ -25,6 +25,7 @@ public class CommandListXMLmodel {
 	}
 	
 	public void addCommand(int gameID, CommandTemplate cmd){
+		System.out.println("CommandListXMLmodel - addCommand : gameID=" + gameID);
 		commands.get(gameID).add(cmd);
 	}
 	

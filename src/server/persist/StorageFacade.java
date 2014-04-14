@@ -96,6 +96,7 @@ public class StorageFacade {
 	 * @param command
 	 */
 	private void _addCommand(int theGameID, CommandTemplate command, String type){
+		System.out.println("StorageFacade - addCommand : theGameID=" + theGameID + ", type=" + type);
 		localCommandList.add(theGameID, command, type);
 		int numberOfCommands = CommandList.getExecutedCommands().size();
 		

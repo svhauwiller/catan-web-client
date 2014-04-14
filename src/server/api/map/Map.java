@@ -149,6 +149,11 @@ public class Map {
 	}
 	
 	public void updateVertexOwner(Location hexLoc, int ownerID){ // build settlement or city
+		System.out.println("Passed to Map - updateVertexOwner: " + ownerID);
+		System.out.print("hexLoc: (" + hexLoc.getX() + "," + hexLoc.getY() + "); direction = ");
+		if(hexLoc.hasDirection()){
+			System.out.println(hexLoc.getDirection());
+		}
 		hexGrid.updateVertexOwner(hexLoc, ownerID);
 	}
 
