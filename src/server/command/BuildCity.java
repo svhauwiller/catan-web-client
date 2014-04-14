@@ -39,15 +39,21 @@ public class BuildCity implements CommandTemplate{
 		free = Boolean.parseBoolean(args[5]);
 		gameID = Integer.parseInt(args[6]);
 
-		// update bank - add resources - building a road requires one brick, one lumber, one wool, and one grain
-		GameModelList.get(gameID).getBank().updateWheat(2);
-		GameModelList.get(gameID).getBank().updateOre(3);
+		if(!free){
+			// update bank - add resources - building a road requires one brick, one lumber, one wool, and one grain
+			GameModelList.get(gameID).getBank().updateWheat(2);
+			GameModelList.get(gameID).getBank().updateOre(3);
 
-		// update player - subtract resources
-		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWheat(-2);
-		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateOre(-3);
+			// update player - subtract resources
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWheat(-2);
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateOre(-3);
+		}
+		// update player - subtract cities
 		GameModelList.get(gameID).getPlayer(playerIndex).updateCities(-1);
-
+		
+		// update player - victory points
+		GameModelList.get(gameID).getPlayer(playerIndex).updateVictoryPoints(1);
+		
 		// update map - change ownerID of a given edge
 		Location hexLoc = new Location(vertexX, vertexY, true);
 		hexLoc.setDirection(vertexDirection);
@@ -62,18 +68,26 @@ public class BuildCity implements CommandTemplate{
 		return null;
 	}
 	@Override
-	public void persist(){}
+	public void persist(){
+		StorageFacade.addCommand(gameID, this, type);
+	}
 	@Override
 	public void redo(){
-		// update bank - add resources - building a road requires one brick, one lumber, one wool, and one grain
-		GameModelList.get(gameID).getBank().updateWheat(2);
-		GameModelList.get(gameID).getBank().updateOre(3);
+		if(!free){
+			// update bank - add resources - building a road requires one brick, one lumber, one wool, and one grain
+			GameModelList.get(gameID).getBank().updateWheat(2);
+			GameModelList.get(gameID).getBank().updateOre(3);
 
-		// update player - subtract resources
-		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWheat(-2);
-		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateOre(-3);
+			// update player - subtract resources
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWheat(-2);
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateOre(-3);
+		}
+		// update player - subtract cities
 		GameModelList.get(gameID).getPlayer(playerIndex).updateCities(-1);
-
+		
+		// update player - victory points
+		GameModelList.get(gameID).getPlayer(playerIndex).updateVictoryPoints(1);
+		
 		// update map - change ownerID of a given edge
 		Location hexLoc = new Location(vertexX, vertexY, true);
 		hexLoc.setDirection(vertexDirection);

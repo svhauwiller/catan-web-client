@@ -57,7 +57,7 @@ public class Player {
 		roads = 15;
 		settlements = 5;
 		soldiers = 0;
-		victoryPoints = 2;
+		victoryPoints = 0;
 	}
 	
 	public ResourceCardList getResourceCardList(){

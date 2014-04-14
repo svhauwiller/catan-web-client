@@ -38,13 +38,15 @@ public class BuildRoad implements CommandTemplate{
 		gameID = Integer.parseInt(args[6]);
 		//GameModel gmod = GameModel.getInstance();
 
-		// update bank - add resources - building a road requires one brick and one lumber
-		GameModelList.get(gameID).getBank().updateBrick(1);
-		GameModelList.get(gameID).getBank().updateWood(1);
+		if(!free){
+			// update bank - add resources - building a road requires one brick and one lumber
+			GameModelList.get(gameID).getBank().updateBrick(1);
+			GameModelList.get(gameID).getBank().updateWood(1);
 
-		// update player - subtract resources
-		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(-1);
-		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(-1);
+			// update player - subtract resources
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(-1);
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(-1);
+		}
 		GameModelList.get(gameID).getPlayer(playerIndex).updateRoads(-1);
 
 		// update map - change ownerID of a given edge
@@ -66,12 +68,15 @@ public class BuildRoad implements CommandTemplate{
 	}
 	@Override
 	public void redo(){
-		GameModelList.get(gameID).getBank().updateBrick(1);
-		GameModelList.get(gameID).getBank().updateWood(1);
+		if(!free){
+			// update bank - give back resources
+			GameModelList.get(gameID).getBank().updateBrick(1);
+			GameModelList.get(gameID).getBank().updateWood(1);
 
-		// update player - subtract resources
-		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(-1);
-		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(-1);
+			// update player - subtract resources
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(-1);
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(-1);
+		}
 		GameModelList.get(gameID).getPlayer(playerIndex).updateRoads(-1);
 
 		// update map - change ownerID of a given edge

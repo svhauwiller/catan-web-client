@@ -39,18 +39,25 @@ public class BuildSettlement implements CommandTemplate{
 		gameID = Integer.parseInt(args[6]);
 		//GameModel gmod = GameModel.getInstance();
 
-		// update bank - add resources - building a road requires one brick, one lumber, one wool, and one grain
-		GameModelList.get(gameID).getBank().updateBrick(1);
-		GameModelList.get(gameID).getBank().updateWood(1);
-		GameModelList.get(gameID).getBank().updateSheep(1);
-		GameModelList.get(gameID).getBank().updateWheat(1);
+		if(!free){
+			// update bank - add resources - building a road requires one brick, one lumber, one wool, and one grain
+			GameModelList.get(gameID).getBank().updateBrick(1);
+			GameModelList.get(gameID).getBank().updateWood(1);
+			GameModelList.get(gameID).getBank().updateSheep(1);
+			GameModelList.get(gameID).getBank().updateWheat(1);
 
-		// update player - subtract resources
-		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(-1);
-		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(-1);
-		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateSheep(-1);
-		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWheat(-1);
+			// update player - subtract resources
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(-1);
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(-1);
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateSheep(-1);
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWheat(-1);
+		}
+		
+		// update player - subract settlements
 		GameModelList.get(gameID).getPlayer(playerIndex).updateSettlements(-1);
+		
+		// update player - victory points
+		GameModelList.get(gameID).getPlayer(playerIndex).updateVictoryPoints(1);
 
 		// update map - change ownerID of a given edge
 		Location hexLoc = new Location(vertexX, vertexY, true);
@@ -73,18 +80,24 @@ public class BuildSettlement implements CommandTemplate{
 	}
 	@Override
 	public void redo(){
-		// update bank - add resources - building a road requires one brick, one lumber, one wool, and one grain
-		GameModelList.get(gameID).getBank().updateBrick(1);
-		GameModelList.get(gameID).getBank().updateWood(1);
-		GameModelList.get(gameID).getBank().updateSheep(1);
-		GameModelList.get(gameID).getBank().updateWheat(1);
+		if(!free){
+			// update bank - add resources - building a road requires one brick, one lumber, one wool, and one grain
+			GameModelList.get(gameID).getBank().updateBrick(1);
+			GameModelList.get(gameID).getBank().updateWood(1);
+			GameModelList.get(gameID).getBank().updateSheep(1);
+			GameModelList.get(gameID).getBank().updateWheat(1);
 
-		// update player - subtract resources
-		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(-1);
-		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(-1);
-		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateSheep(-1);
-		GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWheat(-1);
+			// update player - subtract resources
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateBrick(-1);
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWood(-1);
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateSheep(-1);
+			GameModelList.get(gameID).getPlayer(playerIndex).getResourceCardList().updateWheat(-1);
+		}
+		// update player - subtract settlements
 		GameModelList.get(gameID).getPlayer(playerIndex).updateSettlements(-1);
+		
+		// update player - victory points
+		GameModelList.get(gameID).getPlayer(playerIndex).updateVictoryPoints(1);
 
 		// update map - change ownerID of a given edge
 		Location hexLoc = new Location(vertexX, vertexY, true);

@@ -67,7 +67,12 @@ public class GameAndUserJoinXMLAO implements GameAndUserJoinAO{
 			joinModel = (GameAndUserXMLmodel) xmlData;
 		}
 		
-		joinModel.addJoinEntry(new GameAndUserJoinPM(playerID, gameID, color));
+		GameAndUserJoinPM joinEntry = joinModel.getJoinEntry(playerID, gameID);
+		if(joinEntry == null){
+			joinModel.addJoinEntry(new GameAndUserJoinPM(playerID, gameID, color));
+		} else {
+			joinModel.setJoinEntry(playerID, gameID, color);
+		}
 		
 		fileio.saveModel(FileIO.GAME_USER_FILENAME, joinModel);
 	}
