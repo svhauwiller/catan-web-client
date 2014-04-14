@@ -59,6 +59,18 @@ public class DiscardCards implements CommandTemplate{
 		GameModelList.get(gameID).getLog().addLine(logMsg);
 
 		GameModelList.get(gameID).incrementRevision();
+		
+		//check to see if anyone else needs to discard, Rob if everyone has 7 or less cards
+		boolean sevenCardCheck = false;
+		for(int i = 0; i < 4; ++i){
+			if(GameModelList.get(gameID).getPlayer(i).getResourceCardList().getTotal()>7){
+				sevenCardCheck = true;
+				break;
+		}
+		if(sevenCardCheck==false)
+			GameModelList.get(gameID).getTurnTracker().setStatus("Robbing");
+		}
+		
 		return null;
 	}
 

@@ -3,8 +3,11 @@ package server.command;
 import server.communication.GameModel;
 import server.communication.GameModelList;
 import server.api.map.Location;
+import server.api.player.Player;
 import server.persist.*;
+
 import java.util.*;
+
 import server.api.utils.MessageLine;
 
 public class RollNumber implements CommandTemplate{
@@ -25,10 +28,22 @@ public class RollNumber implements CommandTemplate{
 		playerIndex = Integer.parseInt(args[1]);
 		number = Integer.parseInt(args[2]);
 		gameID = Integer.parseInt(args[3]);
+		
+		//check if anyone needs to discard; if so, Status=discard; else, status = Robbing
+		boolean sevenCardCheck = false;
 		if(number == 7){
-			GameModelList.get(gameID).getTurnTracker().setStatus("Discarding");
-			// move the robber
-			// steal
+			for(int i = 0; i < 4; ++i){
+				if(GameModelList.get(gameID).getPlayer(i).getResourceCardList().getTotal()>7){
+					sevenCardCheck=true;
+					break;
+				}
+			}
+			if(sevenCardCheck){
+				GameModelList.get(gameID).getTurnTracker().setStatus("Discarding");
+			}
+			else{
+				GameModelList.get(gameID).getTurnTracker().setStatus("Robbing");
+			}
 		}
 		else{
 			// get the hexLocation of the chit
