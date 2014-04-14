@@ -133,35 +133,57 @@ public class HexGrid {
 	public void updateEdgeOwner(Location hexLoc, int ownerID){
 		System.out.println("Passed to HexGrid - updateEdgeOwner");
 		System.out.println("direction = " + hexLoc.getDirection() + "; ownerID = " + ownerID);
-		int temp1 = offsets.get(hexLoc.getX() + 3);
+		/*int temp1 = offsets.get(hexLoc.getY() + 3);
 		//int temp2 = offsets.get(hexLoc.getY());
-		int newX = hexLoc.getX() + temp1 + 3;
+		int newX = hexLoc.getX() - temp1 + 3;
 		int newY = hexLoc.getY() + 3;
 		System.out.println("x = " + hexLoc.getX() + " + " + temp1 + " = " + newX);
 		//System.out.println("y = " + hexLoc.getY() + " + " + temp2 + " = " + newY);
 		System.out.println("y = " + newY);
-		hexes.get(newX).get(newY).updateEdgeOwner(hexLoc.getDirection(), ownerID);
+		hexes.get(newX).get(newY).updateEdgeOwner(hexLoc.getDirection(), ownerID);*/
+		Location newHexLoc = convertHexLocToArrayListIndexes(hexLoc);
 		//hexes.get(hexLoc.getX() + offsets.get(hexLoc.getX()+3)).get(hexLoc.getY() + offsets.get(hexLoc.getY()+3)).updateEdgeOwner(hexLoc.getDirection(), ownerID);
+		hexes.get(newHexLoc.getX()).get(newHexLoc.getY()).updateEdgeOwner(hexLoc.getDirection(), ownerID);
 	}
 	
 	public void updateVertexOwner(Location hexLoc, int ownerID){
 		System.out.println("Passed to HexGrid - updateVertexOwner");
 		System.out.println("direction = " + hexLoc.getDirection() + "; ownerID = " + ownerID);
-		int temp1 = offsets.get(hexLoc.getX() + 3);
+		/*int temp1 = offsets.get(hexLoc.getY() + 3);
 		//int temp2 = offsets.get(hexLoc.getY());
-		int newX = hexLoc.getX() + temp1 + 3;
+		int newX = hexLoc.getX() - temp1 + 3;
 		int newY = hexLoc.getY() + 3;
 		System.out.println("x = " + hexLoc.getX() + " + " + temp1 + " = " + newX);
 		//System.out.println("y = " + hexLoc.getY() + " + " + temp2 + " = " + newY);
-		System.out.println("y = " + newY);
-		hexes.get(newX).get(newY).updateVertexOwner(hexLoc.getDirection(), ownerID);
+		System.out.println("y = " + newY);*/
+		Location newHexLoc = convertHexLocToArrayListIndexes(hexLoc);
+		//hexes.get(newX).get(newY).updateVertexOwner(hexLoc.getDirection(), ownerID);
+		hexes.get(newHexLoc.getX()).get(newHexLoc.getY()).updateVertexOwner(hexLoc.getDirection(), ownerID);
 	}
 
 	public ArrayList<Integer> getPlayersAtHex(Location hexLoc){
-		return hexes.get(hexLoc.getX() + offsets.get(hexLoc.getX()+3)).get(hexLoc.getY() + offsets.get(hexLoc.getX()+3)).getPlayers();
+		Location newHexLoc = convertHexLocToArrayListIndexes(hexLoc);
+		return hexes.get(newHexLoc.getX()).get(newHexLoc.getY()).getPlayers();
 	}
 	public String getLandTypeAtHex(Location hexLoc){
-		return hexes.get(hexLoc.getX() + offsets.get(hexLoc.getX()+3)).get(hexLoc.getY() + offsets.get(hexLoc.getX()+3)).getLandType();
+		Location newHexLoc = convertHexLocToArrayListIndexes(hexLoc);
+		return hexes.get(newHexLoc.getX()).get(newHexLoc.getY()).getLandType();
+	}
+
+	private Location convertHexLocToArrayListIndexes(Location hexLoc){
+		int offset = offsets.get(hexLoc.getY() + 3);
+		//int newX = hexLoc.getX() - temp1 + 3;
+		//int newY = hexLoc.getY() + 3;
+		int newX = hexLoc.getY() + 3;
+		int newY = hexLoc.getX() + 3 - offset;
+		System.out.println("hexLoc.getY()=" + hexLoc.getY() + " => newX=" + newX);
+		//System.out.println("y = " + hexLoc.getY() + " + " + temp2 + " = " + newY);
+		System.out.println("hexLoc.getX()=" + hexLoc.getX() + ", offset=" + offset + " => newY=" + newY);
+		Location newHexLoc = new Location(newX, newY, hexLoc.hasDirection());
+		if(hexLoc.hasDirection()){
+			newHexLoc.setDirection(hexLoc.getDirection());
+		}
+		return newHexLoc;
 	}
 }
 
