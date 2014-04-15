@@ -46,16 +46,19 @@ public class BuildRoadTests {
 		 * args[5]-> free
 		 */
 
+		int numOfRoads = GameModelList.get(0).getPlayer(0).getRoads();
+
 		String[] args = new String[]{"buildRoad","0", "1", "1", "N", "false", "0"};
+		System.out.println("Num before: " + numOfRoads);
 		buildRoadObj.execute(args);
 
-		int numOfRoads = GameModelList.get(0).getPlayer(0).getRoads();
+		numOfRoads = GameModelList.get(0).getPlayer(0).getRoads();
 
 		System.out.println("numOfRoads: " + numOfRoads);
 		
 		//System.out.println(lastLine.getMessage());
 
-		assertEquals(12, numOfRoads);
+		assertEquals(14, numOfRoads);
 
 		//String name = "Sam";
 		//assertTrue(name == "Sam");

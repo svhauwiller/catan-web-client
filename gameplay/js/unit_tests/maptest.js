@@ -3,7 +3,6 @@ test("Test Running", function(){//how a test works
 });
 
 test("Update From Client Model", function(){
-	console.log("Update From Client Model test");
 	var isUpdated = true;
 	var model = new catan.models.ClientModel(0);
 	model.initFromServer(function(){ console.log("Initialization Complete"); });
@@ -19,22 +18,28 @@ test("Update From Client Model", function(){
 	numberChits[8] = 11;
 	numberChits[9] = 12;
 
+	//model.map.numbers=numberChits;
+	//The issue here is that model.map.numbers is never initialized 
 	for(var a = 0; a < numberChits.length; a++){
 		if(model.map.numbers[numberChits[a]] == undefined){
+			console.log("false 1");
 			isUpdated = false;		
 		}
 		else if(model.map.numbers[numberChits[a]].length != 1 &&
 				model.map.numbers[numberChits[a]].length != 2){
+			console.log("false 2");
 			isUpdated = false;				
 		}
 	}
 
 	for(var b = 0; b < model.map.ports.length; b++){
 		if(model.map.ports[b] == undefined){
+			console.log("false 3");
 			isUpdated = false;		
 		}
 		else{
 			if(model.map.ports[b].location == undefined){
+				console.log("false 4");
 				isUpdated = false;
 			}
 			else if(model.map.ports[b].orientation != "N" &&
@@ -45,9 +50,11 @@ test("Update From Client Model", function(){
 					model.map.ports[b].orientation != "SW" &&
 					model.map.ports[b].orientation != "W" &&
 					model.map.ports[b].orientation != "NW"){
+				console.log("false 5");
 				isUpdated = false;
 			}
 			else if(model.map.ports[b].ratio < -1){ // this test may not be sufficient
+				console.log("false 6");
 				isUpdated = false;
 			}
 			else if(model.map.ports[b].validVertex1.direction != "N" &&
@@ -58,6 +65,7 @@ test("Update From Client Model", function(){
 					model.map.ports[b].validVertex1.direction != "SW" &&
 					model.map.ports[b].validVertex1.direction != "W" &&
 					model.map.ports[b].validVertex1.direction != "NW"){
+				console.log("false 7");
 				isUpdated = false;
 			}
 			else if(model.map.ports[b].validVertex2.direction != "N" &&
@@ -68,19 +76,22 @@ test("Update From Client Model", function(){
 					model.map.ports[b].validVertex2.direction != "SW" &&
 					model.map.ports[b].validVertex2.direction != "W" &&
 					model.map.ports[b].validVertex2.direction != "NW"){
+				console.log("false 8");
 				isUpdated = false;
 			}
 		}
 	}
 	if(model.map.radius != 4){
+		console.log("false 9");
 		isUpdated = false;	
 	}
 	if(model.map.robber == undefined){
+		console.log("false 10");
 		isUpdated = false;	
 	}
 
 	console.log(model.map);
-	ok(isUpdated == true, "Passed", "Failed");
+	ok(isUpdated == true, "Failed");
 });
 
 test("Can Place Road", function(){

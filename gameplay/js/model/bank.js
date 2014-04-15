@@ -174,6 +174,8 @@ catan.models.bank = (function bankNameSpace(){
 		
 		function DevCardList(type)
 		{
+
+
 			switch(type)
 			{
 				case "bank":
@@ -193,6 +195,10 @@ catan.models.bank = (function bankNameSpace(){
 					break;
 			}
 		}
+		var getTotal = function(){
+			console.log("YES");
+			return this.monopoly + this.monument + this.road + this.soldier + this.year;
+		}
 		
 		return DevCardList;
 	}());
@@ -206,7 +212,9 @@ catan.models.bank = (function bankNameSpace(){
 			this.soldier = new Soldier(model);
 			this.year = new YearOfPlenty(model);
 		};
+	
 
+	
 		DevCard.prototype.useCard = function(type, parameter){
 			switch(type){
 				case "monopoly":
@@ -278,15 +286,8 @@ catan.models.bank = (function bankNameSpace(){
 		YearOfPlenty.prototype.useCard = function(parameter){
 			// var playerIndex = parameter.playerIndex;
 			// var resources = new Array();
-			
-			var resource1 = parameter.resource1;
-			var resource2 = parameter.resource2;
-
-			var args = new Array();
-			args.push(resource1);
-			args.push(resource2);
-
-			this.model.runCommand(catan.proxy.proxyCommands.YearOfPlentyCommand, args);
+			console.log("WE get here");
+			this.model.runCommand(catan.proxy.proxyCommands.YearOfPlentyCommand, parameter);
 
 			// this.model.players[playerIndex].updateResource(resource1,1);
 			// console.log(this.model.bank.resourceList[resource1]);
