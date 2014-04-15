@@ -67,10 +67,10 @@ public class RollNumber implements CommandTemplate{
 						case "Ore":
 							GameModelList.get(gameID).getPlayer(players.get(j)).getResourceCardList().updateOre(1);
 							break;
-						case "Lumber":
+						case "Wood":
 							GameModelList.get(gameID).getPlayer(players.get(j)).getResourceCardList().updateWood(1);
 							break;
-						case "Wool":
+						case "Sheep":
 							GameModelList.get(gameID).getPlayer(players.get(j)).getResourceCardList().updateSheep(1);
 							break;
 						case "Wheat":
@@ -121,10 +121,10 @@ public class RollNumber implements CommandTemplate{
 						case "Ore":
 							GameModelList.get(gameID).getPlayer(players.get(j)).getResourceCardList().updateOre(1);
 							break;
-						case "Lumber":
+						case "Wood":
 							GameModelList.get(gameID).getPlayer(players.get(j)).getResourceCardList().updateWood(1);
 							break;
-						case "Wool":
+						case "Sheep":
 							GameModelList.get(gameID).getPlayer(players.get(j)).getResourceCardList().updateSheep(1);
 							break;
 						case "Wheat":
