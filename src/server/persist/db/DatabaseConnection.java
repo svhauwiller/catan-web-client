@@ -3,7 +3,6 @@
  */
 package server.persist.db;
 
-import server.command.*;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,17 +32,8 @@ public class DatabaseConnection {
 		}
 	}
 
-	protected UsersDAO usersDAO;
-	protected GameInfoDAO gameInfoDAO;
-	protected CommandListDAO commandListDAO;
-	protected GameAndUserJoinDAO gameAndUserJoinDAO;
-
 
 	public DatabaseConnection() {
-		usersDAO = new UsersDAO(this);
-		gameInfoDAO = new GameInfoDAO(this);
-		commandListDAO = new CommandListDAO(this);
-		gameAndUserJoinDAO = new GameAndUserJoinDAO(this);
 
 		connection = null;
 	}

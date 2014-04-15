@@ -1,4 +1,10 @@
 test("Proxy Test: Send Chat", function(){
+	$.ajax({
+		async: false,
+		type: "GET",
+		url: "/game/reset"
+	})
+
 	var sendChatCmd = new catan.proxy.proxyCommands.SendChatCommand(0);
 
 	var chatLine = "leverage...";
@@ -350,7 +356,7 @@ test("Proxy Test: Roll Dice (Move Robber)", function(){
 
 		console.log("updated Model",updatedModel);
 
-		equal(updatedModel.turnTracker.status, "Discarding", "Roll Number Test Failure: Turn status does not equal \"Discarding\".");
+		equal(updatedModel.turnTracker.status, "Robbing", "Roll Number Test Failure: Turn status does not equal \"Robbing\".");
 
 		start();
 	}, 2200);
