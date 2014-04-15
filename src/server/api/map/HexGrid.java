@@ -133,32 +133,17 @@ public class HexGrid {
 	public void updateEdgeOwner(Location hexLoc, int ownerID){
 		System.out.println("Passed to HexGrid - updateEdgeOwner");
 		System.out.println("direction = " + hexLoc.getDirection() + "; ownerID = " + ownerID);
-		/*int temp1 = offsets.get(hexLoc.getY() + 3);
-		//int temp2 = offsets.get(hexLoc.getY());
-		int newX = hexLoc.getX() - temp1 + 3;
-		int newY = hexLoc.getY() + 3;
-		System.out.println("x = " + hexLoc.getX() + " + " + temp1 + " = " + newX);
-		//System.out.println("y = " + hexLoc.getY() + " + " + temp2 + " = " + newY);
-		System.out.println("y = " + newY);
-		hexes.get(newX).get(newY).updateEdgeOwner(hexLoc.getDirection(), ownerID);*/
 		Location newHexLoc = convertHexLocToArrayListIndexes(hexLoc);
-		//hexes.get(hexLoc.getX() + offsets.get(hexLoc.getX()+3)).get(hexLoc.getY() + offsets.get(hexLoc.getY()+3)).updateEdgeOwner(hexLoc.getDirection(), ownerID);
-		hexes.get(newHexLoc.getX()).get(newHexLoc.getY()).updateEdgeOwner(hexLoc.getDirection(), ownerID);
+		//hexes.get(newHexLoc.getX()).get(newHexLoc.getY()).updateEdgeOwner(hexLoc.getDirection(), ownerID);
+		buildRoad(newHexLoc.getX(), newHexLoc.getY(), newHexLoc.getDirection(), ownerID);
 	}
 	
 	public void updateVertexOwner(Location hexLoc, int ownerID){
 		System.out.println("Passed to HexGrid - updateVertexOwner");
 		System.out.println("direction = " + hexLoc.getDirection() + "; ownerID = " + ownerID);
-		/*int temp1 = offsets.get(hexLoc.getY() + 3);
-		//int temp2 = offsets.get(hexLoc.getY());
-		int newX = hexLoc.getX() - temp1 + 3;
-		int newY = hexLoc.getY() + 3;
-		System.out.println("x = " + hexLoc.getX() + " + " + temp1 + " = " + newX);
-		//System.out.println("y = " + hexLoc.getY() + " + " + temp2 + " = " + newY);
-		System.out.println("y = " + newY);*/
 		Location newHexLoc = convertHexLocToArrayListIndexes(hexLoc);
-		//hexes.get(newX).get(newY).updateVertexOwner(hexLoc.getDirection(), ownerID);
-		hexes.get(newHexLoc.getX()).get(newHexLoc.getY()).updateVertexOwner(hexLoc.getDirection(), ownerID);
+		//hexes.get(newHexLoc.getX()).get(newHexLoc.getY()).updateVertexOwner(hexLoc.getDirection(), ownerID);
+		buildSettlementOrCity(newHexLoc.getX(), newHexLoc.getY(), newHexLoc.getDirection(), ownerID);
 	}
 
 	public ArrayList<Integer> getPlayersAtHex(Location hexLoc){
@@ -184,6 +169,55 @@ public class HexGrid {
 			newHexLoc.setDirection(hexLoc.getDirection());
 		}
 		return newHexLoc;
+	}
+	
+	private void buildSettlementOrCity(int newX, int newY, String newDir, int ownerID){
+		this.hexes.get(newX).get(newY).updateVertexOwner(newDir, ownerID);
+		System.out.println(newDir);
+		switch(newDir){
+			case "NW":
+				break;
+			case "NE":
+				break;
+			case "E":
+				this.hexes.get(newX - 1).get(newY + 1 - this.offsets.get(newY - 1)).updateVertexOwner("SW", ownerID);
+				this.hexes.get(newX).get(newY + 1).updateVertexOwner("NE", ownerID);
+				break;
+			case "SE":
+				//this.hexes.get(newX).get(newY + 1).updateVertexOwner(newDir, ownerID);
+				//this.hexes.get(newX + 1).get(newY - offsets.get(newY - 1)).updateVertexOwner(newDir, ownerID);
+				break;
+			case "SW":
+				//this.hexes.get(newX + 1).get(newY - offsets.get(newY - 1)).updateVertexOwner(newDir, ownerID);
+				//this.hexes.get(newX).get(newY - offsets.get(newY - 1) - 1).updateVertexOwner(newDir, ownerID);
+				break;
+			case "W":
+				this.hexes.get(newX + 1).get(newY - 1 - offsets.get(newY - 1)).updateVertexOwner("NE", ownerID);
+				this.hexes.get(newX).get(newY - 1).updateVertexOwner("SE", ownerID);
+				break;
+		}
+	}
+	
+	private void buildRoad(int newX, int newY, String newDir, int ownerID){
+		this.hexes.get(newX).get(newY).updateEdgeOwner(newDir, ownerID);
+		System.out.println(newDir);
+		switch(newDir){
+			case "NW":
+				break;
+			case "N":
+				break;
+			case "NE":
+				break;
+			case "SE":
+				this.hexes.get(newX).get(newY + 1).updateEdgeOwner("NW", ownerID);
+				break;
+			case "S":
+				this.hexes.get(newX + 1).get(newY - offsets.get(newY - 1)).updateEdgeOwner("N", ownerID);
+				break;
+			case "SW":
+				this.hexes.get(newX + 1).get(newY - offsets.get(newY - 1) - 1).updateEdgeOwner("NE", ownerID);
+				break;
+		}
 	}
 }
 

@@ -347,8 +347,11 @@ public class MovesHandler implements HttpHandler{
 		args[5] = obj.optString("free");
 		args[6] = currentGameID;
 		BuildRoad buildRoadObj = new BuildRoad();
+System.out.println(0);
 		buildRoadObj.execute(args);
+System.out.println(1);
 		buildRoadObj.persist();
+System.out.println(2);
 		CommandList.recordCommand(buildRoadObj);
 		GameModel response = GameModelList.get(Integer.parseInt(currentGameID));
 		sendResponseObject(ex, xStream, response);
