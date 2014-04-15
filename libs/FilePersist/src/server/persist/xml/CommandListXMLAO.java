@@ -60,7 +60,7 @@ public class CommandListXMLAO implements CommandListAO{
 		
 		ArrayList<CommandTemplate> cmdList = cmdListModel.getList(gameID);
 		
-		return (ArrayList<CommandTemplate>) cmdList.subList(pos, cmdList.size());
+		return new ArrayList(cmdList.subList(pos, cmdList.size()));
 	}
 
 	@Override

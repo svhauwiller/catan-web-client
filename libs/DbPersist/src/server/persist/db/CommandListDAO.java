@@ -42,7 +42,7 @@ public class CommandListDAO implements CommandListAO {
         PreparedStatement stmt = null;
         XStream xstream = new XStream(new DomDriver());
         try {
-            String sql = "INSERT INTO commandlist(gameId, command) values (?, ?, ?)";
+            String sql = "INSERT INTO commandlist(gameId, command, type) values (?, ?, ?)";
             stmt = dbconn.getConnection().prepareStatement(sql);
 
             String stringObject = xstream.toXML(cmd);
