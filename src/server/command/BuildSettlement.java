@@ -102,6 +102,7 @@ public class BuildSettlement implements CommandTemplate{
 		// update map - change ownerID of a given edge
 		Location hexLoc = new Location(vertexX, vertexY, true);
 		hexLoc.setDirection(vertexDirection);
+		GameModelList.get(gameID).getMap().updateVertexOwner(hexLoc, playerIndex);
 		
 		// update log
 		MessageLine logMsg = new MessageLine();
