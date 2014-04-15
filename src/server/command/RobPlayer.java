@@ -108,12 +108,15 @@ public class RobPlayer implements CommandTemplate{
 			}
 		}
 		
-		// update log
-		MessageLine logMsg = new MessageLine();
-		logMsg.setSource(GameModelList.get(gameID).getPlayer(playerIndex).getName());
-		logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + " has robbed " + GameModelList.get(gameID).getPlayer(victimIndex).getName() + ".");
-		GameModelList.get(gameID).getLog().addLine(logMsg);
-		
+		if(taken){
+			// update log
+			MessageLine logMsg = new MessageLine();
+			logMsg.setSource(GameModelList.get(gameID).getPlayer(playerIndex).getName());
+			logMsg.setMessage(GameModelList.get(gameID).getPlayer(playerIndex).getName() + " has robbed " + GameModelList.get(gameID).getPlayer(victimIndex).getName() + ".");
+			GameModelList.get(gameID).getLog().addLine(logMsg);
+			GameModelList.get(gameID).getTurnTracker().setStatus("Playing");
+		}
+
 		return null;
 	}
 

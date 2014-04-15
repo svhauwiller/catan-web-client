@@ -51,23 +51,29 @@ public class RollNumber implements CommandTemplate{
 			for(int i = 0; i < locations.size(); i++){
 				// get the players on the hexLocation
 				ArrayList<Integer> players = GameModelList.get(gameID).getMap().getPlayersAtHex(locations.get(i));
+				System.out.println("WOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO!");
+				for(int zz = 0; zz < players.size(); ++zz){
+					System.out.println(players.get(zz));
+				}
+				System.out.println("ZOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO!");
 				// distribute resources
 				String landType = GameModelList.get(gameID).getMap().getLandTypeAtHex(locations.get(i));
+				System.out.println("LAAAAANNNNDDDDTTYYYYPPPPEEE: "+landType);
 				for(int j = 0; j < players.size(); j++){
 					switch(landType){
-						case "brick":
+						case "Brick":
 							GameModelList.get(gameID).getPlayer(players.get(j)).getResourceCardList().updateBrick(1);
 							break;
-						case "ore":
+						case "Ore":
 							GameModelList.get(gameID).getPlayer(players.get(j)).getResourceCardList().updateOre(1);
 							break;
-						case "lumber":
+						case "Lumber":
 							GameModelList.get(gameID).getPlayer(players.get(j)).getResourceCardList().updateWood(1);
 							break;
-						case "wool":
+						case "Wool":
 							GameModelList.get(gameID).getPlayer(players.get(j)).getResourceCardList().updateSheep(1);
 							break;
-						case "grain":
+						case "Wheat":
 							GameModelList.get(gameID).getPlayer(players.get(j)).getResourceCardList().updateWheat(1);
 							break;
 					}
@@ -109,19 +115,19 @@ public class RollNumber implements CommandTemplate{
 				String landType = GameModelList.get(gameID).getMap().getLandTypeAtHex(locations.get(i));
 				for(int j = 0; j < players.size(); j++){
 					switch(landType){
-						case "brick":
+						case "Brick":
 							GameModelList.get(gameID).getPlayer(players.get(j)).getResourceCardList().updateBrick(1);
 							break;
-						case "ore":
+						case "Ore":
 							GameModelList.get(gameID).getPlayer(players.get(j)).getResourceCardList().updateOre(1);
 							break;
-						case "lumber":
+						case "Lumber":
 							GameModelList.get(gameID).getPlayer(players.get(j)).getResourceCardList().updateWood(1);
 							break;
-						case "wool":
+						case "Wool":
 							GameModelList.get(gameID).getPlayer(players.get(j)).getResourceCardList().updateSheep(1);
 							break;
-						case "grain":
+						case "Wheat":
 							GameModelList.get(gameID).getPlayer(players.get(j)).getResourceCardList().updateWheat(1);
 							break;
 					}
