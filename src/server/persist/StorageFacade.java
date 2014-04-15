@@ -100,7 +100,7 @@ public class StorageFacade {
 		localCommandList.add(theGameID, command, type);
 		int numberOfCommands = CommandList.getExecutedCommands().size();
 		
-		if ((numberOfCommands % 50) == 0){
+		if ((numberOfCommands % PERSIST_NUMBER) == 0){
 			_persistGame("current", theGameID);
 		}
 	}
