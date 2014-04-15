@@ -98,12 +98,17 @@ public class StorageFacade {
 	private void _addCommand(int theGameID, CommandTemplate command, String type){
 		System.out.println("StorageFacade - addCommand : theGameID=" + theGameID + ", type=" + type);
 		localCommandList.add(theGameID, command, type);
+		System.out.println("MONKEYS!!!!");
 		ArrayList<CommandTemplate> cmds = localCommandList.getFromIndex(theGameID, 0);
+		System.out.println("LADYBUGS!!!!");
 		int numberOfCommands = cmds == null ? 0 : cmds.size();
-		
+		System.out.println(numberOfCommands);
+		System.out.println(cmds.size());
+		System.out.println("HORSES!!!!");
 		if ((numberOfCommands % PERSIST_NUMBER) == 0){
 			_persistGame("current", theGameID, numberOfCommands);
 		}
+		System.out.println("THE UGLY ONE!!!!");
 	}
 	
 	/**persist
@@ -121,6 +126,7 @@ public class StorageFacade {
 	 * @param theGameID
 	 */
 	private void _restoreGameState(){
+		System.out.println("RESTORE GAME STATE");
 		int gameID = 0;
 		GameModel currModel = gameInfo.getCurr(gameID);
 		while(currModel != null){
@@ -129,11 +135,19 @@ public class StorageFacade {
 			
 			GameModelList.add(currModel);
 			int lastCmd = gameInfo.getLastCommand(gameID);
-		
+		System.out.println("lastCmd = " + lastCmd);
 			if(lastCmd > 0){
 				ArrayList<CommandTemplate>theCommands = localCommandList.getFromIndex(gameID, lastCmd);
 				for(CommandTemplate command: theCommands){
 					command.redo();
+				}
+			}
+			else{
+				ArrayList<CommandTemplate>theCommands = localCommandList.getFromIndex(gameID, 0);
+				if(theCommands != null){
+					for(CommandTemplate command: theCommands){
+						command.redo();
+					}
 				}
 			}
 			
