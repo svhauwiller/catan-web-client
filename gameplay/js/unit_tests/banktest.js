@@ -4,25 +4,21 @@ test("Year of Plenty", function(){
 	var namespace = catan.models.bank;
 	var model = new catan.models.ClientModel(0);
 	model.initFromServer($.noop);
-	var dev = new namespace.DevCard(model);
 	var parameter = new Object();
 	parameter.resource1="ore";
 	parameter.resource2="wheat";
 	parameter.playerIndex=0;
-	for(var i=0; i<20; i++){
-		model.buyDevCard();
-	}
 
 	var beforeCount = model.bank.resourceList["ore"];
-	var beforeCountO = model.bank.resourceList[parameter.resource2];
+	var beforeCountO = model.bank.resourceList["wheat"];
 	console.log("Before count is " + beforeCount + " " + beforeCountO);
 
 	model.useDevCard("yearOfPlenty", parameter);
-
+	model.initFromServer($.noop);
 	var afterCount = model.bank.resourceList[parameter.resource1];
 	var afterCount0 = model.bank.resourceList[parameter.resource2];
 
-	console.log("Comparison is " + beforeCount + " " + afterCount);
+	console.log("Comparison is************************************************* " + beforeCount + " " + afterCount);
 	ok(beforeCount > afterCount, "Unable to year of plenty");
 });
 
@@ -48,37 +44,38 @@ test("Take Dev Card", function(){
 	ok(beforeCount > afterCount, "BuyDevCard doesn't work");
 });
 
-// test("Monument", function(){
+test("Monument", function(){
 
-	// var namespace = catan.models.bank;
-	// var model = new catan.models.ClientModel(0);
-	// var dev = new namespace.DevCard(model);
-	// var parameter = new Object();
-	// parameter.playerIndex=0;
+	var namespace = catan.models.bank;
+	var model = new catan.models.ClientModel(0);
+	model.initFromServer($.noop);
+	var parameter = new Object();
+	parameter.playerIndex=0;
 
-	// var vicBefore = model.players[parameter.playerIndex].victoryPts;
+	var vicBefore = model.players[parameter.playerIndex].victoryPts;
 
-	// dev.useCard("monument", parameter);
+	model.useDevCard("monument", parameter);
 
-	// var vicAfter = model.players[parameter.playerIndex].victoryPts;
-	// ok(vicAfter>vicBefore, "Unable to monument");
-// });
+	var vicAfter = model.players[parameter.playerIndex].victoryPts;
+	ok(vicAfter>vicBefore, "Unable to monument");
+});
 
-// test("Monopoly", function(){
-	
-	// var namespace = catan.models.bank;
-	// var model = new catan.models.ClientModel(0);
-	// var dev = new namespace.DevCard(model);
-	// var parameter = new Object();
-	// parameter.playerIndex=0;
-	// parameter.resource="brick";
+test("Monopoly", function(){
+	console.log("Monopoly");
+	var namespace = catan.models.bank;
+	var model = new catan.models.ClientModel(0);
+	model.initFromServer($.noop);
+	var parameter = new Object();
+	parameter.playerIndex=0;
+	parameter.resource="brick";
 
-	// dev.useCard("monopoly", parameter);
+	model.useDevCard("monopoly", parameter);
 
-	// var playerRec = model.players[parameter.playerIndex].resources[parameter.resource];
-	// var bankRec = model.bank.resourceList[parameter.resource];
-	// ok(playerRec + bankRec === 19, "Unable to monopoly");
-// });
+	var playerRec = model.players[parameter.playerIndex].resources[parameter.resource];
+	var bankRec = model.bank.resourceList[parameter.resource];
+	console.log("playerRec and bank Rec are ", playerRec, " ", bankRec);
+	ok(playerRec + bankRec === 24, "Unable to monopoly");
+});
 
 // test("RoadBuilder", function(){
 	
@@ -106,6 +103,21 @@ test("Take Dev Card", function(){
 	
 	// var namespace = catan.models.bank;
 	// var model = new catan.models.ClientModel(0);
-	// var dev = new namespace.DevCard(model);
+	// model.initFromServer($.noop);
 	// var parameter = new Object();
+	// parameter.playerIndex=0;
+	// parameter.victimIndex=1;
+	// parameter.x=0;
+	// parameter.y=0;
+	
+	// model.useDevCard("soldier", parameter);
+	
+	// var x = model.map.robber.x;
+	// var y = model.map.robber.y;
+	// console.log("x is ****************************" + x);
+	// console.log("y is " + y);
+	// ok(x = 0, "wrong");
+	// ok(y = 0, "wrong");
+	
+	
 // });
