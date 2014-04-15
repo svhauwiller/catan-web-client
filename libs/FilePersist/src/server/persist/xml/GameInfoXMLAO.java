@@ -78,7 +78,7 @@ public class GameInfoXMLAO implements GameInfoAO {
 	}
 
 	@Override
-	public void update(String type, GameModel model, int gameID) {
+	public void update(String type, GameModel model, int gameID, int lastCmdNum) {
 		Object xmlData = fileio.loadModel(FileIO.GAME_INFO_FILENAME);
 		GameInfoXMLmodel gameInfoModel = null;
 		
@@ -97,6 +97,8 @@ public class GameInfoXMLAO implements GameInfoAO {
 		} else {
 			gameInfoModel.getGameModel(gameID).setInitModel(model);
 		}
+		
+		gameInfoModel.getGameModel(gameID).setLastCommand(lastCmdNum);
 		
 		fileio.saveModel(FileIO.GAME_INFO_FILENAME, gameInfoModel);
 	}

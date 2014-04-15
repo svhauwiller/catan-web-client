@@ -114,7 +114,7 @@ public class GameInfoDAO implements GameInfoAO {
      * @param gameID
      */
     @Override
-    public void update(String type, GameModel model, int gameID) {
+    public void update(String type, GameModel model, int gameID, int lastCmdNum) {
 		gameID++;
 
         dbconn.startTransaction();
@@ -124,7 +124,6 @@ public class GameInfoDAO implements GameInfoAO {
         Connection conn = dbconn.getConnection();
         PreparedStatement stmt = null;
         Statement stmt2 = null;
-		Statement stmt3 = null;
         ResultSet results = null;
         int commandNumber = -1;
         XStream xstream = new XStream(new DomDriver());
@@ -135,16 +134,10 @@ public class GameInfoDAO implements GameInfoAO {
             stmt = conn.prepareStatement("update gameinfo SET " + type + "model=? WHERE gameid=?");
 			stmt.setBytes(1, byteArray);  
 			stmt.setInt(2, gameID); 
-            stmt2 = conn.createStatement();
-			stmt3 = conn.createStatement();
-            results = stmt2.executeQuery("SELECT * from gameinfo WHERE gameid='" + gameID + "'");
-            if ( results.next() ) {
-                commandNumber = results.getInt(5);
-            }
-            {
-                stmt.executeUpdate();
-                stmt3.executeUpdate("Update gameinfo SET lastcommand='" + (commandNumber + 50) + "' WHERE gameid='" + gameID + "'");
-            }
+            stmt.executeUpdate();
+			
+			stmt2 = conn.createStatement();
+			stmt2.executeUpdate("Update gameinfo SET lastcommand='" + lastCmdNum + "' WHERE gameid='" + gameID + "'");
         } catch (SQLException e) {
             e.printStackTrace();
 

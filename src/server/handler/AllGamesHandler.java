@@ -34,6 +34,7 @@ import server.FormDataParser;
 import server.JSONObject;
 import server.ServerException;
 import server.api.player.Player.PlayerColor;
+import server.command.CommandTemplate;
 import server.communication.GameInfo;
 import server.communication.GameList;
 import server.communication.GameModel;
@@ -150,7 +151,9 @@ public class AllGamesHandler implements HttpHandler {
 			PlayerInfo player = new PlayerInfo(PlayerColor.valueOf(parsedRequest.get("color")), Integer.parseInt(obj.optString("playerID")), obj.optString("name"));
 			GameList.addPlayerToGame(player, Integer.parseInt(parsedRequest.get("id")));
 			StorageFacade.joinGame(Integer.parseInt(obj.optString("playerID")), Integer.parseInt(parsedRequest.get("id")), PlayerColor.valueOf(parsedRequest.get("color")));
-			StorageFacade.persistGame("current", Integer.parseInt(parsedRequest.get("id")));
+			ArrayList<CommandTemplate> cmds = StorageFacade.getExecutedCommands(Integer.parseInt(parsedRequest.get("id")));
+			int lastCmdNum = cmds == null ? 0 : cmds.size();
+			StorageFacade.persistGame("current", Integer.parseInt(parsedRequest.get("id")), lastCmdNum);
 			response = "Success! You have joined the game.";
 			
 			Headers responseHeaders = ex.getResponseHeaders();

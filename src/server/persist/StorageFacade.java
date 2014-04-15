@@ -98,10 +98,11 @@ public class StorageFacade {
 	private void _addCommand(int theGameID, CommandTemplate command, String type){
 		System.out.println("StorageFacade - addCommand : theGameID=" + theGameID + ", type=" + type);
 		localCommandList.add(theGameID, command, type);
-		int numberOfCommands = CommandList.getExecutedCommands().size();
+		ArrayList<CommandTemplate> cmds = localCommandList.getFromIndex(theGameID, 0);
+		int numberOfCommands = cmds == null ? 0 : cmds.size();
 		
 		if ((numberOfCommands % PERSIST_NUMBER) == 0){
-			_persistGame("current", theGameID);
+			_persistGame("current", theGameID, numberOfCommands);
 		}
 	}
 	
@@ -110,8 +111,8 @@ public class StorageFacade {
 	 * @param type
 	 * @param theGameID
 	 */
-	private void _persistGame(String type, int theGameID){
-		gameInfo.update(type, GameModelList.get(theGameID), theGameID);
+	private void _persistGame(String type, int theGameID, int lastCmdNum){
+		gameInfo.update(type, GameModelList.get(theGameID), theGameID, lastCmdNum);
 		
 	}
 	
@@ -179,7 +180,7 @@ public class StorageFacade {
 	public static void addGame(String gameTitle, GameModel initModel) { instance()._addGame(gameTitle, initModel); }
 	public static void joinGame(int playerID, int gameID, PlayerColor color) { instance()._joinGame(playerID, gameID, color); }
 	public static void addCommand(int gameID, CommandTemplate cmd, String type) { instance()._addCommand(gameID, cmd, type); }
-	public static void persistGame(String type, int gameID) { instance()._persistGame(type, gameID); }
+	public static void persistGame(String type, int gameID, int lastCmdNum) { instance()._persistGame(type, gameID, lastCmdNum); }
 	public static void restoreGameState() { instance()._restoreGameState(); }
 	public static void resetGame(int gameID) { instance()._resetGame(gameID); }
 	public static ArrayList<CommandTemplate> getExecutedCommands(int gameID) { return instance()._getExecutedCommands(gameID); }
