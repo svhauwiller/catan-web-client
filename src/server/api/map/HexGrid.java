@@ -174,25 +174,32 @@ public class HexGrid {
 	private void buildSettlementOrCity(int newX, int newY, String newDir, int ownerID){
 		this.hexes.get(newX).get(newY).updateVertexOwner(newDir, ownerID);
 		System.out.println(newDir);
+		int offset = 0;
 		switch(newDir){
 			case "NW":
 				break;
 			case "NE":
 				break;
 			case "E":
-				this.hexes.get(newX - 1).get(newY + 1 - this.offsets.get(newY - 1)).updateVertexOwner("SW", ownerID);
+				//offset = offsets.get(newY - 1);
+				offset = offsets.get(newY);
+				/*if(offsets.get(newY - 1) != 0){
+					offset -= 1;
+				}*/
+				this.hexes.get(newX - 1).get(newY + 1 - offset).updateVertexOwner("SW", ownerID);
 				this.hexes.get(newX).get(newY + 1).updateVertexOwner("NE", ownerID);
 				break;
 			case "SE":
-				//this.hexes.get(newX).get(newY + 1).updateVertexOwner(newDir, ownerID);
-				//this.hexes.get(newX + 1).get(newY - offsets.get(newY - 1)).updateVertexOwner(newDir, ownerID);
 				break;
 			case "SW":
-				//this.hexes.get(newX + 1).get(newY - offsets.get(newY - 1)).updateVertexOwner(newDir, ownerID);
-				//this.hexes.get(newX).get(newY - offsets.get(newY - 1) - 1).updateVertexOwner(newDir, ownerID);
 				break;
 			case "W":
-				this.hexes.get(newX + 1).get(newY - 1 - offsets.get(newY - 1)).updateVertexOwner("NE", ownerID);
+				//offset = offsets.get(newY - 1);
+				offset = offsets.get(newY);
+				/*if(offsets.get(newY - 1) != 0){
+					offset -= 1;
+				}*/
+				this.hexes.get(newX + 1).get(newY - 1 - offset).updateVertexOwner("NE", ownerID);
 				this.hexes.get(newX).get(newY - 1).updateVertexOwner("SE", ownerID);
 				break;
 		}
@@ -201,6 +208,7 @@ public class HexGrid {
 	private void buildRoad(int newX, int newY, String newDir, int ownerID){
 		this.hexes.get(newX).get(newY).updateEdgeOwner(newDir, ownerID);
 		System.out.println(newDir);
+		int offset = 0;
 		switch(newDir){
 			case "NW":
 				break;
@@ -212,10 +220,20 @@ public class HexGrid {
 				this.hexes.get(newX).get(newY + 1).updateEdgeOwner("NW", ownerID);
 				break;
 			case "S":
-				this.hexes.get(newX + 1).get(newY - offsets.get(newY - 1)).updateEdgeOwner("N", ownerID);
+				//offset = offsets.get(newY - 1);
+				offset = offsets.get(newY - 2);
+				/*if(offsets.get(newY - 1) != 0){
+					offset -= 1;
+				}*/
+				this.hexes.get(newX + 1).get(newY - offset).updateEdgeOwner("N", ownerID);
 				break;
 			case "SW":
-				this.hexes.get(newX + 1).get(newY - offsets.get(newY - 1) - 1).updateEdgeOwner("NE", ownerID);
+				//offset = offsets.get(newY - 1);
+				offset = offsets.get(newY - 2);
+				/*if(offsets.get(newY - 1) != 0){
+					offset -= 1;
+				}*/
+				this.hexes.get(newX + 1).get(newY - offset - 1).updateEdgeOwner("NE", ownerID);
 				break;
 		}
 	}
